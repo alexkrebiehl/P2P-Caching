@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		FA857E22189B022F0048E4A2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA857E21189B022F0048E4A2 /* Cocoa.framework */; };
-		FA857E2C189B022F0048E4A2 /* P2P_Caching.m in Sources */ = {isa = PBXBuildFile; fileRef = FA857E2B189B022F0048E4A2 /* P2P_Caching.m */; };
+		FA857E2C189B022F0048E4A2 /* P2PCaching.m in Sources */ = {isa = PBXBuildFile; fileRef = FA857E2B189B022F0048E4A2 /* P2PCaching.m */; };
 		FA857E33189B022F0048E4A2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA857E32189B022F0048E4A2 /* XCTest.framework */; };
 		FA857E34189B022F0048E4A2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA857E21189B022F0048E4A2 /* Cocoa.framework */; };
 		FA857E37189B022F0048E4A2 /* libP2P Caching.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA857E1E189B022F0048E4A2 /* libP2P Caching.a */; };
 		FA857E3D189B022F0048E4A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA857E3B189B022F0048E4A2 /* InfoPlist.strings */; };
 		FA857E3F189B022F0048E4A2 /* P2P_CachingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA857E3E189B022F0048E4A2 /* P2P_CachingTests.m */; };
+		FA857E4A189B02BC0048E4A2 /* DeviceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FA857E48189B02BC0048E4A2 /* DeviceManager.h */; };
+		FA857E4B189B02BC0048E4A2 /* DeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FA857E49189B02BC0048E4A2 /* DeviceManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,13 +35,15 @@
 		FA857E25189B022F0048E4A2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		FA857E26189B022F0048E4A2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		FA857E29189B022F0048E4A2 /* P2P Caching-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "P2P Caching-Prefix.pch"; sourceTree = "<group>"; };
-		FA857E2A189B022F0048E4A2 /* P2P_Caching.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2P_Caching.h; sourceTree = "<group>"; };
-		FA857E2B189B022F0048E4A2 /* P2P_Caching.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2P_Caching.m; sourceTree = "<group>"; };
+		FA857E2A189B022F0048E4A2 /* P2PCaching.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PCaching.h; sourceTree = "<group>"; };
+		FA857E2B189B022F0048E4A2 /* P2PCaching.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCaching.m; sourceTree = "<group>"; };
 		FA857E31189B022F0048E4A2 /* P2P CachingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "P2P CachingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA857E32189B022F0048E4A2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FA857E3A189B022F0048E4A2 /* P2P CachingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2P CachingTests-Info.plist"; sourceTree = "<group>"; };
 		FA857E3C189B022F0048E4A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FA857E3E189B022F0048E4A2 /* P2P_CachingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2P_CachingTests.m; sourceTree = "<group>"; };
+		FA857E48189B02BC0048E4A2 /* DeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceManager.h; sourceTree = "<group>"; };
+		FA857E49189B02BC0048E4A2 /* DeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +110,10 @@
 		FA857E27189B022F0048E4A2 /* P2P Caching */ = {
 			isa = PBXGroup;
 			children = (
-				FA857E2A189B022F0048E4A2 /* P2P_Caching.h */,
-				FA857E2B189B022F0048E4A2 /* P2P_Caching.m */,
+				FA857E2A189B022F0048E4A2 /* P2PCaching.h */,
+				FA857E2B189B022F0048E4A2 /* P2PCaching.m */,
+				FA857E48189B02BC0048E4A2 /* DeviceManager.h */,
+				FA857E49189B02BC0048E4A2 /* DeviceManager.m */,
 				FA857E28189B022F0048E4A2 /* Supporting Files */,
 			);
 			path = "P2P Caching";
@@ -146,6 +152,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA857E4A189B02BC0048E4A2 /* DeviceManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +237,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA857E2C189B022F0048E4A2 /* P2P_Caching.m in Sources */,
+				FA857E2C189B022F0048E4A2 /* P2PCaching.m in Sources */,
+				FA857E4B189B02BC0048E4A2 /* DeviceManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

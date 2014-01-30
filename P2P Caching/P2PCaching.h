@@ -1,5 +1,5 @@
 //
-//  P2P_Caching.h
+//  P2PCaching.h
 //  P2P Caching
 //
 //  Created by Alex Krebiehl on 1/30/14.
@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface P2P_Caching : NSObject
+@interface P2PCaching : NSObject
 
 @end
