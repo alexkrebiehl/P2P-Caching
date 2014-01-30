@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FA857E22189B022F0048E4A2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA857E21189B022F0048E4A2 /* Cocoa.framework */; };
+		FA857E2C189B022F0048E4A2 /* P2P_Caching.m in Sources */ = {isa = PBXBuildFile; fileRef = FA857E2B189B022F0048E4A2 /* P2P_Caching.m */; };
+		FA857E33189B022F0048E4A2 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA857E32189B022F0048E4A2 /* XCTest.framework */; };
+		FA857E34189B022F0048E4A2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA857E21189B022F0048E4A2 /* Cocoa.framework */; };
+		FA857E37189B022F0048E4A2 /* libP2P Caching.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA857E1E189B022F0048E4A2 /* libP2P Caching.a */; };
+		FA857E3D189B022F0048E4A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA857E3B189B022F0048E4A2 /* InfoPlist.strings */; };
+		FA857E3F189B022F0048E4A2 /* P2P_CachingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA857E3E189B022F0048E4A2 /* P2P_CachingTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FA857E35189B022F0048E4A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA857E16189B022F0048E4A2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA857E1D189B022F0048E4A2;
+			remoteInfo = "P2P Caching";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FA857E1E189B022F0048E4A2 /* libP2P Caching.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libP2P Caching.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA857E21189B022F0048E4A2 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		FA857E24189B022F0048E4A2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FA857E25189B022F0048E4A2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		FA857E26189B022F0048E4A2 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		FA857E29189B022F0048E4A2 /* P2P Caching-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "P2P Caching-Prefix.pch"; sourceTree = "<group>"; };
+		FA857E2A189B022F0048E4A2 /* P2P_Caching.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2P_Caching.h; sourceTree = "<group>"; };
+		FA857E2B189B022F0048E4A2 /* P2P_Caching.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2P_Caching.m; sourceTree = "<group>"; };
+		FA857E31189B022F0048E4A2 /* P2P CachingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "P2P CachingTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA857E32189B022F0048E4A2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		FA857E3A189B022F0048E4A2 /* P2P CachingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2P CachingTests-Info.plist"; sourceTree = "<group>"; };
+		FA857E3C189B022F0048E4A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FA857E3E189B022F0048E4A2 /* P2P_CachingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2P_CachingTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FA857E1B189B022F0048E4A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA857E22189B022F0048E4A2 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA857E2E189B022F0048E4A2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA857E34189B022F0048E4A2 /* Cocoa.framework in Frameworks */,
+				FA857E37189B022F0048E4A2 /* libP2P Caching.a in Frameworks */,
+				FA857E33189B022F0048E4A2 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FA857E15189B022F0048E4A2 = {
+			isa = PBXGroup;
+			children = (
+				FA857E27189B022F0048E4A2 /* P2P Caching */,
+				FA857E38189B022F0048E4A2 /* P2P CachingTests */,
+				FA857E20189B022F0048E4A2 /* Frameworks */,
+				FA857E1F189B022F0048E4A2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA857E1F189B022F0048E4A2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA857E1E189B022F0048E4A2 /* libP2P Caching.a */,
+				FA857E31189B022F0048E4A2 /* P2P CachingTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA857E20189B022F0048E4A2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA857E21189B022F0048E4A2 /* Cocoa.framework */,
+				FA857E32189B022F0048E4A2 /* XCTest.framework */,
+				FA857E23189B022F0048E4A2 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FA857E23189B022F0048E4A2 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA857E24189B022F0048E4A2 /* Foundation.framework */,
+				FA857E25189B022F0048E4A2 /* CoreData.framework */,
+				FA857E26189B022F0048E4A2 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		FA857E27189B022F0048E4A2 /* P2P Caching */ = {
+			isa = PBXGroup;
+			children = (
+				FA857E2A189B022F0048E4A2 /* P2P_Caching.h */,
+				FA857E2B189B022F0048E4A2 /* P2P_Caching.m */,
+				FA857E28189B022F0048E4A2 /* Supporting Files */,
+			);
+			path = "P2P Caching";
+			sourceTree = "<group>";
+		};
+		FA857E28189B022F0048E4A2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FA857E29189B022F0048E4A2 /* P2P Caching-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA857E38189B022F0048E4A2 /* P2P CachingTests */ = {
+			isa = PBXGroup;
+			children = (
+				FA857E3E189B022F0048E4A2 /* P2P_CachingTests.m */,
+				FA857E39189B022F0048E4A2 /* Supporting Files */,
+			);
+			path = "P2P CachingTests";
+			sourceTree = "<group>";
+		};
+		FA857E39189B022F0048E4A2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FA857E3A189B022F0048E4A2 /* P2P CachingTests-Info.plist */,
+				FA857E3B189B022F0048E4A2 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		FA857E1C189B022F0048E4A2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		FA857E1D189B022F0048E4A2 /* P2P Caching */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA857E42189B022F0048E4A2 /* Build configuration list for PBXNativeTarget "P2P Caching" */;
+			buildPhases = (
+				FA857E1A189B022F0048E4A2 /* Sources */,
+				FA857E1B189B022F0048E4A2 /* Frameworks */,
+				FA857E1C189B022F0048E4A2 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "P2P Caching";
+			productName = "P2P Caching";
+			productReference = FA857E1E189B022F0048E4A2 /* libP2P Caching.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		FA857E30189B022F0048E4A2 /* P2P CachingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA857E45189B022F0048E4A2 /* Build configuration list for PBXNativeTarget "P2P CachingTests" */;
+			buildPhases = (
+				FA857E2D189B022F0048E4A2 /* Sources */,
+				FA857E2E189B022F0048E4A2 /* Frameworks */,
+				FA857E2F189B022F0048E4A2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA857E36189B022F0048E4A2 /* PBXTargetDependency */,
+			);
+			name = "P2P CachingTests";
+			productName = "P2P CachingTests";
+			productReference = FA857E31189B022F0048E4A2 /* P2P CachingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FA857E16189B022F0048E4A2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "NKU Research";
+			};
+			buildConfigurationList = FA857E19189B022F0048E4A2 /* Build configuration list for PBXProject "P2P Caching" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FA857E15189B022F0048E4A2;
+			productRefGroup = FA857E1F189B022F0048E4A2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA857E1D189B022F0048E4A2 /* P2P Caching */,
+				FA857E30189B022F0048E4A2 /* P2P CachingTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FA857E2F189B022F0048E4A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA857E3D189B022F0048E4A2 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FA857E1A189B022F0048E4A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA857E2C189B022F0048E4A2 /* P2P_Caching.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA857E2D189B022F0048E4A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA857E3F189B022F0048E4A2 /* P2P_CachingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA857E36189B022F0048E4A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA857E1D189B022F0048E4A2 /* P2P Caching */;
+			targetProxy = FA857E35189B022F0048E4A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FA857E3B189B022F0048E4A2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA857E3C189B022F0048E4A2 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FA857E40189B022F0048E4A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FA857E41189B022F0048E4A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		FA857E43189B022F0048E4A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P Caching/P2P Caching-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FA857E44189B022F0048E4A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P Caching/P2P Caching-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		FA857E46189B022F0048E4A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P Caching/P2P Caching-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "P2P CachingTests/P2P CachingTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		FA857E47189B022F0048E4A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P Caching/P2P Caching-Prefix.pch";
+				INFOPLIST_FILE = "P2P CachingTests/P2P CachingTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA857E19189B022F0048E4A2 /* Build configuration list for PBXProject "P2P Caching" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA857E40189B022F0048E4A2 /* Debug */,
+				FA857E41189B022F0048E4A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA857E42189B022F0048E4A2 /* Build configuration list for PBXNativeTarget "P2P Caching" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA857E43189B022F0048E4A2 /* Debug */,
+				FA857E44189B022F0048E4A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FA857E45189B022F0048E4A2 /* Build configuration list for PBXNativeTarget "P2P CachingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA857E46189B022F0048E4A2 /* Debug */,
+				FA857E47189B022F0048E4A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FA857E16189B022F0048E4A2 /* Project object */;
+}
