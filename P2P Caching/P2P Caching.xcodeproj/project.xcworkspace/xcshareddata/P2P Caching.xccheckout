@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>B8CE2C21-8895-4356-BC87-C2FF02E47368</string>
+	<key>IDESourceControlProjectName</key>
+	<string>P2P Caching</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6A105D2A-D04A-487A-A2DB-F43828BF07D4</key>
+		<string>https://github.com/alexkrebiehl/P2P-Caching</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>P2P Caching.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6A105D2A-D04A-487A-A2DB-F43828BF07D4</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/alexkrebiehl/P2P-Caching</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6A105D2A-D04A-487A-A2DB-F43828BF07D4</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6A105D2A-D04A-487A-A2DB-F43828BF07D4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>P2P Caching</string>
+		</dict>
+	</array>
+</dict>
+</plist>
