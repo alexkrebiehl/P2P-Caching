@@ -1,0 +1,823 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FA3CA983189B1ACD00208607 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3CA982189B1ACD00208607 /* Cocoa.framework */; };
+		FA3CA98D189B1ACD00208607 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA3CA98B189B1ACD00208607 /* InfoPlist.strings */; };
+		FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3CA990189B1ACD00208607 /* P2PCache.m */; };
+		FA3CA998189B1ACD00208607 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3CA997189B1ACD00208607 /* XCTest.framework */; };
+		FA3CA999189B1ACD00208607 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3CA982189B1ACD00208607 /* Cocoa.framework */; };
+		FA3CA99C189B1ACD00208607 /* P2PCache-OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3CA97F189B1ACD00208607 /* P2PCache-OSX.framework */; };
+		FA3CA9A2189B1ACD00208607 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA3CA9A0189B1ACD00208607 /* InfoPlist.strings */; };
+		FA3CA9A4189B1ACD00208607 /* P2PCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3CA9A3189B1ACD00208607 /* P2PCacheTests.m */; };
+		FA3E9E7A189B52FE009FEB99 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9E79189B52FE009FEB99 /* Foundation.framework */; };
+		FA3E9E87189B52FF009FEB99 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3CA997189B1ACD00208607 /* XCTest.framework */; };
+		FA3E9E88189B52FF009FEB99 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9E79189B52FE009FEB99 /* Foundation.framework */; };
+		FA3E9E8A189B52FF009FEB99 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9E89189B52FF009FEB99 /* UIKit.framework */; };
+		FA3E9E8D189B52FF009FEB99 /* libP2PCache-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9E78189B52FE009FEB99 /* libP2PCache-iOS.a */; };
+		FA3E9E93189B52FF009FEB99 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA3E9E91189B52FF009FEB99 /* InfoPlist.strings */; };
+		FA3E9E95189B52FF009FEB99 /* P2PCache_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */; };
+		FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3CA990189B1ACD00208607 /* P2PCache.m */; };
+		FA3E9EE3189B5A06009FEB99 /* P2PCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */; };
+		FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E3189B229E00CA7E18 /* P2PLogging.m */; };
+		FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
+		FA3E9EE7189B5A06009FEB99 /* P2PBonjourServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PBonjourServer.m */; };
+		FA3E9EE8189B5A18009FEB99 /* P2PCache.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; };
+		FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */; };
+		FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */; };
+		FAD685E4189B229E00CA7E18 /* P2PLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685E2189B229E00CA7E18 /* P2PLogging.h */; };
+		FAD685E5189B229E00CA7E18 /* P2PLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E3189B229E00CA7E18 /* P2PLogging.m */; };
+		FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685E6189B33D500CA7E18 /* CanonicalRequest.h */; };
+		FAD685E9189B33D500CA7E18 /* CanonicalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685EB189B390700CA7E18 /* P2PPeerManager.h */; };
+		FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
+		FAD685F4189B41CF00CA7E18 /* P2PBonjourServer.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685F2189B41CF00CA7E18 /* P2PBonjourServer.h */; };
+		FAD685F5189B41CF00CA7E18 /* P2PBonjourServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PBonjourServer.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FA3CA99A189B1ACD00208607 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA3CA976189B1ACD00208607 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA3CA97E189B1ACD00208607;
+			remoteInfo = P2PCache;
+		};
+		FA3E9E8B189B52FF009FEB99 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA3CA976189B1ACD00208607 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA3E9E77189B52FE009FEB99;
+			remoteInfo = "P2PCache-iOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FA3E9E76189B52FE009FEB99 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				FA3E9EE8189B5A18009FEB99 /* P2PCache.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FA3CA97F189B1ACD00208607 /* P2PCache-OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "P2PCache-OSX.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA3CA982189B1ACD00208607 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		FA3CA985189B1ACD00208607 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FA3CA986189B1ACD00208607 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		FA3CA987189B1ACD00208607 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		FA3CA98A189B1ACD00208607 /* P2PCache-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2PCache-Info.plist"; sourceTree = "<group>"; };
+		FA3CA98C189B1ACD00208607 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FA3CA98E189B1ACD00208607 /* P2PCache-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "P2PCache-Prefix.pch"; sourceTree = "<group>"; };
+		FA3CA98F189B1ACD00208607 /* P2PCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PCache.h; sourceTree = "<group>"; };
+		FA3CA990189B1ACD00208607 /* P2PCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCache.m; sourceTree = "<group>"; };
+		FA3CA996189B1ACD00208607 /* P2PCacheTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = P2PCacheTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA3CA997189B1ACD00208607 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		FA3CA99F189B1ACD00208607 /* P2PCacheTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2PCacheTests-Info.plist"; sourceTree = "<group>"; };
+		FA3CA9A1189B1ACD00208607 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FA3CA9A3189B1ACD00208607 /* P2PCacheTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCacheTests.m; sourceTree = "<group>"; };
+		FA3E9E78189B52FE009FEB99 /* libP2PCache-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libP2PCache-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA3E9E79189B52FE009FEB99 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FA3E9E7D189B52FE009FEB99 /* P2PCache-iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "P2PCache-iOS-Prefix.pch"; path = "P2PCache-iOS/P2PCache-iOS-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		FA3E9E86189B52FE009FEB99 /* P2PCache-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "P2PCache-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA3E9E89189B52FF009FEB99 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		FA3E9E90189B52FF009FEB99 /* P2PCache-iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2PCache-iOSTests-Info.plist"; sourceTree = "<group>"; };
+		FA3E9E92189B52FF009FEB99 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCache_iOSTests.m; sourceTree = "<group>"; };
+		FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PCacheProtocol.h; sourceTree = "<group>"; };
+		FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PCacheProtocol.m; sourceTree = "<group>"; };
+		FAD685E2189B229E00CA7E18 /* P2PLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PLogging.h; sourceTree = "<group>"; };
+		FAD685E3189B229E00CA7E18 /* P2PLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PLogging.m; sourceTree = "<group>"; };
+		FAD685E6189B33D500CA7E18 /* CanonicalRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanonicalRequest.h; sourceTree = "<group>"; };
+		FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CanonicalRequest.m; sourceTree = "<group>"; };
+		FAD685EB189B390700CA7E18 /* P2PPeerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerManager.h; sourceTree = "<group>"; };
+		FAD685EC189B390700CA7E18 /* P2PPeerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerManager.m; sourceTree = "<group>"; };
+		FAD685F2189B41CF00CA7E18 /* P2PBonjourServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PBonjourServer.h; sourceTree = "<group>"; };
+		FAD685F3189B41CF00CA7E18 /* P2PBonjourServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PBonjourServer.m; sourceTree = "<group>"; };
+		FAD685F6189B454400CA7E18 /* P2P.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2P.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FA3CA97B189B1ACD00208607 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3CA983189B1ACD00208607 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA3CA993189B1ACD00208607 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3CA99C189B1ACD00208607 /* P2PCache-OSX.framework in Frameworks */,
+				FA3CA999189B1ACD00208607 /* Cocoa.framework in Frameworks */,
+				FA3CA998189B1ACD00208607 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA3E9E75189B52FE009FEB99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3E9E7A189B52FE009FEB99 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA3E9E83189B52FE009FEB99 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3E9E87189B52FF009FEB99 /* XCTest.framework in Frameworks */,
+				FA3E9E8D189B52FF009FEB99 /* libP2PCache-iOS.a in Frameworks */,
+				FA3E9E8A189B52FF009FEB99 /* UIKit.framework in Frameworks */,
+				FA3E9E88189B52FF009FEB99 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FA3CA975189B1ACD00208607 = {
+			isa = PBXGroup;
+			children = (
+				FA3CA988189B1ACD00208607 /* P2PCache */,
+				FA3CA99D189B1ACD00208607 /* P2PCacheTests */,
+				FA3E9E8E189B52FF009FEB99 /* P2PCache-iOSTests */,
+				FA3CA981189B1ACD00208607 /* Frameworks */,
+				FA3CA980189B1ACD00208607 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FA3CA980189B1ACD00208607 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA3CA97F189B1ACD00208607 /* P2PCache-OSX.framework */,
+				FA3CA996189B1ACD00208607 /* P2PCacheTests.xctest */,
+				FA3E9E78189B52FE009FEB99 /* libP2PCache-iOS.a */,
+				FA3E9E86189B52FE009FEB99 /* P2PCache-iOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FA3CA981189B1ACD00208607 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA3CA982189B1ACD00208607 /* Cocoa.framework */,
+				FA3CA997189B1ACD00208607 /* XCTest.framework */,
+				FA3E9E79189B52FE009FEB99 /* Foundation.framework */,
+				FA3E9E89189B52FF009FEB99 /* UIKit.framework */,
+				FA3CA984189B1ACD00208607 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FA3CA984189B1ACD00208607 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA3CA985189B1ACD00208607 /* Foundation.framework */,
+				FA3CA986189B1ACD00208607 /* CoreData.framework */,
+				FA3CA987189B1ACD00208607 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		FA3CA988189B1ACD00208607 /* P2PCache */ = {
+			isa = PBXGroup;
+			children = (
+				FAD685EF189B3C4400CA7E18 /* Public Framework Classes */,
+				FAD685F0189B3C5400CA7E18 /* Private Framework Classes */,
+			);
+			path = P2PCache;
+			sourceTree = "<group>";
+		};
+		FA3CA989189B1ACD00208607 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FAD685E6189B33D500CA7E18 /* CanonicalRequest.h */,
+				FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */,
+				FA3CA98A189B1ACD00208607 /* P2PCache-Info.plist */,
+				FA3CA98B189B1ACD00208607 /* InfoPlist.strings */,
+				FA3CA98E189B1ACD00208607 /* P2PCache-Prefix.pch */,
+				FA3E9E7D189B52FE009FEB99 /* P2PCache-iOS-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA3CA99D189B1ACD00208607 /* P2PCacheTests */ = {
+			isa = PBXGroup;
+			children = (
+				FA3CA9A3189B1ACD00208607 /* P2PCacheTests.m */,
+				FA3CA99E189B1ACD00208607 /* Supporting Files */,
+			);
+			path = P2PCacheTests;
+			sourceTree = "<group>";
+		};
+		FA3CA99E189B1ACD00208607 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FA3CA99F189B1ACD00208607 /* P2PCacheTests-Info.plist */,
+				FA3CA9A0189B1ACD00208607 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FA3E9E8E189B52FF009FEB99 /* P2PCache-iOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */,
+				FA3E9E8F189B52FF009FEB99 /* Supporting Files */,
+			);
+			path = "P2PCache-iOSTests";
+			sourceTree = "<group>";
+		};
+		FA3E9E8F189B52FF009FEB99 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FA3E9E90189B52FF009FEB99 /* P2PCache-iOSTests-Info.plist */,
+				FA3E9E91189B52FF009FEB99 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FAD685EA189B35BA00CA7E18 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				FAD685F6189B454400CA7E18 /* P2P.h */,
+				FAD685E2189B229E00CA7E18 /* P2PLogging.h */,
+				FAD685E3189B229E00CA7E18 /* P2PLogging.m */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		FAD685EF189B3C4400CA7E18 /* Public Framework Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FA3CA98F189B1ACD00208607 /* P2PCache.h */,
+				FA3CA990189B1ACD00208607 /* P2PCache.m */,
+			);
+			name = "Public Framework Classes";
+			sourceTree = "<group>";
+		};
+		FAD685F0189B3C5400CA7E18 /* Private Framework Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */,
+				FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */,
+				FAD685EA189B35BA00CA7E18 /* Utility */,
+				FA3CA989189B1ACD00208607 /* Supporting Files */,
+				FAD685F1189B41B200CA7E18 /* Peer Management */,
+			);
+			name = "Private Framework Classes";
+			sourceTree = "<group>";
+		};
+		FAD685F1189B41B200CA7E18 /* Peer Management */ = {
+			isa = PBXGroup;
+			children = (
+				FAD685EB189B390700CA7E18 /* P2PPeerManager.h */,
+				FAD685EC189B390700CA7E18 /* P2PPeerManager.m */,
+				FAD685F2189B41CF00CA7E18 /* P2PBonjourServer.h */,
+				FAD685F3189B41CF00CA7E18 /* P2PBonjourServer.m */,
+			);
+			name = "Peer Management";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		FA3CA97C189B1ACD00208607 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */,
+				FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */,
+				FAD685F4189B41CF00CA7E18 /* P2PBonjourServer.h in Headers */,
+				FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */,
+				FAD685E4189B229E00CA7E18 /* P2PLogging.h in Headers */,
+				FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		FA3CA97E189B1ACD00208607 /* P2PCache-OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA3CA9A7189B1ACD00208607 /* Build configuration list for PBXNativeTarget "P2PCache-OSX" */;
+			buildPhases = (
+				FA3CA97A189B1ACD00208607 /* Sources */,
+				FA3CA97B189B1ACD00208607 /* Frameworks */,
+				FA3CA97C189B1ACD00208607 /* Headers */,
+				FA3CA97D189B1ACD00208607 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "P2PCache-OSX";
+			productName = P2PCache;
+			productReference = FA3CA97F189B1ACD00208607 /* P2PCache-OSX.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FA3CA995189B1ACD00208607 /* P2PCacheTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA3CA9AA189B1ACD00208607 /* Build configuration list for PBXNativeTarget "P2PCacheTests" */;
+			buildPhases = (
+				FA3CA992189B1ACD00208607 /* Sources */,
+				FA3CA993189B1ACD00208607 /* Frameworks */,
+				FA3CA994189B1ACD00208607 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA3CA99B189B1ACD00208607 /* PBXTargetDependency */,
+			);
+			name = P2PCacheTests;
+			productName = P2PCacheTests;
+			productReference = FA3CA996189B1ACD00208607 /* P2PCacheTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FA3E9E77189B52FE009FEB99 /* P2PCache-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA3E9E9A189B52FF009FEB99 /* Build configuration list for PBXNativeTarget "P2PCache-iOS" */;
+			buildPhases = (
+				FA3E9E74189B52FE009FEB99 /* Sources */,
+				FA3E9E75189B52FE009FEB99 /* Frameworks */,
+				FA3E9E76189B52FE009FEB99 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "P2PCache-iOS";
+			productName = "P2PCache-iOS";
+			productReference = FA3E9E78189B52FE009FEB99 /* libP2PCache-iOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		FA3E9E85189B52FE009FEB99 /* P2PCache-iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA3E9E9B189B52FF009FEB99 /* Build configuration list for PBXNativeTarget "P2PCache-iOSTests" */;
+			buildPhases = (
+				FA3E9E82189B52FE009FEB99 /* Sources */,
+				FA3E9E83189B52FE009FEB99 /* Frameworks */,
+				FA3E9E84189B52FE009FEB99 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA3E9E8C189B52FF009FEB99 /* PBXTargetDependency */,
+			);
+			name = "P2PCache-iOSTests";
+			productName = "P2PCache-iOSTests";
+			productReference = FA3E9E86189B52FE009FEB99 /* P2PCache-iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FA3CA976189B1ACD00208607 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "NKU Research";
+				TargetAttributes = {
+					FA3CA995189B1ACD00208607 = {
+						TestTargetID = FA3CA97E189B1ACD00208607;
+					};
+					FA3E9E85189B52FE009FEB99 = {
+						TestTargetID = FA3CA97E189B1ACD00208607;
+					};
+				};
+			};
+			buildConfigurationList = FA3CA979189B1ACD00208607 /* Build configuration list for PBXProject "P2PCache" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FA3CA975189B1ACD00208607;
+			productRefGroup = FA3CA980189B1ACD00208607 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA3CA97E189B1ACD00208607 /* P2PCache-OSX */,
+				FA3E9E77189B52FE009FEB99 /* P2PCache-iOS */,
+				FA3CA995189B1ACD00208607 /* P2PCacheTests */,
+				FA3E9E85189B52FE009FEB99 /* P2PCache-iOSTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FA3CA97D189B1ACD00208607 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3CA98D189B1ACD00208607 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA3CA994189B1ACD00208607 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3CA9A2189B1ACD00208607 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA3E9E84189B52FE009FEB99 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3E9E93189B52FF009FEB99 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FA3CA97A189B1ACD00208607 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */,
+				FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */,
+				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
+				FAD685F5189B41CF00CA7E18 /* P2PBonjourServer.m in Sources */,
+				FAD685E9189B33D500CA7E18 /* CanonicalRequest.m in Sources */,
+				FAD685E5189B229E00CA7E18 /* P2PLogging.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA3CA992189B1ACD00208607 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3CA9A4189B1ACD00208607 /* P2PCacheTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA3E9E74189B52FE009FEB99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */,
+				FA3E9EE3189B5A06009FEB99 /* P2PCacheProtocol.m in Sources */,
+				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
+				FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */,
+				FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */,
+				FA3E9EE7189B5A06009FEB99 /* P2PBonjourServer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA3E9E82189B52FE009FEB99 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3E9E95189B52FF009FEB99 /* P2PCache_iOSTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA3CA99B189B1ACD00208607 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA3CA97E189B1ACD00208607 /* P2PCache-OSX */;
+			targetProxy = FA3CA99A189B1ACD00208607 /* PBXContainerItemProxy */;
+		};
+		FA3E9E8C189B52FF009FEB99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA3E9E77189B52FE009FEB99 /* P2PCache-iOS */;
+			targetProxy = FA3E9E8B189B52FF009FEB99 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FA3CA98B189B1ACD00208607 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA3CA98C189B1ACD00208607 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FA3CA9A0189B1ACD00208607 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA3CA9A1189B1ACD00208607 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FA3E9E91189B52FF009FEB99 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA3E9E92189B52FF009FEB99 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FA3CA9A5189B1ACD00208607 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FA3CA9A6189B1ACD00208607 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		FA3CA9A8189B1ACD00208607 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2PCache/P2PCache-Prefix.pch";
+				INFOPLIST_FILE = "P2PCache/P2PCache-Info.plist";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				VALID_ARCHS = "i386 x86_64";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		FA3CA9A9189B1ACD00208607 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ADDITIONAL_SDKS = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2PCache/P2PCache-Prefix.pch";
+				INFOPLIST_FILE = "P2PCache/P2PCache-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				VALID_ARCHS = "i386 x86_64";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		FA3CA9AB189B1ACD00208607 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/P2PCache-OSX.framework/Versions/A/P2PCache-OSX";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2PCache/P2PCache-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "P2PCacheTests/P2PCacheTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		FA3CA9AC189B1ACD00208607 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/P2PCache-OSX.framework/Versions/A/P2PCache-OSX";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2PCache/P2PCache-Prefix.pch";
+				INFOPLIST_FILE = "P2PCacheTests/P2PCacheTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		FA3E9E96189B52FF009FEB99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
+				DSTROOT = /tmp/P2PCache_iOS.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2PCache-iOS/P2PCache-iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = "";
+			};
+			name = Debug;
+		};
+		FA3E9E97189B52FF009FEB99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
+				DSTROOT = /tmp/P2PCache_iOS.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2PCache-iOS/P2PCache-iOS-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = "";
+			};
+			name = Release;
+		};
+		FA3E9E98189B52FF009FEB99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/P2PCache-OSX.framework/Versions/A/P2PCache-OSX";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2PCache-iOS/P2PCache-iOS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "P2PCache-iOSTests/P2PCache-iOSTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		FA3E9E99189B52FF009FEB99 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/P2PCache-OSX.framework/Versions/A/P2PCache-OSX";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2PCache-iOS/P2PCache-iOS-Prefix.pch";
+				INFOPLIST_FILE = "P2PCache-iOSTests/P2PCache-iOSTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA3CA979189B1ACD00208607 /* Build configuration list for PBXProject "P2PCache" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA3CA9A5189B1ACD00208607 /* Debug */,
+				FA3CA9A6189B1ACD00208607 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA3CA9A7189B1ACD00208607 /* Build configuration list for PBXNativeTarget "P2PCache-OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA3CA9A8189B1ACD00208607 /* Debug */,
+				FA3CA9A9189B1ACD00208607 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA3CA9AA189B1ACD00208607 /* Build configuration list for PBXNativeTarget "P2PCacheTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA3CA9AB189B1ACD00208607 /* Debug */,
+				FA3CA9AC189B1ACD00208607 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA3E9E9A189B52FF009FEB99 /* Build configuration list for PBXNativeTarget "P2PCache-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA3E9E96189B52FF009FEB99 /* Debug */,
+				FA3E9E97189B52FF009FEB99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FA3E9E9B189B52FF009FEB99 /* Build configuration list for PBXNativeTarget "P2PCache-iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA3E9E98189B52FF009FEB99 /* Debug */,
+				FA3E9E99189B52FF009FEB99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FA3CA976189B1ACD00208607 /* Project object */;
+}

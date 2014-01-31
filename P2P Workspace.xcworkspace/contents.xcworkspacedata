@@ -2,9 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:P2P Node/P2P Node.xcodeproj">
+      location = "group:P2P Sample Application OS X/P2P Sample Application OS X.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:P2P Caching/P2P Caching.xcodeproj">
+      location = "group:P2P Sample Application iOS/P2P Sample Application iOS.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:P2PCache/P2PCache.xcodeproj">
    </FileRef>
 </Workspace>
