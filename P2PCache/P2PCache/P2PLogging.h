@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-#define LOG_TO_CONSOLE 1
-#define LOG_TO_FILE 1
+#define LOG_TO_CONSOLE  YES
+#define LOG_TO_FILE     YES
 #define LOG_DATE_FORMAT @"MM-dd-yy HH:mm:ss"
 
 
-/** Logging Levels.  Will only log levels greater than or equal to logLevel const */
+/** Logging Levels.  Will only log levels greater than or equal to logLevel */
 typedef NS_ENUM( NSInteger, P2PLogLevel )
 {
     P2PLogLevelDebug = 0,   // Debugging Messages

@@ -8,6 +8,7 @@
 
 #import "P2PPeerManager.h"
 #import "P2PBonjourServer.h"
+#import "P2PBonjourClient.h"
 
 /**
  
@@ -35,7 +36,8 @@
 
 @implementation P2PPeerManager
 {
-    P2PBonjourServer *_bonjourServer;
+    P2PBonjourServer *_bonjourServer;   // Us broadcasting to others that we offer a service
+    P2PBonjourClient *_bonjourClient;   // Us seeking out other servers
 }
 
 static P2PPeerManager *sharedInstance = nil;
@@ -54,6 +56,7 @@ static P2PPeerManager *sharedInstance = nil;
 - (void)start
 {
     _bonjourServer = [[P2PBonjourServer alloc] init];
+    _bonjourClient = [[P2PBonjourClient alloc] init];
     
     // Tell other peers we are here!
     [self announce];

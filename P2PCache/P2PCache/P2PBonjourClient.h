@@ -1,5 +1,5 @@
 //
-//  P2PBonjourServer.h
+//  P2PBonjourClient.h
 //  P2PCache
 //
 //  Created by Alex Krebiehl on 1/30/14.
@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface P2PBonjourServer : NSObject <NSNetServiceDelegate,NSStreamDelegate> 
+@interface P2PBonjourClient : NSObject <NSNetServiceDelegate,NSNetServiceBrowserDelegate,NSStreamDelegate> 
 
 @end

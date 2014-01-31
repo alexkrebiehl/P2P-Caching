@@ -16,6 +16,8 @@
  */
 
 #import "P2PBonjourServer.h"
+#import <netinet/in.h>
+#import <sys/socket.h>
 
 
 @implementation P2PBonjourServer
@@ -66,7 +68,10 @@
     
     if ( socket != nil )
     {
-        _service = [[NSNetService alloc] initWithDomain:@"local." type:@"_http._tcp." name:P2P_BONJOUR_SERVICE_NAME port:55345];
+        _service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
+                                                   type:P2P_BONJOUR_SERVICE_TYPE
+                                                   name:P2P_BONJOUR_SERVICE_NAME
+                                                   port:P2P_BONJOUR_SERVICE_PORT];
         
         if ([_service getInputStream:&_inputStream outputStream:&_outputStream]) {
             P2PLog( P2PLogLevelDebug, @"service has stream references" );
