@@ -13,4 +13,7 @@
 /** Start the P2P Caching System */
 + (void)start;
 
+/** Power down, captain */
++ (void)shutdown;
+
 @end

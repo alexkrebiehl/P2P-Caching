@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA3924F0189C9278002B6324 /* P2PCache-OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3924EF189C9278002B6324 /* P2PCache-OSX.framework */; };
 		FA3E9EAB189B5413009FEB99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9EAA189B5413009FEB99 /* Cocoa.framework */; };
 		FA3E9EB5189B5413009FEB99 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA3E9EB3189B5413009FEB99 /* InfoPlist.strings */; };
 		FA3E9EB7189B5413009FEB99 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EB6189B5413009FEB99 /* main.m */; };
@@ -18,7 +19,6 @@
 		FA3E9ECB189B5413009FEB99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9EAA189B5413009FEB99 /* Cocoa.framework */; };
 		FA3E9ED3189B5413009FEB99 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA3E9ED1189B5413009FEB99 /* InfoPlist.strings */; };
 		FA3E9ED5189B5413009FEB99 /* P2P_Sample_Application_OS_XTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9ED4189B5413009FEB99 /* P2P_Sample_Application_OS_XTests.m */; };
-		FA3E9EDF189B541D009FEB99 /* P2PCache-OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9EDE189B541D009FEB99 /* P2PCache-OSX.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA3924EF189C9278002B6324 /* P2PCache-OSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "P2PCache-OSX.framework"; path = "../../../../../Library/Developer/Xcode/DerivedData/P2P_Workspace-couwoyzudenlsuaawwtnrxsuanlb/Build/Products/Debug/P2PCache-OSX.framework"; sourceTree = "<group>"; };
 		FA3E9EA7189B5413009FEB99 /* P2P Sample Application OS X.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "P2P Sample Application OS X.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3E9EAA189B5413009FEB99 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		FA3E9EAD189B5413009FEB99 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -51,7 +52,6 @@
 		FA3E9ED0189B5413009FEB99 /* P2P Sample Application OS XTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2P Sample Application OS XTests-Info.plist"; sourceTree = "<group>"; };
 		FA3E9ED2189B5413009FEB99 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FA3E9ED4189B5413009FEB99 /* P2P_Sample_Application_OS_XTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2P_Sample_Application_OS_XTests.m; sourceTree = "<group>"; };
-		FA3E9EDE189B541D009FEB99 /* P2PCache-OSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "P2PCache-OSX.framework"; path = "../../../../../Library/Developer/Xcode/DerivedData/P2P_Workspace-couwoyzudenlsuaawwtnrxsuanlb/Build/Products/Debug/P2PCache-OSX.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA3E9EDF189B541D009FEB99 /* P2PCache-OSX.framework in Frameworks */,
+				FA3924F0189C9278002B6324 /* P2PCache-OSX.framework in Frameworks */,
 				FA3E9EAB189B5413009FEB99 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,7 +98,7 @@
 		FA3E9EA9189B5413009FEB99 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FA3E9EDE189B541D009FEB99 /* P2PCache-OSX.framework */,
+				FA3924EF189C9278002B6324 /* P2PCache-OSX.framework */,
 				FA3E9EAA189B5413009FEB99 /* Cocoa.framework */,
 				FA3E9EC9189B5413009FEB99 /* XCTest.framework */,
 				FA3E9EAC189B5413009FEB99 /* Other Frameworks */,
@@ -477,6 +477,7 @@
 				FA3E9EDA189B5413009FEB99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA3E9EDB189B5413009FEB99 /* Build configuration list for PBXNativeTarget "P2P Sample Application OS XTests" */ = {
 			isa = XCConfigurationList;
@@ -485,6 +486,7 @@
 				FA3E9EDD189B5413009FEB99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

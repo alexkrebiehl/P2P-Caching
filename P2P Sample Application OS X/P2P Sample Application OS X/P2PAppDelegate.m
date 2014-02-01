@@ -17,4 +17,16 @@
     [P2PCache start];
 }
 
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+{
+    return YES;
+}
+
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
+//    [P2PCache shutdown];
+    
+    return NSTerminateNow;
+}
+
 @end

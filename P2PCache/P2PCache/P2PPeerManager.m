@@ -9,7 +9,8 @@
 #import "P2PPeerManager.h"
 #import "P2PPeerServer.h"
 #import "P2PPeerLocator.h"
-#import "P2PPeerLocatorProtocol.h"
+#import "P2PPeer.h"
+#import "P2PLocatorDelegate.h"
 
 /**
  
@@ -30,9 +31,7 @@
  
  */
 
-
-
-@interface P2PPeerManager()<P2PPeerLocatorProtocol>
+@interface P2PPeerManager()<P2PPeerLocatorDelegate>
 @end
 
 
@@ -42,18 +41,26 @@
     P2PPeerLocator  *_peerLocatorService;   // Us seeking out other servers
 }
 
-static P2PPeerManager *sharedInstance = nil;
+
+
+
 
 #pragma mark - Initialization Methods
+static P2PPeerManager *sharedInstance = nil;
 + (P2PPeerManager *)sharedManager
-{
+{    
     if (sharedInstance == nil)
     {
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^ { sharedInstance = [[[self class] alloc] init]; });
+        dispatch_once(&onceToken, ^{ sharedInstance = [[[self class] alloc] init]; });
     }
     return sharedInstance;
 }
+
+
+
+
+
 
 - (void)start
 {
@@ -64,23 +71,32 @@ static P2PPeerManager *sharedInstance = nil;
     _peerLocatorService = [[P2PPeerLocator alloc] init];
     [_peerLocatorService setDelegate:self];
     [_peerLocatorService beginSearching];
+ 
     
 }
 
+
 - (NSArray *)findBestPeers:(NSUInteger)numberOfPeersToFind
 {
+    
     // Go through our peer data structure
     return nil;
 }
 
+
+
+
+
 #pragma mark - P2PPeerLocator delegate methods
-- (void)peerLocator:(id<P2PPeerLocatorProtocol>)locator didFindPeer:(P2PPeer *)peer
+- (void)peerLocator:(P2PPeerLocator *)locator didFindPeer:(P2PPeer *)peer
 {
     // probably add peer to an array here, maybe sort them by response time
     // shit like that
+    LogSelector();
+    NSLog(@"Peer: %@", peer);
 }
 
-- (void)peerLocator:(id<P2PPeerLocatorProtocol>)locator didLosePeer:(P2PPeer *)peer
+- (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeer *)peer
 {
     
 }

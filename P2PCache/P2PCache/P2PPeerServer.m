@@ -106,36 +106,44 @@
 #pragma mark - NSNetServiceDelegate
 
 - (void)netServiceWillPublish:(NSNetService *)netService {
-    NSLog(@"netServiceWillPublish");
+//    NSLog(@"netServiceWillPublish");
+    LogSelector();
     [_services addObject:netService];
 }
 
 - (void)netServiceDidPublish:(NSNetService *)sender {
-    NSLog(@"netServiceDidPublish");
+//    NSLog(@"netServiceDidPublish");
+    LogSelector();
 }
 
 - (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
-    NSLog(@"didNotPublish");
+//    NSLog(@"didNotPublish");
+    LogSelector();
 }
 
 - (void)netServiceWillResolve:(NSNetService *)sender {
-    NSLog(@"netServiceWillResolve");
+//    NSLog(@"netServiceWillResolve");
+    LogSelector();
 }
 
 - (void)netServiceDidResolveAddress:(NSNetService *)sender {
-    NSLog(@"netServiceDidResolveAddress");
+//    NSLog(@"netServiceDidResolveAddress");
+    LogSelector();
 }
 
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict {
-    NSLog(@"didNotResolve");
+//    NSLog(@"didNotResolve");
+    LogSelector();
 }
 
 - (void)netService:(NSNetService *)sender didUpdateTXTRecordData:(NSData *)data {
-    NSLog(@"didUpdateTXTRecordData");
+//    NSLog(@"didUpdateTXTRecordData");
+    LogSelector();
 }
 
 - (void)netServiceDidStop:(NSNetService *)netService {
-    NSLog(@"netServiceDidStop");
+//    NSLog(@"netServiceDidStop");
+    LogSelector();
     [_services removeObject:netService];
 }
 

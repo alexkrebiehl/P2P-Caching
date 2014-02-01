@@ -6,9 +6,15 @@
 //  Copyright (c) 2014 NKU Research. All rights reserved.
 //
 
+#import "P2PLocatorDelegate.h"
 #import "P2PPeerLocator.h"
 #import <netinet/in.h>
 #import <sys/socket.h>
+#import "P2PPeer.h"
+
+// Keys for dictionary returned after resolving peer's IP and port
+const NSString *P2PPeerLocatorPeerAddressKey =  @"P2PPeerLocatorPeerAddressKey";
+const NSString *P2PPeerLocatorPeerPortKey =     @"P2PPeerLocatorPeerPortKey";
 
 
 @implementation P2PPeerLocator
@@ -102,8 +108,9 @@
 
 #pragma mark - NSNetServiceDelegate Methods
 
-- (void)netServiceWillResolve:(NSNetService *)sender {
-    NSLog(@"netServiceWillResolve");
+- (void)netServiceWillResolve:(NSNetService *)sender
+{
+    LogSelector();
     
     serviceBrowser = [[NSNetServiceBrowser alloc] init];
 	if(!serviceBrowser) {
@@ -115,69 +122,136 @@
 
 - (void)netServiceWillPublish:(NSNetService *)netService
 {
-    NSLog(@"netServiceWillPublish");
+    LogSelector();
     [services addObject:netService];
 }
 
-- (void)netServiceDidPublish:(NSNetService *)sender {
-    NSLog(@"netServiceDidPublish");
+- (void)netServiceDidPublish:(NSNetService *)sender
+{
+    LogSelector();
 }
 
-- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
-    NSLog(@"didNotPublish");
+- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict
+{
+    LogSelector();
 }
 
-- (void)netServiceDidResolveAddress:(NSNetService *)netService {
-    NSLog(@"netServiceDidResolveAddress");
-    NSString *name = nil;
-    NSData *address = nil;
-    struct sockaddr_in *socketAddress = nil;
-    NSString *ipString = nil;
-    int port;
-    name = [netService name];
-    address = [[netService addresses] objectAtIndex: 0];
-    socketAddress = (struct sockaddr_in *) [address bytes];
-    
-    //  Not sure what this is about yet..... come back to it
-//    ipString = [NSString stringWithFormat: @"%s",inet_ntoa( socketAddress->sin_addr )];
+- (void)netServiceDidResolveAddress:(NSNetService *)netService
+{
+    LogSelector();
 
+    // There can be multiple IP addresses pointing to the same peer.
+    // For now, we will just use the first one in the list.
     //
-    port = socketAddress->sin_port;
-    // This will print the IP and port for you to connect to.
-    NSLog(@"%@", [NSString stringWithFormat:@"Resolved:%@-->%@:%d\n", [service hostName], ipString, port]);
+    // Perhaps in the future, we'll track all of them.  I'm not sure if there is really a benifit to having
+    // multiple addresses for each device, however....
+    //
+    // I noticed that the machine this is running on gets returned here, so one of these multiple addresses should be 127.0.0.1
+    // If thats the case, we wont have to explicitly check the local device's cache.  If we treat the local device like any other peer,
+    // it should always be the first choice of 'peers' to check since it would have an instantanous response time.
+    
+    NSDictionary *addr = [self getAddressAndPortFromData:[netService.addresses objectAtIndex:0]];
+    
+    NSLog(@"%@", [NSString stringWithFormat:@"Resolved (%@) :%@ -> %@:%@\n",
+                  netService.name, [netService hostName], [addr objectForKey:P2PPeerLocatorPeerAddressKey], [addr objectForKey:P2PPeerLocatorPeerPortKey]]);
+    
+    
+    
+    P2PPeer *peer = [[P2PPeer alloc] initWithIpAddress:[addr objectForKey:P2PPeerLocatorPeerAddressKey]
+                                                  port:[[addr objectForKey:P2PPeerLocatorPeerPortKey] unsignedIntegerValue]
+                                                domain:[netService hostName]];
+    
+    [self.delegate peerLocator:self didFindPeer:peer];
+    
     [self openStreams];
 }
 
-- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict {
-    NSLog(@"didNotResolve: %@",errorDict);
+
+// Some insight from StackOverflow...
+// http://stackoverflow.com/questions/938521/iphone-bonjour-nsnetservice-ip-address-and-port/4976808#4976808
+// Convert binary NSNetService data to an IP Address string
+- (NSDictionary *)getAddressAndPortFromData:(NSData *)data
+{
+    char addressBuffer[INET6_ADDRSTRLEN];
+
+    memset(addressBuffer, 0, INET6_ADDRSTRLEN);
+    
+    typedef union
+    {
+        struct sockaddr sa;
+        struct sockaddr_in ipv4;
+        struct sockaddr_in6 ipv6;
+    } ip_socket_address;
+    
+    ip_socket_address *socketAddress = (ip_socket_address *)[data bytes];
+    
+    if ( socketAddress && (socketAddress->sa.sa_family == AF_INET || socketAddress->sa.sa_family == AF_INET6) )
+    {
+        const char *addressStr = inet_ntop( socketAddress->sa.sa_family,
+                                           (socketAddress->sa.sa_family == AF_INET ? (void *)&(socketAddress->ipv4.sin_addr) : (void *)&(socketAddress->ipv6.sin6_addr)),
+                                           addressBuffer,
+                                           sizeof(addressBuffer));
+        
+        int port = ntohs(socketAddress->sa.sa_family == AF_INET ? socketAddress->ipv4.sin_port : socketAddress->ipv6.sin6_port);
+        
+        if ( addressStr && port )
+        {
+            NSLog(@"Found service at %s:%d", addressStr, port);
+            return @{ P2PPeerLocatorPeerAddressKey : [NSString stringWithCString:addressStr encoding:NSUTF8StringEncoding],
+                         P2PPeerLocatorPeerPortKey : @( port ) };
+            
+        }
+    }
+    return nil;
 }
 
-- (void)netService:(NSNetService *)sender didUpdateTXTRecordData:(NSData *)data {
-    NSLog(@"didUpdateTXTRecordData");
+- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
+{
+    LogSelector();
 }
 
-- (void)netServiceDidStop:(NSNetService *)netService {
-    NSLog(@"netServiceDidStop");
+- (void)netService:(NSNetService *)sender didUpdateTXTRecordData:(NSData *)data
+{
+    LogSelector();
+}
+
+- (void)netServiceDidStop:(NSNetService *)netService
+{
+    LogSelector();
     [services removeObject:netService];
 }
 
+
+
+
+
+
+
+
 #pragma mark - NSNetServiceBrowserDelegate Methods
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindDomain:(NSString *)domainName moreComing:(BOOL)moreDomainsComing {
-    NSLog(@"didFindDomain");
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindDomain:(NSString *)domainName moreComing:(BOOL)moreDomainsComing
+{
+    LogSelector();
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveDomain:(NSString *)domainName moreComing:(BOOL)moreDomainsComing {
-    NSLog(@"didRemoveDomain");
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveDomain:(NSString *)domainName moreComing:(BOOL)moreDomainsComing
+{
+    LogSelector();
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
 {
-    NSLog(@"didFindService: %@  lenght:%lu",netService.name,(unsigned long)[netService.name length]);
-    if ( [netService.name isEqualToString:P2P_BONJOUR_SERVICE_NAME] )
-    {
-        NSLog( @"Found P2P Service: %@", netService.addresses );
+    LogSelector();
+    
+//    if ( [netService.name isEqualToString:P2P_BONJOUR_SERVICE_NAME] )
+//    {
+//        NSLog( @"Found P2P Service: %@", netService.addresses );
+//        
+//        P2PPeer *peer = [[P2PPeer alloc] initWithIpAddress:@"127.0.0.1"];    // IP Address just to get something going...
+//        [self.delegate peerLocator:self didFindPeer:peer];
         
+        /*
         NSInputStream		*inStream;
         NSOutputStream		*outStream;
         if ( ![netService getInputStream:&inStream outputStream:&outStream] )
@@ -187,27 +261,32 @@
         }
         _inStream=inStream;
         _outStream=outStream;
-    }
-    else
-    {
+         */
+//    }
+//    else
+//    {
 //        P2PLog( P2PLogLevelDebug, @"found other service: %@", netService.name );
-    }
+//    }
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing {
-    NSLog(@"didRemoveService: %@", netService.name);
+//    NSLog(@"didRemoveService: %@", netService.name);
+    LogSelector();
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didNotSearch:(NSDictionary *)errorInfo {
-    NSLog(@"didNotSearch");
+//    NSLog(@"didNotSearch: %@", errorInfo);
+    LogSelector();
 }
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)netServiceBrowser {
-    NSLog(@"netServiceBrowserWillSearch");
+//    NSLog(@"netServiceBrowserWillSearch");
+    LogSelector();
 }
 
 - (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser {
-    NSLog(@"netServiceBrowserDidStopSearch");
+//    NSLog(@"netServiceBrowserDidStopSearch");
+    LogSelector();
 }
 
 

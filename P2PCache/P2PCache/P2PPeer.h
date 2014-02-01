@@ -12,6 +12,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#include <arpa/inet.h>
 
 #define P2P_PEER_RESPONSE_INTERVAL 10                       // How often we should ping the peer
 #define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10            // 10% wiggle room on when our timer runs
@@ -24,16 +25,20 @@ static const NSUInteger P2PPeerNoResponse = NSUIntegerMax;  // Value of response
 @interface P2PPeer : NSObject
 
 @property (copy, nonatomic, readonly) NSString *ipAddress;  // Peer's IP address
+@property (copy, nonatomic, readonly) NSString *domain;     // Peer's resolved domain
+@property (nonatomic, readonly) NSUInteger port;            // Port number
 @property (nonatomic, readonly) NSUInteger responseTime;    // ping in milliseconds
 
 
 
 /** Create a new object representing a peer
  @param ipAddress The peer's IP Address
+ @param port The peer's port number
+ @param domain The peer's resolved domain name
  
  @return A new peer object
  */
-- (id)initWithIpAddress:(NSString *)ipAddress;
+- (id)initWithIpAddress:(NSString *)ipAddress port:(NSUInteger)port domain:(NSString *)domain;
 
 
 

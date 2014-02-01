@@ -19,16 +19,19 @@
 
 - (id)init
 {
-    return [self initWithIpAddress:nil];
+    return [self initWithIpAddress:nil port:0 domain:nil];
 }
 
 /* Designated initializer */
-- (id)initWithIpAddress:(NSString *)ipAddress
+- (id)initWithIpAddress:(NSString *)ipAddress port:(NSUInteger)port domain:(NSString *)domain
 {
     if ( self = [super init] )
     {
         NSAssert(ipAddress != nil, @"Must supply an IP Address");
+        NSAssert(port != 0, @"Must provide a valid port");
+        
         _ipAddress = ipAddress;
+        _domain = domain;
         
         _responseTime = P2PPeerNoResponse;
         [self startUpdatingResponseTime];
@@ -76,6 +79,14 @@
 - (void)updateResponseTime
 {
     // Ping the peer here
+    // update _responseTime with the result
+    // or with P2PPeerNoResponse if the peer, well, didn't respond.
+}
+
+- (NSString *)description
+{
+    NSString *r = self.responseTime == P2PPeerNoResponse ? @"No Response" : [NSString stringWithFormat:@"%lums", (unsigned long)self.responseTime];
+    return [NSString stringWithFormat:@"<%@: %@:%lu -> %@>", NSStringFromClass([self class]), self.ipAddress, (unsigned long)self.port, r];
 }
 
 @end

@@ -28,4 +28,9 @@
      */
 }
 
++ (void)shutdown
+{
+    
+}
+
 @end

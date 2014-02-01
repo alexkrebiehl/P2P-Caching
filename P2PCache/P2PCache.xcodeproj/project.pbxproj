@@ -79,6 +79,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FA3924F1189C9A96002B6324 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		FA3924F2189CC259002B6324 /* P2PLocatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PLocatorDelegate.h; sourceTree = "<group>"; };
 		FA3CA97F189B1ACD00208607 /* P2PCache-OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "P2PCache-OSX.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3CA982189B1ACD00208607 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		FA3CA985189B1ACD00208607 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -106,7 +108,6 @@
 		FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerLocator.m; sourceTree = "<group>"; };
 		FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeer.h; sourceTree = "<group>"; };
 		FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeer.m; sourceTree = "<group>"; };
-		FA64EF41189C7DA400C35EFF /* P2PPeerLocatorProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PPeerLocatorProtocol.h; sourceTree = "<group>"; };
 		FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PCacheProtocol.h; sourceTree = "<group>"; };
 		FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PCacheProtocol.m; sourceTree = "<group>"; };
 		FAD685E2189B229E00CA7E18 /* P2PLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PLogging.h; sourceTree = "<group>"; };
@@ -164,6 +165,7 @@
 		FA3924EB189C8395002B6324 /* Locating & Serving */ = {
 			isa = PBXGroup;
 			children = (
+				FA3924F2189CC259002B6324 /* P2PLocatorDelegate.h */,
 				FAD685F2189B41CF00CA7E18 /* P2PPeerServer.h */,
 				FAD685F3189B41CF00CA7E18 /* P2PPeerServer.m */,
 				FA3E9EEB189B5EFD009FEB99 /* P2PPeerLocator.h */,
@@ -280,6 +282,7 @@
 				FAD685E3189B229E00CA7E18 /* P2PLogging.m */,
 				FAD685E6189B33D500CA7E18 /* CanonicalRequest.h */,
 				FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */,
+				FA3924F1189C9A96002B6324 /* Utilities.h */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -308,7 +311,6 @@
 		FAD685F1189B41B200CA7E18 /* Peer Management */ = {
 			isa = PBXGroup;
 			children = (
-				FA64EF41189C7DA400C35EFF /* P2PPeerLocatorProtocol.h */,
 				FAD685EB189B390700CA7E18 /* P2PPeerManager.h */,
 				FAD685EC189B390700CA7E18 /* P2PPeerManager.m */,
 				FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */,

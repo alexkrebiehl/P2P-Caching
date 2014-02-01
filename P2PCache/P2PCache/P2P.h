@@ -19,6 +19,7 @@
 #define P2P_BONJOUR_SERVICE_PORT    55345
 
 // Global imports
+#import "Utilities.h"
 #import "P2PLogging.h"
 
 #endif
