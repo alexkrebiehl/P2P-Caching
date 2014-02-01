@@ -7,7 +7,7 @@
 //
 
 #import "P2PAppDelegate.h"
-#import <P2PCache/P2PCache.h>
+#import "P2PCache/P2PCache.h"
 
 @implementation P2PAppDelegate
 
@@ -44,7 +44,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    [P2PCache shutdown];
+//    [P2PCache shutdown];
 }
 
 @end

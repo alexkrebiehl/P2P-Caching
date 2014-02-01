@@ -10,7 +10,7 @@
 
 @interface P2PCache : NSObject
 
-/** Start the P2P Caching System */
+/** Where the fun starts */
 + (void)start;
 
 /** Power down, captain */

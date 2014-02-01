@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FA3E9EEA189B5B5B009FEB99 /* libP2PCache-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9EE9189B5B5B009FEB99 /* libP2PCache-iOS.a */; };
+		FA3924FA189D5A33002B6324 /* P2PPeerListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F9189D5A33002B6324 /* P2PPeerListTableViewController.m */; };
+		FAB2E158189D5EB10081ECA3 /* libP2PCache-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB2E157189D5EB10081ECA3 /* libP2PCache-iOS.a */; };
 		FAD68646189B4D8500CA7E18 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD68645189B4D8500CA7E18 /* Foundation.framework */; };
 		FAD68648189B4D8500CA7E18 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD68647189B4D8500CA7E18 /* CoreGraphics.framework */; };
 		FAD6864A189B4D8500CA7E18 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD68649189B4D8500CA7E18 /* UIKit.framework */; };
@@ -16,7 +17,6 @@
 		FAD68656189B4D8500CA7E18 /* P2PAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD68655189B4D8500CA7E18 /* P2PAppDelegate.m */; };
 		FAD68659189B4D8500CA7E18 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAD68657189B4D8500CA7E18 /* Main_iPhone.storyboard */; };
 		FAD6865C189B4D8500CA7E18 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAD6865A189B4D8500CA7E18 /* Main_iPad.storyboard */; };
-		FAD6865F189B4D8500CA7E18 /* P2PFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD6865E189B4D8500CA7E18 /* P2PFirstViewController.m */; };
 		FAD68662189B4D8500CA7E18 /* P2PSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD68661189B4D8500CA7E18 /* P2PSecondViewController.m */; };
 		FAD68664189B4D8500CA7E18 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAD68663189B4D8500CA7E18 /* Images.xcassets */; };
 		FAD6866B189B4D8500CA7E18 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD6866A189B4D8500CA7E18 /* XCTest.framework */; };
@@ -37,9 +37,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FA3E9E9C189B5321009FEB99 /* libP2PCache-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = "libP2PCache-iOS.a"; path = "../P2PCache/build/Debug-iphoneos/libP2PCache-iOS.a"; sourceTree = "<group>"; };
-		FA3E9EE0189B54E0009FEB99 /* P2PCache-OSX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "P2PCache-OSX.framework"; path = "../../../../../Library/Developer/Xcode/DerivedData/P2P_Workspace-couwoyzudenlsuaawwtnrxsuanlb/Build/Products/Debug/P2PCache-OSX.framework"; sourceTree = "<group>"; };
-		FA3E9EE9189B5B5B009FEB99 /* libP2PCache-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = "libP2PCache-iOS.a"; path = "../P2PCache/build/Debug-iphoneos/libP2PCache-iOS.a"; sourceTree = "<group>"; };
+		FA3924F8189D5A33002B6324 /* P2PPeerListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerListTableViewController.h; sourceTree = "<group>"; };
+		FA3924F9189D5A33002B6324 /* P2PPeerListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerListTableViewController.m; sourceTree = "<group>"; };
+		FA3924FC189D5BA1002B6324 /* libP2PCache-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libP2PCache-iOS.a"; path = "../P2PCache/build/Debug-iphoneos/libP2PCache-iOS.a"; sourceTree = "<group>"; };
+		FA3924FE189D5C82002B6324 /* libP2PCache-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libP2PCache-iOS.a"; path = "../P2PCache/build/Debug-iphoneos/libP2PCache-iOS.a"; sourceTree = "<group>"; };
+		FAB2E157189D5EB10081ECA3 /* libP2PCache-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = "libP2PCache-iOS.a"; path = "../P2PCache/build/Debug-iphoneos/libP2PCache-iOS.a"; sourceTree = "<group>"; };
 		FAD68642189B4D8500CA7E18 /* P2P Sample Application iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "P2P Sample Application iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD68645189B4D8500CA7E18 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FAD68647189B4D8500CA7E18 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -52,8 +54,6 @@
 		FAD68655189B4D8500CA7E18 /* P2PAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PAppDelegate.m; sourceTree = "<group>"; };
 		FAD68658189B4D8500CA7E18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		FAD6865B189B4D8500CA7E18 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
-		FAD6865D189B4D8500CA7E18 /* P2PFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PFirstViewController.h; sourceTree = "<group>"; };
-		FAD6865E189B4D8500CA7E18 /* P2PFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PFirstViewController.m; sourceTree = "<group>"; };
 		FAD68660189B4D8500CA7E18 /* P2PSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PSecondViewController.h; sourceTree = "<group>"; };
 		FAD68661189B4D8500CA7E18 /* P2PSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PSecondViewController.m; sourceTree = "<group>"; };
 		FAD68663189B4D8500CA7E18 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -62,7 +62,6 @@
 		FAD68672189B4D8500CA7E18 /* P2P Sample Application iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2P Sample Application iOSTests-Info.plist"; sourceTree = "<group>"; };
 		FAD68674189B4D8500CA7E18 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FAD68676189B4D8500CA7E18 /* P2P_Sample_Application_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2P_Sample_Application_iOSTests.m; sourceTree = "<group>"; };
-		FAD68680189B4D8E00CA7E18 /* P2PCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = P2PCache.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/P2P_Workspace-couwoyzudenlsuaawwtnrxsuanlb/Build/Products/Debug/P2PCache.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA3E9EEA189B5B5B009FEB99 /* libP2PCache-iOS.a in Frameworks */,
+				FAB2E158189D5EB10081ECA3 /* libP2PCache-iOS.a in Frameworks */,
 				FAD68648189B4D8500CA7E18 /* CoreGraphics.framework in Frameworks */,
 				FAD6864A189B4D8500CA7E18 /* UIKit.framework in Frameworks */,
 				FAD68646189B4D8500CA7E18 /* Foundation.framework in Frameworks */,
@@ -112,10 +111,9 @@
 		FAD68644189B4D8500CA7E18 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FA3E9EE9189B5B5B009FEB99 /* libP2PCache-iOS.a */,
-				FA3E9EE0189B54E0009FEB99 /* P2PCache-OSX.framework */,
-				FA3E9E9C189B5321009FEB99 /* libP2PCache-iOS.a */,
-				FAD68680189B4D8E00CA7E18 /* P2PCache.framework */,
+				FAB2E157189D5EB10081ECA3 /* libP2PCache-iOS.a */,
+				FA3924FE189D5C82002B6324 /* libP2PCache-iOS.a */,
+				FA3924FC189D5BA1002B6324 /* libP2PCache-iOS.a */,
 				FAD68645189B4D8500CA7E18 /* Foundation.framework */,
 				FAD68647189B4D8500CA7E18 /* CoreGraphics.framework */,
 				FAD68649189B4D8500CA7E18 /* UIKit.framework */,
@@ -131,12 +129,12 @@
 				FAD68655189B4D8500CA7E18 /* P2PAppDelegate.m */,
 				FAD68657189B4D8500CA7E18 /* Main_iPhone.storyboard */,
 				FAD6865A189B4D8500CA7E18 /* Main_iPad.storyboard */,
-				FAD6865D189B4D8500CA7E18 /* P2PFirstViewController.h */,
-				FAD6865E189B4D8500CA7E18 /* P2PFirstViewController.m */,
 				FAD68660189B4D8500CA7E18 /* P2PSecondViewController.h */,
 				FAD68661189B4D8500CA7E18 /* P2PSecondViewController.m */,
 				FAD68663189B4D8500CA7E18 /* Images.xcassets */,
 				FAD6864C189B4D8500CA7E18 /* Supporting Files */,
+				FA3924F8189D5A33002B6324 /* P2PPeerListTableViewController.h */,
+				FA3924F9189D5A33002B6324 /* P2PPeerListTableViewController.m */,
 			);
 			path = "P2P Sample Application iOS";
 			sourceTree = "<group>";
@@ -269,10 +267,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA3924FA189D5A33002B6324 /* P2PPeerListTableViewController.m in Sources */,
 				FAD68652189B4D8500CA7E18 /* main.m in Sources */,
 				FAD68662189B4D8500CA7E18 /* P2PSecondViewController.m in Sources */,
 				FAD68656189B4D8500CA7E18 /* P2PAppDelegate.m in Sources */,
-				FAD6865F189B4D8500CA7E18 /* P2PFirstViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,6 +415,7 @@
 				GCC_PREFIX_HEADER = "P2P Sample Application iOS/P2P Sample Application iOS-Prefix.pch";
 				INFOPLIST_FILE = "P2P Sample Application iOS/P2P Sample Application iOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "../**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -434,6 +433,7 @@
 				GCC_PREFIX_HEADER = "P2P Sample Application iOS/P2P Sample Application iOS-Prefix.pch";
 				INFOPLIST_FILE = "P2P Sample Application iOS/P2P Sample Application iOS-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "../**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

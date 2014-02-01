@@ -7,7 +7,7 @@
 //
 
 #import "P2PAppDelegate.h"
-#import <P2PCache/P2PCache.h>
+#import "P2PCache/P2PCache.h"
 
 @implementation P2PAppDelegate
 

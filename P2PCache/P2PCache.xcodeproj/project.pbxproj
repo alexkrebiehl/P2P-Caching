@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA3924F5189CC94F002B6324 /* SimplePing.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3924F3189CC94F002B6324 /* SimplePing.h */; };
+		FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F4189CC94F002B6324 /* SimplePing.m */; };
+		FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F4189CC94F002B6324 /* SimplePing.m */; };
+		FA3924FB189D5B51002B6324 /* P2PPeerManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FAD685EB189B390700CA7E18 /* P2PPeerManager.h */; };
 		FA3CA983189B1ACD00208607 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3CA982189B1ACD00208607 /* Cocoa.framework */; };
 		FA3CA98D189B1ACD00208607 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA3CA98B189B1ACD00208607 /* InfoPlist.strings */; };
 		FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3CA990189B1ACD00208607 /* P2PCache.m */; };
@@ -32,9 +36,10 @@
 		FA3E9EED189B5EFD009FEB99 /* P2PPeerLocator.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3E9EEB189B5EFD009FEB99 /* P2PPeerLocator.h */; };
 		FA3E9EEE189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */; };
 		FA3E9EEF189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */; };
-		FA64EF3D189C7A4B00C35EFF /* P2PPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */; };
+		FA64EF3D189C7A4B00C35EFF /* P2PPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA64EF3E189C7A4B00C35EFF /* P2PPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */; };
 		FA64EF3F189C7A4B00C35EFF /* P2PPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */; };
+		FAB2E159189D5F350081ECA3 /* P2PPeer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */; };
 		FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */; };
 		FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */; };
@@ -42,7 +47,7 @@
 		FAD685E5189B229E00CA7E18 /* P2PLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E3189B229E00CA7E18 /* P2PLogging.m */; };
 		FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685E6189B33D500CA7E18 /* CanonicalRequest.h */; };
 		FAD685E9189B33D500CA7E18 /* CanonicalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685EB189B390700CA7E18 /* P2PPeerManager.h */; };
+		FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685EB189B390700CA7E18 /* P2PPeerManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
 		FAD685F4189B41CF00CA7E18 /* P2PPeerServer.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685F2189B41CF00CA7E18 /* P2PPeerServer.h */; };
 		FAD685F5189B41CF00CA7E18 /* P2PPeerServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PPeerServer.m */; };
@@ -73,6 +78,8 @@
 			dstSubfolderSpec = 16;
 			files = (
 				FA3E9EE8189B5A18009FEB99 /* P2PCache.h in CopyFiles */,
+				FA3924FB189D5B51002B6324 /* P2PPeerManager.h in CopyFiles */,
+				FAB2E159189D5F350081ECA3 /* P2PPeer.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +88,8 @@
 /* Begin PBXFileReference section */
 		FA3924F1189C9A96002B6324 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		FA3924F2189CC259002B6324 /* P2PLocatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PLocatorDelegate.h; sourceTree = "<group>"; };
+		FA3924F3189CC94F002B6324 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
+		FA3924F4189CC94F002B6324 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
 		FA3CA97F189B1ACD00208607 /* P2PCache-OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "P2PCache-OSX.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3CA982189B1ACD00208607 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		FA3CA985189B1ACD00208607 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -278,6 +287,8 @@
 		FAD685EA189B35BA00CA7E18 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				FA3924F3189CC94F002B6324 /* SimplePing.h */,
+				FA3924F4189CC94F002B6324 /* SimplePing.m */,
 				FAD685E2189B229E00CA7E18 /* P2PLogging.h */,
 				FAD685E3189B229E00CA7E18 /* P2PLogging.m */,
 				FAD685E6189B33D500CA7E18 /* CanonicalRequest.h */,
@@ -328,11 +339,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */,
-				FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */,
-				FAD685F4189B41CF00CA7E18 /* P2PPeerServer.h in Headers */,
 				FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */,
-				FAD685E4189B229E00CA7E18 /* P2PLogging.h in Headers */,
 				FA64EF3D189C7A4B00C35EFF /* P2PPeer.h in Headers */,
+				FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */,
+				FA3924F5189CC94F002B6324 /* SimplePing.h in Headers */,
+				FAD685F4189B41CF00CA7E18 /* P2PPeerServer.h in Headers */,
+				FAD685E4189B229E00CA7E18 /* P2PLogging.h in Headers */,
 				FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */,
 				FA3E9EED189B5EFD009FEB99 /* P2PPeerLocator.h in Headers */,
 			);
@@ -484,6 +496,7 @@
 				FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */,
 				FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */,
 				FA64EF3E189C7A4B00C35EFF /* P2PPeer.m in Sources */,
+				FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA3E9EEE189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
 				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
 				FAD685F5189B41CF00CA7E18 /* P2PPeerServer.m in Sources */,
@@ -507,6 +520,7 @@
 				FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */,
 				FA3E9EE3189B5A06009FEB99 /* P2PCacheProtocol.m in Sources */,
 				FA64EF3F189C7A4B00C35EFF /* P2PPeer.m in Sources */,
+				FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA3E9EEF189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
 				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
 				FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */,
@@ -648,6 +662,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = macosx;
 				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = framework;
@@ -667,6 +682,7 @@
 				INFOPLIST_FILE = "P2PCache/P2PCache-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = macosx;
 				VALID_ARCHS = "i386 x86_64";
 				WRAPPER_EXTENSION = framework;

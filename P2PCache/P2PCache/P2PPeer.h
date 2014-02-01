@@ -14,10 +14,10 @@
 #import <Foundation/Foundation.h>
 #include <arpa/inet.h>
 
-#define P2P_PEER_RESPONSE_INTERVAL 10                       // How often we should ping the peer
-#define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10            // 10% wiggle room on when our timer runs
+#define P2P_PEER_RESPONSE_INTERVAL 10               // How often we should ping the peer
+#define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10    // 10% wiggle room on when our timer runs
 
-static const NSUInteger P2PPeerNoResponse = NSUIntegerMax;  // Value of response time until we recieve an echo from ping
+static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time until we recieve an echo from ping
 
 
 
@@ -27,7 +27,7 @@ static const NSUInteger P2PPeerNoResponse = NSUIntegerMax;  // Value of response
 @property (copy, nonatomic, readonly) NSString *ipAddress;  // Peer's IP address
 @property (copy, nonatomic, readonly) NSString *domain;     // Peer's resolved domain
 @property (nonatomic, readonly) NSUInteger port;            // Port number
-@property (nonatomic, readonly) NSUInteger responseTime;    // ping in milliseconds
+@property (nonatomic, readonly) float responseTime;         // ping in milliseconds
 
 
 

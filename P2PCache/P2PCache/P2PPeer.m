@@ -9,13 +9,19 @@
 
 
 #import "P2PPeer.h"
+#import "SimplePing.h"
+
+@interface P2PPeer()<SimplePingDelegate>
+
+// Private Properties
+@property (nonatomic, strong) NSDate *lastPingSentTime;     // Track how long the ping took
+@property (nonatomic, strong) SimplePing *pinger;           // Object pinging the peer
+@property (nonatomic, strong) NSTimer *peerResponseTimer;   // Timer running the reoccouring pings
+
+@end
+
 
 @implementation P2PPeer
-{
-    NSTimer *_peerResponseTimer;    // Timer running the reoccouring pings
-}
-
-
 
 - (id)init
 {
@@ -31,9 +37,11 @@
         NSAssert(port != 0, @"Must provide a valid port");
         
         _ipAddress = ipAddress;
+        _port = port;
         _domain = domain;
         
         _responseTime = P2PPeerNoResponse;
+        [self updateResponseTime];
         [self startUpdatingResponseTime];
     }
     return self;
@@ -47,6 +55,7 @@
     // Dont do anything if there is already a timer going
     if ( _peerResponseTimer == nil )
     {
+        NSLog(@"%@ - starting ping loop", self);
         _responseTime = P2PPeerNoResponse;
         
         
@@ -62,6 +71,10 @@
         [timer setTolerance:P2P_PEER_RESPONSE_INTERVAL * P2P_PEER_RESPONSE_INTERVAL_TOLERANCE];
         
         _peerResponseTimer = timer;
+        _pinger = [SimplePing simplePingWithHostName:self.ipAddress];
+        _pinger.delegate = self;
+        [_pinger start];
+        
         [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     }
 }
@@ -70,19 +83,60 @@
 {
     if ( _peerResponseTimer != nil )
     {
+        NSLog(@"%@ - stopping ping", self);
         [_peerResponseTimer invalidate];
         _peerResponseTimer = nil;
         _responseTime = P2PPeerNoResponse;
+        
+        [_pinger stop];
+        _pinger = nil;
     }
 }
 
 - (void)updateResponseTime
 {
-    // Ping the peer here
-    // update _responseTime with the result
-    // or with P2PPeerNoResponse if the peer, well, didn't respond.
+    NSLog(@"%@ ping", self);
+    _lastPingSentTime = [NSDate new];
+    [_pinger sendPingWithData:nil];
 }
 
+
+
+#pragma mark - SimplePing Delegate Methods
+- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address
+{
+    NSLog(@"%@ - ready to start pinging", self);
+    [self updateResponseTime];
+}
+
+- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet
+{
+    _responseTime = ABS([_lastPingSentTime timeIntervalSinceNow]) * 1000;
+    _lastPingSentTime = nil;
+    
+    NSLog(@"Ping response: %fms", self.responseTime);
+}
+
+- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error
+{
+    NSLog(@"%@ - ping failed: %@", self, error);
+    _responseTime = P2PPeerNoResponse;
+    _lastPingSentTime = nil;
+}
+
+- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error
+{
+    NSLog(@"%@ - ping failed: %@", self, error);
+    _responseTime = P2PPeerNoResponse;
+    _lastPingSentTime = nil;
+}
+
+
+
+
+
+
+#pragma mark - Logging
 - (NSString *)description
 {
     NSString *r = self.responseTime == P2PPeerNoResponse ? @"No Response" : [NSString stringWithFormat:@"%lums", (unsigned long)self.responseTime];

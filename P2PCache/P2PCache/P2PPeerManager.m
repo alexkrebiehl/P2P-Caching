@@ -39,6 +39,7 @@
 {
     P2PPeerServer   *_peerServer;           // Us broadcasting to others that we offer a service
     P2PPeerLocator  *_peerLocatorService;   // Us seeking out other servers
+    NSMutableArray  *_foundPeers;           // List of peers (we'll probabibly do something better later)
 }
 
 
@@ -64,15 +65,14 @@ static P2PPeerManager *sharedInstance = nil;
 
 - (void)start
 {
+    // Make ourselves known to others
     _peerServer = [[P2PPeerServer alloc] init];
     [_peerServer beginBroadcasting];
     
-    
+    // Find some peeps
     _peerLocatorService = [[P2PPeerLocator alloc] init];
     [_peerLocatorService setDelegate:self];
     [_peerLocatorService beginSearching];
- 
-    
 }
 
 
@@ -80,7 +80,7 @@ static P2PPeerManager *sharedInstance = nil;
 {
     
     // Go through our peer data structure
-    return nil;
+    return _foundPeers;
 }
 
 
@@ -94,6 +94,13 @@ static P2PPeerManager *sharedInstance = nil;
     // shit like that
     LogSelector();
     NSLog(@"Peer: %@", peer);
+    
+    if (_foundPeers == nil)
+    {
+        _foundPeers = [[NSMutableArray alloc] init];
+    }
+    [_foundPeers addObject:peer];
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PPeerManagerPeerListUpdatedNotification object:self];
 }
 
 - (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeer *)peer
