@@ -1,5 +1,5 @@
 //
-//  P2PBonjourServer.m
+//  P2PPeerServer.m
 //  P2PCache
 //
 //  Created by Alex Krebiehl on 1/30/14.
@@ -15,12 +15,12 @@
     This Bonjour Server is "us" telling the rest of the network that we offer P2P services
  */
 
-#import "P2PBonjourServer.h"
+#import "P2PPeerServer.h"
 #import <netinet/in.h>
 #import <sys/socket.h>
 
 
-@implementation P2PBonjourServer
+@implementation P2PPeerServer
 {
     NSMutableArray      *_services;
     NSSocketPort        *_socket;
@@ -36,6 +36,15 @@
 }
 
 - (id)init
+{
+    if ( self = [super init] )
+    {
+        
+    }
+    return self;
+}
+
+- (void)beginBroadcasting
 {
     _services = [[NSMutableArray alloc] init];
     _socket = [[NSSocketPort alloc] init];
@@ -92,7 +101,6 @@
     {
         P2PLog( P2PLogLevelError, @"An error occurred initializing the NSSocketPort object." );
     }
-    return self;
 }
 
 #pragma mark - NSNetServiceDelegate

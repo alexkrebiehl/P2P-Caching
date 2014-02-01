@@ -7,8 +7,9 @@
 //
 
 #import "P2PPeerManager.h"
-#import "P2PBonjourServer.h"
-#import "P2PBonjourClient.h"
+#import "P2PPeerServer.h"
+#import "P2PPeerLocator.h"
+#import "P2PPeerLocatorProtocol.h"
 
 /**
  
@@ -31,13 +32,14 @@
 
 
 
-
+@interface P2PPeerManager()<P2PPeerLocatorProtocol>
+@end
 
 
 @implementation P2PPeerManager
 {
-    P2PBonjourServer *_bonjourServer;   // Us broadcasting to others that we offer a service
-    P2PBonjourClient *_bonjourClient;   // Us seeking out other servers
+    P2PPeerServer   *_peerServer;           // Us broadcasting to others that we offer a service
+    P2PPeerLocator  *_peerLocatorService;   // Us seeking out other servers
 }
 
 static P2PPeerManager *sharedInstance = nil;
@@ -55,22 +57,31 @@ static P2PPeerManager *sharedInstance = nil;
 
 - (void)start
 {
-    _bonjourServer = [[P2PBonjourServer alloc] init];
-    _bonjourClient = [[P2PBonjourClient alloc] init];
+    _peerServer = [[P2PPeerServer alloc] init];
+    [_peerServer beginBroadcasting];
     
-    // Tell other peers we are here!
-    [self announce];
+    
+    _peerLocatorService = [[P2PPeerLocator alloc] init];
+    [_peerLocatorService setDelegate:self];
+    [_peerLocatorService beginSearching];
     
 }
 
-- (void)announce
+- (NSArray *)findBestPeers:(NSUInteger)numberOfPeersToFind
 {
-    // Tell everyone else we exist
+    // Go through our peer data structure
+    return nil;
 }
 
-- (void)recieveAcknowledgementFromPeer//:(P2PPeerResponse *response)
+#pragma mark - P2PPeerLocator delegate methods
+- (void)peerLocator:(id<P2PPeerLocatorProtocol>)locator didFindPeer:(P2PPeer *)peer
 {
-    // A peer responded to our announcement
+    // probably add peer to an array here, maybe sort them by response time
+    // shit like that
+}
+
+- (void)peerLocator:(id<P2PPeerLocatorProtocol>)locator didLosePeer:(P2PPeer *)peer
+{
     
 }
 

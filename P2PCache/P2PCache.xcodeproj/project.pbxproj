@@ -27,11 +27,14 @@
 		FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E3189B229E00CA7E18 /* P2PLogging.m */; };
 		FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
-		FA3E9EE7189B5A06009FEB99 /* P2PBonjourServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PBonjourServer.m */; };
+		FA3E9EE7189B5A06009FEB99 /* P2PPeerServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PPeerServer.m */; };
 		FA3E9EE8189B5A18009FEB99 /* P2PCache.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; };
-		FA3E9EED189B5EFD009FEB99 /* P2PBonjourClient.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3E9EEB189B5EFD009FEB99 /* P2PBonjourClient.h */; };
-		FA3E9EEE189B5EFD009FEB99 /* P2PBonjourClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EEC189B5EFD009FEB99 /* P2PBonjourClient.m */; };
-		FA3E9EEF189B5EFD009FEB99 /* P2PBonjourClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EEC189B5EFD009FEB99 /* P2PBonjourClient.m */; };
+		FA3E9EED189B5EFD009FEB99 /* P2PPeerLocator.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3E9EEB189B5EFD009FEB99 /* P2PPeerLocator.h */; };
+		FA3E9EEE189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */; };
+		FA3E9EEF189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */; };
+		FA64EF3D189C7A4B00C35EFF /* P2PPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */; };
+		FA64EF3E189C7A4B00C35EFF /* P2PPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */; };
+		FA64EF3F189C7A4B00C35EFF /* P2PPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */; };
 		FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */; };
 		FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */; };
@@ -41,8 +44,8 @@
 		FAD685E9189B33D500CA7E18 /* CanonicalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685EB189B390700CA7E18 /* P2PPeerManager.h */; };
 		FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
-		FAD685F4189B41CF00CA7E18 /* P2PBonjourServer.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685F2189B41CF00CA7E18 /* P2PBonjourServer.h */; };
-		FAD685F5189B41CF00CA7E18 /* P2PBonjourServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PBonjourServer.m */; };
+		FAD685F4189B41CF00CA7E18 /* P2PPeerServer.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685F2189B41CF00CA7E18 /* P2PPeerServer.h */; };
+		FAD685F5189B41CF00CA7E18 /* P2PPeerServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PPeerServer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,8 +102,11 @@
 		FA3E9E90189B52FF009FEB99 /* P2PCache-iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2PCache-iOSTests-Info.plist"; sourceTree = "<group>"; };
 		FA3E9E92189B52FF009FEB99 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCache_iOSTests.m; sourceTree = "<group>"; };
-		FA3E9EEB189B5EFD009FEB99 /* P2PBonjourClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PBonjourClient.h; sourceTree = "<group>"; };
-		FA3E9EEC189B5EFD009FEB99 /* P2PBonjourClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PBonjourClient.m; sourceTree = "<group>"; };
+		FA3E9EEB189B5EFD009FEB99 /* P2PPeerLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerLocator.h; sourceTree = "<group>"; };
+		FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerLocator.m; sourceTree = "<group>"; };
+		FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeer.h; sourceTree = "<group>"; };
+		FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeer.m; sourceTree = "<group>"; };
+		FA64EF41189C7DA400C35EFF /* P2PPeerLocatorProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PPeerLocatorProtocol.h; sourceTree = "<group>"; };
 		FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PCacheProtocol.h; sourceTree = "<group>"; };
 		FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PCacheProtocol.m; sourceTree = "<group>"; };
 		FAD685E2189B229E00CA7E18 /* P2PLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PLogging.h; sourceTree = "<group>"; };
@@ -109,8 +115,8 @@
 		FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CanonicalRequest.m; sourceTree = "<group>"; };
 		FAD685EB189B390700CA7E18 /* P2PPeerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerManager.h; sourceTree = "<group>"; };
 		FAD685EC189B390700CA7E18 /* P2PPeerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerManager.m; sourceTree = "<group>"; };
-		FAD685F2189B41CF00CA7E18 /* P2PBonjourServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PBonjourServer.h; sourceTree = "<group>"; };
-		FAD685F3189B41CF00CA7E18 /* P2PBonjourServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PBonjourServer.m; sourceTree = "<group>"; };
+		FAD685F2189B41CF00CA7E18 /* P2PPeerServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerServer.h; sourceTree = "<group>"; };
+		FAD685F3189B41CF00CA7E18 /* P2PPeerServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerServer.m; sourceTree = "<group>"; };
 		FAD685F6189B454400CA7E18 /* P2P.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2P.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -155,6 +161,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA3924EB189C8395002B6324 /* Locating & Serving */ = {
+			isa = PBXGroup;
+			children = (
+				FAD685F2189B41CF00CA7E18 /* P2PPeerServer.h */,
+				FAD685F3189B41CF00CA7E18 /* P2PPeerServer.m */,
+				FA3E9EEB189B5EFD009FEB99 /* P2PPeerLocator.h */,
+				FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */,
+			);
+			name = "Locating & Serving";
+			sourceTree = "<group>";
+		};
 		FA3CA975189B1ACD00208607 = {
 			isa = PBXGroup;
 			children = (
@@ -291,12 +308,12 @@
 		FAD685F1189B41B200CA7E18 /* Peer Management */ = {
 			isa = PBXGroup;
 			children = (
+				FA64EF41189C7DA400C35EFF /* P2PPeerLocatorProtocol.h */,
 				FAD685EB189B390700CA7E18 /* P2PPeerManager.h */,
 				FAD685EC189B390700CA7E18 /* P2PPeerManager.m */,
-				FAD685F2189B41CF00CA7E18 /* P2PBonjourServer.h */,
-				FAD685F3189B41CF00CA7E18 /* P2PBonjourServer.m */,
-				FA3E9EEB189B5EFD009FEB99 /* P2PBonjourClient.h */,
-				FA3E9EEC189B5EFD009FEB99 /* P2PBonjourClient.m */,
+				FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */,
+				FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */,
+				FA3924EB189C8395002B6324 /* Locating & Serving */,
 			);
 			name = "Peer Management";
 			sourceTree = "<group>";
@@ -310,11 +327,12 @@
 			files = (
 				FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */,
 				FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */,
-				FAD685F4189B41CF00CA7E18 /* P2PBonjourServer.h in Headers */,
+				FAD685F4189B41CF00CA7E18 /* P2PPeerServer.h in Headers */,
 				FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */,
 				FAD685E4189B229E00CA7E18 /* P2PLogging.h in Headers */,
+				FA64EF3D189C7A4B00C35EFF /* P2PPeer.h in Headers */,
 				FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */,
-				FA3E9EED189B5EFD009FEB99 /* P2PBonjourClient.h in Headers */,
+				FA3E9EED189B5EFD009FEB99 /* P2PPeerLocator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,9 +481,10 @@
 			files = (
 				FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */,
 				FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */,
-				FA3E9EEE189B5EFD009FEB99 /* P2PBonjourClient.m in Sources */,
+				FA64EF3E189C7A4B00C35EFF /* P2PPeer.m in Sources */,
+				FA3E9EEE189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
 				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
-				FAD685F5189B41CF00CA7E18 /* P2PBonjourServer.m in Sources */,
+				FAD685F5189B41CF00CA7E18 /* P2PPeerServer.m in Sources */,
 				FAD685E9189B33D500CA7E18 /* CanonicalRequest.m in Sources */,
 				FAD685E5189B229E00CA7E18 /* P2PLogging.m in Sources */,
 			);
@@ -485,11 +504,12 @@
 			files = (
 				FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */,
 				FA3E9EE3189B5A06009FEB99 /* P2PCacheProtocol.m in Sources */,
-				FA3E9EEF189B5EFD009FEB99 /* P2PBonjourClient.m in Sources */,
+				FA64EF3F189C7A4B00C35EFF /* P2PPeer.m in Sources */,
+				FA3E9EEF189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
 				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
 				FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */,
 				FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */,
-				FA3E9EE7189B5A06009FEB99 /* P2PBonjourServer.m in Sources */,
+				FA3E9EE7189B5A06009FEB99 /* P2PPeerServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -818,6 +838,7 @@
 				FA3E9E97189B52FF009FEB99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FA3E9E9B189B52FF009FEB99 /* Build configuration list for PBXNativeTarget "P2PCache-iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -826,6 +847,7 @@
 				FA3E9E99189B52FF009FEB99 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

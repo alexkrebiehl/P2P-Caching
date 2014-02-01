@@ -19,7 +19,7 @@ void P2PLogToFile(NSString *message)
 
 void P2PLog( P2PLogLevel level, NSString *message, ... )
 {
-    if ( level >= logLevel )
+    if ( level >= LOG_LEVEL )
     {
         va_list args;
         va_start(args, message);

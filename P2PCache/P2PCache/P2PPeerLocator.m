@@ -1,17 +1,17 @@
 //
-//  P2PBonjourClient.m
+//  P2PPeerLocator.m
 //  P2PCache
 //
 //  Created by Alex Krebiehl on 1/30/14.
 //  Copyright (c) 2014 NKU Research. All rights reserved.
 //
 
-#import "P2PBonjourClient.h"
+#import "P2PPeerLocator.h"
 #import <netinet/in.h>
 #import <sys/socket.h>
 
 
-@implementation P2PBonjourClient
+@implementation P2PPeerLocator
 {
     NSMutableArray *services;
     NSNetServiceBrowser *serviceBrowser;
@@ -39,12 +39,20 @@
 
 -(id)init
 {
-    service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
-                                              type:P2P_BONJOUR_SERVICE_TYPE
-                                              name:P2P_BONJOUR_SERVICE_NAME];
-    [service setDelegate:self];
-    [service resolveWithTimeout:0.0];
+	if ( self = [super init] )
+	{
+
+	}
     return self;
+}
+
+- (void)beginSearching
+{
+	service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
+											  type:P2P_BONJOUR_SERVICE_TYPE
+											  name:P2P_BONJOUR_SERVICE_NAME];
+	[service setDelegate:self];
+	[service resolveWithTimeout:0.0];
 }
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)streamEvent
@@ -130,12 +138,13 @@
     address = [[netService addresses] objectAtIndex: 0];
     socketAddress = (struct sockaddr_in *) [address bytes];
     
-    /*  Not sure what this is about yet..... come back to it
-    ipString = [NSString stringWithFormat: @"%s",inet_ntoa(socketAddress->sin_addr)];
-     */
+    //  Not sure what this is about yet..... come back to it
+//    ipString = [NSString stringWithFormat: @"%s",inet_ntoa( socketAddress->sin_addr )];
+
+    //
     port = socketAddress->sin_port;
     // This will print the IP and port for you to connect to.
-    NSLog(@"%@", [NSString stringWithFormat:@"Resolved:%@-->%@:%hu\n", [service hostName], ipString, port]);
+    NSLog(@"%@", [NSString stringWithFormat:@"Resolved:%@-->%@:%d\n", [service hostName], ipString, port]);
     [self openStreams];
 }
 
@@ -162,15 +171,18 @@
     NSLog(@"didRemoveDomain");
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing {
-    NSLog(@"didFindService: %@  lenght:%d",netService.name,[netService.name length]);
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
+{
+    NSLog(@"didFindService: %@  lenght:%lu",netService.name,(unsigned long)[netService.name length]);
     if ( [netService.name isEqualToString:P2P_BONJOUR_SERVICE_NAME] )
     {
-        NSLog(@"didFindService: %@",netService.addresses);
+        NSLog( @"Found P2P Service: %@", netService.addresses );
+        
         NSInputStream		*inStream;
         NSOutputStream		*outStream;
-        if (![netService getInputStream:&inStream outputStream:&outStream]) {
-            NSLog(@"Failed connecting to server");
+        if ( ![netService getInputStream:&inStream outputStream:&outStream] )
+        {
+            P2PLog( P2PLogLevelError, @"Failed connecting to server" );
             return;
         }
         _inStream=inStream;
@@ -178,12 +190,12 @@
     }
     else
     {
-        NSLog(@"found other service: %@", netService.name);
+//        P2PLog( P2PLogLevelDebug, @"found other service: %@", netService.name );
     }
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing {
-    NSLog(@"didRemoveService");
+    NSLog(@"didRemoveService: %@", netService.name);
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didNotSearch:(NSDictionary *)errorInfo {
