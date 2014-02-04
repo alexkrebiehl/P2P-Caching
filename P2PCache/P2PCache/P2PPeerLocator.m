@@ -287,6 +287,7 @@ const NSString *P2PPeerLocatorPeerPortKey =     @"P2PPeerLocatorPeerPortKey";
 - (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser {
 //    NSLog(@"netServiceBrowserDidStopSearch");
     LogSelector();
+    NSAssert(NO, @"Why did we stop?");
 }
 
 
