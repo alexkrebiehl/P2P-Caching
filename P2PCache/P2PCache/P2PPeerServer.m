@@ -156,7 +156,6 @@
     [_services removeObject:netService];
 }
 
-static NSInputStream *s = nil;
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
     NSLog(@"******* P2P SERVER DID ACCEPT STREAM CONNECTION ******");
@@ -169,7 +168,6 @@ static NSInputStream *s = nil;
     [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [outputStream open];
 }
-
 
 #pragma mark - NSStream Delegate Methods
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode

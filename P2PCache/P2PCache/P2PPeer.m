@@ -64,7 +64,7 @@
     NSOutputStream		*outStream;
     if ( [_netService getInputStream:&inStream outputStream:&outStream] )
     {
-        NSLog(@"Successfully connected to peer's stream");
+        NSLog(@"PEER Successfully connected to peer's stream");
         _inStream = inStream;
         _outStream = outStream;
         
