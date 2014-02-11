@@ -37,7 +37,7 @@ static const NSTimeInterval peerResortInterval = 10;    // Resort the peer list 
                                                         // I already feel dirty for doing it this way
                                                         // I'll think of a better way later
 
-@interface P2PPeerManager()<P2PPeerLocatorDelegate>
+@interface P2PPeerManager()<P2PPeerProtocol, P2PPeerLocatorDelegate>
 @end
 
 
@@ -83,7 +83,7 @@ static P2PPeerManager *sharedInstance = nil;
 }
 
 
-- (NSArray *)findBestPeers:(NSUInteger)numberOfPeersToFind
+- (NSArray *)peerList
 {
     /*
      
@@ -109,7 +109,7 @@ static P2PPeerManager *sharedInstance = nil;
             {
                 return NSOrderedAscending;
             }
-            else if (obj1.responseTime > obj2.responseTime )
+            else if ( obj1.responseTime > obj2.responseTime )
             {
                 return NSOrderedDescending;
             }
@@ -137,12 +137,26 @@ static P2PPeerManager *sharedInstance = nil;
         _foundPeers = [[NSMutableArray alloc] init];
     }
     [_foundPeers addObject:peer];
-    [[NSNotificationCenter defaultCenter] postNotificationName:P2PPeerManagerPeerListUpdatedNotification object:self];
+    peer.delegate = self;
+    [peer preparePeer];
+    
 }
 
 - (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeer *)peer
 {
     [_foundPeers removeObject:peer];
+}
+
+
+#pragma mark - P2PPeer Delegate Methods
+- (void)peerDidBecomeReady:(P2PPeer *)peer
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PPeerManagerPeerListUpdatedNotification object:self];
+}
+
+- (void)peerIsNoLongerReady:(P2PPeer *)peer
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PPeerManagerPeerListUpdatedNotification object:self];
 }
 
 @end

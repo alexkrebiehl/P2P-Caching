@@ -24,7 +24,7 @@
 
 - (void)peersUpdatedNotification:(NSNotification *)notification
 {
-    NSUInteger numPeers = [[[P2PPeerManager sharedManager] findBestPeers:NSUIntegerMax] count];
+    NSUInteger numPeers = [[[P2PPeerManager sharedManager] peerList] count];
     [self.peersFoundLabel setStringValue:[NSString stringWithFormat:@"Peers found: %lu", (unsigned long)numPeers]];
 }
 

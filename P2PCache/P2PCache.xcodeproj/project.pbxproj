@@ -40,6 +40,12 @@
 		FA64EF3E189C7A4B00C35EFF /* P2PPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */; };
 		FA64EF3F189C7A4B00C35EFF /* P2PPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */; };
 		FAB2E159189D5F350081ECA3 /* P2PPeer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */; };
+		FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FABA8DBD18A5825E00115463 /* P2PFileManager.h */; };
+		FABA8DC018A5825E00115463 /* P2PFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DBE18A5825E00115463 /* P2PFileManager.m */; };
+		FABA8DC118A5825E00115463 /* P2PFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DBE18A5825E00115463 /* P2PFileManager.m */; };
+		FABA8DC418A5829200115463 /* P2PFileChunk.h in Headers */ = {isa = PBXBuildFile; fileRef = FABA8DC218A5829200115463 /* P2PFileChunk.h */; };
+		FABA8DC518A5829200115463 /* P2PFileChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DC318A5829200115463 /* P2PFileChunk.m */; };
+		FABA8DC618A5829200115463 /* P2PFileChunk.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DC318A5829200115463 /* P2PFileChunk.m */; };
 		FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */; };
 		FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */; };
@@ -117,6 +123,10 @@
 		FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerLocator.m; sourceTree = "<group>"; };
 		FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeer.h; sourceTree = "<group>"; };
 		FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeer.m; sourceTree = "<group>"; };
+		FABA8DBD18A5825E00115463 /* P2PFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileManager.h; sourceTree = "<group>"; };
+		FABA8DBE18A5825E00115463 /* P2PFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileManager.m; sourceTree = "<group>"; };
+		FABA8DC218A5829200115463 /* P2PFileChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileChunk.h; sourceTree = "<group>"; };
+		FABA8DC318A5829200115463 /* P2PFileChunk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileChunk.m; sourceTree = "<group>"; };
 		FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PCacheProtocol.h; sourceTree = "<group>"; };
 		FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PCacheProtocol.m; sourceTree = "<group>"; };
 		FAD685E2189B229E00CA7E18 /* P2PLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PLogging.h; sourceTree = "<group>"; };
@@ -284,6 +294,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		FABA8DBC18A5823B00115463 /* File Management */ = {
+			isa = PBXGroup;
+			children = (
+				FABA8DBD18A5825E00115463 /* P2PFileManager.h */,
+				FABA8DBE18A5825E00115463 /* P2PFileManager.m */,
+				FABA8DC218A5829200115463 /* P2PFileChunk.h */,
+				FABA8DC318A5829200115463 /* P2PFileChunk.m */,
+			);
+			name = "File Management";
+			sourceTree = "<group>";
+		};
 		FAD685EA189B35BA00CA7E18 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -310,6 +331,7 @@
 		FAD685F0189B3C5400CA7E18 /* Private Framework Classes */ = {
 			isa = PBXGroup;
 			children = (
+				FABA8DBC18A5823B00115463 /* File Management */,
 				FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */,
 				FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */,
 				FAD685EA189B35BA00CA7E18 /* Utility */,
@@ -339,8 +361,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */,
+				FABA8DC418A5829200115463 /* P2PFileChunk.h in Headers */,
 				FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */,
 				FA64EF3D189C7A4B00C35EFF /* P2PPeer.h in Headers */,
+				FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */,
 				FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */,
 				FA3924F5189CC94F002B6324 /* SimplePing.h in Headers */,
 				FAD685F4189B41CF00CA7E18 /* P2PPeerServer.h in Headers */,
@@ -501,6 +525,8 @@
 				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
 				FAD685F5189B41CF00CA7E18 /* P2PPeerServer.m in Sources */,
 				FAD685E9189B33D500CA7E18 /* CanonicalRequest.m in Sources */,
+				FABA8DC018A5825E00115463 /* P2PFileManager.m in Sources */,
+				FABA8DC518A5829200115463 /* P2PFileChunk.m in Sources */,
 				FAD685E5189B229E00CA7E18 /* P2PLogging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +551,8 @@
 				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
 				FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */,
 				FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */,
+				FABA8DC118A5825E00115463 /* P2PFileManager.m in Sources */,
+				FABA8DC618A5829200115463 /* P2PFileChunk.m in Sources */,
 				FA3E9EE7189B5A06009FEB99 /* P2PPeerServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

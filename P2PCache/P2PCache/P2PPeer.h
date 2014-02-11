@@ -17,6 +17,18 @@
 #define P2P_PEER_RESPONSE_INTERVAL 10               // How often we should ping the peer
 #define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10    // 10% wiggle room on when our timer runs
 
+@class P2PPeer;
+
+@protocol P2PPeerProtocol <NSObject>
+
+- (void)peerDidBecomeReady:(P2PPeer *)peer;
+- (void)peerIsNoLongerReady:(P2PPeer *)peer;
+
+@end
+
+
+
+
 static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time until we recieve an echo from ping
 
 
@@ -24,12 +36,19 @@ static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time un
 
 @interface P2PPeer : NSObject
 
+@property (weak, nonatomic) id<P2PPeerProtocol> delegate;
+
 @property (copy, nonatomic, readonly) NSString *ipAddress;  // Peer's IP address
 @property (copy, nonatomic, readonly) NSString *domain;     // Peer's resolved domain
 @property (nonatomic, readonly) NSUInteger port;            // Port number
 @property (nonatomic, readonly) float responseTime;         // ping in milliseconds
 
+@property (strong, nonatomic, readonly) NSNetService *netService;
+@property (nonatomic, readonly) bool peerIsReady;
 
+
+- (id)initWithNetService:(NSNetService *)netService;
+- (void)preparePeer;
 
 /** Create a new object representing a peer
  @param ipAddress The peer's IP Address
@@ -38,7 +57,7 @@ static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time un
  
  @return A new peer object
  */
-- (id)initWithIpAddress:(NSString *)ipAddress port:(NSUInteger)port domain:(NSString *)domain;
+//- (id)initWithIpAddress:(NSString *)ipAddress port:(NSUInteger)port domain:(NSString *)domain;
 
 
 
@@ -46,7 +65,7 @@ static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time un
  Scheduled automatically when the object is created, so this never really needs
  to be called explicity 
  */
-- (void)startUpdatingResponseTime;
+//- (void)startUpdatingResponseTime;
 
 
 

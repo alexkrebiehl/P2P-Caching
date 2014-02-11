@@ -62,7 +62,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Display all found peers
-    return [[[P2PPeerManager sharedManager] findBestPeers:NSUIntegerMax] count];
+    return [[[P2PPeerManager sharedManager] peerList] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,7 +74,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    P2PPeer *aPeer = [[[P2PPeerManager sharedManager] findBestPeers:NSUIntegerMax] objectAtIndex:indexPath.row];
+    P2PPeer *aPeer = [[[P2PPeerManager sharedManager] peerList] objectAtIndex:indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@", aPeer.ipAddress];
     
     return cell;
