@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class P2PFileRequest;
+
 @interface P2PCache : NSObject
 
 /** Where the fun starts */
@@ -15,5 +17,8 @@
 
 /** Power down, captain */
 + (void)shutdown;
+
+/** We probably wont do it this way down the road, but it will make initial testing easier */
++ (P2PFileRequest *)requestFileWithName:(NSString *)filename;
 
 @end

@@ -9,6 +9,7 @@
 #import "P2PAppDelegate.h"
 #import "P2PCache/P2PCache.h"
 #import "P2PPeerManager.h"
+#import "P2PFileRequest.h"
 
 @implementation P2PAppDelegate
 
@@ -40,4 +41,10 @@
     return NSTerminateNow;
 }
 
+- (IBAction)requestFileButtonPressed:(id)sender
+{
+    P2PFileRequest *request = [P2PCache requestFileWithName:@"this_is_a_test.jpg"];
+    [request getFile];
+    
+}
 @end

@@ -13,10 +13,10 @@
 #define P2PCache_P2P_h
 
 // Bonjour (peer discovery) settings
-#define P2P_BONJOUR_SERVICE_DOMAIN  @"local."
+#define P2P_BONJOUR_SERVICE_DOMAIN  @""  //@"local."
 #define P2P_BONJOUR_SERVICE_TYPE    @"_http._tcp."
 #define P2P_BONJOUR_SERVICE_NAME    @"NKU P2P Web Caching"
-#define P2P_BONJOUR_SERVICE_PORT    55345
+#define P2P_BONJOUR_SERVICE_PORT    0 //55345
 
 // Global imports
 #import "Utilities.h"

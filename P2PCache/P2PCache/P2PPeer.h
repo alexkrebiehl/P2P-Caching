@@ -17,7 +17,7 @@
 #define P2P_PEER_RESPONSE_INTERVAL 10               // How often we should ping the peer
 #define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10    // 10% wiggle room on when our timer runs
 
-@class P2PPeer;
+@class P2PPeer, P2PFileRequest;
 
 @protocol P2PPeerProtocol <NSObject>
 
@@ -49,6 +49,10 @@ static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time un
 
 - (id)initWithNetService:(NSNetService *)netService;
 - (void)preparePeer;
+
+
+// File Handling
+- (void)getFileAvailabilityForRequest:(P2PFileRequest *)request;
 
 /** Create a new object representing a peer
  @param ipAddress The peer's IP Address

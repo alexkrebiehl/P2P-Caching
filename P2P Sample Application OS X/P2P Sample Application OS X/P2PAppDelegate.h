@@ -12,5 +12,6 @@
 
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSTextField *peersFoundLabel;
+- (IBAction)requestFileButtonPressed:(id)sender;
 
 @end

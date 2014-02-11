@@ -27,12 +27,18 @@
     NSNetService        *_service;
     struct sockaddr     *_addr;
     int                 _port;
-    BOOL                _searching;
+//    BOOL                _searching;
     NSInputStream		*_inputStream;
 	NSOutputStream		*_outputStream;
 	BOOL				_inReady;
 	BOOL				_outReady;
     NSMutableData       *_dataBuffer;
+    
+    
+    
+    
+    
+    NSMutableData *_inStreamBuffer;
 }
 
 - (id)init
@@ -48,7 +54,7 @@
 {
     _services = [[NSMutableArray alloc] init];
     _socket = [[NSSocketPort alloc] init];
-    _searching = NO;
+//    _searching = NO;
     
     if ( _socket != nil )
     {
@@ -77,19 +83,22 @@
     
     if ( socket != nil )
     {
+        
+        
         _service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
                                                    type:P2P_BONJOUR_SERVICE_TYPE
                                                    name:P2P_BONJOUR_SERVICE_NAME
-                                                   port:P2P_BONJOUR_SERVICE_PORT];
+                                                   port:0];
         
-        if ([_service getInputStream:&_inputStream outputStream:&_outputStream]) {
-            P2PLog( P2PLogLevelDebug, @"service has stream references" );
-        }
+//        if ( [_service getInputStream:&_inputStream outputStream:&_outputStream] )
+//        {
+//            P2PLog( P2PLogLevelDebug, @"service has stream references" );
+//        }
         
         if ( _service != nil)
         {
             [_service setDelegate:self];
-            [_service publish];
+            [_service publishWithOptions:NSNetServiceListenForConnections];
         }
         else
         {
@@ -105,46 +114,111 @@
 
 #pragma mark - NSNetServiceDelegate
 
-- (void)netServiceWillPublish:(NSNetService *)netService {
-//    NSLog(@"netServiceWillPublish");
+- (void)netServiceWillPublish:(NSNetService *)netService
+{
     LogSelector();
     [_services addObject:netService];
 }
 
-- (void)netServiceDidPublish:(NSNetService *)sender {
-//    NSLog(@"netServiceDidPublish");
+- (void)netServiceDidPublish:(NSNetService *)sender
+{
     LogSelector();
 }
 
-- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict {
-//    NSLog(@"didNotPublish");
+- (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict
+{
     LogSelector();
 }
 
-- (void)netServiceWillResolve:(NSNetService *)sender {
-//    NSLog(@"netServiceWillResolve");
+- (void)netServiceWillResolve:(NSNetService *)sender
+{
     LogSelector();
 }
 
-- (void)netServiceDidResolveAddress:(NSNetService *)sender {
-//    NSLog(@"netServiceDidResolveAddress");
+- (void)netServiceDidResolveAddress:(NSNetService *)sender
+{
     LogSelector();
 }
 
-- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict {
-//    NSLog(@"didNotResolve");
+- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
+{
     LogSelector();
 }
 
-- (void)netService:(NSNetService *)sender didUpdateTXTRecordData:(NSData *)data {
-//    NSLog(@"didUpdateTXTRecordData");
+- (void)netService:(NSNetService *)sender didUpdateTXTRecordData:(NSData *)data
+{
     LogSelector();
 }
 
-- (void)netServiceDidStop:(NSNetService *)netService {
-//    NSLog(@"netServiceDidStop");
+- (void)netServiceDidStop:(NSNetService *)netService
+{
     LogSelector();
     [_services removeObject:netService];
+}
+
+static NSInputStream *s = nil;
+- (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
+{
+    NSLog(@"******* P2P SERVER DID ACCEPT STREAM CONNECTION ******");
+    
+    inputStream.delegate = self;
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream open];
+    
+    outputStream.delegate = self;
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream open];
+}
+
+
+#pragma mark - NSStream Delegate Methods
+- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
+{
+    NSLog(@"SERVER STREAM EVENT");
+    NSInputStream * istream;
+    switch ( eventCode )
+    {
+        case NSStreamEventHasBytesAvailable:
+            NSLog(@"SERVER NSStreamEventHasBytesAvailable");
+            uint8_t oneByte;
+            NSInteger actuallyRead = 0;
+            istream = (NSInputStream *)aStream;
+            if ( _inStreamBuffer == nil )
+            {
+                _inStreamBuffer = [[NSMutableData alloc] initWithCapacity:2048];
+            }
+            actuallyRead = [istream read:&oneByte maxLength:1];
+            if (actuallyRead == 1)
+            {
+                [_inStreamBuffer appendBytes:&oneByte length:1];
+            }
+            if (oneByte == '\n') {
+                // We've got the carriage return at the end of the echo. Let's set the string.
+                NSString * string = [[NSString alloc] initWithData:_inStreamBuffer encoding:NSUTF8StringEncoding];
+                NSLog(@"p2ppeer recieved data: %@",string);
+                _inStreamBuffer = nil;
+            }
+            break;
+        case NSStreamEventEndEncountered:
+            NSLog(@"SERVER NSStreamEventEndEncountered");
+            //[self closeStreams];
+            break;
+        case NSStreamEventHasSpaceAvailable:
+            NSLog(@"SERVER %@ NSStreamEventHasSpaceAvailable", aStream);
+//            [self workOutputBuffer];
+            break;
+        case NSStreamEventErrorOccurred:
+            NSLog(@"SERVER NSStreamEventErrorOccurred");
+            break;
+        case NSStreamEventOpenCompleted:
+            NSLog(@"SERVER %@ NSStreamEventOpenCompleted", aStream);
+            break;
+        case NSStreamEventNone:
+            NSLog(@"SERVER NSStreamEventNone");
+        default:
+            break;
+    }
+    
 }
 
 

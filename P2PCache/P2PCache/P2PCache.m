@@ -9,6 +9,7 @@
 #import "P2PCache.h"
 #import "P2PCacheProtocol.h"
 #import "P2PPeerManager.h"
+#import "P2PFileRequest.h"
 
 @implementation P2PCache
 
@@ -31,6 +32,12 @@
 + (void)shutdown
 {
     
+}
+
++ (P2PFileRequest *)requestFileWithName:(NSString *)filename
+{
+    P2PFileRequest *request = [[P2PFileRequest alloc] initWithFileName:filename];
+    return request;
 }
 
 @end

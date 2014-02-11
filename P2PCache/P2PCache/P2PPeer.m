@@ -10,6 +10,9 @@
 
 #import "P2PPeer.h"
 #import "SimplePing.h"
+#import "P2PFileRequest.h"
+#import "P2PPeerFileAvailbilityResponse.h"
+#import "P2PPeerFileAvailibilityRequest.h"
 
 @interface P2PPeer() <NSNetServiceDelegate, NSStreamDelegate>//   <SimplePingDelegate>
 
@@ -25,27 +28,28 @@
 {
     NSInputStream *_inStream;
     NSOutputStream *_outStream;
+    
     NSMutableData *_inStreamBuffer;
+    NSMutableData *_outStreamBuffer;
+    
+    NSMutableArray *_pendingFileAvailibilityRequests;
 }
 
 - (id)init
 {
-//    return [self initWithIpAddress:nil port:0 domain:nil];
-    return nil;
+    return [self initWithNetService:nil];
 }
 
 - (id)initWithNetService:(NSNetService *)netService
 {
     if ( self = [super init] )
     {
+        NSAssert( netService != nil, @"Cannot init with a nil netService!" );
+        
         _peerIsReady = NO;
         
         _netService = netService;
         _netService.delegate = self;
-        
-//        [self getAddressAndPort];
-        
-        
     }
     return self;
 }
@@ -85,14 +89,11 @@
 #pragma mark - Stream Delegate Methods
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
 {
-    
-    // We only have to really worry about events from the incomming stream here
-    NSLog(@"handleEvent: %lu",eventCode);
     NSInputStream * istream;
     switch ( eventCode )
     {
         case NSStreamEventHasBytesAvailable:
-            NSLog(@"NSStreamEventHasBytesAvailable");
+            NSLog(@"PEER NSStreamEventHasBytesAvailable");
             uint8_t oneByte;
             NSInteger actuallyRead = 0;
             istream = (NSInputStream *)aStream;
@@ -108,25 +109,26 @@
             if (oneByte == '\n') {
                 // We've got the carriage return at the end of the echo. Let's set the string.
                 NSString * string = [[NSString alloc] initWithData:_inStreamBuffer encoding:NSUTF8StringEncoding];
-                NSLog(@"%@",string);
+                NSLog(@"PEER recieved data: %@",string);
                 _inStreamBuffer = nil;
             }
             break;
         case NSStreamEventEndEncountered:
-            NSLog(@"NSStreamEventEndEncountered");
+            NSLog(@"PEER NSStreamEventEndEncountered");
             //[self closeStreams];
             break;
         case NSStreamEventHasSpaceAvailable:
-            NSLog(@"NSStreamEventHasSpaceAvailable");
+            NSLog(@"PEER %@ NSStreamEventHasSpaceAvailable", aStream);
+            [self workOutputBuffer];
             break;
         case NSStreamEventErrorOccurred:
-            NSLog(@"NSStreamEventErrorOccurred");
+            NSLog(@"PEER NSStreamEventErrorOccurred");
             break;
         case NSStreamEventOpenCompleted:
-            NSLog(@"NSStreamEventOpenCompleted");
+            NSLog(@"PEER %@ NSStreamEventOpenCompleted", aStream);
             break;
         case NSStreamEventNone:
-            NSLog(@"NSStreamEventNone");
+            NSLog(@"PEER NSStreamEventNone");
         default:
             break;
     }
@@ -137,7 +139,7 @@
 // Some insight from StackOverflow...
 // http://stackoverflow.com/questions/938521/iphone-bonjour-nsnetservice-ip-address-and-port/4976808#4976808
 // Convert binary NSNetService data to an IP Address string
-- (void)getAddressAndPort//FromData:(NSData *)data
+- (void)getAddressAndPort
 {
     NSData *data = [[_netService addresses] objectAtIndex:0];
     
@@ -190,11 +192,116 @@
     [self.delegate peerIsNoLongerReady:self];
 }
 
+- (void)transmitDataToPeer:(NSData *)data
+{
+    [_outStreamBuffer appendData:data];
+    [self workOutputBuffer];
+}
+
+- (void)workOutputBuffer
+{
+    if ( _outStreamBuffer != nil )
+    {
+        NSInteger bytesWritten = 0;
+        while ( _outStreamBuffer.length > bytesWritten )
+        {
+            if ( _outStream.hasSpaceAvailable )
+            {
+                // If we're here, the buffer is full.  We should get an NSStreamEventHasSpaceAvailable event
+                // soon, and then we'll call this method again.
+                
+                
+                // Remove what we were able to write from the buffer.  This is a bad (slow) way of doing it though
+                // Will have to replace this with a higher-performance method in the future
+                [_outStreamBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+                return;
+            }
+            
+            //sending NSData over to server
+            NSInteger writeResult = [_outStream write:[_outStreamBuffer bytes]+bytesWritten
+                                            maxLength:[_outStreamBuffer length]-bytesWritten];
+            if ( writeResult == -1 )
+                NSLog(@"error code here");
+            else
+                bytesWritten += writeResult;
+            
+            
+        }
+        NSLog(@"finished transmitting data to peer");
+        _outStreamBuffer = [[NSMutableData alloc] init]; // Reset buffer
+    }
+}
+
+- (void)recievedDataFromPeer:(NSData *)data
+{
+    id recievedObject = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    // figure out what to do with the object
+    if ( [recievedObject isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] )
+    {
+        [self didRecieveFileAvailabilityResponse:recievedObject];
+    }
+}
+
+
 #pragma mark - NetService Delegate Methods
 - (void)netServiceDidResolveAddress:(NSNetService *)sender
 {
     [self getAddressAndPort];
 }
+
+
+
+
+
+
+#pragma mark - File Handling
+- (void)getFileAvailabilityForRequest:(P2PFileRequest *)request
+{
+    if ( _pendingFileAvailibilityRequests == nil )
+    {
+        _pendingFileAvailibilityRequests = [[NSMutableArray alloc] init];
+    }
+    
+    [_pendingFileAvailibilityRequests addObject:request];
+    
+    // Package request up and send it off
+    P2PPeerFileAvailibilityRequest *availibilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileName:request.fileName];
+    [self transmitDataToPeer:[NSKeyedArchiver archivedDataWithRootObject:availibilityRequest]];
+    NSLog(@"File availability request sent to peer: %@", self);
+    
+}
+
+- (void)didRecieveFileAvailabilityResponse:(P2PPeerFileAvailbilityResponse *)response
+{
+    // Find out what request this response is for...
+    for ( P2PFileRequest *aRequest in _pendingFileAvailibilityRequests )
+    {
+        //good enough for now..
+        if ( [aRequest.fileName isEqualToString:response.fileName] )
+        {
+            // found the request.....
+            [aRequest peer:self didRecieveAvailibilityResponse:response];
+            [_pendingFileAvailibilityRequests removeObject:aRequest];
+            return;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Designated initializer */
 //- (id)initWithIpAddress:(NSString *)ipAddress port:(NSUInteger)port domain:(NSString *)domain
