@@ -12,3 +12,4 @@
 #define LogSelector() NSLog(@"[%@] %@", [self class], NSStringFromSelector(_cmd))
 
 #endif
+

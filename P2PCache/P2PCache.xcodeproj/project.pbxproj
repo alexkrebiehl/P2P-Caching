@@ -49,6 +49,9 @@
 		FA64EF3D189C7A4B00C35EFF /* P2PPeer.h in Headers */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA64EF3E189C7A4B00C35EFF /* P2PPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */; };
 		FA64EF3F189C7A4B00C35EFF /* P2PPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */; };
+		FA7382BB18AAD01300456590 /* P2PNetworkTool.h in Headers */ = {isa = PBXBuildFile; fileRef = FA7382B918AAD01300456590 /* P2PNetworkTool.h */; };
+		FA7382BC18AAD01300456590 /* P2PNetworkTool.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7382BA18AAD01300456590 /* P2PNetworkTool.m */; };
+		FA7382BD18AAD01300456590 /* P2PNetworkTool.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7382BA18AAD01300456590 /* P2PNetworkTool.m */; };
 		FAB2E159189D5F350081ECA3 /* P2PPeer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */; };
 		FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FABA8DBD18A5825E00115463 /* P2PFileManager.h */; };
 		FABA8DC018A5825E00115463 /* P2PFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DBE18A5825E00115463 /* P2PFileManager.m */; };
@@ -67,6 +70,9 @@
 		FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
 		FAD685F4189B41CF00CA7E18 /* P2PPeerServer.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685F2189B41CF00CA7E18 /* P2PPeerServer.h */; };
 		FAD685F5189B41CF00CA7E18 /* P2PPeerServer.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PPeerServer.m */; };
+		FAF5F3CC18AC6B73002B97BF /* P2PNode.h in Headers */ = {isa = PBXBuildFile; fileRef = FAF5F3CA18AC6B73002B97BF /* P2PNode.h */; };
+		FAF5F3CD18AC6B73002B97BF /* P2PNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF5F3CB18AC6B73002B97BF /* P2PNode.m */; };
+		FAF5F3CE18AC6B73002B97BF /* P2PNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF5F3CB18AC6B73002B97BF /* P2PNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +146,8 @@
 		FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerLocator.m; sourceTree = "<group>"; };
 		FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeer.h; sourceTree = "<group>"; };
 		FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeer.m; sourceTree = "<group>"; };
+		FA7382B918AAD01300456590 /* P2PNetworkTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PNetworkTool.h; sourceTree = "<group>"; };
+		FA7382BA18AAD01300456590 /* P2PNetworkTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PNetworkTool.m; sourceTree = "<group>"; };
 		FABA8DBD18A5825E00115463 /* P2PFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileManager.h; sourceTree = "<group>"; };
 		FABA8DBE18A5825E00115463 /* P2PFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileManager.m; sourceTree = "<group>"; };
 		FABA8DC218A5829200115463 /* P2PFileChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileChunk.h; sourceTree = "<group>"; };
@@ -155,6 +163,8 @@
 		FAD685F2189B41CF00CA7E18 /* P2PPeerServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerServer.h; sourceTree = "<group>"; };
 		FAD685F3189B41CF00CA7E18 /* P2PPeerServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerServer.m; sourceTree = "<group>"; };
 		FAD685F6189B454400CA7E18 /* P2P.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2P.h; sourceTree = "<group>"; };
+		FAF5F3CA18AC6B73002B97BF /* P2PNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PNode.h; sourceTree = "<group>"; };
+		FAF5F3CB18AC6B73002B97BF /* P2PNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -381,6 +391,10 @@
 				FA64EF3B189C7A4B00C35EFF /* P2PPeer.h */,
 				FA64EF3C189C7A4B00C35EFF /* P2PPeer.m */,
 				FA3924EB189C8395002B6324 /* Locating & Serving */,
+				FA7382B918AAD01300456590 /* P2PNetworkTool.h */,
+				FA7382BA18AAD01300456590 /* P2PNetworkTool.m */,
+				FAF5F3CA18AC6B73002B97BF /* P2PNode.h */,
+				FAF5F3CB18AC6B73002B97BF /* P2PNode.m */,
 			);
 			name = "Peer Management";
 			sourceTree = "<group>";
@@ -400,8 +414,10 @@
 				FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */,
 				FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */,
 				FA3924F5189CC94F002B6324 /* SimplePing.h in Headers */,
+				FAF5F3CC18AC6B73002B97BF /* P2PNode.h in Headers */,
 				FAD685F4189B41CF00CA7E18 /* P2PPeerServer.h in Headers */,
 				FAD685E4189B229E00CA7E18 /* P2PLogging.h in Headers */,
+				FA7382BB18AAD01300456590 /* P2PNetworkTool.h in Headers */,
 				FA3974CF18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.h in Headers */,
 				FA3974BF18A9C1AF007FCD93 /* P2PFileRequest.h in Headers */,
 				FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */,
@@ -558,6 +574,7 @@
 				FA64EF3E189C7A4B00C35EFF /* P2PPeer.m in Sources */,
 				FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA3E9EEE189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
+				FA7382BC18AAD01300456590 /* P2PNetworkTool.m in Sources */,
 				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
 				FA3974D018A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,
 				FAD685F5189B41CF00CA7E18 /* P2PPeerServer.m in Sources */,
@@ -565,6 +582,7 @@
 				FABA8DC018A5825E00115463 /* P2PFileManager.m in Sources */,
 				FABA8DC518A5829200115463 /* P2PFileChunk.m in Sources */,
 				FA3974CA18A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.m in Sources */,
+				FAF5F3CD18AC6B73002B97BF /* P2PNode.m in Sources */,
 				FA3974C018A9C1AF007FCD93 /* P2PFileRequest.m in Sources */,
 				FAD685E5189B229E00CA7E18 /* P2PLogging.m in Sources */,
 			);
@@ -587,6 +605,7 @@
 				FA64EF3F189C7A4B00C35EFF /* P2PPeer.m in Sources */,
 				FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA3E9EEF189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
+				FA7382BD18AAD01300456590 /* P2PNetworkTool.m in Sources */,
 				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
 				FA3974D118A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,
 				FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */,
@@ -594,6 +613,7 @@
 				FABA8DC118A5825E00115463 /* P2PFileManager.m in Sources */,
 				FABA8DC618A5829200115463 /* P2PFileChunk.m in Sources */,
 				FA3974CB18A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.m in Sources */,
+				FAF5F3CE18AC6B73002B97BF /* P2PNode.m in Sources */,
 				FA3974C118A9C1AF007FCD93 /* P2PFileRequest.m in Sources */,
 				FA3E9EE7189B5A06009FEB99 /* P2PPeerServer.m in Sources */,
 			);

@@ -14,6 +14,8 @@
 #import "P2PPeerFileAvailbilityResponse.h"
 #import "P2PPeerFileAvailibilityRequest.h"
 
+#import "P2PNetworkTool.h"
+
 @interface P2PPeer() <NSNetServiceDelegate, NSStreamDelegate>//   <SimplePingDelegate>
 
 // Private Properties
@@ -119,7 +121,9 @@
             break;
         case NSStreamEventHasSpaceAvailable:
             NSLog(@"PEER %@ NSStreamEventHasSpaceAvailable", aStream);
+
             [self workOutputBuffer];
+
             break;
         case NSStreamEventErrorOccurred:
             NSLog(@"PEER NSStreamEventErrorOccurred");
@@ -141,43 +145,46 @@
 // Convert binary NSNetService data to an IP Address string
 - (void)getAddressAndPort
 {
-    NSData *data = [[_netService addresses] objectAtIndex:0];
-    
-    char addressBuffer[INET6_ADDRSTRLEN];
-    
-    memset(addressBuffer, 0, INET6_ADDRSTRLEN);
-    
-    typedef union
+    if ( [[_netService addresses] count] > 0 )
     {
-        struct sockaddr sa;
-        struct sockaddr_in ipv4;
-        struct sockaddr_in6 ipv6;
-    } ip_socket_address;
-    
-    ip_socket_address *socketAddress = (ip_socket_address *)[data bytes];
-    
-    if ( socketAddress && (socketAddress->sa.sa_family == AF_INET || socketAddress->sa.sa_family == AF_INET6) )
-    {
-        const char *addressStr = inet_ntop( socketAddress->sa.sa_family,
-                                           (socketAddress->sa.sa_family == AF_INET ? (void *)&(socketAddress->ipv4.sin_addr) : (void *)&(socketAddress->ipv6.sin6_addr)),
-                                           addressBuffer,
-                                           sizeof(addressBuffer));
+        NSData *data = [[_netService addresses] objectAtIndex:0];
         
-        int port = ntohs(socketAddress->sa.sa_family == AF_INET ? socketAddress->ipv4.sin_port : socketAddress->ipv6.sin6_port);
+        char addressBuffer[INET6_ADDRSTRLEN];
         
-        if ( addressStr && port )
+        memset(addressBuffer, 0, INET6_ADDRSTRLEN);
+        
+        typedef union
         {
-            NSLog(@"Found service at %s:%d", addressStr, port);
-            _ipAddress = [NSString stringWithCString:addressStr encoding:NSUTF8StringEncoding];
-            _port = port;
+            struct sockaddr sa;
+            struct sockaddr_in ipv4;
+            struct sockaddr_in6 ipv6;
+        } ip_socket_address;
+        
+        ip_socket_address *socketAddress = (ip_socket_address *)[data bytes];
+        
+        if ( socketAddress && (socketAddress->sa.sa_family == AF_INET || socketAddress->sa.sa_family == AF_INET6) )
+        {
+            const char *addressStr = inet_ntop( socketAddress->sa.sa_family,
+                                               (socketAddress->sa.sa_family == AF_INET ? (void *)&(socketAddress->ipv4.sin_addr) : (void *)&(socketAddress->ipv6.sin6_addr)),
+                                               addressBuffer,
+                                               sizeof(addressBuffer));
             
-            [self peerDidBecomeReady];
-//            return @{ P2PPeerLocatorPeerAddressKey : [NSString stringWithCString:addressStr encoding:NSUTF8StringEncoding],
-//                      P2PPeerLocatorPeerPortKey : @( port ) };
+            int port = ntohs(socketAddress->sa.sa_family == AF_INET ? socketAddress->ipv4.sin_port : socketAddress->ipv6.sin6_port);
             
+            if ( addressStr && port )
+            {
+                NSLog(@"Found service at %s:%d", addressStr, port);
+                _ipAddress = [NSString stringWithCString:addressStr encoding:NSUTF8StringEncoding];
+                _port = port;
+            }
         }
     }
-//    return nil;
+    else
+    {
+        _ipAddress = nil;
+        _port = 0;
+        [self peerIsNoLongerReady];
+    }
 }
 
 - (void)peerDidBecomeReady
@@ -192,9 +199,36 @@
     [self.delegate peerIsNoLongerReady:self];
 }
 
-- (void)transmitDataToPeer:(NSData *)data
+- (void)transmitDataToPeer:(id)data
 {
-    [_outStreamBuffer appendData:data];
+    NSData *preparedData;
+    if ( [data conformsToProtocol:@protocol( NSCoding )] )
+    {
+        preparedData = prepareObjectForTransmission( data );
+    }
+    else if ( [data isMemberOfClass:[NSData class]] )
+    {
+        preparedData = prepareDataForTransmission( data );
+    }
+    else
+    {
+        NSAssert( NO, @"object must be NSData or implement NSCoding");
+    }
+    
+    
+    if ( _outStreamBuffer == nil )
+    {
+        _outStreamBuffer = [[NSMutableData alloc] initWithCapacity:preparedData.length];
+    }
+    
+    
+    
+    
+    // Add data to buffer
+    [_outStreamBuffer appendData:preparedData];
+    
+    NSLog(@"sending: %@", _outStreamBuffer);
+    
     [self workOutputBuffer];
 }
 
@@ -205,7 +239,8 @@
         NSInteger bytesWritten = 0;
         while ( _outStreamBuffer.length > bytesWritten )
         {
-            if ( _outStream.hasSpaceAvailable )
+            NSLog(@"working buffer");
+            if ( ! _outStream.hasSpaceAvailable )
             {
                 // If we're here, the buffer is full.  We should get an NSStreamEventHasSpaceAvailable event
                 // soon, and then we'll call this method again.
@@ -218,12 +253,16 @@
             }
             
             //sending NSData over to server
-            NSInteger writeResult = [_outStream write:[_outStreamBuffer bytes]+bytesWritten
-                                            maxLength:[_outStreamBuffer length]-bytesWritten];
+            NSInteger writeResult = [_outStream write:[_outStreamBuffer bytes] + bytesWritten
+                                            maxLength:[_outStreamBuffer length] - bytesWritten];
+            
             if ( writeResult == -1 )
                 NSLog(@"error code here");
             else
+            {
                 bytesWritten += writeResult;
+                NSLog(@"wrote %ld bytes to buffer", (long)writeResult );
+            }
             
             
         }
@@ -267,7 +306,8 @@
     
     // Package request up and send it off
     P2PPeerFileAvailibilityRequest *availibilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileName:request.fileName];
-    [self transmitDataToPeer:[NSKeyedArchiver archivedDataWithRootObject:availibilityRequest]];
+
+    [self transmitDataToPeer:availibilityRequest];
     NSLog(@"File availability request sent to peer: %@", self);
     
 }
