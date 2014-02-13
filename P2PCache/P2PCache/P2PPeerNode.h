@@ -1,5 +1,5 @@
 //
-//  P2PPeer.h
+//  P2PPeerNode.h
 //  P2PCache
 //
 //  Created by Alex Krebiehl on 1/31/14.
@@ -17,12 +17,12 @@
 #define P2P_PEER_RESPONSE_INTERVAL 10               // How often we should ping the peer
 #define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10    // 10% wiggle room on when our timer runs
 
-@class P2PPeer, P2PFileRequest;
+@class P2PPeerNode, P2PFileRequest;
 
 @protocol P2PPeerProtocol <NSObject>
 
-- (void)peerDidBecomeReady:(P2PPeer *)peer;
-- (void)peerIsNoLongerReady:(P2PPeer *)peer;
+- (void)peerDidBecomeReady:(P2PPeerNode *)peer;
+- (void)peerIsNoLongerReady:(P2PPeerNode *)peer;
 
 @end
 
@@ -34,7 +34,7 @@ static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time un
 
 
 
-@interface P2PPeer : P2PNode
+@interface P2PPeerNode : P2PNode
 
 @property (weak, nonatomic) id<P2PPeerProtocol> delegate;
 

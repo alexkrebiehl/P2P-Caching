@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestStatus)
     P2PFileRequestStatusFailed
 };
 
-@class P2PPeer, P2PFileRequest, P2PPeerFileAvailbilityResponse;
+@class P2PPeerNode, P2PFileRequest, P2PPeerFileAvailbilityResponse;
 
 @protocol P2PFileRequestDelegate <NSObject>
 
@@ -38,6 +38,6 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestStatus)
 
 
 // Callbacks for peer objects
-- (void)peer:(P2PPeer *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response;
+- (void)peer:(P2PPeerNode *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response;
 
 @end

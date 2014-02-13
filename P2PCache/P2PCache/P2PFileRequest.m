@@ -8,7 +8,7 @@
 
 #import "P2PFileRequest.h"
 #import "P2PPeerManager.h"
-#import "P2PPeer.h"
+#import "P2PPeerNode.h"
 
 @implementation P2PFileRequest
 {
@@ -28,13 +28,13 @@
 - (void)getFile
 {
     NSArray *peers = [[P2PPeerManager sharedManager] peerList];
-    for ( P2PPeer *aPeer in peers )
+    for ( P2PPeerNode *aPeer in peers )
     {
         [aPeer getFileAvailabilityForRequest:self];
     }
 }
 
-- (void)peer:(P2PPeer *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response
+- (void)peer:(P2PPeerNode *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response
 {
     
 }

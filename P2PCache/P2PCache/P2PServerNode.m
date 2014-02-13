@@ -1,5 +1,5 @@
 //
-//  P2PPeerServer.m
+//  P2PServerNode.m
 //  P2PCache
 //
 //  Created by Alex Krebiehl on 1/30/14.
@@ -15,18 +15,17 @@
     This Bonjour Server is "us" telling the rest of the network that we offer P2P services
  */
 
-#import "P2PPeerServer.h"
+#import "P2PServerNode.h"
 #import <netinet/in.h>
 #import <sys/socket.h>
-#import "P2PNetworkTool.h"
 #import "P2PPeerFileAvailibilityRequest.h"
 
-@interface P2PPeerServer ()//<P2PIncomingDataDelegate>
+@interface P2PServerNode ()//<P2PIncomingDataDelegate>
 
 @end
 
 
-@implementation P2PPeerServer
+@implementation P2PServerNode
 {
     NSMutableArray      *_services;
     NSSocketPort        *_socket;

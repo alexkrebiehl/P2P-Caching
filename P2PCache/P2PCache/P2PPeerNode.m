@@ -8,15 +8,13 @@
 
 
 
-#import "P2PPeer.h"
+#import "P2PPeerNode.h"
 #import "SimplePing.h"
 #import "P2PFileRequest.h"
 #import "P2PPeerFileAvailbilityResponse.h"
 #import "P2PPeerFileAvailibilityRequest.h"
 
-#import "P2PNetworkTool.h"
-
-@interface P2PPeer() <NSNetServiceDelegate, NSStreamDelegate>//   <SimplePingDelegate>
+@interface P2PPeerNode() <NSNetServiceDelegate, NSStreamDelegate>//   <SimplePingDelegate>
 
 // Private Properties
 @property (nonatomic, strong) NSDate *lastPingSentTime;     // Track how long the ping took
@@ -26,7 +24,7 @@
 @end
 
 
-@implementation P2PPeer
+@implementation P2PPeerNode
 {
 //    NSInputStream *_inStream;
 //    NSOutputStream *_outStream;
@@ -310,7 +308,6 @@
     
     [_pendingFileAvailibilityRequests addObject:request];
     
-    // Package request up and send it off
     P2PPeerFileAvailibilityRequest *availibilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileName:request.fileName];
 
     [self transmitObject:availibilityRequest];

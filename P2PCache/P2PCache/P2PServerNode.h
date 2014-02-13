@@ -1,5 +1,5 @@
 //
-//  P2PPeerServer.h
+//  P2PServerNode.h
 //  P2PCache
 //
 //  Created by Alex Krebiehl on 1/30/14.
@@ -11,7 +11,7 @@
 /** Every "Peer" will be running an instance of this class.  Basically it announces
  to the network that we are offering a service */
 
-@interface P2PPeerServer : P2PNode <NSNetServiceDelegate, NSStreamDelegate>
+@interface P2PServerNode : P2PNode <NSNetServiceDelegate, NSStreamDelegate>
 
 
 /** Start broadcasting to the network that we are available */

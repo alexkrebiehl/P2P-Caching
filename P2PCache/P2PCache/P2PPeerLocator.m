@@ -10,7 +10,7 @@
 #import "P2PPeerLocator.h"
 #import <netinet/in.h>
 #import <sys/socket.h>
-#import "P2PPeer.h"
+#import "P2PPeerNode.h"
 
 
 
@@ -45,7 +45,7 @@
 {
     if ( [aNetService.name isEqualToString:P2P_BONJOUR_SERVICE_NAME] )
     {
-        P2PPeer *aPeer = [[P2PPeer alloc] initWithNetService:aNetService];
+        P2PPeerNode *aPeer = [[P2PPeerNode alloc] initWithNetService:aNetService];
         [self.delegate peerLocator:self didFindPeer:aPeer];
     }
 

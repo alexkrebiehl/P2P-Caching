@@ -8,7 +8,7 @@
 
 #import "P2PPeerListTableViewController.h"
 #import "P2PCache/P2PPeerManager.h"
-#import "P2PCache/P2PPeer.h"
+#import "P2PCache/P2PPeerNode.h"
 
 @interface P2PPeerListTableViewController ()
 
@@ -74,7 +74,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    P2PPeer *aPeer = [[[P2PPeerManager sharedManager] peerList] objectAtIndex:indexPath.row];
+    P2PPeerNode *aPeer = [[[P2PPeerManager sharedManager] peerList] objectAtIndex:indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@", aPeer.ipAddress];
     
     return cell;

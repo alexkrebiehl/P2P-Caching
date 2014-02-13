@@ -7,9 +7,9 @@
 //
 
 #import "P2PPeerManager.h"
-#import "P2PPeerServer.h"
+#import "P2PServerNode.h"
 #import "P2PPeerLocator.h"
-#import "P2PPeer.h"
+#import "P2PPeerNode.h"
 #import "P2PLocatorDelegate.h"
 
 /**
@@ -43,7 +43,7 @@ static const NSTimeInterval peerResortInterval = 10;    // Resort the peer list 
 
 @implementation P2PPeerManager
 {
-    P2PPeerServer   *_peerServer;           // Us broadcasting to others that we offer a service
+    P2PServerNode   *_peerServer;           // Us broadcasting to others that we offer a service
     P2PPeerLocator  *_peerLocatorService;   // Us seeking out other servers
     NSMutableArray  *_foundPeers;           // List of peers (we'll probabibly do something better later)
     NSDate          *_lastPeerSort;         // How long ago we last sorted the peer list.
@@ -73,7 +73,7 @@ static P2PPeerManager *sharedInstance = nil;
 - (void)start
 {
     // Make ourselves known to others
-    _peerServer = [[P2PPeerServer alloc] init];
+    _peerServer = [[P2PServerNode alloc] init];
     [_peerServer beginBroadcasting];
     
     // Find some peeps
@@ -103,7 +103,7 @@ static P2PPeerManager *sharedInstance = nil;
     if ( _lastPeerSort == nil || ABS([_lastPeerSort timeIntervalSinceNow]) < peerResortInterval )
     {
         _lastPeerSort = [[NSDate alloc] init];
-        [_foundPeers sortUsingComparator:^NSComparisonResult(P2PPeer *obj1, P2PPeer *obj2)
+        [_foundPeers sortUsingComparator:^NSComparisonResult(P2PPeerNode *obj1, P2PPeerNode *obj2)
         {
             if ( obj1.responseTime < obj2.responseTime )
             {
@@ -125,7 +125,7 @@ static P2PPeerManager *sharedInstance = nil;
 
 
 #pragma mark - P2PPeerLocator delegate methods
-- (void)peerLocator:(P2PPeerLocator *)locator didFindPeer:(P2PPeer *)peer
+- (void)peerLocator:(P2PPeerLocator *)locator didFindPeer:(P2PPeerNode *)peer
 {
     // probably add peer to an array here, maybe sort them by response time
     // shit like that
@@ -142,19 +142,19 @@ static P2PPeerManager *sharedInstance = nil;
     
 }
 
-- (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeer *)peer
+- (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeerNode *)peer
 {
     [_foundPeers removeObject:peer];
 }
 
 
 #pragma mark - P2PPeer Delegate Methods
-- (void)peerDidBecomeReady:(P2PPeer *)peer
+- (void)peerDidBecomeReady:(P2PPeerNode *)peer
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:P2PPeerManagerPeerListUpdatedNotification object:self];
 }
 
-- (void)peerIsNoLongerReady:(P2PPeer *)peer
+- (void)peerIsNoLongerReady:(P2PPeerNode *)peer
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:P2PPeerManagerPeerListUpdatedNotification object:self];
 }

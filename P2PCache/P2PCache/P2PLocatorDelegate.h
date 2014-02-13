@@ -21,7 +21,7 @@
  */
 
 
-@class P2PPeerLocator, P2PPeer;
+@class P2PPeerLocator, P2PPeerNode;
 
 @protocol P2PPeerLocatorDelegate <NSObject>
 
@@ -30,13 +30,13 @@
  @param locator The peer locator service
  @param peer A peer that was found
  */
-- (void)peerLocator:(P2PPeerLocator *)locator didFindPeer:(P2PPeer *)peer;
+- (void)peerLocator:(P2PPeerLocator *)locator didFindPeer:(P2PPeerNode *)peer;
 
 
 /** Callback for when a peer locator service looses a peer
  @param locator The peer locator service
  @param peer A peer that can no longer be contacted
  */
-- (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeer *)peer;
+- (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeerNode *)peer;
 
 @end
