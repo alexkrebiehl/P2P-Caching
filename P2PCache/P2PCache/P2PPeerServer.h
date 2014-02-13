@@ -11,7 +11,7 @@
 /** Every "Peer" will be running an instance of this class.  Basically it announces
  to the network that we are offering a service */
 
-@interface P2PPeerServer : NSObject <NSNetServiceDelegate, NSStreamDelegate>
+@interface P2PPeerServer : P2PNode <NSNetServiceDelegate, NSStreamDelegate>
 
 
 /** Start broadcasting to the network that we are available */

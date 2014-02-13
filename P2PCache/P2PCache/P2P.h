@@ -22,4 +22,7 @@
 #import "Utilities.h"
 #import "P2PLogging.h"
 
+// Networking
+#import "P2PNode.h"
+
 #endif

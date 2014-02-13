@@ -34,7 +34,7 @@ static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time un
 
 
 
-@interface P2PPeer : NSObject
+@interface P2PPeer : P2PNode
 
 @property (weak, nonatomic) id<P2PPeerProtocol> delegate;
 
@@ -75,6 +75,6 @@ static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time un
 
 /** Stops updating the peer's latency.  Not sure if we will ever need to call this...
  */
-- (void)stopUpdatingResponseTime;
+//- (void)stopUpdatingResponseTime;
 
 @end
