@@ -26,12 +26,6 @@
 
 @implementation P2PPeerNode
 {
-//    NSInputStream *_inStream;
-//    NSOutputStream *_outStream;
-//    
-//    NSMutableData *_inStreamBuffer;
-//    NSMutableData *_outStreamBuffer;
-    
     NSMutableArray *_pendingFileAvailibilityRequests;
 }
 
@@ -66,17 +60,6 @@
     {
         NSLog(@"PEER Successfully connected to peer's stream");
         [self takeOverInputStream:inStream outputStream:outStream forService:_netService];
-//        _inStream = inStream;
-//        _outStream = outStream;
-//        
-//        _inStream.delegate = self;
-//        [_inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-//        [_inStream open];
-//        
-//        _outStream.delegate = self;
-//        [_outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-//        [_outStream open];
-        
     }
     else
     {
@@ -85,59 +68,6 @@
     }
     
 }
-
-
-#pragma mark - Stream Delegate Methods
-//- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
-//{
-//    NSInputStream * istream;
-//    switch ( eventCode )
-//    {
-//        case NSStreamEventHasBytesAvailable:
-//            NSLog(@"PEER NSStreamEventHasBytesAvailable");
-//            uint8_t oneByte;
-//            NSInteger actuallyRead = 0;
-//            istream = (NSInputStream *)aStream;
-//            if ( _inStreamBuffer == nil )
-//            {
-//                _inStreamBuffer = [[NSMutableData alloc] initWithCapacity:2048];
-//            }
-//            actuallyRead = [istream read:&oneByte maxLength:1];
-//            if (actuallyRead == 1)
-//            {
-//                [_inStreamBuffer appendBytes:&oneByte length:1];
-//            }
-//            if (oneByte == '\n') {
-//                // We've got the carriage return at the end of the echo. Let's set the string.
-//                NSString * string = [[NSString alloc] initWithData:_inStreamBuffer encoding:NSUTF8StringEncoding];
-//                NSLog(@"PEER recieved data: %@",string);
-//                _inStreamBuffer = nil;
-//            }
-//            break;
-//        case NSStreamEventEndEncountered:
-//            NSLog(@"PEER NSStreamEventEndEncountered");
-//            //[self closeStreams];
-//            break;
-//        case NSStreamEventHasSpaceAvailable:
-//            NSLog(@"PEER %@ NSStreamEventHasSpaceAvailable", aStream);
-//
-//            [self workOutputBuffer];
-//
-//            break;
-//        case NSStreamEventErrorOccurred:
-//            NSLog(@"PEER NSStreamEventErrorOccurred");
-//            break;
-//        case NSStreamEventOpenCompleted:
-//            NSLog(@"PEER %@ NSStreamEventOpenCompleted", aStream);
-//            break;
-//        case NSStreamEventNone:
-//            NSLog(@"PEER NSStreamEventNone");
-//        default:
-//            break;
-//    }
-//
-//}
-
 
 // Some insight from StackOverflow...
 // http://stackoverflow.com/questions/938521/iphone-bonjour-nsnetservice-ip-address-and-port/4976808#4976808
@@ -175,6 +105,7 @@
                 NSLog(@"Found service at %s:%d", addressStr, port);
                 _ipAddress = [NSString stringWithCString:addressStr encoding:NSUTF8StringEncoding];
                 _port = port;
+                [self peerDidBecomeReady];
             }
         }
     }
@@ -186,9 +117,13 @@
     }
 }
 
-- (void)handleRecievedObject:(id)object from:(P2PNode *)sender
+- (void)handleRecievedObject:(id)object from:(NSNetService *)sender
 {
-    
+    NSLog(@"PEER NODE recieved object %@", object);
+    if ( [object isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] )
+    {
+        [self didRecieveFileAvailabilityResponse:object];
+    }
 }
 
 - (void)peerDidBecomeReady
@@ -203,88 +138,16 @@
     [self.delegate peerIsNoLongerReady:self];
 }
 
-//- (void)transmitDataToPeer:(id)data
+//- (void)recievedDataFromPeer:(NSData *)data
 //{
-//    NSData *preparedData;
-//    if ( [data conformsToProtocol:@protocol( NSCoding )] )
+//    id recievedObject = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//    
+//    // figure out what to do with the object
+//    if ( [recievedObject isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] )
 //    {
-//        preparedData = prepareObjectForTransmission( data );
-//    }
-//    else if ( [data isMemberOfClass:[NSData class]] )
-//    {
-//        preparedData = prepareDataForTransmission( data );
-//    }
-//    else
-//    {
-//        NSAssert( NO, @"object must be NSData or implement NSCoding");
-//    }
-//    
-//    
-//    if ( _outStreamBuffer == nil )
-//    {
-//        _outStreamBuffer = [[NSMutableData alloc] initWithCapacity:preparedData.length];
-//    }
-//    
-//    
-//    
-//    
-//    // Add data to buffer
-//    [_outStreamBuffer appendData:preparedData];
-//    
-//    NSLog(@"sending: %@", _outStreamBuffer);
-//    
-//    [self workOutputBufferForStream:_outStream];
-//}
-
-//- (void)workOutputBufferForStream:(NSOutputStream *)stream
-//{
-//    if ( _outStreamBuffer != nil )
-//    {
-//        NSInteger bytesWritten = 0;
-//        while ( _outStreamBuffer.length > bytesWritten )
-//        {
-//            NSLog(@"working buffer");
-//            if ( ! _outStream.hasSpaceAvailable )
-//            {
-//                // If we're here, the buffer is full.  We should get an NSStreamEventHasSpaceAvailable event
-//                // soon, and then we'll call this method again.
-//                
-//                
-//                // Remove what we were able to write from the buffer.  This is a bad (slow) way of doing it though
-//                // Will have to replace this with a higher-performance method in the future
-//                [_outStreamBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
-//                return;
-//            }
-//            
-//            //sending NSData over to server
-//            NSInteger writeResult = [_outStream write:[_outStreamBuffer bytes] + bytesWritten
-//                                            maxLength:[_outStreamBuffer length] - bytesWritten];
-//            
-//            if ( writeResult == -1 )
-//                NSLog(@"error code here");
-//            else
-//            {
-//                bytesWritten += writeResult;
-//                NSLog(@"wrote %ld bytes to buffer", (long)writeResult );
-//            }
-//            
-//            
-//        }
-//        NSLog(@"finished transmitting data to peer");
-//        _outStreamBuffer = [[NSMutableData alloc] init]; // Reset buffer
+//        [self didRecieveFileAvailabilityResponse:recievedObject];
 //    }
 //}
-
-- (void)recievedDataFromPeer:(NSData *)data
-{
-    id recievedObject = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    
-    // figure out what to do with the object
-    if ( [recievedObject isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] )
-    {
-        [self didRecieveFileAvailabilityResponse:recievedObject];
-    }
-}
 
 
 #pragma mark - NetService Delegate Methods
@@ -341,7 +204,12 @@
 
 
 
-
+#pragma mark - Logging
+- (NSString *)description
+{
+    NSString *r = self.responseTime == P2PPeerNoResponse ? @"No Response" : [NSString stringWithFormat:@"%lums", (unsigned long)self.responseTime];
+    return [NSString stringWithFormat:@"<%@: %@:%lu -> %@>", NSStringFromClass([self class]), self.ipAddress, (unsigned long)self.port, r];
+}
 
 
 
@@ -448,17 +316,5 @@
 //    _responseTime = P2PPeerNoResponse;
 //    _lastPingSentTime = nil;
 //}
-
-
-
-
-
-
-#pragma mark - Logging
-- (NSString *)description
-{
-    NSString *r = self.responseTime == P2PPeerNoResponse ? @"No Response" : [NSString stringWithFormat:@"%lums", (unsigned long)self.responseTime];
-    return [NSString stringWithFormat:@"<%@: %@:%lu -> %@>", NSStringFromClass([self class]), self.ipAddress, (unsigned long)self.port, r];
-}
 
 @end

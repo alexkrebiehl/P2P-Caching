@@ -19,31 +19,20 @@
 #import <netinet/in.h>
 #import <sys/socket.h>
 #import "P2PPeerFileAvailibilityRequest.h"
+#import "P2PPeerFileAvailbilityResponse.h"
+#import "P2PFileManager.h"
 
-@interface P2PServerNode ()//<P2PIncomingDataDelegate>
+@interface P2PServerNode ()
 
 @end
 
 
 @implementation P2PServerNode
 {
-    NSMutableArray      *_services;
     NSSocketPort        *_socket;
     NSNetService        *_service;
     struct sockaddr     *_addr;
     int                 _port;
-//    BOOL                _searching;
-    NSInputStream		*_inputStream;
-	NSOutputStream		*_outputStream;
-	BOOL				_inReady;
-	BOOL				_outReady;
-    NSMutableData       *_dataBuffer;
-    
-    
-//    NSMutableData *_inStreamBuffer;
-//    
-//    
-//    NSMutableArray *_activeDataTransfers;   // An array of P2PIncomingData objects
 }
 
 - (id)init
@@ -57,9 +46,7 @@
 
 - (void)beginBroadcasting
 {
-    _services = [[NSMutableArray alloc] init];
     _socket = [[NSSocketPort alloc] init];
-//    _searching = NO;
     
     if ( _socket != nil )
     {
@@ -95,18 +82,6 @@
                                                    name:P2P_BONJOUR_SERVICE_NAME
                                                    port:P2P_BONJOUR_SERVICE_PORT];
         
-//        if ( [_service getInputStream:&_inputStream outputStream:&_outputStream] )
-//        {
-//            _inputStream.delegate = self;
-//            [_inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-//            [_inputStream open];
-//            
-//            _outputStream.delegate = self;
-//            [_outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-//            [_outputStream open];
-//            P2PLog( P2PLogLevelDebug, @"SERVER service has stream references" );
-//        }
-        
         if ( _service != nil)
         {
             [_service setDelegate:self];
@@ -124,9 +99,22 @@
     }
 }
 
-- (void)handleRecievedObject:(id)object from:(P2PNode *)sender;
+- (void)handleRecievedObject:(id)object from:(NSNetService *)sender
 {
     NSLog(@"%@ recieved %@ from %@", self, object, sender);
+    
+    
+    if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
+    {
+        // Check file availbility
+        P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:object];
+        
+        [self transmitObject:response toNetService:sender]; 
+    }
+    else
+    {
+        NSAssert( NO, @"Recieved unexpected file" );
+    }
     
 }
 
@@ -136,7 +124,6 @@
 - (void)netServiceWillPublish:(NSNetService *)netService
 {
     LogSelector();
-    [_services addObject:netService];
 }
 
 - (void)netServiceDidPublish:(NSNetService *)sender
@@ -172,114 +159,12 @@
 - (void)netServiceDidStop:(NSNetService *)netService
 {
     LogSelector();
-    [_services removeObject:netService];
 }
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
     NSLog(@"******* P2P SERVER DID ACCEPT STREAM CONNECTION ******");
     [self takeOverInputStream:inputStream outputStream:outputStream forService:sender];
-    
-//    inputStream.delegate = self;
-//    [inputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-//    [inputStream open];
-//    
-//    outputStream.delegate = self;
-//    [outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-//    [outputStream open];
 }
-
-//#pragma mark - NSStream Delegate Methods
-//- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
-//{
-//    switch ( eventCode )
-//    {
-//        case NSStreamEventHasBytesAvailable:
-//        {
-//            NSLog(@"SERVER NSStreamEventHasBytesAvailable");
-//            
-//            assert([aStream isKindOfClass:[NSInputStream class]]);
-//            P2PIncomingData *d = [[P2PIncomingData alloc] initWithInputStream:((NSInputStream *)aStream)];
-//            
-//            if ( _activeDataTransfers == nil )
-//            {
-//                _activeDataTransfers = [[NSMutableArray alloc] init];
-//            }
-//            
-//            [_activeDataTransfers addObject:d];
-//            d.delegate = self;
-//            [d takeOverStream];
-//            
-//            break;
-//        }
-//        case NSStreamEventEndEncountered:
-//        {
-//            NSLog(@"SERVER NSStreamEventEndEncountered");
-//            //[self closeStreams];
-//            break;
-//        }
-//        case NSStreamEventHasSpaceAvailable:
-//        {
-//            NSLog(@"SERVER %@ NSStreamEventHasSpaceAvailable", aStream);
-//            break;
-//        }
-//        case NSStreamEventErrorOccurred:
-//        {
-//            NSLog(@"SERVER NSStreamEventErrorOccurred");
-//            break;
-//        }
-//        case NSStreamEventOpenCompleted:
-//        {
-//            NSLog(@"SERVER %@ NSStreamEventOpenCompleted", aStream);
-//            break;
-//        }
-//        case NSStreamEventNone:
-//        {
-//            NSLog(@"SERVER NSStreamEventNone");
-//        }
-//        default:
-//            break;
-//    }
-//    
-//}
-//
-//
-//#pragma mark - P2PIncomingDataDelegate
-//- (void)dataDidFinishLoading:(P2PIncomingData *)loader
-//{
-//    NSLog(@"download finished: %@", loader );
-//    [_activeDataTransfers removeObject:loader];
-//    
-//    
-//    switch ( loader.type )
-//    {
-//        case P2PNetworkTransmissionTypeObject:
-//        {
-//            id obj = [NSKeyedUnarchiver unarchiveObjectWithData:loader.downloadedData];
-//            NSLog(@"recieved object: %@", obj);
-//            break;
-//        }
-//        case P2PNetworkTransmissionTypeData:
-//        {
-//            NSLog(@"recieved data: %@", loader.downloadedData);
-//            break;
-//        }
-//        case P2PNetworkTransmissionTypeUnknown:
-//        default:
-//            NSAssert(NO, @"Unknown file recieved");
-//            break;
-//    }
-//}
-//
-///** If we have an incoming object from a data transfer, it will be sent here so we can figure out
-// what to do with it */
-//- (void)dispatchRecievedObject:(id)object
-//{
-//    if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
-//    {
-//        
-//    }
-//}
-
 
 @end

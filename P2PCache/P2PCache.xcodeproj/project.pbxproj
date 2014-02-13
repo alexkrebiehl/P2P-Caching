@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA0DFF8C18AD16DD00B2C1CB /* P2PFileChunkRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = FA0DFF8A18AD16DD00B2C1CB /* P2PFileChunkRequest.h */; };
+		FA0DFF8D18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */; };
+		FA0DFF8E18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */; };
 		FA3924F5189CC94F002B6324 /* SimplePing.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3924F3189CC94F002B6324 /* SimplePing.h */; };
 		FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F4189CC94F002B6324 /* SimplePing.m */; };
 		FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F4189CC94F002B6324 /* SimplePing.m */; };
@@ -105,6 +108,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FA0DFF8A18AD16DD00B2C1CB /* P2PFileChunkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileChunkRequest.h; sourceTree = "<group>"; };
+		FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileChunkRequest.m; sourceTree = "<group>"; };
 		FA3924F1189C9A96002B6324 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		FA3924F2189CC259002B6324 /* P2PLocatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PLocatorDelegate.h; sourceTree = "<group>"; };
 		FA3924F3189CC94F002B6324 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
@@ -203,6 +208,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA0DFF8918AD16AE00B2C1CB /* File Chunk Transfers */ = {
+			isa = PBXGroup;
+			children = (
+				FA0DFF8A18AD16DD00B2C1CB /* P2PFileChunkRequest.h */,
+				FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */,
+				FABA8DC218A5829200115463 /* P2PFileChunk.h */,
+				FABA8DC318A5829200115463 /* P2PFileChunk.m */,
+				FA3974C718A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h */,
+				FA3974C818A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.m */,
+				FA3974CD18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.h */,
+				FA3974CE18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m */,
+			);
+			name = "File Chunk Transfers";
+			sourceTree = "<group>";
+		};
 		FA3924EB189C8395002B6324 /* Locating & Serving */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,12 +238,9 @@
 		FA3974CC18A9CB0F007FCD93 /* File Retreival */ = {
 			isa = PBXGroup;
 			children = (
+				FA0DFF8918AD16AE00B2C1CB /* File Chunk Transfers */,
 				FA3974BD18A9C1AF007FCD93 /* P2PFileRequest.h */,
 				FA3974BE18A9C1AF007FCD93 /* P2PFileRequest.m */,
-				FA3974C718A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h */,
-				FA3974C818A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.m */,
-				FA3974CD18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.h */,
-				FA3974CE18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m */,
 			);
 			name = "File Retreival";
 			sourceTree = "<group>";
@@ -336,8 +353,6 @@
 				FA3974CC18A9CB0F007FCD93 /* File Retreival */,
 				FABA8DBD18A5825E00115463 /* P2PFileManager.h */,
 				FABA8DBE18A5825E00115463 /* P2PFileManager.m */,
-				FABA8DC218A5829200115463 /* P2PFileChunk.h */,
-				FABA8DC318A5829200115463 /* P2PFileChunk.m */,
 			);
 			name = "File Management";
 			sourceTree = "<group>";
@@ -414,6 +429,7 @@
 				FA3974BF18A9C1AF007FCD93 /* P2PFileRequest.h in Headers */,
 				FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */,
 				FA3E9EED189B5EFD009FEB99 /* P2PPeerLocator.h in Headers */,
+				FA0DFF8C18AD16DD00B2C1CB /* P2PFileChunkRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,6 +581,7 @@
 				FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */,
 				FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
 				FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */,
+				FA0DFF8D18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */,
 				FA3E9EEE189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
 				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
 				FA3974D018A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,
@@ -595,6 +612,7 @@
 				FA3E9EE3189B5A06009FEB99 /* P2PCacheProtocol.m in Sources */,
 				FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
 				FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */,
+				FA0DFF8E18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */,
 				FA3E9EEF189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
 				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
 				FA3974D118A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,

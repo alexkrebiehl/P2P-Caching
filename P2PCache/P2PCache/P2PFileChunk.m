@@ -10,10 +10,11 @@
 
 static NSString *P2PFileChunkDecodeKeyDataBlock =       @"DataBlock";
 static NSString *P2PFileChunkDecodeKeyStartPosition =   @"StartPosition";
+static NSString *P2PFileChunkDecodeKeyFileName =        @"Filename";
 
 @implementation P2PFileChunk
 
-+ (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize
++ (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileName:(NSString *)filename
 {
     NSUInteger length = [data length];
     NSUInteger offset = 0;
@@ -28,7 +29,7 @@ static NSString *P2PFileChunkDecodeKeyStartPosition =   @"StartPosition";
 //                                       freeWhenDone:NO];
         NSData *chunk = [data subdataWithRange:NSMakeRange(offset, thisChunkSize)];
         
-        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk startPosition:offset];
+        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk startPosition:offset fileName:filename];
         [chunksOdata addObject:p2pChunk];
         
         offset += thisChunkSize;
@@ -37,12 +38,13 @@ static NSString *P2PFileChunkDecodeKeyStartPosition =   @"StartPosition";
     return chunksOdata;
 }
 
-- (id)initWithData:(NSData *)data startPosition:(NSUInteger)startPosition
+- (id)initWithData:(NSData *)data startPosition:(NSUInteger)startPosition fileName:(NSString *)filename
 {
     if ( self = [super init] )
     {
         _dataBlock = data;
         _startPosition = startPosition;
+        _fileName = filename;
         
     }
     return self;
@@ -54,6 +56,7 @@ static NSString *P2PFileChunkDecodeKeyStartPosition =   @"StartPosition";
     {
         _dataBlock = [aDecoder decodeObjectForKey:P2PFileChunkDecodeKeyDataBlock];
         _startPosition = [aDecoder decodeIntegerForKey:P2PFileChunkDecodeKeyStartPosition];
+        _fileName = [aDecoder decodeObjectForKey:P2PFileChunkDecodeKeyFileName];
     }
     return self;
 }
@@ -63,6 +66,7 @@ static NSString *P2PFileChunkDecodeKeyStartPosition =   @"StartPosition";
 {
     [aCoder encodeObject:self.dataBlock forKey:P2PFileChunkDecodeKeyDataBlock];
     [aCoder encodeInteger:self.startPosition forKey:P2PFileChunkDecodeKeyStartPosition];
+    [aCoder encodeObject:self.fileName forKey:P2PFileChunkDecodeKeyFileName];
 }
 
 @end

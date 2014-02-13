@@ -36,7 +36,7 @@
 
 - (void)peer:(P2PPeerNode *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response
 {
-    
+    // Somehow assemble responses from all peers here
 }
 
 @end

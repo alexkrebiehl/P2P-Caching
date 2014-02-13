@@ -30,9 +30,9 @@
  and handle any incoming objects.  Subclasses don't need to call this method directly.
  
  @param object The recieved object
- @param sender The node which this object came from
+ @param sender The service which this object came from
  */
-- (void)handleRecievedObject:(id)object from:(P2PNode *)sender;
+- (void)handleRecievedObject:(id)object from:(NSNetService *)sender;
 
 @end
 

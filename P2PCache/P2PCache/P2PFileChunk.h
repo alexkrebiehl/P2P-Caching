@@ -15,11 +15,12 @@ enum
 
 @interface P2PFileChunk : NSObject <NSCoding>
 
+@property (nonatomic, readonly, copy) NSString *fileName;
 @property (nonatomic, readonly) NSUInteger  startPosition;
 @property (nonatomic, readonly) NSData      *dataBlock;
 
-- (id)initWithData:(NSData *)data startPosition:(NSUInteger)startPosition;
+- (id)initWithData:(NSData *)data startPosition:(NSUInteger)startPosition fileName:(NSString *)filename;
 
-+ (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize;
++ (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileName:(NSString *)filename;
 
 @end
