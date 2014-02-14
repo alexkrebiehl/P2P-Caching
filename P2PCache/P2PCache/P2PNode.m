@@ -9,6 +9,18 @@
 #import "P2PNode.h"
 #import "P2PPeerFileAvailibilityRequest.h"
 
+/** Since the peer and server will share a lot of the same functionality,
+ I decided to go ahead and just make them children of this superclass.
+ 
+ All of the common networking tools will be found here */
+
+@class P2PIncomingData;
+@protocol P2PIncomingDataDelegate <NSObject>
+
+- (void)dataDidFinishLoading:(P2PIncomingData *)loader;
+
+@end
+
 typedef NS_ENUM(uint8_t, P2PNetworkTransmissionType)
 {
     P2PNetworkTransmissionTypeUnknown = 0,
@@ -36,72 +48,13 @@ typedef NS_ENUM(NSUInteger, P2PNetworkToolHeaderPosition)
 
 static const NSUInteger P2PIncomingDataFileSizeUnknown = NSUIntegerMax;
 
-
-
-
-// Private Class
-@interface P2PNodeConnection : NSObject
-@property (nonatomic, readonly) NSUInteger connectionId;
-//@property (weak, nonatomic) NSNetService *netService;
-
-@property (weak, nonatomic) NSInputStream *inStream;
-@property (strong, nonatomic) NSMutableData *inBuffer;
-
-@property (weak, nonatomic) NSOutputStream *outStream;
-@property (strong, nonatomic) NSMutableData *outBuffer;
-@end
-
-@implementation P2PNodeConnection
-
-static NSUInteger currentConnectionId = 1;
-- (id)init
-{
-    if ( self = [super init] )
-    {
-        _connectionId = currentConnectionId++;
-    }
-    return self;
-}
-
-- (NSMutableData *)inBuffer
-{
-    if ( _inBuffer == nil)
-    {
-        _inBuffer = [[NSMutableData alloc] initWithCapacity:2048];
-    }
-    return _inBuffer;
-}
-
-- (NSMutableData *)outBuffer
-{
-    if ( _outBuffer == nil )
-    {
-        _outBuffer = [[NSMutableData alloc] initWithCapacity:2048];
-    }
-    return _outBuffer;
-}
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@ - ID: %lu>", [self class], _connectionId];
-}
-
-@end
-
-
-
-
-
-
-
-
 /*
  Header/Data format
  
-      size(bytes)    file
-          |           |
+ size(bytes)    file
+ |           |
  :00:000000000000:0:<data>
-  |               |
+ |               |
  Type           parity
  
  Type:   The type of data that is about to be transmitted (P2PNetworkTransmissionType)
@@ -173,6 +126,58 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 
 
 
+/** Represents a connection between two nodes.  Contains the connection ID, both I/O streams, and buffers */
+@interface P2PNodeConnection : NSObject
+@property (nonatomic, readonly) NSUInteger connectionId;
+
+@property (weak, nonatomic) NSInputStream *inStream;
+@property (strong, nonatomic) NSMutableData *inBuffer;
+
+@property (weak, nonatomic) NSOutputStream *outStream;
+@property (strong, nonatomic) NSMutableData *outBuffer;
+@end
+
+@implementation P2PNodeConnection
+
+static NSUInteger currentConnectionId = 1;
+- (id)init
+{
+    if ( self = [super init] )
+    {
+        _connectionId = currentConnectionId++;
+    }
+    return self;
+}
+
+- (NSMutableData *)inBuffer
+{
+    if ( _inBuffer == nil)
+    {
+        _inBuffer = [[NSMutableData alloc] initWithCapacity:2048];
+    }
+    return _inBuffer;
+}
+
+- (NSMutableData *)outBuffer
+{
+    if ( _outBuffer == nil )
+    {
+        _outBuffer = [[NSMutableData alloc] initWithCapacity:2048];
+    }
+    return _outBuffer;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ - ID: %lu>", [self class], _connectionId];
+}
+
+@end
+
+
+
+
+
 
 
 
@@ -186,16 +191,12 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
  is complete and the data is now available.
  
  */
-
-// Private class
 @interface P2PIncomingData : NSObject <NSStreamDelegate>
 
-//@property (weak, nonatomic) NSNetService *service;                   // The netservice that owns this downloads stream
 @property (weak, nonatomic, readonly) P2PNodeConnection *connection;
 @property (nonatomic, readonly) NSUInteger fileSize;
 @property (readonly, nonatomic) P2PIncomingDataStatus status;
 @property (weak, nonatomic) id<P2PIncomingDataDelegate> delegate;
-//@property (weak, nonatomic) NSInputStream *stream;
 @property (strong, nonatomic, readonly) id downloadedData;          // Downloaded data may either be an object (such as a request)
 @property (readonly, nonatomic) P2PNetworkTransmissionType type;    // Or a binary data file
                                                                     // The correct one can be found by using the type property
@@ -204,7 +205,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
                                                                     // so..... we'll come back to this
 
 @end
-
 
 @implementation P2PIncomingData
 {
@@ -414,36 +414,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @interface P2PNode()<P2PIncomingDataDelegate>
 
 @end
@@ -453,7 +423,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     NSMutableArray *_activeConnections;     // An array of active P2PNodeConnection objects
     NSMutableArray *_activeDataTransfers;   // An array of P2PIncomingData objects
 }
-
 
 - (void)workOutputBufferForStream:(NSOutputStream *)stream buffer:(NSMutableData *)buffer
 {
@@ -569,34 +538,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     }
 }
 
-//- (NSNetService *)netServiceForStream:(NSStream *)stream
-//{
-//    for ( P2PNodeConnection *c in _activeConnections )
-//    {
-//        if ( c.inStream == stream || c.outStream == stream )
-//        {
-//            return c.netService;
-//        }
-//    }
-//    return nil;
-//}
-//
-//- (NSMutableData *)bufferForStream:(NSStream *)stream
-//{
-//    for ( P2PNodeConnection *c in _activeConnections )
-//    {
-//        if ( c.inStream == stream )
-//        {
-//            return c.inBuffer;
-//        }
-//        if ( c.outStream == stream )
-//        {
-//            return c.outBuffer;
-//        }
-//    }
-//    return nil;
-//}
-
 - (P2PNodeConnection *)connectionNodeForStream:(NSStream *)stream
 {
     // if nil is specified for stream, we just return the first node
@@ -646,16 +587,14 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     NSAssert([self class] != [P2PNode class], @"This selector should be overridden by subclasses");
 }
 
-- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream forService:(NSNetService *)service
+- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream
 {
     assert( inStream != nil );
     assert( outStream != nil );
-    assert( service != nil );
     
     P2PNodeConnection *connection = [[P2PNodeConnection alloc] init];
     connection.inStream = inStream;
     connection.outStream = outStream;
-//    connection.netService = service;
     
     if ( _activeConnections == nil )
     {
@@ -672,7 +611,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     [outStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     [outStream open];
 }
-
 
 @end
 

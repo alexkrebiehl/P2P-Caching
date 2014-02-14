@@ -35,15 +35,6 @@
     int                 _port;
 }
 
-- (id)init
-{
-    if ( self = [super init] )
-    {
-        
-    }
-    return self;
-}
-
 - (void)beginBroadcasting
 {
     _socket = [[NSSocketPort alloc] init];
@@ -162,11 +153,8 @@
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
-    // Note to self for the next time I work on this:
-    // 'sender' is our local server instance, not the netservice of the connecting peer
-    
-    P2PLogDebug( @"*** %@ has connected to our server", sender.name );
-    [self takeOverInputStream:inputStream outputStream:outputStream forService:sender];
+    P2PLogDebug( @"*** A peer has connected to our server" );
+    [self takeOverInputStream:inputStream outputStream:outputStream];
 }
 
 #pragma mark - Logging

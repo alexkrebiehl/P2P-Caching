@@ -29,9 +29,13 @@ static P2PFileManager *sharedInstance = nil;
 {
     // Respond to a client with what chunks of a file we have
     
-    P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithFileName:request.fileName
-                                                                                        availableChunks:@[ @(1) ]
-                                                                                              chunkSize:P2PFileManagerFileChunkSize];
+//    P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithFileName:request.fileName
+//                                                                                        availableChunks:@[ @(1) ]
+//                                                                                              chunkSize:P2PFileManagerFileChunkSize];
+    P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithRequest:request];
+    response.availableChunks = @[ @(1), @(2), @(3) ];
+    response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
+    
     return response;
 }
 

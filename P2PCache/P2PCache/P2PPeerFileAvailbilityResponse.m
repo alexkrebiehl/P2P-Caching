@@ -7,32 +7,42 @@
 //
 
 #import "P2PPeerFileAvailbilityResponse.h"
+#import "P2PPeerFileAvailibilityRequest.h"
 
 // NSCoding Keys
 static NSString *P2PAvailabilityResponseFilenameKey =   @"FileName";
 static NSString *P2PAvailabilityResponseChunksKey =     @"Chunks";
 static NSString *P2PAvailabilityResponseChunkSizeKey =  @"ChunkSize";
+static NSString *P2PAvailabilityResponseId =            @"ID";
 
 
 @implementation P2PPeerFileAvailbilityResponse
 
-- (id)initWithFileName:(NSString *)fileName availableChunks:(NSArray *)chunks chunkSize:(NSUInteger)chunkSizeInBytes
+- (id)init
 {
+    return [self initWithRequest:nil];
+}
+
+- (id)initWithRequest:(P2PPeerFileAvailibilityRequest *)request
+{
+    assert( request != nil );
     if ( self = [super init] )
     {
-        _fileName = fileName;
-        _availableChunks = chunks;
-        _chunkSizeInBytes = chunkSizeInBytes;
+        _fileName = request.fileName;
     }
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    NSString *fileName = [aDecoder decodeObjectForKey:P2PAvailabilityResponseFilenameKey];
-    NSArray *chunks = [aDecoder decodeObjectForKey:P2PAvailabilityResponseChunksKey];
-    NSUInteger chunkSize = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseChunkSizeKey] unsignedIntegerValue];
-    return [self initWithFileName:fileName availableChunks:chunks chunkSize:chunkSize];
+    if ( self = [super init] )
+    {
+        _fileName = [aDecoder decodeObjectForKey:P2PAvailabilityResponseFilenameKey];
+        _availableChunks = [aDecoder decodeObjectForKey:P2PAvailabilityResponseChunksKey];
+        _chunkSizeInBytes = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseChunkSizeKey] unsignedIntegerValue];
+        _requestId = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseId] unsignedIntegerValue];
+    }
+    return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
@@ -40,6 +50,7 @@ static NSString *P2PAvailabilityResponseChunkSizeKey =  @"ChunkSize";
     [aCoder encodeObject:self.fileName forKey:P2PAvailabilityResponseFilenameKey];
     [aCoder encodeObject:self.availableChunks forKey:P2PAvailabilityResponseChunksKey];
     [aCoder encodeObject:@( self.chunkSizeInBytes ) forKey:P2PAvailabilityResponseChunkSizeKey];
+    [aCoder encodeObject:@( self.requestId ) forKey:P2PAvailabilityResponseId];
 }
 
 @end

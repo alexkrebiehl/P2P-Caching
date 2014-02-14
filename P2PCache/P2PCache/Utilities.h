@@ -11,5 +11,7 @@
 
 #define LogSelector() P2PLog( P2PLogLevelDebug, @"[%@] %@", [self class], NSStringFromSelector(_cmd))
 
+#import "NSData+mD5Hash.h"
+
 #endif
 

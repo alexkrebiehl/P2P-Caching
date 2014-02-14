@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class P2PPeerFileAvailibilityRequest;
+
 @interface P2PPeerFileAvailbilityResponse : NSObject <NSCoding>
 
 @property (copy, readonly) NSString *fileName;
-@property (strong, nonatomic, readonly) NSArray *availableChunks;   // I dont like using objects for this... I feel like this might cause a bottleneck
-@property (nonatomic, readonly) NSUInteger chunkSizeInBytes;
+@property (strong, nonatomic) NSArray *availableChunks;   // I dont like using objects for this... I feel like this might cause a bottleneck
+@property (nonatomic) NSUInteger chunkSizeInBytes;
+@property (nonatomic, readonly) NSUInteger requestId;               // This response is for a request of this ID
 
-- (id)initWithFileName:(NSString *)fileName availableChunks:(NSArray *)chunks chunkSize:(NSUInteger)chunkSizeInBytes;
+- (id)initWithRequest:(P2PPeerFileAvailibilityRequest *)request;
 
 @end

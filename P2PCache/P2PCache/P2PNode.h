@@ -8,21 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-
-/** Since the peer and server will share a lot of the same functionality,
- I decided to go ahead and just make them children of this superclass.
- 
- All of the common networking tools will be found here */
-
-@class P2PIncomingData, P2PNodeConnection;
-@protocol P2PIncomingDataDelegate <NSObject>
-
-- (void)dataDidFinishLoading:(P2PIncomingData *)loader;
-
-@end
-
-
-
+@class P2PNodeConnection;
 
 @interface P2PNode : NSObject <NSStreamDelegate>
 
@@ -36,7 +22,7 @@
 
 @end
 
-@interface P2PNode (MethodsNotToBeSubclassed)
+@interface P2PNode ( MethodsNotToBeSubclassed )
 
 /** Call this method when recieving input/output streams from a server.  
  
@@ -44,7 +30,7 @@
  @param outStream An output stream supplied by a NSNetService instance
  @param service The service supplying the streams
  */
-- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream forService:(NSNetService *)service;
+- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream;
 
 /** Transmits an object to a peer's cache server.
  

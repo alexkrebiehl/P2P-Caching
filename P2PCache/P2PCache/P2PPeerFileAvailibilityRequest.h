@@ -10,6 +10,7 @@
 
 @interface P2PPeerFileAvailibilityRequest : NSObject <NSCoding>
 
+@property (readonly, nonatomic) NSUInteger requestId;
 @property (copy, readonly) NSString *fileName;
 
 - (id)initWithFileName:(NSString *)fileName;

@@ -14,8 +14,8 @@
 #import <Foundation/Foundation.h>
 #include <arpa/inet.h>
 
-#define P2P_PEER_RESPONSE_INTERVAL 10               // How often we should ping the peer
-#define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10    // 10% wiggle room on when our timer runs
+//#define P2P_PEER_RESPONSE_INTERVAL 10               // How often we should ping the peer
+//#define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10    // 10% wiggle room on when our timer runs
 
 @class P2PPeerNode, P2PFileRequest;
 
@@ -29,7 +29,7 @@
 
 
 
-static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time until we recieve an echo from ping
+//static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time until we recieve an echo from ping
 
 
 
@@ -41,40 +41,23 @@ static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time un
 @property (copy, nonatomic, readonly) NSString *ipAddress;  // Peer's IP address
 @property (copy, nonatomic, readonly) NSString *domain;     // Peer's resolved domain
 @property (nonatomic, readonly) NSUInteger port;            // Port number
-@property (nonatomic, readonly) float responseTime;         // ping in milliseconds
+//@property (nonatomic, readonly) float responseTime;         // ping in milliseconds
 
 @property (strong, nonatomic, readonly) NSNetService *netService;
 @property (nonatomic, readonly) bool peerIsReady;
 
-
+/** Create a new object representing a peer
+ @param netService The NetService object controling this peer
+ 
+ @return A new peer object 
+ */
 - (id)initWithNetService:(NSNetService *)netService;
+
+/** Resolves the peer's IP address and connects to their I/O streams */
 - (void)preparePeer;
 
 
 // File Handling
 - (void)getFileAvailabilityForRequest:(P2PFileRequest *)request;
-
-/** Create a new object representing a peer
- @param ipAddress The peer's IP Address
- @param port The peer's port number
- @param domain The peer's resolved domain name
- 
- @return A new peer object
- */
-//- (id)initWithIpAddress:(NSString *)ipAddress port:(NSUInteger)port domain:(NSString *)domain;
-
-
-
-/** Schedules a timer to continiously update the the peer's latency.
- Scheduled automatically when the object is created, so this never really needs
- to be called explicity 
- */
-//- (void)startUpdatingResponseTime;
-
-
-
-/** Stops updating the peer's latency.  Not sure if we will ever need to call this...
- */
-//- (void)stopUpdatingResponseTime;
 
 @end
