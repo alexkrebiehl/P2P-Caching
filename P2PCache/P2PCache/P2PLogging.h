@@ -10,14 +10,14 @@
 
 #define LOG_TO_CONSOLE  1
 #define LOG_TO_FILE     1
-#define LOG_DATE_FORMAT @"MM-dd-yy HH:mm:ss"
+#define LOG_DATE_FORMAT @"HH:mm:ss"    //@"MM-dd-yy HH:mm:ss"
 
 
 /** Logging Levels.  Will only log levels greater than or equal to LOG_LEVEL */
 typedef NS_ENUM( NSInteger, P2PLogLevel )
 {
     P2PLogLevelDebug = 0,   // Debugging Messages
-    P2pLogLevelNormal,      // General (but useful) messages
+    P2PLogLevelNormal,      // General (but useful) messages
     P2PLogLevelWarning,     // Warnings
     P2PLogLevelError,       // Bad things happened
 };
@@ -25,5 +25,8 @@ typedef NS_ENUM( NSInteger, P2PLogLevel )
 /** Currently set logging level */
 static const P2PLogLevel LOG_LEVEL = P2PLogLevelDebug;
 
+/** Shortcut for debug log */
+void P2PLogDebug( NSString *message, ... ) NS_FORMAT_FUNCTION(1,2);
+
 /** Log status messages to the console and/or file */
-extern void P2PLog( P2PLogLevel level, NSString *message, ... );
+extern void P2PLog( P2PLogLevel level, NSString *message, ... ) NS_FORMAT_FUNCTION(2,3);

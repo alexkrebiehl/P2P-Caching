@@ -19,8 +19,6 @@
     // Ramp-up the Peer Manager
     P2PLog( P2PLogLevelDebug, @"Starting the Peer Manager..." );
     [[P2PPeerManager sharedManager] start];
-
-//    NSLog(@"%@/cache/", [P2PFileManager pathForDocumentsDirectory]);
     
     /*  Lets just worry about peer discovery first
     

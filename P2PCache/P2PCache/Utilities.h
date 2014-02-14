@@ -9,7 +9,7 @@
 #ifndef P2PCache_Utilities_h
 #define P2PCache_Utilities_h
 
-#define LogSelector() NSLog(@"[%@] %@", [self class], NSStringFromSelector(_cmd))
+#define LogSelector() P2PLog( P2PLogLevelDebug, @"[%@] %@", [self class], NSStringFromSelector(_cmd))
 
 #endif
 

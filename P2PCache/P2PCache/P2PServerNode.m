@@ -79,7 +79,7 @@
         
         _service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
                                                    type:P2P_BONJOUR_SERVICE_TYPE
-                                                   name:P2P_BONJOUR_SERVICE_NAME
+                                                   name:@""
                                                    port:P2P_BONJOUR_SERVICE_PORT];
         
         if ( _service != nil)
@@ -101,7 +101,7 @@
 
 - (void)handleRecievedObject:(id)object from:(NSNetService *)sender
 {
-    NSLog(@"%@ recieved %@ from %@", self, object, sender);
+    P2PLogDebug(@"%@ - recieved %@ from %@", self, object, sender);
     
     
     if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
@@ -129,11 +129,13 @@
 - (void)netServiceDidPublish:(NSNetService *)sender
 {
     LogSelector();
+    assert( sender == _service );
 }
 
 - (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict
 {
     LogSelector();
+    assert(NO); // For debugging
 }
 
 - (void)netServiceWillResolve:(NSNetService *)sender
@@ -163,8 +165,14 @@
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
-    NSLog(@"******* P2P SERVER DID ACCEPT STREAM CONNECTION ******");
+    P2PLogDebug(@"******* P2P SERVER DID ACCEPT STREAM CONNECTION ******");
     [self takeOverInputStream:inputStream outputStream:outputStream forService:sender];
+}
+
+#pragma mark - Logging
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %@>", NSStringFromClass([self class]), _service.name];//, (unsigned long)self.port, r];
 }
 
 @end

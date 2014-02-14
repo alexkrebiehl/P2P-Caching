@@ -206,21 +206,21 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
             [self readFromStream];
             break;
         case NSStreamEventEndEncountered:
-            NSLog(@"SERVER NSStreamEventEndEncountered");
+            P2PLogDebug(@"SERVER NSStreamEventEndEncountered");
             //[self closeStreams];
             break;
         case NSStreamEventHasSpaceAvailable:
-            NSLog(@"SERVER %@ NSStreamEventHasSpaceAvailable", aStream);
+            P2PLogDebug(@"SERVER %@ NSStreamEventHasSpaceAvailable", aStream);
             //            [self workOutputBuffer];
             break;
         case NSStreamEventErrorOccurred:
-            NSLog(@"SERVER NSStreamEventErrorOccurred");
+            P2PLogDebug(@"SERVER NSStreamEventErrorOccurred");
             break;
         case NSStreamEventOpenCompleted:
-            NSLog(@"SERVER %@ NSStreamEventOpenCompleted", aStream);
+            P2PLogDebug(@"SERVER %@ NSStreamEventOpenCompleted", aStream);
             break;
         case NSStreamEventNone:
-            NSLog(@"SERVER NSStreamEventNone");
+            P2PLogDebug(@"SERVER NSStreamEventNone");
         default:
             break;
     }
@@ -340,7 +340,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 
 - (void)dataDownloadDidFinish
 {
-    NSLog(@"%@ did finish downloading", self);
+    P2PLogDebug(@"%@ did finish downloading", self);
     _status = P2PIncomingDataStatusFinished;
     
     // Move our buffered data over to the publicly available property
@@ -449,7 +449,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     NSInteger bytesWritten = 0;
     while ( buffer.length > bytesWritten )
     {
-        NSLog(@"working buffer");
         if ( ! stream.hasSpaceAvailable )
         {
             // If we're here, the buffer is full.  We should get an NSStreamEventHasSpaceAvailable event
@@ -467,18 +466,15 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
                                     maxLength:[buffer length] - bytesWritten];
         
         if ( writeResult == -1 )
-            NSLog(@"error code here");
+            P2PLog( P2PLogLevelError, @"Failed to write to output stream: %@", stream );
         else
         {
             bytesWritten += writeResult;
-            NSLog(@"wrote %ld bytes to buffer", (long)writeResult );
         }
-        
-        
     }
     if (bytesWritten > 0)
     {
-        NSLog(@"finished transmitting data to peer");
+        P2PLogDebug(@"%@ - Cleared output buffer for stream", self);
     }
     buffer.length = 0;
     
@@ -510,7 +506,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     {
         case NSStreamEventHasBytesAvailable:
         {
-            NSLog(@"%@ - NSStreamEventHasBytesAvailable", self);
+            P2PLogDebug(@"%@ - NSStreamEventHasBytesAvailable", self);
             
             assert([aStream isKindOfClass:[NSInputStream class]]);
 
@@ -529,13 +525,13 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
         }
         case NSStreamEventEndEncountered:
         {
-            NSLog(@"%@ - NSStreamEventEndEncountered", self);
+            P2PLogDebug(@"%@ - NSStreamEventEndEncountered", self);
             //[self closeStreams];
             break;
         }
         case NSStreamEventHasSpaceAvailable:
         {
-            NSLog(@"%@ - %@ NSStreamEventHasSpaceAvailable", self, aStream);
+            P2PLogDebug(@"%@ - %@ NSStreamEventHasSpaceAvailable", self, aStream);
             assert( [aStream isKindOfClass:[NSOutputStream class]] );
             
             [self workOutputBufferForStream:(NSOutputStream *)aStream buffer:[self bufferForStream:aStream]];
@@ -543,17 +539,17 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
         }
         case NSStreamEventErrorOccurred:
         {
-            NSLog(@"%@ - NSStreamEventErrorOccurred", self);
+            P2PLogDebug(@"%@ - NSStreamEventErrorOccurred", self);
             break;
         }
         case NSStreamEventOpenCompleted:
         {
-            NSLog(@"%@ - %@ NSStreamEventOpenCompleted", self, aStream);
+            P2PLogDebug(@"%@ - %@ NSStreamEventOpenCompleted", self, aStream);
             break;
         }
         case NSStreamEventNone:
         {
-            NSLog(@"%@ - NSStreamEventNone", self);
+            P2PLogDebug(@"%@ - NSStreamEventNone", self);
         }
         default:
             break;
@@ -611,22 +607,18 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 #pragma mark - P2PIncomingDataDelegate
 - (void)dataDidFinishLoading:(P2PIncomingData *)loader
 {
-    NSLog(@"download finished: %@", loader );
     [_activeDataTransfers removeObject:loader];
-    
     
     switch ( loader.type )
     {
         case P2PNetworkTransmissionTypeObject:
         {
             id obj = [NSKeyedUnarchiver unarchiveObjectWithData:loader.downloadedData];
-            NSLog(@"recieved object: %@", obj);
+            P2PLogDebug(@"%@ - recieved object: %@", self, obj);
             [self handleRecievedObject:obj from:loader.service];
             break;
         }
         case P2PNetworkTransmissionTypeData:
-            // fall through... not planning on having only-data transfers
-            NSLog(@"recieved data: %@", loader.downloadedData);
         case P2PNetworkTransmissionTypeUnknown:
         default:
             NSAssert(NO, @"Unknown file recieved");
@@ -667,6 +659,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     [outStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     [outStream open];
 }
+
 
 @end
 

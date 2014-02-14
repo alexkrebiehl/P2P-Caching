@@ -58,7 +58,7 @@
     NSOutputStream		*outStream;
     if ( [_netService getInputStream:&inStream outputStream:&outStream] )
     {
-        NSLog(@"PEER Successfully connected to peer's stream");
+        P2PLog( P2PLogLevelNormal, @"%@ - Successfully connected to peer's stream", self);
         [self takeOverInputStream:inStream outputStream:outStream forService:_netService];
     }
     else
@@ -102,7 +102,7 @@
             
             if ( addressStr && port )
             {
-                NSLog(@"Found service at %s:%d", addressStr, port);
+                P2PLog( P2PLogLevelDebug, @"%@ - Found service at %s:%d", self, addressStr, port);
                 _ipAddress = [NSString stringWithCString:addressStr encoding:NSUTF8StringEncoding];
                 _port = port;
                 [self peerDidBecomeReady];
@@ -119,7 +119,7 @@
 
 - (void)handleRecievedObject:(id)object from:(NSNetService *)sender
 {
-    NSLog(@"PEER NODE recieved object %@", object);
+    P2PLogDebug(@"%@ - NODE recieved object %@", self, object);
     if ( [object isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] )
     {
         [self didRecieveFileAvailabilityResponse:object];
@@ -174,8 +174,7 @@
     P2PPeerFileAvailibilityRequest *availibilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileName:request.fileName];
 
     [self transmitObject:availibilityRequest];
-    NSLog(@"File availability request sent to peer: %@", self);
-    
+    P2PLogDebug(@"%@ - File availability request sent", self);
 }
 
 - (void)didRecieveFileAvailabilityResponse:(P2PPeerFileAvailbilityResponse *)response
@@ -207,8 +206,7 @@
 #pragma mark - Logging
 - (NSString *)description
 {
-    NSString *r = self.responseTime == P2PPeerNoResponse ? @"No Response" : [NSString stringWithFormat:@"%lums", (unsigned long)self.responseTime];
-    return [NSString stringWithFormat:@"<%@: %@:%lu -> %@>", NSStringFromClass([self class]), self.ipAddress, (unsigned long)self.port, r];
+    return [NSString stringWithFormat:@"<%@: %@>", NSStringFromClass([self class]), self.netService.name];//, (unsigned long)self.port, r];
 }
 
 

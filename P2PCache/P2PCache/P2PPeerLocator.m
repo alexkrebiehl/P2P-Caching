@@ -32,18 +32,18 @@
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)aNetServiceBrowser
 {
-    NSLog(@"---- Beginning search for peers ----");
+    P2PLog( P2PLogLevelNormal, @"---- Beginning search for peers ----" );
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didNotSearch:(NSDictionary *)errorDict
 {
-    NSLog(@"******** ERROR SEARCHING FOR PEERS ********");
-    NSLog(@"Error code: %@", [errorDict objectForKey:NSNetServicesErrorCode]);
+    P2PLog( P2PLogLevelError, @"******** ERROR SEARCHING FOR PEERS ********" );
+    P2PLog( P2PLogLevelError, @"Error code: %@", [errorDict objectForKey:NSNetServicesErrorCode] );
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
-    if ( [aNetService.name isEqualToString:P2P_BONJOUR_SERVICE_NAME] )
+    if ( [aNetService.type isEqualToString:P2P_BONJOUR_SERVICE_TYPE] )
     {
         P2PPeerNode *aPeer = [[P2PPeerNode alloc] initWithNetService:aNetService];
         [self.delegate peerLocator:self didFindPeer:aPeer];
@@ -61,7 +61,7 @@
 
 - (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)aNetServiceBrowser
 {
-    NSLog(@"---- Stopping peer search ----");
+    P2PLog( P2PLogLevelNormal, @"---- Stopping peer search ----");
 }
 
 

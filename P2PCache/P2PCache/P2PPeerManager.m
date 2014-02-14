@@ -100,22 +100,22 @@ static P2PPeerManager *sharedInstance = nil;
     
     
     // Go through our peer data structure
-    if ( _lastPeerSort == nil || ABS([_lastPeerSort timeIntervalSinceNow]) < peerResortInterval )
-    {
-        _lastPeerSort = [[NSDate alloc] init];
-        [_foundPeers sortUsingComparator:^NSComparisonResult(P2PPeerNode *obj1, P2PPeerNode *obj2)
-        {
-            if ( obj1.responseTime < obj2.responseTime )
-            {
-                return NSOrderedAscending;
-            }
-            else if ( obj1.responseTime > obj2.responseTime )
-            {
-                return NSOrderedDescending;
-            }
-            return NSOrderedSame;
-        }];
-    }
+//    if ( _lastPeerSort == nil || ABS([_lastPeerSort timeIntervalSinceNow]) < peerResortInterval )
+//    {
+//        _lastPeerSort = [[NSDate alloc] init];
+//        [_foundPeers sortUsingComparator:^NSComparisonResult(P2PPeerNode *obj1, P2PPeerNode *obj2)
+//        {
+//            if ( obj1.responseTime < obj2.responseTime )
+//            {
+//                return NSOrderedAscending;
+//            }
+//            else if ( obj1.responseTime > obj2.responseTime )
+//            {
+//                return NSOrderedDescending;
+//            }
+//            return NSOrderedSame;
+//        }];
+//    }
     
     return _foundPeers;
 }
@@ -129,8 +129,7 @@ static P2PPeerManager *sharedInstance = nil;
 {
     // probably add peer to an array here, maybe sort them by response time
     // shit like that
-    LogSelector();
-    NSLog(@"Peer: %@", peer);
+    P2PLog( P2PLogLevelNormal, @"Peer found: %@", peer );
     
     if (_foundPeers == nil)
     {
