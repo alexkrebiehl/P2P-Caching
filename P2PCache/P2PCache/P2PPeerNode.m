@@ -119,7 +119,6 @@
 
 - (void)handleRecievedObject:(id)object from:(NSNetService *)sender
 {
-    P2PLogDebug(@"%@ - NODE recieved object %@", self, object);
     if ( [object isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] )
     {
         [self didRecieveFileAvailabilityResponse:object];

@@ -210,14 +210,14 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
             //[self closeStreams];
             break;
         case NSStreamEventHasSpaceAvailable:
-            P2PLogDebug(@"SERVER %@ NSStreamEventHasSpaceAvailable", aStream);
+//            P2PLogDebug(@"SERVER %@ NSStreamEventHasSpaceAvailable", aStream);
             //            [self workOutputBuffer];
             break;
         case NSStreamEventErrorOccurred:
             P2PLogDebug(@"SERVER NSStreamEventErrorOccurred");
             break;
         case NSStreamEventOpenCompleted:
-            P2PLogDebug(@"SERVER %@ NSStreamEventOpenCompleted", aStream);
+//            P2PLogDebug(@"SERVER %@ NSStreamEventOpenCompleted", aStream);
             break;
         case NSStreamEventNone:
             P2PLogDebug(@"SERVER NSStreamEventNone");
@@ -340,7 +340,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 
 - (void)dataDownloadDidFinish
 {
-    P2PLogDebug(@"%@ did finish downloading", self);
     _status = P2PIncomingDataStatusFinished;
     
     // Move our buffered data over to the publicly available property
@@ -377,6 +376,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 
 // Private Class
 @interface P2PNodeConnction : NSObject
+@property (nonatomic, readonly) NSUInteger connectionId;
 @property (weak, nonatomic) NSNetService *netService;
 
 @property (weak, nonatomic) NSInputStream *inStream;
@@ -387,6 +387,16 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 @end
 
 @implementation P2PNodeConnction
+
+static NSUInteger currentConnectionId = 1;
+- (id)init
+{
+    if ( self = [super init] )
+    {
+        _connectionId = currentConnectionId++;
+    }
+    return self;
+}
 
 - (NSMutableData *)inBuffer
 {
@@ -472,10 +482,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
             bytesWritten += writeResult;
         }
     }
-    if (bytesWritten > 0)
-    {
-        P2PLogDebug(@"%@ - Cleared output buffer for stream", self);
-    }
     buffer.length = 0;
     
 }
@@ -496,6 +502,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     // Add data to buffer
     [connection.outBuffer appendData:preparedData];
 
+    P2PLogDebug( @"%@ - sending object: %@ to %@", self, object, connection.netService.name );
     [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
 }
 
@@ -506,8 +513,6 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     {
         case NSStreamEventHasBytesAvailable:
         {
-            P2PLogDebug(@"%@ - NSStreamEventHasBytesAvailable", self);
-            
             assert([aStream isKindOfClass:[NSInputStream class]]);
 
             P2PIncomingData *d = [[P2PIncomingData alloc] initWithInputStream:((NSInputStream *)aStream) forService:[self netServiceForStream:aStream]];
@@ -526,12 +531,11 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
         case NSStreamEventEndEncountered:
         {
             P2PLogDebug(@"%@ - NSStreamEventEndEncountered", self);
-            //[self closeStreams];
+            assert(NO); // We need to handle this at some point
             break;
         }
         case NSStreamEventHasSpaceAvailable:
         {
-            P2PLogDebug(@"%@ - %@ NSStreamEventHasSpaceAvailable", self, aStream);
             assert( [aStream isKindOfClass:[NSOutputStream class]] );
             
             [self workOutputBufferForStream:(NSOutputStream *)aStream buffer:[self bufferForStream:aStream]];
@@ -539,12 +543,12 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
         }
         case NSStreamEventErrorOccurred:
         {
+            assert(NO); // We need to handle this at some point
             P2PLogDebug(@"%@ - NSStreamEventErrorOccurred", self);
             break;
         }
         case NSStreamEventOpenCompleted:
         {
-            P2PLogDebug(@"%@ - %@ NSStreamEventOpenCompleted", self, aStream);
             break;
         }
         case NSStreamEventNone:
@@ -614,7 +618,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
         case P2PNetworkTransmissionTypeObject:
         {
             id obj = [NSKeyedUnarchiver unarchiveObjectWithData:loader.downloadedData];
-            P2PLogDebug(@"%@ - recieved object: %@", self, obj);
+            P2PLogDebug(@"%@ - recieved object: %@ from %@", self, obj, loader.service.name);
             [self handleRecievedObject:obj from:loader.service];
             break;
         }

@@ -79,7 +79,7 @@
         
         _service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
                                                    type:P2P_BONJOUR_SERVICE_TYPE
-                                                   name:@""
+                                                   name:P2P_BONJOUR_SERVICE_NAME
                                                    port:P2P_BONJOUR_SERVICE_PORT];
         
         if ( _service != nil)
@@ -100,10 +100,7 @@
 }
 
 - (void)handleRecievedObject:(id)object from:(NSNetService *)sender
-{
-    P2PLogDebug(@"%@ - recieved %@ from %@", self, object, sender);
-    
-    
+{   
     if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
     {
         // Check file availbility
@@ -135,7 +132,7 @@
 - (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict
 {
     LogSelector();
-    assert(NO); // For debugging
+    assert(NO); // For debugging... find out why we did not publish
 }
 
 - (void)netServiceWillResolve:(NSNetService *)sender
@@ -165,7 +162,10 @@
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
-    P2PLogDebug(@"******* P2P SERVER DID ACCEPT STREAM CONNECTION ******");
+    // Note to self for the next time I work on this:
+    // 'sender' is our local server instance, not the netservice of the connecting peer
+    
+    P2PLogDebug( @"*** %@ has connected to our server", sender.name );
     [self takeOverInputStream:inputStream outputStream:outputStream forService:sender];
 }
 
