@@ -39,7 +39,54 @@ static const NSUInteger P2PIncomingDataFileSizeUnknown = NSUIntegerMax;
 
 
 
+// Private Class
+@interface P2PNodeConnection : NSObject
+@property (nonatomic, readonly) NSUInteger connectionId;
+//@property (weak, nonatomic) NSNetService *netService;
 
+@property (weak, nonatomic) NSInputStream *inStream;
+@property (strong, nonatomic) NSMutableData *inBuffer;
+
+@property (weak, nonatomic) NSOutputStream *outStream;
+@property (strong, nonatomic) NSMutableData *outBuffer;
+@end
+
+@implementation P2PNodeConnection
+
+static NSUInteger currentConnectionId = 1;
+- (id)init
+{
+    if ( self = [super init] )
+    {
+        _connectionId = currentConnectionId++;
+    }
+    return self;
+}
+
+- (NSMutableData *)inBuffer
+{
+    if ( _inBuffer == nil)
+    {
+        _inBuffer = [[NSMutableData alloc] initWithCapacity:2048];
+    }
+    return _inBuffer;
+}
+
+- (NSMutableData *)outBuffer
+{
+    if ( _outBuffer == nil )
+    {
+        _outBuffer = [[NSMutableData alloc] initWithCapacity:2048];
+    }
+    return _outBuffer;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ - ID: %lu>", [self class], _connectionId];
+}
+
+@end
 
 
 
@@ -139,14 +186,16 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
  is complete and the data is now available.
  
  */
+
 // Private class
 @interface P2PIncomingData : NSObject <NSStreamDelegate>
 
-@property (weak, nonatomic) NSNetService *service;                   // The netservice that owns this downloads stream
+//@property (weak, nonatomic) NSNetService *service;                   // The netservice that owns this downloads stream
+@property (weak, nonatomic, readonly) P2PNodeConnection *connection;
 @property (nonatomic, readonly) NSUInteger fileSize;
 @property (readonly, nonatomic) P2PIncomingDataStatus status;
 @property (weak, nonatomic) id<P2PIncomingDataDelegate> delegate;
-@property (weak, nonatomic) NSInputStream *stream;
+//@property (weak, nonatomic) NSInputStream *stream;
 @property (strong, nonatomic, readonly) id downloadedData;          // Downloaded data may either be an object (such as a request)
 @property (readonly, nonatomic) P2PNetworkTransmissionType type;    // Or a binary data file
                                                                     // The correct one can be found by using the type property
@@ -167,17 +216,18 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 
 - (id)init
 {
-    return [self initWithInputStream:nil forService:nil];
+    return [self initWithConnection:nil];
 }
 
-- (id)initWithInputStream:(NSInputStream *)stream forService:(NSNetService *)service
+- (id)initWithConnection:(P2PNodeConnection *)connection
 {
-    assert( stream != nil );
-    assert( service != nil );
+    assert( connection != nil );
+//    assert( service != nil );
     if ( self = [super init] )
     {
-        _stream = stream;
-        _service = service;
+//        _stream = stream;
+//        _service = service;
+        _connection = connection;
         _status = P2PIncomingDataStatusNotStarted;
         _fileSize = P2PIncomingDataFileSizeUnknown;
     }
@@ -189,7 +239,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     if ( _status == P2PIncomingDataStatusNotStarted )
     {
         _status = P2PIncomingDataStatusStarting;
-        _stream.delegate = self;
+        _connection.inStream.delegate = self;
         [self readFromStream];
     }
 }
@@ -197,7 +247,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 #pragma mark - NSStream Delegate Methods
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
 {
-    NSAssert(aStream == _stream, @"We shouldn't be recieving callbacks for streams that aren't ours!");
+    NSAssert(aStream == _connection.inStream, @"We shouldn't be recieving callbacks for streams that aren't ours!");
     
     
     switch ( eventCode )
@@ -229,7 +279,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 
 - (void)readFromStream
 {
-    if ( _stream.hasBytesAvailable )
+    if ( _connection.inStream.hasBytesAvailable )
     {
         // Setup (if needed)
         if ( _buffer == nil )
@@ -249,7 +299,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
         
         
         // Read from buffer
-        actuallyRead = [_stream read:&oneByte maxLength:1];
+        actuallyRead = [_connection.inStream read:&oneByte maxLength:1];
         
         
         //        NSLog(@"byte: %c", oneByte);
@@ -349,7 +399,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
     // Return control of the stream to our delegate.
     // For the intents of this P2P demo, we're going to assume that our delegate also
     // implements the NSStreamDelegate protocol...
-    _stream.delegate = (id<NSStreamDelegate>)self.delegate;
+    _connection.inStream.delegate = (id<NSStreamDelegate>)self.delegate;
     
     [self.delegate dataDidFinishLoading:self];
 }
@@ -374,49 +424,7 @@ NSData* prepareDataForTransmission( NSData *dataToTransmit )
 
 
 
-// Private Class
-@interface P2PNodeConnction : NSObject
-@property (nonatomic, readonly) NSUInteger connectionId;
-@property (weak, nonatomic) NSNetService *netService;
 
-@property (weak, nonatomic) NSInputStream *inStream;
-@property (strong, nonatomic) NSMutableData *inBuffer;
-
-@property (weak, nonatomic) NSOutputStream *outStream;
-@property (strong, nonatomic) NSMutableData *outBuffer;
-@end
-
-@implementation P2PNodeConnction
-
-static NSUInteger currentConnectionId = 1;
-- (id)init
-{
-    if ( self = [super init] )
-    {
-        _connectionId = currentConnectionId++;
-    }
-    return self;
-}
-
-- (NSMutableData *)inBuffer
-{
-    if ( _inBuffer == nil)
-    {
-        _inBuffer = [[NSMutableData alloc] initWithCapacity:2048];
-    }
-    return _inBuffer;
-}
-
-- (NSMutableData *)outBuffer
-{
-    if ( _outBuffer == nil )
-    {
-        _outBuffer = [[NSMutableData alloc] initWithCapacity:2048];
-    }
-    return _outBuffer;
-}
-
-@end
 
 
 
@@ -442,10 +450,7 @@ static NSUInteger currentConnectionId = 1;
 
 @implementation P2PNode
 {
-//    NSMutableData *_inStreamBuffer;
-    
     NSMutableArray *_activeConnections;     // An array of active P2PNodeConnection objects
-    
     NSMutableArray *_activeDataTransfers;   // An array of P2PIncomingData objects
 }
 
@@ -488,21 +493,25 @@ static NSUInteger currentConnectionId = 1;
 
 - (void)transmitObject:(id<NSCoding>)object
 {
-    NSAssert( [_activeConnections count] == 1, @"A server must specify what service to send the object to with transmitObject:toNetService:" );
-    [self transmitObject:object toNetService:nil];
+    
+    [self transmitObject:object toNodeConnection:nil];
 }
 
-- (void)transmitObject:(id<NSCoding>)object toNetService:(NSNetService *)service
+- (void)transmitObject:(id<NSCoding>)object toNodeConnection:(P2PNodeConnection *)connection
 {
     NSData *preparedData = prepareObjectForTransmission( object );
     
-    P2PNodeConnction *connection = [self connectionForNetService:service];
-    assert( connection != nil );
+//    P2PNodeConnection *connection = [self connectionForNetService:service];
+    if ( connection == nil && [_activeConnections count] == 1 )
+    {
+        connection = [_activeConnections objectAtIndex:0];
+    }
+    NSAssert( connection != nil, @"Ambigious connection.  A node connection must be specified to send an object to" );
     
     // Add data to buffer
     [connection.outBuffer appendData:preparedData];
 
-    P2PLogDebug( @"%@ - sending object: %@ to %@", self, object, connection.netService.name );
+    P2PLogDebug( @"%@ - sending object: %@ to %@", self, object, connection );
     [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
 }
 
@@ -515,7 +524,7 @@ static NSUInteger currentConnectionId = 1;
         {
             assert([aStream isKindOfClass:[NSInputStream class]]);
 
-            P2PIncomingData *d = [[P2PIncomingData alloc] initWithInputStream:((NSInputStream *)aStream) forService:[self netServiceForStream:aStream]];
+            P2PIncomingData *d = [[P2PIncomingData alloc] initWithConnection:[self connectionNodeForStream:aStream]];
             
             if ( _activeDataTransfers == nil )
             {
@@ -537,8 +546,8 @@ static NSUInteger currentConnectionId = 1;
         case NSStreamEventHasSpaceAvailable:
         {
             assert( [aStream isKindOfClass:[NSOutputStream class]] );
-            
-            [self workOutputBufferForStream:(NSOutputStream *)aStream buffer:[self bufferForStream:aStream]];
+            P2PNodeConnection *connection = [self connectionNodeForStream:aStream];
+            [self workOutputBufferForStream:(NSOutputStream *)aStream buffer:connection.outBuffer];
             break;
         }
         case NSStreamEventErrorOccurred:
@@ -560,46 +569,46 @@ static NSUInteger currentConnectionId = 1;
     }
 }
 
-- (NSNetService *)netServiceForStream:(NSStream *)stream
-{
-    for ( P2PNodeConnction *c in _activeConnections )
-    {
-        if ( c.inStream == stream || c.outStream == stream )
-        {
-            return c.netService;
-        }
-    }
-    return nil;
-}
+//- (NSNetService *)netServiceForStream:(NSStream *)stream
+//{
+//    for ( P2PNodeConnection *c in _activeConnections )
+//    {
+//        if ( c.inStream == stream || c.outStream == stream )
+//        {
+//            return c.netService;
+//        }
+//    }
+//    return nil;
+//}
+//
+//- (NSMutableData *)bufferForStream:(NSStream *)stream
+//{
+//    for ( P2PNodeConnection *c in _activeConnections )
+//    {
+//        if ( c.inStream == stream )
+//        {
+//            return c.inBuffer;
+//        }
+//        if ( c.outStream == stream )
+//        {
+//            return c.outBuffer;
+//        }
+//    }
+//    return nil;
+//}
 
-- (NSMutableData *)bufferForStream:(NSStream *)stream
+- (P2PNodeConnection *)connectionNodeForStream:(NSStream *)stream
 {
-    for ( P2PNodeConnction *c in _activeConnections )
-    {
-        if ( c.inStream == stream )
-        {
-            return c.inBuffer;
-        }
-        if ( c.outStream == stream )
-        {
-            return c.outBuffer;
-        }
-    }
-    return nil;
-}
-
-- (P2PNodeConnction *)connectionForNetService:(NSNetService *)service
-{
-    // if nil is specified for service, we just return the first service
-    if ( service == nil )
+    // if nil is specified for stream, we just return the first node
+    if ( stream == nil )
     {
         assert( [_activeConnections count] == 1 );
         return [_activeConnections objectAtIndex:0];
     }
     
-    for ( P2PNodeConnction *c in _activeConnections )
+    for ( P2PNodeConnection *c in _activeConnections )
     {
-        if ( c.netService == service )
+        if ( c.inStream == stream || c.outStream == stream )
         {
             return c;
         }
@@ -618,8 +627,8 @@ static NSUInteger currentConnectionId = 1;
         case P2PNetworkTransmissionTypeObject:
         {
             id obj = [NSKeyedUnarchiver unarchiveObjectWithData:loader.downloadedData];
-            P2PLogDebug(@"%@ - recieved object: %@ from %@", self, obj, loader.service.name);
-            [self handleRecievedObject:obj from:loader.service];
+            P2PLogDebug(@"%@ - recieved object: %@ from %@", self, obj, loader.connection);
+            [self handleRecievedObject:obj from:loader.connection];
             break;
         }
         case P2PNetworkTransmissionTypeData:
@@ -632,7 +641,7 @@ static NSUInteger currentConnectionId = 1;
 
 /** If we have an incoming object from a data transfer, it will be sent here so we can figure out
  what to do with it */
-- (void)handleRecievedObject:(id)object from:(NSNetService *)sender
+- (void)handleRecievedObject:(id)object from:(P2PNodeConnection *)sender
 {
     NSAssert([self class] != [P2PNode class], @"This selector should be overridden by subclasses");
 }
@@ -643,10 +652,10 @@ static NSUInteger currentConnectionId = 1;
     assert( outStream != nil );
     assert( service != nil );
     
-    P2PNodeConnction *connection = [[P2PNodeConnction alloc] init];
+    P2PNodeConnection *connection = [[P2PNodeConnection alloc] init];
     connection.inStream = inStream;
     connection.outStream = outStream;
-    connection.netService = service;
+//    connection.netService = service;
     
     if ( _activeConnections == nil )
     {

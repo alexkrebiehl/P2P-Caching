@@ -117,7 +117,7 @@
     }
 }
 
-- (void)handleRecievedObject:(id)object from:(NSNetService *)sender
+- (void)handleRecievedObject:(id)object from:(P2PNodeConnection *)sender
 {
     if ( [object isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] )
     {

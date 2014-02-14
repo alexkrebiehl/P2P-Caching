@@ -99,14 +99,14 @@
     }
 }
 
-- (void)handleRecievedObject:(id)object from:(NSNetService *)sender
+- (void)handleRecievedObject:(id)object from:(P2PNodeConnection *)sender
 {   
     if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
     {
         // Check file availbility
         P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:object];
         
-        [self transmitObject:response toNetService:sender]; 
+        [self transmitObject:response toNodeConnection:sender];
     }
     else
     {

@@ -14,7 +14,7 @@
  
  All of the common networking tools will be found here */
 
-@class P2PIncomingData;
+@class P2PIncomingData, P2PNodeConnection;
 @protocol P2PIncomingDataDelegate <NSObject>
 
 - (void)dataDidFinishLoading:(P2PIncomingData *)loader;
@@ -32,7 +32,7 @@
  @param object The recieved object
  @param sender The service which this object came from
  */
-- (void)handleRecievedObject:(id)object from:(NSNetService *)sender;
+- (void)handleRecievedObject:(id)object from:(P2PNodeConnection *)sender;
 
 @end
 
@@ -57,9 +57,9 @@
  This method will be used by a server instance of P2PNode to specify which peer to send the object to.
  
  @param object An object to send
- @param service The NSNetService instance object connected to a peer.
+ @param connection The P2PNodeConnection instance object connected to a peer.
  */
-- (void)transmitObject:(id<NSCoding>)object toNetService:(NSNetService *)service;
+- (void)transmitObject:(id<NSCoding>)object toNodeConnection:(P2PNodeConnection *)connection;
 
 @end
 
