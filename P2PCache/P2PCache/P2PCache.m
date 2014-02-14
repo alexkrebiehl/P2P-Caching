@@ -10,6 +10,7 @@
 #import "P2PCacheProtocol.h"
 #import "P2PPeerManager.h"
 #import "P2PFileRequest.h"
+#import "P2PFileManager.h"
 
 @implementation P2PCache
 
@@ -18,7 +19,8 @@
     // Ramp-up the Peer Manager
     P2PLog( P2PLogLevelDebug, @"Starting the Peer Manager..." );
     [[P2PPeerManager sharedManager] start];
-    
+
+//    NSLog(@"%@/cache/", [P2PFileManager pathForDocumentsDirectory]);
     
     /*  Lets just worry about peer discovery first
     

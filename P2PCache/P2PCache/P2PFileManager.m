@@ -47,4 +47,10 @@ static P2PFileManager *sharedInstance = nil;
     return chunk;
 }
 
++ (NSString *)pathForDocumentsDirectory
+{
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	return [paths objectAtIndex:0];
+}
+
 @end
