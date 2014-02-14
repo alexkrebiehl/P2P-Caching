@@ -9,6 +9,8 @@
 #import "P2PFileManager.h"
 #import "P2PPeerFileAvailbilityResponse.h"
 #import "P2PPeerFileAvailibilityRequest.h"
+#import "P2PFileChunk.h"
+#import "P2PFileChunkRequest.h"
 
 @implementation P2PFileManager
 
@@ -25,12 +27,24 @@ static P2PFileManager *sharedInstance = nil;
 
 - (P2PPeerFileAvailbilityResponse *)fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)request
 {
-    // TODO
+    // Respond to a client with what chunks of a file we have
     
     P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithFileName:request.fileName
                                                                                         availableChunks:@[ @(1) ]
-                                                                                              chunkSize:1024];
+                                                                                              chunkSize:P2PFileManagerFileChunkSize];
     return response;
+}
+
+- (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
+{
+    // Populate a file chunk here
+    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:nil startPosition:0 fileName:nil];
+    
+    
+    
+    
+    
+    return chunk;
 }
 
 @end

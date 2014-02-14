@@ -10,12 +10,14 @@
 
 static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File chunk size
 
-@class P2PPeerFileAvailibilityRequest, P2PPeerFileAvailbilityResponse;
+@class P2PPeerFileAvailibilityRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk, P2PFileChunkRequest;
 
 @interface P2PFileManager : NSObject
 
 + (P2PFileManager *)sharedManager;
 
 - (P2PPeerFileAvailbilityResponse *)fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)request;
+
+- (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request;
 
 @end
