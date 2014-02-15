@@ -647,6 +647,17 @@ static NSUInteger currentConnectionId = 1;
 - (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent
 {
     [_activeConnections removeObject:node];
+    P2PLog( P2PLogLevelWarning, @"%@ - connection lost: %@", self, node);
+}
+
+- (void)cleanup
+{
+    [super cleanup];
+    for ( P2PNodeConnection *connection in _activeConnections )
+    {
+        [connection.inStream close];
+        [connection.outStream close];
+    }
 }
 
 @end

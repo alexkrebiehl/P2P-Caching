@@ -21,6 +21,7 @@
 // Global imports
 #import "Utilities.h"
 #import "P2PLogging.h"
+#import "NSObject+cleanup.h"
 
 // Networking
 #import "P2PNode.h"

@@ -13,6 +13,9 @@
 		FA0DFF9118AEDBF300B2C1CB /* NSData+mD5Hash.h in Headers */ = {isa = PBXBuildFile; fileRef = FA0DFF8F18AEDBF300B2C1CB /* NSData+mD5Hash.h */; };
 		FA0DFF9218AEDBF300B2C1CB /* NSData+mD5Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0DFF9018AEDBF300B2C1CB /* NSData+mD5Hash.m */; };
 		FA0DFF9318AEDBF300B2C1CB /* NSData+mD5Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0DFF9018AEDBF300B2C1CB /* NSData+mD5Hash.m */; };
+		FA0DFF9618AF274B00B2C1CB /* NSObject+cleanup.h in Headers */ = {isa = PBXBuildFile; fileRef = FA0DFF9418AF274B00B2C1CB /* NSObject+cleanup.h */; };
+		FA0DFF9718AF274B00B2C1CB /* NSObject+cleanup.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0DFF9518AF274B00B2C1CB /* NSObject+cleanup.m */; };
+		FA0DFF9818AF274B00B2C1CB /* NSObject+cleanup.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0DFF9518AF274B00B2C1CB /* NSObject+cleanup.m */; };
 		FA3924F5189CC94F002B6324 /* SimplePing.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3924F3189CC94F002B6324 /* SimplePing.h */; };
 		FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F4189CC94F002B6324 /* SimplePing.m */; };
 		FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F4189CC94F002B6324 /* SimplePing.m */; };
@@ -115,6 +118,8 @@
 		FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileChunkRequest.m; sourceTree = "<group>"; };
 		FA0DFF8F18AEDBF300B2C1CB /* NSData+mD5Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+mD5Hash.h"; sourceTree = "<group>"; };
 		FA0DFF9018AEDBF300B2C1CB /* NSData+mD5Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+mD5Hash.m"; sourceTree = "<group>"; };
+		FA0DFF9418AF274B00B2C1CB /* NSObject+cleanup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+cleanup.h"; sourceTree = "<group>"; };
+		FA0DFF9518AF274B00B2C1CB /* NSObject+cleanup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+cleanup.m"; sourceTree = "<group>"; };
 		FA3924F1189C9A96002B6324 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		FA3924F2189CC259002B6324 /* P2PLocatorDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PLocatorDelegate.h; sourceTree = "<group>"; };
 		FA3924F3189CC94F002B6324 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
@@ -374,6 +379,8 @@
 				FA3924F1189C9A96002B6324 /* Utilities.h */,
 				FA0DFF8F18AEDBF300B2C1CB /* NSData+mD5Hash.h */,
 				FA0DFF9018AEDBF300B2C1CB /* NSData+mD5Hash.m */,
+				FA0DFF9418AF274B00B2C1CB /* NSObject+cleanup.h */,
+				FA0DFF9518AF274B00B2C1CB /* NSObject+cleanup.m */,
 			);
 			name = Utility;
 			sourceTree = "<group>";
@@ -438,6 +445,7 @@
 				FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */,
 				FA3E9EED189B5EFD009FEB99 /* P2PPeerLocator.h in Headers */,
 				FA0DFF8C18AD16DD00B2C1CB /* P2PFileChunkRequest.h in Headers */,
+				FA0DFF9618AF274B00B2C1CB /* NSObject+cleanup.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,6 +593,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0DFF9718AF274B00B2C1CB /* NSObject+cleanup.m in Sources */,
 				FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */,
 				FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */,
 				FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
@@ -617,6 +626,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0DFF9818AF274B00B2C1CB /* NSObject+cleanup.m in Sources */,
 				FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */,
 				FA3E9EE3189B5A06009FEB99 /* P2PCacheProtocol.m in Sources */,
 				FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,

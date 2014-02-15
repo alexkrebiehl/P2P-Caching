@@ -161,4 +161,10 @@
     return [NSString stringWithFormat:@"<%@: %@>", NSStringFromClass([self class]), _service.name];//, (unsigned long)self.port, r];
 }
 
+- (void)cleanup
+{
+    [super cleanup];
+    [_service stop];
+}
+
 @end

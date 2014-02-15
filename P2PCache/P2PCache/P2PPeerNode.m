@@ -143,7 +143,10 @@
 //}
 
 
-
+- (void)netServiceDidStop:(NSNetService *)sender
+{
+    [self peerIsNoLongerReady];
+}
 
 
 

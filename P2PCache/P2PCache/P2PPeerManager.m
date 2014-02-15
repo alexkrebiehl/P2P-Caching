@@ -12,32 +12,11 @@
 #import "P2PPeerNode.h"
 #import "P2PLocatorDelegate.h"
 
-/**
- 
- My thoughts for this are:
- 
-    --- Startup ---
-    1.  We send a broadcast announcement that we are alive.
-    2.  Any peers currently running will recieve the broadcast and respond with their information
-    3.  We will track all of this information and use some kind of hueristic to determine the best peers
-        --- I think steps 1 & 2 are handled for us by Bonjour (P2PLocator class) ---
-
-    --- Running ---
-    1.  We will perodically 'check' on our peer list to make sure everyone is still active.
-        --- I have the P2PPeer class periodically ping right now ---
-    2.  Perodically re-priortize the peer list depending on our hueristic
- 
-    --- Shutdown ---
-    1.  Announce our departure to our peer list so they don't continue trying to use us
- 
- 
- */
-
-static const NSTimeInterval peerResortInterval = 10;    // Resort the peer list every 10 seconds
+//static const NSTimeInterval peerResortInterval = 10;    // Resort the peer list every 10 seconds
                                                         // I already feel dirty for doing it this way
                                                         // I'll think of a better way later
 
-@interface P2PPeerManager()<P2PPeerProtocol, P2PPeerLocatorDelegate>
+@interface P2PPeerManager()<P2PPeerProtocol, NSNetServiceBrowserDelegate>
 @end
 
 
@@ -45,9 +24,15 @@ static const NSTimeInterval peerResortInterval = 10;    // Resort the peer list 
 {
     P2PServerNode   *_peerServer;           // Us broadcasting to others that we offer a service
     P2PPeerLocator  *_peerLocatorService;   // Us seeking out other servers
-    NSMutableArray  *_foundPeers;           // List of peers (we'll probabibly do something better later)
     NSDate          *_lastPeerSort;         // How long ago we last sorted the peer list.
+    
+    NSMutableArray *_activePeers;           // Peers we are connected to and ready to interact with
+    NSMutableArray *_allPeers;              // Every peer we can find, wether we are connected or not
+    
+    NSNetServiceBrowser *_serviceBrowser;   // Searches for peers
 }
+@synthesize activePeers = _activePeers;
+@synthesize allPeers = _allPeers;
 
 
 
@@ -77,84 +62,116 @@ static P2PPeerManager *sharedInstance = nil;
     [_peerServer beginBroadcasting];
     
     // Find some peeps
-    _peerLocatorService = [[P2PPeerLocator alloc] init];
-    [_peerLocatorService setDelegate:self];
-    [_peerLocatorService beginSearching];
+//    _peerLocatorService = [[P2PPeerLocator alloc] init];
+//    [_peerLocatorService setDelegate:self];
+//    [_peerLocatorService beginSearching];
+    _allPeers = [[NSMutableArray alloc] init];
+    _activePeers = [[NSMutableArray alloc] init];
+    [self beginSearching];
+}
+
+- (void)cleanup
+{
+    [super cleanup];
+    
+    [_serviceBrowser stop];
+    [_peerServer cleanup];
+    for ( P2PNode *node in _allPeers )
+    {
+        [node cleanup];
+    }
+}
+
+- (void)beginSearching
+{
+    if ( _serviceBrowser == nil )
+    {
+        _serviceBrowser = [[NSNetServiceBrowser alloc] init];
+        [_serviceBrowser setDelegate:self];
+        [_serviceBrowser searchForServicesOfType:P2P_BONJOUR_SERVICE_TYPE inDomain:P2P_BONJOUR_SERVICE_DOMAIN];
+    }
+}
+
+- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)aNetServiceBrowser
+{
+    P2PLog( P2PLogLevelNormal, @"---- Beginning search for peers ----" );
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didNotSearch:(NSDictionary *)errorDict
+{
+    P2PLog( P2PLogLevelError, @"******** ERROR SEARCHING FOR PEERS ********" );
+    P2PLog( P2PLogLevelError, @"Error code: %@", [errorDict objectForKey:NSNetServicesErrorCode] );
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
+{
+    if ( [aNetService.type isEqualToString:P2P_BONJOUR_SERVICE_TYPE] )
+    {
+        P2PPeerNode *aPeer = [[P2PPeerNode alloc] initWithNetService:aNetService];
+        [_allPeers addObject:aPeer];
+        aPeer.delegate = self;
+        [aPeer preparePeer];
+//        [self.delegate peerLocator:self didFindPeer:aPeer];
+    }
+    
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
+{
+    if ( [aNetService.name isEqualToString:P2P_BONJOUR_SERVICE_NAME] )
+    {
+        // Find a good way to do this
+        P2PLog( P2PLogLevelNormal, @"******** DID LOSE PEER: %@ NEED TO HANDLE **********", aNetService.name );
+        for ( P2PPeerNode *peer in _allPeers )
+        {
+            if ( peer.netService == aNetService )
+            {
+                [self peerIsNoLongerReady:peer];
+                [_allPeers removeObject:peer];
+            }
+        }
+    }
+}
+
+- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)aNetServiceBrowser
+{
+    P2PLog( P2PLogLevelNormal, @"---- Stopping peer search ----");
 }
 
 
-- (NSArray *)peerList
-{
-    /*
-     
-     Yeah, this is real bad.
-     
-     I think what we can do here is keep our entire peer list here,
-     than occasionally go through it and pick out 'prefered' peers,
-     such as ones than have a ping of 1-10ms or something.
-     
-     This way we're not constantly going through the entire list constantly
-     
-     */
-    
-    
-    
-    // Go through our peer data structure
-//    if ( _lastPeerSort == nil || ABS([_lastPeerSort timeIntervalSinceNow]) < peerResortInterval )
-//    {
-//        _lastPeerSort = [[NSDate alloc] init];
-//        [_foundPeers sortUsingComparator:^NSComparisonResult(P2PPeerNode *obj1, P2PPeerNode *obj2)
-//        {
-//            if ( obj1.responseTime < obj2.responseTime )
-//            {
-//                return NSOrderedAscending;
-//            }
-//            else if ( obj1.responseTime > obj2.responseTime )
-//            {
-//                return NSOrderedDescending;
-//            }
-//            return NSOrderedSame;
-//        }];
-//    }
-    
-    return _foundPeers;
-}
 
 
-
-
-
-#pragma mark - P2PPeerLocator delegate methods
-- (void)peerLocator:(P2PPeerLocator *)locator didFindPeer:(P2PPeerNode *)peer
-{
+//#pragma mark - P2PPeerLocator delegate methods
+//- (void)peerLocator:(P2PPeerLocator *)locator didFindPeer:(P2PPeerNode *)peer
+//{
     // probably add peer to an array here, maybe sort them by response time
     // shit like that
-    P2PLog( P2PLogLevelNormal, @"Peer found: %@", peer );
+//    P2PLog( P2PLogLevelNormal, @"Peer found: %@", peer );
     
-    if (_foundPeers == nil)
-    {
-        _foundPeers = [[NSMutableArray alloc] init];
-    }
-    [_foundPeers addObject:peer];
-    peer.delegate = self;
-    [peer preparePeer];
     
-}
+//    peer.delegate = self;
+//    [peer preparePeer];
+    
+//}
 
-- (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeerNode *)peer
-{
-    [_foundPeers removeObject:peer];
-}
+//- (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeerNode *)peer
+//{
+//    [_activePeers removeObject:peer];
+//}
 
 
 #pragma mark - P2PPeer Delegate Methods
 - (void)peerDidBecomeReady:(P2PPeerNode *)peer
 {
+    P2PLogDebug( @"%@ - peer did become ready", peer );
+    [_activePeers addObject:peer];
     [[NSNotificationCenter defaultCenter] postNotificationName:P2PPeerManagerPeerListUpdatedNotification object:self];
 }
 
 - (void)peerIsNoLongerReady:(P2PPeerNode *)peer
 {
+    P2PLogDebug( @"%@ - peer is no longer ready", peer );
+    [_activePeers removeObject:peer];
     [[NSNotificationCenter defaultCenter] postNotificationName:P2PPeerManagerPeerListUpdatedNotification object:self];
 }
 

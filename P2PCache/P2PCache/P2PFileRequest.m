@@ -27,7 +27,7 @@
 
 - (void)getFile
 {
-    NSArray *peers = [[P2PPeerManager sharedManager] peerList];
+    NSArray *peers = [[P2PPeerManager sharedManager] activePeers];
     for ( P2PPeerNode *aPeer in peers )
     {
         [aPeer getFileAvailabilityForRequest:self];

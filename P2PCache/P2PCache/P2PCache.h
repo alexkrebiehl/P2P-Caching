@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+static NSString *P2PCacheShutDownSignalRecievedNotification = @"P2PCacheShutDownSignalRecievedNotification";
+
 @class P2PFileRequest;
 
 @interface P2PCache : NSObject
