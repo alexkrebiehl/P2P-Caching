@@ -66,8 +66,6 @@
     
     if ( socket != nil )
     {
-        
-        
         _service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
                                                    type:P2P_BONJOUR_SERVICE_TYPE
                                                    name:P2P_BONJOUR_SERVICE_NAME

@@ -12,10 +12,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "P2PNode.h"
 #include <arpa/inet.h>
-
-//#define P2P_PEER_RESPONSE_INTERVAL 10               // How often we should ping the peer
-//#define P2P_PEER_RESPONSE_INTERVAL_TOLERANCE .10    // 10% wiggle room on when our timer runs
 
 @class P2PPeerNode, P2PFileRequest;
 
@@ -27,24 +25,16 @@
 @end
 
 
-
-
-//static const float P2PPeerNoResponse = MAXFLOAT;    // Value of response time until we recieve an echo from ping
-
-
-
-
 @interface P2PPeerNode : P2PNode
 
 @property (weak, nonatomic) id<P2PPeerProtocol> delegate;
 
-@property (copy, nonatomic, readonly) NSString *ipAddress;  // Peer's IP address
-@property (copy, nonatomic, readonly) NSString *domain;     // Peer's resolved domain
-@property (nonatomic, readonly) NSUInteger port;            // Port number
-//@property (nonatomic, readonly) float responseTime;         // ping in milliseconds
+//@property (copy, nonatomic, readonly) NSString *ipAddress;  // Peer's IP address
+//@property (copy, nonatomic, readonly) NSString *domain;     // Peer's resolved domain
+//@property (nonatomic, readonly) NSUInteger port;            // Port number
 
 @property (strong, nonatomic, readonly) NSNetService *netService;
-@property (nonatomic, readonly) bool peerIsReady;
+@property (nonatomic, readonly) bool isReady;
 
 /** Create a new object representing a peer
  @param netService The NetService object controling this peer

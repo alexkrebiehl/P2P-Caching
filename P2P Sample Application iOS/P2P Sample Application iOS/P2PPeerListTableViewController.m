@@ -75,7 +75,7 @@
     }
     
     P2PPeerNode *aPeer = [[[P2PPeerManager sharedManager] peerList] objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", aPeer.ipAddress];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", aPeer.netService.name];
     
     return cell;
 }
