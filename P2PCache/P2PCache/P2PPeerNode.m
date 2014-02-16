@@ -209,7 +209,7 @@
     for ( P2PFileChunkRequest *aRequest in _pendingFileChunkRequests )
     {
         //good enough for now..
-        if ( [aRequest.fileId isEqualToString:fileChunk.fileId] && aRequest.chunksId == fileChunk.chunkId )
+        if ( [aRequest.fileId isEqualToString:fileChunk.fileId] && aRequest.chunkId == fileChunk.chunkId )
         {
             // found the request.....
             [aRequest peer:self didRecieveChunk:fileChunk];
