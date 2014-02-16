@@ -10,6 +10,7 @@
 #import "P2PPeerManager.h"
 #import "P2PPeerNode.h"
 #import "P2PFileChunkRequest.h"
+#import "P2PPeerFileAvailbilityResponse.h"
 
 @interface P2PFileRequest() <P2PFileChunkRequestDelegate>
 
@@ -58,6 +59,8 @@
     }
     [_recievedAvailabiltyResponses addObject:response];
     
+    NSAssert( [[_recievedAvailabiltyResponses firstObject] totalFileLength] == [response totalFileLength], @"Inconsistent file lengths" );
+    
     [self processResponses];
 }
 
@@ -70,8 +73,9 @@
 
 - (void)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PPeerNode *)peer
 {
+    _status = P2PFileRequestStatusRetreivingFile;
     request.delegate = self;
-//    [peer requestFileChunk:request];
+    [peer requestFileChunk:request];
 }
 
 - (void)fileChunkRequest:(P2PFileChunkRequest *)request didRecieveChunk:(P2PFileChunk *)chunk

@@ -9,6 +9,7 @@
 #import "P2PAppDelegate.h"
 #import "P2PCache/P2PCache.h"
 #import "P2PPeerManager.h"
+#import "P2PFileManager.h"
 #import "P2PFileRequest.h"
 
 @implementation P2PAppDelegate
@@ -46,5 +47,26 @@
     P2PFileRequest *request = [P2PCache requestFileWithName:@"this_is_a_test.jpg"];
     [request getFile];
     
+}
+- (IBAction)addFileToCacheButtonPressed:(id)sender
+{
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    
+    // Enable options in the dialog.
+    [openDlg setCanChooseFiles:YES];
+    [openDlg setAllowsMultipleSelection:YES];
+    
+    if ( [openDlg runModal] == NSOKButton )
+    {
+        // Gets list of all files selected
+        NSArray *files = [openDlg URLs];
+        for ( NSURL *file in files )
+        {
+            NSData *fileData = [NSData dataWithContentsOfURL:file];
+            NSString *fileName = [[P2PFileManager sharedManager] displayNameAtPath:[file absoluteString]];
+            [[P2PFileManager sharedManager] cacheFile:fileData withFileName:fileName];
+        }
+    }
+   
 }
 @end

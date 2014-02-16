@@ -12,12 +12,28 @@
 
 @interface P2PPeerFileAvailbilityResponse : NSObject <NSCoding>
 
+/** File ID (Hash of the completed file */
 @property (copy, nonatomic, readonly) NSString *fileId;
-@property (copy, readonly) NSString *fileName;
-@property (strong, nonatomic) NSArray *availableChunks;   // I dont like using objects for this... I feel like this might cause a bottleneck
-@property (nonatomic) NSUInteger chunkSizeInBytes;
-@property (nonatomic, readonly) NSUInteger requestId;               // This response is for a request of this ID
 
+/** Human readable name of the file */
+@property (copy, readonly) NSString *fileName;
+
+/** What chunks are available */
+@property (strong, nonatomic) NSArray *availableChunks;
+
+/** The length of each chunk */
+@property (nonatomic) NSUInteger chunkSizeInBytes;
+
+/** The total size of the completed file */
+@property (nonatomic) NSUInteger totalFileLength;
+
+/** The identifier for this request */
+@property (nonatomic, readonly) NSUInteger requestId;
+
+/** Creates a new response object from a given request
+ @param request The request this object is responding to
+ @return A new file availability response object
+ */
 - (id)initWithRequest:(P2PPeerFileAvailibilityRequest *)request;
 
 @end

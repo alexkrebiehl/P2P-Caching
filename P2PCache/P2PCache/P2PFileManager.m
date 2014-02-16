@@ -14,6 +14,13 @@
 
 #import "NSData+mD5Hash.h"
 
+#define P2PCacheDirectory @"P2PCache"
+
+static NSString *P2PFileManagerInfoPlistFile =      @"fileInfo.plist";
+static NSString *P2PFileManagerInfoFileNameKey =    @"filename";
+static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
+
+
 @implementation P2PFileManager
 
 static P2PFileManager *sharedInstance = nil;
@@ -40,34 +47,24 @@ static P2PFileManager *sharedInstance = nil;
 -(void)cacheFile:(NSData *)file withFileName:(NSString *)filename {
     
     NSString *hashID = [file md5Hash];
-    NSArray *chunksOData = [self splitData:file intoChunksOfSize:P2PFileManagerFileChunkSize withFileId:hashID];
+    NSArray *chunksOData = [self splitData:file intoChunksOfSize:P2PFileManagerFileChunkSize withFileId:hashID fileName:filename];
     
     
-    NSError *error;
-    NSString *directoryPath = [self pathForFileWithHashID:hashID];
-    [self createDirectoryAtPath:directoryPath withIntermediateDirectories:NO attributes:nil error:&error];
-    
-    
-    if (error) {
-        P2PLog(0, @"ERROR: Unable to create directory for file");
-    } else {
-        id plist = [self createPlistForData:file withFileName:filename error:error];
-        for (P2PFileChunk  *chunk in chunksOData) {
-            [self writeChunk:chunk toPath:directoryPath];
-        }
-        if (error) {
-            P2PLog(0, @"ERROR: Unable to create plist");
-        } else {
-            [plist writeToFile:[directoryPath stringByAppendingString:@"fileInfo.plist"] atomically:YES];
-        }
+    for ( P2PFileChunk *chunk in chunksOData )
+    {
+        [self writeChunk:chunk];
     }
     
     
 }
 
+- (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveFileChunk:(P2PFileChunk *)chunk
+{
+    /** we should cache the chunks as we recieve them from other peers */
+    [self writeChunk:chunk];
+}
 
-
-- (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileId:(NSString *)fileId
+- (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileId:(NSString *)fileId fileName:(NSString *)filename
 {
     NSUInteger length = [data length];
     NSUInteger offset = 0;
@@ -77,13 +74,10 @@ static P2PFileManager *sharedInstance = nil;
     do
     {
         NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
-        //        NSData *chunk = [NSData dataWithBytesNoCopy:(char *)[data bytes] + offset
-        //                                             length:thisChunkSize
-        //                                       freeWhenDone:NO];
         NSData *chunk = [data subdataWithRange:NSMakeRange(offset, thisChunkSize)];
         
-//        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk startPosition:offset fileName:filename];
-        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk chunkId:offset fileId:fileId];
+//        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk chunkId:offset fileId:fileId];
+        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk chunkId:offset fileId:fileId fileName:filename totalFileSize:length];
         [chunksOdata addObject:p2pChunk];
         
         offset += thisChunkSize;
@@ -92,28 +86,86 @@ static P2PFileManager *sharedInstance = nil;
     return chunksOdata;
 }
 
+- (NSDictionary *)plistForFileId:(NSString *)fileId
+{
+    NSError *error;
+    NSString *plistLocation = [NSString stringWithFormat:@"%@%@", [self pathForDirectoryWithHashID:fileId], P2PFileManagerInfoPlistFile];
+    NSData *plistData = [NSData dataWithContentsOfFile:plistLocation];
+    NSPropertyListFormat format = NSPropertyListXMLFormat_v1_0;
+    NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:plistData options:0 format:&format error:&error];
+    return plist;
+}
 
-
-- (id)createPlistForData:(NSData *)data withFileName:(NSString *)filename error:(NSError *)error {
+- (NSData *)createPlistForFileName:(NSString *)filename fileSize:(NSUInteger)fileSize error:(NSError *)error
+{
     NSDictionary *rootDict;
-    NSNumber *fileSize = [NSNumber numberWithInteger:[data length]];
-    rootDict = [NSDictionary dictionaryWithObjects:@[filename, fileSize] forKeys:@[@"filename", @"size"]];
+//    NSNumber *fileSize = [NSNumber numberWithInteger:[data length]];
+    rootDict = [NSDictionary dictionaryWithObjects:@[filename, @(fileSize)] forKeys:@[P2PFileManagerInfoFileNameKey, P2PFileManagerInfoFileSizeKey]];
     
-    id plist = [NSPropertyListSerialization dataWithPropertyList:(id)rootDict format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+    NSData *plist = [NSPropertyListSerialization dataWithPropertyList:rootDict format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
     return plist;
     
 }
 
-- (void)writeChunk:(P2PFileChunk *)chunk toPath:(NSString *)path
+- (void)writeChunk:(P2PFileChunk *)chunk //toPath:(NSURL *)path
 {
-    [chunk.dataBlock writeToFile:[path stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId]] atomically:YES];
+    
+    NSError *error;
+    NSURL *directoryPath = [self pathForDirectoryWithHashID:chunk.fileId];
+    BOOL isDirectory = YES;
+    if ( ![self fileExistsAtPath:directoryPath.absoluteString isDirectory:&isDirectory] || !isDirectory )
+    {
+        [self createDirectoryAtURL:directoryPath withIntermediateDirectories:YES attributes:Nil error:&error];
+        if ( error != nil )
+        {
+            P2PLog(P2PLogLevelError, @"ERROR: Unable to create directory for file");
+            return;
+        }
+        else
+        {
+        
+            // create plist
+            NSData *plist = [self createPlistForFileName:chunk.fileName fileSize:chunk.totalFileSize error:error];
+            if (error)
+            {
+                P2PLog(P2PLogLevelError, @"ERROR: Unable to create plist");
+                return;
+            }
+            else
+            {
+                NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:directoryPath];
+                [plist writeToURL:plistURL atomically:YES];
+            }
+        }
+    }
+    
+    NSURL *urlWithFile = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId] relativeToURL:directoryPath];
+    [chunk.dataBlock writeToURL:urlWithFile atomically:YES];
+    
+    
+//    } else {
+//        
+////        for (P2PFileChunk  *chunk in chunksOData) {
+////            [self writeChunk:chunk toPath:directoryPath];
+////        }
+//        
+//        } else {
+////            NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:directoryPath];
+////            [plist writeToURL:plistURL atomically:YES];
+//        }
+//    }
+//    [chunk.dataBlock writeToFile:[path stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId]] atomically:YES];
+    
+    
 }
 
 #pragma mark - File Path Methods
-- (NSString *)pathForFileWithHashID:(NSString *)hashID
+- (NSURL *)pathForDirectoryWithHashID:(NSString *)hashID
 {
-	
-    return [[self applicationDocumentsDirectory].path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/", hashID]];
+//    return [[self applicationDocumentsDirectory].path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/", hashID]];
+    
+    NSURL *directory = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@/", [self applicationDocumentsDirectory].absoluteString, P2PCacheDirectory]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@/", hashID] relativeToURL:directory];
     
 }
 - (NSURL *)applicationDocumentsDirectory {
@@ -125,14 +177,10 @@ static P2PFileManager *sharedInstance = nil;
 - (P2PPeerFileAvailbilityResponse *)fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)request
 {
     // Respond to a client with what chunks of a file we have
-    
-    //    P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithFileName:request.fileName
-    //                                                                                        availableChunks:@[ @(1) ]
-    //                                                                                              chunkSize:P2PFileManagerFileChunkSize];
     P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithRequest:request];
     
-    
-    
+    NSDictionary *plist = [self plistForFileId:request.fileId];
+    response.totalFileLength = [[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue];
     response.availableChunks = [self availableChunksForFileID:request.fileId];
     response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
     
@@ -147,9 +195,9 @@ static P2PFileManager *sharedInstance = nil;
 - (NSArray *)availableChunksForFileID:(NSString *)fileID {
     NSArray *chunkIDs;
     NSError *error;
-    NSString *path = [self pathForFileWithHashID:fileID];
+    NSURL *path = [self pathForDirectoryWithHashID:fileID];
     
-    chunkIDs = [self contentsOfDirectoryAtPath:path error:&error];
+    chunkIDs = [self contentsOfDirectoryAtPath:path.path error:&error];
     
     if (error) {
         P2PLog(P2PLogLevelError, @"Unable to retrieve chunkIDs");
@@ -164,10 +212,13 @@ static P2PFileManager *sharedInstance = nil;
 
 - (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
 {
-
-    NSString *path = [NSString stringWithFormat:@"%@%lu", [self pathForFileWithHashID:request.fileId], (unsigned long)request.chunkId];
-//    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData: startPosition:request.chunkId fileName:request.fileId];
-    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:[NSData dataWithContentsOfFile:path] chunkId:request.chunkId fileId:request.fileId];
+    NSDictionary *plist = [self plistForFileId:request.fileId];
+    NSString *path = [NSString stringWithFormat:@"%@%lu", [self pathForDirectoryWithHashID:request.fileId], (unsigned long)request.chunkId];
+    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:[NSData dataWithContentsOfFile:path]
+                                                     chunkId:request.chunkId
+                                                      fileId:request.fileId
+                                                    fileName:[plist objectForKey:P2PFileManagerInfoFileNameKey]
+                                               totalFileSize:[[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue]];
     
     return chunk;
 }

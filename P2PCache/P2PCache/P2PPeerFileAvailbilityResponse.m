@@ -15,6 +15,7 @@ static NSString *P2PAvailabilityResponseChunksKey =     @"Chunks";
 static NSString *P2PAvailabilityResponseChunkSizeKey =  @"ChunkSize";
 static NSString *P2PAvailabilityResponseId =            @"ID";
 static NSString *P2PAvailabilityResponseFileId =        @"FileId";
+static NSString *P2PAvailabilityResponseTotalFileSize = @"TotalSize";
 
 
 @implementation P2PPeerFileAvailbilityResponse
@@ -44,6 +45,7 @@ static NSString *P2PAvailabilityResponseFileId =        @"FileId";
         _chunkSizeInBytes = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseChunkSizeKey] unsignedIntegerValue];
         _requestId = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseId] unsignedIntegerValue];
         _fileId = [aDecoder decodeObjectForKey:P2PAvailabilityResponseFileId];
+        _totalFileLength = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseTotalFileSize] unsignedIntegerValue];
     }
     return self;
 }
@@ -55,6 +57,7 @@ static NSString *P2PAvailabilityResponseFileId =        @"FileId";
     [aCoder encodeObject:@( self.chunkSizeInBytes ) forKey:P2PAvailabilityResponseChunkSizeKey];
     [aCoder encodeObject:@( self.requestId ) forKey:P2PAvailabilityResponseId];
     [aCoder encodeObject:self.fileId forKey:P2PAvailabilityResponseFileId];
+    [aCoder encodeObject:@( self.totalFileLength ) forKey:P2PAvailabilityResponseTotalFileSize];
 }
 
 @end
