@@ -499,8 +499,12 @@ static NSUInteger currentConnectionId = 1;
 
 - (void)transmitObject:(id<NSCoding>)object
 {
-    
     [self transmitObject:object toNodeConnection:nil];
+}
+
+- (void)objectDidFailToSend:(id)object
+{
+    NSAssert([self class] != [P2PNode class], @"This selector should be overridden by subclasses");
 }
 
 - (void)transmitObject:(id<NSCoding>)object toNodeConnection:(P2PNodeConnection *)connection

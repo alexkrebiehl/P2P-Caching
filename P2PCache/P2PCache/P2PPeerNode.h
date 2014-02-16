@@ -50,6 +50,6 @@
 // File Handling
 - (void)getFileAvailabilityForRequest:(P2PFileRequest *)request;
 
-- (void)requestFileChunk:(P2PFileChunkRequest *)chunkRequest fromFileRequest:(P2PFileRequest *)fileRequest;
+- (void)requestFileChunk:(P2PFileChunkRequest *)request;
 
 @end

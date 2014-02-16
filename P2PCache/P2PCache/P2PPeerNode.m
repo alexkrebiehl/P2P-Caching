@@ -11,6 +11,8 @@
 #import "P2PPeerNode.h"
 #import "SimplePing.h"
 #import "P2PFileRequest.h"
+#import "P2PFileChunkRequest.h"
+#import "P2PFileChunk.h"
 #import "P2PPeerFileAvailbilityResponse.h"
 #import "P2PPeerFileAvailibilityRequest.h"
 
@@ -120,6 +122,14 @@
     {
         [self didRecieveFileAvailabilityResponse:object];
     }
+    else if ( [object isMemberOfClass:[P2PFileChunk class]] )
+    {
+        [self didRecieveFileChunk:object];
+    }
+    else
+    {
+        NSAssert( NO, @"Unable to handle recieved file: %@", object );
+    }
 }
 
 - (void)peerDidBecomeReady
@@ -152,7 +162,7 @@
 
 
 #pragma mark - File Handling
-- (void)getFileAvailabilityForRequest:(P2PFileRequest *)request fromFileRequest:(P2PFileRequest *)fileRequest
+- (void)getFileAvailabilityForRequest:(P2PFileRequest *)request
 {
     if ( _pendingFileAvailibilityRequests == nil )
     {
@@ -192,6 +202,21 @@
     
     [_pendingFileChunkRequests addObject:request];
     [self transmitObject:request];
+}
+
+- (void)didRecieveFileChunk:(P2PFileChunk *)fileChunk
+{
+    for ( P2PFileChunkRequest *aRequest in _pendingFileChunkRequests )
+    {
+        //good enough for now..
+        if ( [aRequest.fileId isEqualToString:fileChunk.fileId] && aRequest.chunksId == fileChunk.chunkId )
+        {
+            // found the request.....
+            [aRequest peer:self didRecieveChunk:fileChunk];
+            [_pendingFileAvailibilityRequests removeObject:aRequest];
+            return;
+        }
+    }
 }
 
 

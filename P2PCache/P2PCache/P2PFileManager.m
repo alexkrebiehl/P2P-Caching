@@ -39,10 +39,10 @@ static P2PFileManager *sharedInstance = nil;
 
 -(void)cacheFile:(NSData *)file withFileName:(NSString *)filename {
     
-    
-    NSArray *chunksOData = [self splitData:file intoChunksOfSize:P2PFileManagerFileChunkSize withFileName:filename];
-    
     NSString *hashID = [file md5Hash];
+    NSArray *chunksOData = [self splitData:file intoChunksOfSize:P2PFileManagerFileChunkSize withFileId:hashID];
+    
+    
     NSError *error;
     NSString *directoryPath = [self pathForFileWithHashID:hashID];
     [self createDirectoryAtPath:directoryPath withIntermediateDirectories:NO attributes:nil error:&error];
@@ -67,7 +67,7 @@ static P2PFileManager *sharedInstance = nil;
 
 
 
-- (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileName:(NSString *)filename
+- (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileId:(NSString *)fileId
 {
     NSUInteger length = [data length];
     NSUInteger offset = 0;
@@ -82,7 +82,8 @@ static P2PFileManager *sharedInstance = nil;
         //                                       freeWhenDone:NO];
         NSData *chunk = [data subdataWithRange:NSMakeRange(offset, thisChunkSize)];
         
-        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk startPosition:offset fileName:filename];
+//        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk startPosition:offset fileName:filename];
+        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk chunkId:offset fileId:fileId];
         [chunksOdata addObject:p2pChunk];
         
         offset += thisChunkSize;
@@ -103,8 +104,9 @@ static P2PFileManager *sharedInstance = nil;
     
 }
 
-- (void)writeChunk:(P2PFileChunk *)chunk toPath:(NSString *)path {
-    [chunk.dataBlock writeToFile:[path stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.startPosition]] atomically:YES];
+- (void)writeChunk:(P2PFileChunk *)chunk toPath:(NSString *)path
+{
+    [chunk.dataBlock writeToFile:[path stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId]] atomically:YES];
 }
 
 #pragma mark - File Path Methods
@@ -163,9 +165,9 @@ static P2PFileManager *sharedInstance = nil;
 - (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
 {
     // Populate a file chunk here
-    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:nil startPosition:0 fileName:nil];
+//    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:nil startPosition:0 fileName:nil];
     
-    return chunk;
+    return nil;
 }
 
 
