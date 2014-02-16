@@ -71,7 +71,7 @@
 - (void)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PPeerNode *)peer
 {
     request.delegate = self;
-    [peer requestFileChunk:request];
+//    [peer requestFileChunk:request];
 }
 
 - (void)fileChunkRequest:(P2PFileChunkRequest *)request didRecieveChunk:(P2PFileChunk *)chunk

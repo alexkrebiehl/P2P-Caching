@@ -20,6 +20,13 @@
  */
 - (void)handleRecievedObject:(id)object from:(P2PNodeConnection *)sender;
 
+
+/** When an object is unable to be sent across the network connection 
+ 
+ (Not implemented yet)
+ */
+- (void)objectDidFailToSend:(id)object;
+
 @end
 
 @interface P2PNode ( MethodsNotToBeSubclassed )

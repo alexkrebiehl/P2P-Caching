@@ -22,6 +22,7 @@
 @implementation P2PPeerNode
 {
     NSMutableArray *_pendingFileAvailibilityRequests;
+    NSMutableArray *_pendingFileChunkRequests;
 }
 
 - (id)init
@@ -151,7 +152,7 @@
 
 
 #pragma mark - File Handling
-- (void)getFileAvailabilityForRequest:(P2PFileRequest *)request
+- (void)getFileAvailabilityForRequest:(P2PFileRequest *)request fromFileRequest:(P2PFileRequest *)fileRequest
 {
     if ( _pendingFileAvailibilityRequests == nil )
     {
@@ -184,7 +185,13 @@
 
 - (void)requestFileChunk:(P2PFileChunkRequest *)request
 {
+    if ( _pendingFileChunkRequests == nil )
+    {
+        _pendingFileChunkRequests = [[NSMutableArray alloc] init];
+    }
     
+    [_pendingFileChunkRequests addObject:request];
+    [self transmitObject:request];
 }
 
 

@@ -603,6 +603,8 @@ static NSUInteger currentConnectionId = 1;
             NSAssert(NO, @"Unknown file recieved");
             break;
     }
+    
+//    [self objectDidFailToSend:loader.]
 }
 
 - (void)dataFailedToDownload:(P2PIncomingData *)loader
