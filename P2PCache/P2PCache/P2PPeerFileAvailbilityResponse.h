@@ -12,6 +12,7 @@
 
 @interface P2PPeerFileAvailbilityResponse : NSObject <NSCoding>
 
+@property (copy, nonatomic, readonly) NSString *fileId;
 @property (copy, readonly) NSString *fileName;
 @property (strong, nonatomic) NSArray *availableChunks;   // I dont like using objects for this... I feel like this might cause a bottleneck
 @property (nonatomic) NSUInteger chunkSizeInBytes;

@@ -28,4 +28,14 @@
     return self;
 }
 
+- (void)peer:(P2PPeerNode *)node didRecieveChunk:(P2PFileChunk *)chunk
+{
+    [self.delegate fileChunkRequest:self didRecieveChunk:chunk];
+}
+
+- (void)peer:(P2PPeerNode *)node failedToRecieveChunkWithError:(NSStreamEvent)event
+{
+    [self.delegate fileChunkRequestDidFail:self];
+}
+
 @end

@@ -52,9 +52,6 @@
 		FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
 		FA3E9EE7189B5A06009FEB99 /* P2PServerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PServerNode.m */; };
 		FA3E9EE8189B5A18009FEB99 /* P2PCache.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; };
-		FA3E9EED189B5EFD009FEB99 /* P2PPeerLocator.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3E9EEB189B5EFD009FEB99 /* P2PPeerLocator.h */; };
-		FA3E9EEE189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */; };
-		FA3E9EEF189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */; };
 		FA64EF3D189C7A4B00C35EFF /* P2PPeerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */; };
 		FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */; };
@@ -154,8 +151,6 @@
 		FA3E9E90189B52FF009FEB99 /* P2PCache-iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2PCache-iOSTests-Info.plist"; sourceTree = "<group>"; };
 		FA3E9E92189B52FF009FEB99 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCache_iOSTests.m; sourceTree = "<group>"; };
-		FA3E9EEB189B5EFD009FEB99 /* P2PPeerLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerLocator.h; sourceTree = "<group>"; };
-		FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerLocator.m; sourceTree = "<group>"; };
 		FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerNode.h; sourceTree = "<group>"; };
 		FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerNode.m; sourceTree = "<group>"; };
 		FABA8DBD18A5825E00115463 /* P2PFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileManager.h; sourceTree = "<group>"; };
@@ -239,8 +234,6 @@
 				FA3924F2189CC259002B6324 /* P2PLocatorDelegate.h */,
 				FAD685F2189B41CF00CA7E18 /* P2PServerNode.h */,
 				FAD685F3189B41CF00CA7E18 /* P2PServerNode.m */,
-				FA3E9EEB189B5EFD009FEB99 /* P2PPeerLocator.h */,
-				FA3E9EEC189B5EFD009FEB99 /* P2PPeerLocator.m */,
 			);
 			name = "Locating & Serving";
 			sourceTree = "<group>";
@@ -443,7 +436,6 @@
 				FA3974BF18A9C1AF007FCD93 /* P2PFileRequest.h in Headers */,
 				FA0DFF9118AEDBF300B2C1CB /* NSData+mD5Hash.h in Headers */,
 				FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */,
-				FA3E9EED189B5EFD009FEB99 /* P2PPeerLocator.h in Headers */,
 				FA0DFF8C18AD16DD00B2C1CB /* P2PFileChunkRequest.h in Headers */,
 				FA0DFF9618AF274B00B2C1CB /* NSObject+cleanup.h in Headers */,
 			);
@@ -599,7 +591,6 @@
 				FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
 				FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA0DFF8D18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */,
-				FA3E9EEE189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
 				FA0DFF9218AEDBF300B2C1CB /* NSData+mD5Hash.m in Sources */,
 				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
 				FA3974D018A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,
@@ -632,7 +623,6 @@
 				FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
 				FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA0DFF8E18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */,
-				FA3E9EEF189B5EFD009FEB99 /* P2PPeerLocator.m in Sources */,
 				FA0DFF9318AEDBF300B2C1CB /* NSData+mD5Hash.m in Sources */,
 				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
 				FA3974D118A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,

@@ -7,25 +7,30 @@
 //
 
 #import "P2PPeerFileAvailibilityRequest.h"
+#import "P2PFileRequest.h"
 
-static NSString *P2PAvailabilityRequestFilenameKey =    @"FileName";
-static NSString *P2PAvailabilityRequestIdKey =          @"ID";
+static NSString *P2PAvailabilityRequestFilenameKey =    @"Filename";
+static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
+static NSString *P2PAvailabilityRequestIdKey =          @"RequestId";
 
 @implementation P2PPeerFileAvailibilityRequest
 
 
 - (id)init
 {
-    return [self initWithFileName:nil];
+    return [self initWithFileId:nil];
 }
 
 static NSUInteger currentId = 1;
-- (id)initWithFileName:(NSString *)fileName
+- (id)initWithFileId:(NSString *)fileId
 {
+    NSAssert( fileId != nil, @"Must supply file Id" );
+    
     if ( self = [super init] )
     {
         _requestId = currentId++;
-        _fileName = fileName;
+        _fileId = fileId;
+        
     }
     return self;
 }
@@ -34,14 +39,16 @@ static NSUInteger currentId = 1;
 {
     [aCoder encodeObject:self.fileName forKey:P2PAvailabilityRequestFilenameKey];
     [aCoder encodeObject:@( self.requestId ) forKey:P2PAvailabilityRequestIdKey];
+    [aCoder encodeObject:self.fileId forKey:P2PAvailabilityRequestFileIdKey];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    NSString *fileName = [aDecoder decodeObjectForKey:P2PAvailabilityRequestFilenameKey];
-    if ( self = [self initWithFileName:fileName] )
+    NSString *fileId = [aDecoder decodeObjectForKey:P2PAvailabilityRequestFileIdKey];
+    if ( self = [self initWithFileId:fileId] )
     {
         _requestId = [[aDecoder decodeObjectForKey:P2PAvailabilityRequestIdKey] unsignedIntegerValue];
+        _fileName = [aDecoder decodeObjectForKey:P2PAvailabilityRequestFilenameKey];
     }
     return self;
 }

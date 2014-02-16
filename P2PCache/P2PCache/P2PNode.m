@@ -346,7 +346,13 @@ static NSUInteger currentConnectionId = 1;
             }
             else if ( _placeInHeader == P2PIncomingDataHeaderPositionSize )
             {
-                NSAssert( !(_buffer.length == 0 && oneByte == ':'), @"Unexpected end of size" );
+//                NSAssert( !(_buffer.length == 0 && oneByte == ':'), @"Unexpected end of size" );
+                if ( _buffer.length == 0 && oneByte == ':' )
+                {
+                    // The type section ended without supplying any data
+                    [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeInvalidHeader];
+                    return;
+                }
                 
                 if ( oneByte == ':' )
                 {
@@ -365,7 +371,13 @@ static NSUInteger currentConnectionId = 1;
             }
             else if ( _placeInHeader == P2PIncomingDataHeaderPositionParity )
             {
-                NSAssert( !(_buffer.length == 0 && oneByte == ':'), @"Unexpected end of parity" );
+//                NSAssert( !(_buffer.length == 0 && oneByte == ':'), @"Unexpected end of parity" );
+                if ( _buffer.length == 0 && oneByte == ':' )
+                {
+                    // The type section ended without supplying any data
+                    [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeInvalidHeader];
+                    return;
+                }
                 
                 if ( oneByte == ':' )
                 {

@@ -8,23 +8,16 @@
 
 #import "P2PPeerManager.h"
 #import "P2PServerNode.h"
-#import "P2PPeerLocator.h"
 #import "P2PPeerNode.h"
 #import "P2PLocatorDelegate.h"
 
-//static const NSTimeInterval peerResortInterval = 10;    // Resort the peer list every 10 seconds
-                                                        // I already feel dirty for doing it this way
-                                                        // I'll think of a better way later
-
-@interface P2PPeerManager()<P2PPeerProtocol, NSNetServiceBrowserDelegate>
+@interface P2PPeerManager() <P2PPeerProtocol, NSNetServiceBrowserDelegate>
 @end
 
 
 @implementation P2PPeerManager
 {
     P2PServerNode   *_peerServer;           // Us broadcasting to others that we offer a service
-    P2PPeerLocator  *_peerLocatorService;   // Us seeking out other servers
-    NSDate          *_lastPeerSort;         // How long ago we last sorted the peer list.
     
     NSMutableArray *_activePeers;           // Peers we are connected to and ready to interact with
     NSMutableArray *_allPeers;              // Every peer we can find, wether we are connected or not
@@ -62,9 +55,6 @@ static P2PPeerManager *sharedInstance = nil;
     [_peerServer beginBroadcasting];
     
     // Find some peeps
-//    _peerLocatorService = [[P2PPeerLocator alloc] init];
-//    [_peerLocatorService setDelegate:self];
-//    [_peerLocatorService beginSearching];
     _allPeers = [[NSMutableArray alloc] init];
     _activePeers = [[NSMutableArray alloc] init];
     [self beginSearching];
@@ -111,7 +101,6 @@ static P2PPeerManager *sharedInstance = nil;
         [_allPeers addObject:aPeer];
         aPeer.delegate = self;
         [aPeer preparePeer];
-//        [self.delegate peerLocator:self didFindPeer:aPeer];
     }
     
 }
@@ -139,25 +128,6 @@ static P2PPeerManager *sharedInstance = nil;
 }
 
 
-
-
-//#pragma mark - P2PPeerLocator delegate methods
-//- (void)peerLocator:(P2PPeerLocator *)locator didFindPeer:(P2PPeerNode *)peer
-//{
-    // probably add peer to an array here, maybe sort them by response time
-    // shit like that
-//    P2PLog( P2PLogLevelNormal, @"Peer found: %@", peer );
-    
-    
-//    peer.delegate = self;
-//    [peer preparePeer];
-    
-//}
-
-//- (void)peerLocator:(P2PPeerLocator *)locator didLosePeer:(P2PPeerNode *)peer
-//{
-//    [_activePeers removeObject:peer];
-//}
 
 
 #pragma mark - P2PPeer Delegate Methods

@@ -8,8 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
+@class P2PFileChunkRequest, P2PFileChunk, P2PPeerNode;
+
+@protocol P2PFileChunkRequestDelegate <NSObject>
+
+- (void)fileChunkRequest:(P2PFileChunkRequest *)request didRecieveChunk:(P2PFileChunk *)chunk;
+- (void)fileChunkRequestDidFail:(P2PFileChunkRequest *)request;
+
+@end
+
+
+
 @interface P2PFileChunkRequest : NSObject
 
+@property (weak, nonatomic) id<P2PFileChunkRequestDelegate> delegate;
+
 - (id)initWithFilename:(NSString *)fileName chunks:(NSArray *)chunksNeeded chunkSize:(NSUInteger)chunkSize;
+
+- (void)peer:(P2PPeerNode *)node didRecieveChunk:(P2PFileChunk *)chunk;
+- (void)peer:(P2PPeerNode *)node failedToRecieveChunkWithError:(NSStreamEvent)event;
 
 @end

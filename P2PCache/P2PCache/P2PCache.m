@@ -33,11 +33,12 @@
 {
 //    [[NSNotificationCenter defaultCenter] postNotificationName:P2PCacheShutDownSignalRecievedNotification object:nil];
     [[P2PPeerManager sharedManager] cleanup];
+    [[P2PFileManager sharedManager] cleanup];
 }
 
 + (P2PFileRequest *)requestFileWithName:(NSString *)filename
 {
-    P2PFileRequest *request = [[P2PFileRequest alloc] initWithFileName:filename];
+    P2PFileRequest *request = [[P2PFileRequest alloc] initWithFileId:filename];
     return request;
 }
 

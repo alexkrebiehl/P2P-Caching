@@ -12,6 +12,7 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestStatus)
 {
     P2PFileRequestStatusUnknown = 0,
     P2PFileRequestStatusNotStarted,
+    P2PFileRequestStatusCheckingAvailability,
     P2PFileRequestStatusRetreivingFile,
     P2PFileRequestStatusComplete,
     P2PFileRequestStatusFailed
@@ -27,12 +28,13 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestStatus)
 
 @interface P2PFileRequest : NSObject
 
-@property (copy, nonatomic, readonly) NSString *fileName;   // Name of the file requested
+@property (copy, nonatomic, readonly) NSString *fileId;     // Hash of the file
+@property (copy, nonatomic) NSString *fileName;   // Name of the file requested
 @property (strong, nonatomic, readonly) NSData *fileData;   // Populated after the file is completely loaded
 @property (weak, nonatomic) id<P2PFileRequestDelegate> delegate;
 @property (nonatomic, readonly) P2PFileRequestStatus status;
 
-- (id)initWithFileName:(NSString *)fileName;
+- (id)initWithFileId:(NSString *)fileId;
 
 - (void)getFile;
 

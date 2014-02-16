@@ -160,9 +160,9 @@
     
     [_pendingFileAvailibilityRequests addObject:request];
     
-    P2PPeerFileAvailibilityRequest *availibilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileName:request.fileName];
 
-    [self transmitObject:availibilityRequest];
+    P2PPeerFileAvailibilityRequest *availabilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileId:request.fileId];
+    [self transmitObject:availabilityRequest];
     P2PLogDebug(@"%@ - File availability request sent", self);
 }
 
@@ -172,7 +172,7 @@
     for ( P2PFileRequest *aRequest in _pendingFileAvailibilityRequests )
     {
         //good enough for now..
-        if ( [aRequest.fileName isEqualToString:response.fileName] )
+        if ( [aRequest.fileId isEqualToString:response.fileId] )
         {
             // found the request.....
             [aRequest peer:self didRecieveAvailibilityResponse:response];
@@ -180,6 +180,11 @@
             return;
         }
     }
+}
+
+- (void)requestFileChunk:(P2PFileChunkRequest *)request
+{
+    
 }
 
 
