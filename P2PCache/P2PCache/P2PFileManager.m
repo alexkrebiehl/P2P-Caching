@@ -170,5 +170,4 @@ static P2PFileManager *sharedInstance = nil;
     return nil;
 }
 
-
 @end
