@@ -27,27 +27,7 @@ static P2PFileManager *sharedInstance = nil;
     return sharedInstance;
 }
 
-- (P2PPeerFileAvailbilityResponse *)fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)request
-{
-    // Respond to a client with what chunks of a file we have
-    
-//    P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithFileName:request.fileName
-//                                                                                        availableChunks:@[ @(1) ]
-//                                                                                              chunkSize:P2PFileManagerFileChunkSize];
-    P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithRequest:request];
-    response.availableChunks = @[ @(1), @(2), @(3) ];
-    response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
-    
-    return response;
-}
 
-- (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
-{
-    // Populate a file chunk here
-    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:nil startPosition:0 fileName:nil];
-    
-    return chunk;
-}
 
 
 
@@ -138,5 +118,55 @@ static P2PFileManager *sharedInstance = nil;
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
                                                    inDomains:NSUserDomainMask] lastObject];
 }
+
+#pragma mark - Chunk availability methods
+- (P2PPeerFileAvailbilityResponse *)fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)request
+{
+    // Respond to a client with what chunks of a file we have
+    
+    //    P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithFileName:request.fileName
+    //                                                                                        availableChunks:@[ @(1) ]
+    //                                                                                              chunkSize:P2PFileManagerFileChunkSize];
+    P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithRequest:request];
+    
+    
+    
+    response.availableChunks = [self availableChunksForFileID:request.fileId];
+    response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
+    
+    return response;
+}
+
+
+
+/*  Returns a list of chunk files available. If error, it returns nil.
+ */
+
+- (NSArray *)availableChunksForFileID:(NSString *)fileID {
+    NSArray *chunkIDs;
+    NSError *error;
+    NSString *path = [self pathForFileWithHashID:fileID];
+    
+    chunkIDs = [self contentsOfDirectoryAtPath:path error:&error];
+    
+    if (error) {
+        P2PLog(P2PLogLevelError, @"Unable to retrieve chunkIDs");
+        return nil;
+    } else {
+        return chunkIDs;
+    }
+}
+
+
+#pragma mark - Chunk request methods
+
+- (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
+{
+    // Populate a file chunk here
+    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:nil startPosition:0 fileName:nil];
+    
+    return chunk;
+}
+
 
 @end
