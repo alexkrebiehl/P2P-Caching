@@ -162,11 +162,11 @@ static P2PFileManager *sharedInstance = nil;
 
 - (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
 {
-    // Populate a file chunk here
-    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:nil startPosition:0 fileName:nil];
+
+    NSString *path = [NSString stringWithFormat:@"%@%lu", [self pathForFileWithHashID:request.fileId], (unsigned long)request.chunkId];
+    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:[NSData dataWithContentsOfFile:path] startPosition:request.chunkId fileName:request.fileId];
     
     return chunk;
 }
-
 
 @end

@@ -24,7 +24,7 @@
 @property (weak, nonatomic) id<P2PFileChunkRequestDelegate> delegate;
 
 @property (copy, nonatomic, readonly) NSString *fileId;
-@property (nonatomic, readonly) NSUInteger chunksId;
+@property (nonatomic, readonly) NSUInteger chunkId;
 @property (nonatomic, readonly) NSUInteger chunkSize;
 
 - (id)initWithFileId:(NSString *)fileId chunkId:(NSUInteger)chunkId chunkSize:(NSUInteger)chunkSize;
