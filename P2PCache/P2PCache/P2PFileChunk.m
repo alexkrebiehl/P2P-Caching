@@ -14,29 +14,7 @@ static NSString *P2PFileChunkDecodeKeyFileName =        @"Filename";
 
 @implementation P2PFileChunk
 
-+ (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileName:(NSString *)filename
-{
-    NSUInteger length = [data length];
-    NSUInteger offset = 0;
-    
-    NSMutableArray *chunksOdata = [[NSMutableArray alloc] initWithCapacity:ceil( length / chunkSize )];
-    
-    do
-    {
-        NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
-//        NSData *chunk = [NSData dataWithBytesNoCopy:(char *)[data bytes] + offset
-//                                             length:thisChunkSize
-//                                       freeWhenDone:NO];
-        NSData *chunk = [data subdataWithRange:NSMakeRange(offset, thisChunkSize)];
-        
-        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk startPosition:offset fileName:filename];
-        [chunksOdata addObject:p2pChunk];
-        
-        offset += thisChunkSize;
-    } while (offset < length);
-    
-    return chunksOdata;
-}
+
 
 - (id)initWithData:(NSData *)data startPosition:(NSUInteger)startPosition fileName:(NSString *)filename
 {

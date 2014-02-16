@@ -9,17 +9,11 @@
 #import <Foundation/Foundation.h>
 
 
-#if MAC_OS
-#define P2PDocumentRoot @"/Documents/
-#else
-#define P2PDocumentRoot @"/Sandbox/Documents/"
-#endif
-
 static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File chunk size
 
 @class P2PPeerFileAvailibilityRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk, P2PFileChunkRequest;
 
-@interface P2PFileManager : NSObject
+@interface P2PFileManager : NSFileManager
 
 + (P2PFileManager *)sharedManager;
 
@@ -27,6 +21,14 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
 
 - (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request;
 
-+ (NSString *)pathForDocumentsDirectory;
 
+
+
+-(void)cacheFile:(NSData *)file withFileName:(NSString *)filename;
+- (NSString *)pathForFileWithHashID:(NSString *)hashID;
+
+- (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileName:(NSString *)filename;
+- (NSURL *)applicationDocumentsDirectory;
+- (id)createPlistForData:(NSData *)data withFileName:(NSString *)filename error:(NSError *)error;
 @end
+

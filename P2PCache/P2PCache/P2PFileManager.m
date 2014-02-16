@@ -12,6 +12,8 @@
 #import "P2PFileChunk.h"
 #import "P2PFileChunkRequest.h"
 
+#import "NSData+mD5Hash.h"
+
 @implementation P2PFileManager
 
 static P2PFileManager *sharedInstance = nil;
@@ -44,17 +46,97 @@ static P2PFileManager *sharedInstance = nil;
     // Populate a file chunk here
     P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:nil startPosition:0 fileName:nil];
     
-    
-    
-    
-    
     return chunk;
 }
 
-+ (NSString *)pathForDocumentsDirectory
+
+
+/*  First we split the file into the P2P chunks we need. 
+    Then we create our directory using a hash id. As long 
+        as the directory creation proceeds, we cache the file.
+ */
+
+
+-(void)cacheFile:(NSData *)file withFileName:(NSString *)filename {
+    
+    
+    NSArray *chunksOData = [self splitData:file intoChunksOfSize:P2PFileManagerFileChunkSize withFileName:filename];
+    
+    NSString *hashID = [file md5Hash];
+    NSError *error;
+    NSString *directoryPath = [self pathForFileWithHashID:hashID];
+    [self createDirectoryAtPath:directoryPath withIntermediateDirectories:NO attributes:nil error:&error];
+    
+    
+    if (error) {
+        P2PLog(0, @"ERROR: Unable to create directory for file");
+    } else {
+        id plist = [self createPlistForData:file withFileName:filename error:error];
+        for (P2PFileChunk  *chunk in chunksOData) {
+            [self writeChunk:chunk toPath:directoryPath];
+        }
+        if (error) {
+            P2PLog(0, @"ERROR: Unable to create plist");
+        } else {
+            [plist writeToFile:[directoryPath stringByAppendingString:@"fileInfo.plist"] atomically:YES];
+        }
+    }
+    
+    
+}
+
+
+
+- (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileName:(NSString *)filename
 {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	return [paths objectAtIndex:0];
+    NSUInteger length = [data length];
+    NSUInteger offset = 0;
+    
+    NSMutableArray *chunksOdata = [[NSMutableArray alloc] initWithCapacity:ceil( length / chunkSize )];
+    
+    do
+    {
+        NSUInteger thisChunkSize = length - offset > chunkSize ? chunkSize : length - offset;
+        //        NSData *chunk = [NSData dataWithBytesNoCopy:(char *)[data bytes] + offset
+        //                                             length:thisChunkSize
+        //                                       freeWhenDone:NO];
+        NSData *chunk = [data subdataWithRange:NSMakeRange(offset, thisChunkSize)];
+        
+        P2PFileChunk *p2pChunk = [[P2PFileChunk alloc] initWithData:chunk startPosition:offset fileName:filename];
+        [chunksOdata addObject:p2pChunk];
+        
+        offset += thisChunkSize;
+    } while (offset < length);
+    
+    return chunksOdata;
+}
+
+
+
+- (id)createPlistForData:(NSData *)data withFileName:(NSString *)filename error:(NSError *)error {
+    NSDictionary *rootDict;
+    NSNumber *fileSize = [NSNumber numberWithInteger:[data length]];
+    rootDict = [NSDictionary dictionaryWithObjects:@[filename, fileSize] forKeys:@[@"filename", @"size"]];
+    
+    id plist = [NSPropertyListSerialization dataWithPropertyList:(id)rootDict format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+    return plist;
+    
+}
+
+- (void)writeChunk:(P2PFileChunk *)chunk toPath:(NSString *)path {
+    [chunk.dataBlock writeToFile:[path stringByAppendingString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.startPosition]] atomically:YES];
+}
+
+#pragma mark - File Path Methods
+- (NSString *)pathForFileWithHashID:(NSString *)hashID
+{
+	
+    return [[self applicationDocumentsDirectory].path stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/", hashID]];
+    
+}
+- (NSURL *)applicationDocumentsDirectory {
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                   inDomains:NSUserDomainMask] lastObject];
 }
 
 @end

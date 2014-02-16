@@ -21,6 +21,6 @@ enum
 
 - (id)initWithData:(NSData *)data startPosition:(NSUInteger)startPosition fileName:(NSString *)filename;
 
-+ (NSArray *)splitData:(NSData *)data intoChunksOfSize:(NSUInteger)chunkSize withFileName:(NSString *)filename;
+
 
 @end
