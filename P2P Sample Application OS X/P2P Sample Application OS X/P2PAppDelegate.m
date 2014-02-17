@@ -12,6 +12,10 @@
 #import "P2PFileManager.h"
 #import "P2PFileRequest.h"
 
+@interface P2PAppDelegate () <P2PFileRequestDelegate>
+
+@end
+
 @implementation P2PAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -45,6 +49,7 @@
 - (IBAction)requestFileButtonPressed:(id)sender
 {
     P2PFileRequest *request = [P2PCache requestFileWithName:@"this_is_a_test.jpg"];
+    request.delegate = self;
     [request getFile];
     
 }
@@ -69,4 +74,21 @@
     }
    
 }
+
+
+- (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
+- (void)fileRequestDidComplete:(P2PFileRequest *)fileRequest
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
+- (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode
+{
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
 @end

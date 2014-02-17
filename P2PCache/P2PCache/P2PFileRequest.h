@@ -18,28 +18,86 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestStatus)
     P2PFileRequestStatusFailed
 };
 
+typedef NS_ENUM(NSUInteger, P2PFileRequestError)
+{
+    /** No error */
+    P2PFileRequestErrorNone = 0,
+    
+    /** Could not find a file with the specified ID, or no files matching the specified filename were found */
+    P2PFileRequestErrorFileNotFound,
+    
+    /** The request doesn't know which file to retrieve because the specified filename matched multiple file IDs */
+    P2PFileRequestErrorMultipleIdsForFile
+};
+
 @class P2PPeerNode, P2PFileRequest, P2PPeerFileAvailbilityResponse;
 
 @protocol P2PFileRequestDelegate <NSObject>
 
+
+/** A file request has completed.  The fileData property of the object will now contain the downloaded data
+ 
+ @param fileRequest The file requested object that finished
+ */
 - (void)fileRequestDidComplete:(P2PFileRequest *)fileRequest;
+
+/** The file request failed for some reason.  Check the errorCode parameter to find out why
+ 
+ @param fileRequest The file request object that failed
+ @param errorCode The reason the file request failed
+ */
+- (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode;
+
+/** The request returned multiple Ids for a filename.  By the time this is called, the request will have already
+ failed and a new one must be created with an explicit file Id
+ 
+ @param fileRequest The file request object calling this delegate method
+ @param fileIds An array of fileIds that match the filename requested
+ @param filename The filename that returned multiple matches
+ */
+- (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename;
 
 @end
 
 @interface P2PFileRequest : NSObject
 
-@property (copy, nonatomic, readonly) NSString *fileId;     // Hash of the file
-@property (copy, nonatomic) NSString *fileName;   // Name of the file requested
-@property (strong, nonatomic, readonly) NSData *fileData;   // Populated after the file is completely loaded
+@property (copy, nonatomic, readonly) NSString *fileId;             // Hash of the file
+@property (copy, nonatomic) NSString *fileName;                     // Name of the file requested
+@property (strong, nonatomic, readonly) NSData *fileData;           // Populated after the file is completely loaded
 @property (weak, nonatomic) id<P2PFileRequestDelegate> delegate;
-@property (nonatomic, readonly) P2PFileRequestStatus status;
 
+/** Current state the request is in */
+@property (nonatomic, readonly) P2PFileRequestStatus status;
+/** The reason why the request failed */
+@property (nonatomic, readonly) P2PFileRequestError errorCode;
+
+/** Create a new request with just a file name.  If there are multiple files on the network with the same name, this request
+ will exit with a P2PFileRequestErrorMultipleIdsForFile error.  It must then be recreated with the explicit fileID that you want.
+ 
+ @param filename Thename of the file
+ @return A new File Request object
+ */
+- (id)initWithFilename:(NSString *)filename;
+
+/** Creates a new request looking for a specific file ID.  If no file with that ID is found on the network, this request
+ will fail with error P2PFileRequestErrorFileNotFound
+ 
+ @param fileId The file ID of the file you want to retrieve
+ @return A new request object
+ */
 - (id)initWithFileId:(NSString *)fileId;
 
+/** Creates a new file request.  Either fileID or filename must be specified.  One of them may be nil.
+ 
+ @param fileId The ID of the file the request should get
+ @param filename The name of a file the request should get
+ @return A new file request object
+ */
+- (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename;
+
+/** Signals this file request object to start fetching the file.  The delegate for this object should be set before calling this method 
+ */
 - (void)getFile;
-
-
-// Callbacks for peer objects
 
 
 @end

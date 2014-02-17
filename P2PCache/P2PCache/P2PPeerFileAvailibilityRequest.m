@@ -41,7 +41,7 @@ static NSUInteger currentId = 1;
         _requestId = currentId++;
         _fileId = fileId;
         _fileName = filename;
-        
+         
     }
     return self;
 }

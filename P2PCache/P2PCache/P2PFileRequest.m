@@ -21,20 +21,32 @@
 {
     NSMutableArray *_recievedChunks;                // Array of P2PFileChunk objects
     NSMutableArray *_recievedAvailabiltyResponses;  // Availability responses recieved
+    
+    NSArray *_matchingFileIds;                      // Used when multiple Ids match a given file name
 }
 
 - (id)init
 {
-    return [self initWithFileId:nil];
+    return [self initWithFileId:nil filename:nil];
 }
 
 - (id)initWithFileId:(NSString *)fileId
 {
-    NSAssert( fileId != nil, @"Must supply a fileId");
-    
+    return [self initWithFileId:fileId filename:nil];
+}
+
+- (id)initWithFilename:(NSString *)filename
+{
+    return [self initWithFileId:nil filename:filename];
+}
+
+- (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename
+{
+    NSAssert( fileId != nil || filename != nil, @"Must supply a fileId");
     if ( self = [super init] )
     {
         _fileId = fileId;
+        _fileName = filename;
         _status = P2PFileRequestStatusNotStarted;
     }
     return self;
@@ -42,6 +54,8 @@
 
 - (void)getFile
 {
+    NSAssert( _status == P2PFileRequestStatusNotStarted, @"The request can only be started once");
+    
     _status = P2PFileRequestStatusCheckingAvailability;
     NSArray *peers = [[P2PPeerManager sharedManager] activePeers];
     for ( P2PPeerNode *aPeer in peers )
@@ -56,15 +70,45 @@
 {
     // Somehow assemble responses from all peers here
     P2PLogDebug(@"%@ - recieved response from %@", self, peer);
-    if ( _recievedAvailabiltyResponses == nil )
+    
+    // If they have no files available for us, we dont need to do anything
+    if ( [[response matchingFileIds] count] > 0 )
     {
-        _recievedAvailabiltyResponses = [[NSMutableArray alloc] init];
-    }
-    [_recievedAvailabiltyResponses addObject:response];
-    
-    NSAssert( [[_recievedAvailabiltyResponses firstObject] totalFileLength] == [response totalFileLength], @"Inconsistent file lengths" );
-    
-    [self processResponses];
+        if ( _recievedAvailabiltyResponses == nil )
+        {
+            _recievedAvailabiltyResponses = [[NSMutableArray alloc] init];
+        }
+        [_recievedAvailabiltyResponses addObject:response];
+        
+        // First thing we need to make sure of is that we're getting the same file ID from every response
+        // and only one matching file ID
+        NSString *peersFileId = [[response matchingFileIds] firstObject];
+        if ( [[response matchingFileIds] count] > 1 )
+        {
+            // Too many Ids were returned.  There's nothing more this request can do
+            _matchingFileIds = response.matchingFileIds;
+            [self failWithError:P2PFileRequestErrorMultipleIdsForFile];
+        }
+        else if ( self.fileId == nil )
+        {
+            // Well since we dont have a file Id yet, we'll just go with what the first responder has
+            _fileId = peersFileId;
+        }
+        else if ( ![self.fileId isEqualToString:peersFileId] )
+        {
+            // This peer responded with a file Id that did not match our file Id.
+            // We're done
+            _matchingFileIds = @[ self.fileId, peersFileId ];
+            [self failWithError:P2PFileRequestErrorMultipleIdsForFile];
+        }
+        
+        
+        
+        
+        NSAssert( [[_recievedAvailabiltyResponses firstObject] totalFileLength] == [response totalFileLength], @"Inconsistent file lengths" );
+        
+        [self processResponses];
+     }
 }
 
 - (void)processResponses
@@ -100,6 +144,27 @@
 - (void)checkFileCompleteness
 {
     
+}
+
+- (void)failWithError:(P2PFileRequestError)errorCode
+{
+    _status = P2PFileRequestStatusFailed;
+    _errorCode = errorCode;
+    
+    // Call additional delegate methods depending on the type of error
+    switch ( errorCode )
+    {
+        case P2PFileRequestErrorMultipleIdsForFile:
+        {
+            [self.delegate fileRequest:self didFindMultipleIds:_matchingFileIds forFileName:self.fileName];
+            break;
+        }
+        default:
+            break;
+    }
+    
+    
+    [self.delegate fileRequestDidFail:self withError:errorCode];
 }
 
 @end

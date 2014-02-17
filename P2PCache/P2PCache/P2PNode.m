@@ -61,11 +61,11 @@ static const NSUInteger P2PIncomingDataFileSizeUnknown = NSUIntegerMax;
 /*
  Header/Data format
  
- size(bytes)    file
- |           |
+     size(bytes)    file
+         |           |
  :00:000000000000:0:<data>
- |               |
- Type           parity
+   |              |
+  Type          parity
  
  Type:   The type of data that is about to be transmitted (P2PNetworkTransmissionType)
  Size:   The size in bytes of the data that is about to be transmitted
@@ -194,7 +194,7 @@ static NSUInteger currentConnectionId = 1;
 
 
 
-/** This objected will handle incomming data to sort it out, make sure it is valid data, etc.
+/** This objecte will handle incomming data to sort it out, make sure it is valid data, etc.
  
  After the download is complete, control of the input stream is automatically returned back to the
  calling calling object (presumably an instance of P2PNode).  This class will inform the delegate that the download
@@ -451,7 +451,7 @@ static NSUInteger currentConnectionId = 1;
 
 
 
-@interface P2PNode()<P2PIncomingDataDelegate>
+@interface P2PNode() <P2PIncomingDataDelegate>
 
 @end
 
