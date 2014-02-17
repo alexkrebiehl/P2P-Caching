@@ -11,8 +11,9 @@
 #import "P2PPeerNode.h"
 #import "P2PFileChunkRequest.h"
 #import "P2PPeerFileAvailbilityResponse.h"
+#import "P2PPeerFileAvailibilityRequest.h"
 
-@interface P2PFileRequest() <P2PFileChunkRequestDelegate>
+@interface P2PFileRequest() <P2PFileChunkRequestDelegate, P2PPeerFileAvailabilityDelegate>
 
 @end
 
@@ -45,7 +46,9 @@
     NSArray *peers = [[P2PPeerManager sharedManager] activePeers];
     for ( P2PPeerNode *aPeer in peers )
     {
-        [aPeer getFileAvailabilityForRequest:self];
+        P2PPeerFileAvailibilityRequest *availabilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileId:self.fileId filename:self.fileName];
+        availabilityRequest.delegate = self;
+        [aPeer requestFileAvailability:availabilityRequest];
     }
 }
 

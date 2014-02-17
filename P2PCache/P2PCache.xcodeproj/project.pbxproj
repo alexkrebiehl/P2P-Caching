@@ -213,7 +213,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FA0DFF8918AD16AE00B2C1CB /* File Chunk Transfers */ = {
+		FA0DFF8918AD16AE00B2C1CB /* Requests/Responses */ = {
 			isa = PBXGroup;
 			children = (
 				FA0DFF8A18AD16DD00B2C1CB /* P2PFileChunkRequest.h */,
@@ -225,7 +225,7 @@
 				FA3974CD18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.h */,
 				FA3974CE18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m */,
 			);
-			name = "File Chunk Transfers";
+			name = Requests/Responses;
 			sourceTree = "<group>";
 		};
 		FA3924EB189C8395002B6324 /* Locating & Serving */ = {
@@ -241,7 +241,7 @@
 		FA3974CC18A9CB0F007FCD93 /* File Retreival */ = {
 			isa = PBXGroup;
 			children = (
-				FA0DFF8918AD16AE00B2C1CB /* File Chunk Transfers */,
+				FA0DFF8918AD16AE00B2C1CB /* Requests/Responses */,
 				FA3974BD18A9C1AF007FCD93 /* P2PFileRequest.h */,
 				FA3974BE18A9C1AF007FCD93 /* P2PFileRequest.m */,
 			);

@@ -18,18 +18,29 @@ static NSString *P2PAvailabilityRequestIdKey =          @"RequestId";
 
 - (id)init
 {
-    return [self initWithFileId:nil];
+    return [self initWithFileId:nil filename:nil];
+}
+
+- (id)initWithFileId:(NSString *)fileId
+{
+    return [self initWithFileId:fileId filename:nil];
+}
+
+- (id)initWithFilename:(NSString *)filename
+{
+    return [self initWithFileId:nil filename:filename];
 }
 
 static NSUInteger currentId = 1;
-- (id)initWithFileId:(NSString *)fileId
+- (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename
 {
-    NSAssert( fileId != nil, @"Must supply file Id" );
+    NSAssert( fileId != nil || filename != nil, @"Must supply a file Id or filename" );
     
     if ( self = [super init] )
     {
         _requestId = currentId++;
         _fileId = fileId;
+        _fileName = filename;
         
     }
     return self;
@@ -45,12 +56,17 @@ static NSUInteger currentId = 1;
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     NSString *fileId = [aDecoder decodeObjectForKey:P2PAvailabilityRequestFileIdKey];
-    if ( self = [self initWithFileId:fileId] )
+    NSString *fileName = [aDecoder decodeObjectForKey:P2PAvailabilityRequestFilenameKey];
+    if ( self = [self initWithFileId:fileId filename:fileName] )
     {
         _requestId = [[aDecoder decodeObjectForKey:P2PAvailabilityRequestIdKey] unsignedIntegerValue];
-        _fileName = [aDecoder decodeObjectForKey:P2PAvailabilityRequestFilenameKey];
     }
     return self;
+}
+
+- (void)peer:(P2PPeerNode *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response
+{
+    [self.delegate peer:peer didRecieveAvailibilityResponse:response];
 }
 
 @end

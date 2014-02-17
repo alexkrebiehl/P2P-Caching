@@ -162,7 +162,7 @@
 
 
 #pragma mark - File Handling
-- (void)getFileAvailabilityForRequest:(P2PFileRequest *)request
+- (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request
 {
     if ( _pendingFileAvailibilityRequests == nil )
     {
@@ -170,20 +170,18 @@
     }
     
     [_pendingFileAvailibilityRequests addObject:request];
-    
 
-    P2PPeerFileAvailibilityRequest *availabilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileId:request.fileId];
-    [self transmitObject:availabilityRequest];
+    [self transmitObject:request];
     P2PLogDebug(@"%@ - File availability request sent", self);
 }
 
 - (void)didRecieveFileAvailabilityResponse:(P2PPeerFileAvailbilityResponse *)response
 {
     // Find out what request this response is for...
-    for ( P2PFileRequest *aRequest in _pendingFileAvailibilityRequests )
+    for ( P2PPeerFileAvailibilityRequest *aRequest in _pendingFileAvailibilityRequests )
     {
         //good enough for now..
-        if ( [aRequest.fileId isEqualToString:response.fileId] )
+        if ( aRequest.requestId == response.requestId )
         {
             // found the request.....
             [aRequest peer:self didRecieveAvailibilityResponse:response];

@@ -15,7 +15,7 @@
 #import "P2PNode.h"
 #include <arpa/inet.h>
 
-@class P2PPeerNode, P2PFileRequest, P2PFileChunkRequest;
+@class P2PPeerNode, P2PPeerFileAvailibilityRequest, P2PFileChunkRequest;
 
 @protocol P2PPeerProtocol <NSObject>
 
@@ -48,7 +48,7 @@
 
 
 // File Handling
-- (void)getFileAvailabilityForRequest:(P2PFileRequest *)request;
+- (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request;
 
 - (void)requestFileChunk:(P2PFileChunkRequest *)request;
 

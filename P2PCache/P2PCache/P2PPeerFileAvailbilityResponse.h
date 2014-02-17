@@ -12,8 +12,8 @@
 
 @interface P2PPeerFileAvailbilityResponse : NSObject <NSCoding>
 
-/** File ID (Hash of the completed file */
-@property (copy, nonatomic, readonly) NSString *fileId;
+/** Possible file ID matches for the request */
+@property (copy, nonatomic) NSArray *matchingFileIds;
 
 /** Human readable name of the file */
 @property (copy, readonly) NSString *fileName;
