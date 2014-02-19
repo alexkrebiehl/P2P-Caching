@@ -71,6 +71,14 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 /** The reason why the request failed */
 @property (nonatomic, readonly) P2PFileRequestError errorCode;
 
+
+
+/** Gets a list of file requests currently processing
+ @return pendingFileRequests An array of P2PFileRequest objects currently working */
++ (NSArray *)pendingFileRequests;
+
+
+
 /** Create a new request with just a file name.  If there are multiple files on the network with the same name, this request
  will exit with a P2PFileRequestErrorMultipleIdsForFile error.  It must then be recreated with the explicit fileID that you want.
  
@@ -78,6 +86,8 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  @return A new File Request object
  */
 - (id)initWithFilename:(NSString *)filename;
+
+
 
 /** Creates a new request looking for a specific file ID.  If no file with that ID is found on the network, this request
  will fail with error P2PFileRequestErrorFileNotFound
@@ -87,6 +97,8 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  */
 - (id)initWithFileId:(NSString *)fileId;
 
+
+
 /** Creates a new file request.  Either fileID or filename must be specified.  One of them may be nil.
  
  @param fileId The ID of the file the request should get
@@ -95,9 +107,10 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  */
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename;
 
+
+
 /** Signals this file request object to start fetching the file.  The delegate for this object should be set before calling this method 
  */
 - (void)getFile;
-
 
 @end

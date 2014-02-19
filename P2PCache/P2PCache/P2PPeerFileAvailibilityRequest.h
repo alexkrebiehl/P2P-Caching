@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class P2PPeerFileAvailbilityResponse, P2PPeerNode;
+@class P2PPeerFileAvailbilityResponse, P2PPeerFileAvailibilityRequest, P2PPeerNode;
 
 @protocol P2PPeerFileAvailabilityDelegate <NSObject>
 
-- (void)peer:(P2PPeerNode *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response;
+- (void)fileAvailabilityRequest:(P2PPeerFileAvailibilityRequest *)request didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response;
 
 @end
 
@@ -28,6 +28,6 @@
 - (id)initWithFilename:(NSString *)filename;
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename;
 
-- (void)peer:(P2PPeerNode *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response;
+- (void)didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response;
 
 @end

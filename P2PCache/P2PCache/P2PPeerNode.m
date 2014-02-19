@@ -184,7 +184,8 @@
         if ( aRequest.requestId == response.requestId )
         {
             // found the request.....
-            [aRequest peer:self didRecieveAvailibilityResponse:response];
+            response.owningPeer = self;
+            [aRequest didRecieveAvailibilityResponse:response];
             [_pendingFileAvailibilityRequests removeObject:aRequest];
             return;
         }

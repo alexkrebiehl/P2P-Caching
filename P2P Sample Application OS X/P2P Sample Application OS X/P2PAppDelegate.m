@@ -48,7 +48,7 @@
 
 - (IBAction)requestFileButtonPressed:(id)sender
 {
-    P2PFileRequest *request = [P2PCache requestFileWithName:@"this_is_a_test.jpg"];
+    P2PFileRequest *request = [P2PCache requestFileWithName:@"library.jpg"];
     request.delegate = self;
     [request getFile];
     

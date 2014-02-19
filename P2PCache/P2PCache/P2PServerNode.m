@@ -21,6 +21,8 @@
 #import "P2PPeerFileAvailibilityRequest.h"
 #import "P2PPeerFileAvailbilityResponse.h"
 #import "P2PFileManager.h"
+#import "P2PFileChunk.h"
+#import "P2PFileChunkRequest.h"
 
 @interface P2PServerNode ()
 
@@ -96,6 +98,12 @@
         P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:object];
         
         [self transmitObject:response toNodeConnection:sender];
+    }
+    else if ( [object isMemberOfClass:[P2PFileChunkRequest class]] )
+    {
+        // A peer is requesting a file chunk
+        P2PFileChunk *aChunk = [[P2PFileManager sharedManager] fileChunkForRequest:object];
+        [self transmitObject:aChunk toNodeConnection:sender];
     }
     else
     {

@@ -58,8 +58,10 @@ static P2PFileManager *sharedInstance = nil;
 - (void)loadFilesInCacheList
 {
     NSError *error;
-    NSString *plistLocation = [NSString stringWithFormat:@"%@%@", [self cacheDirectory].absoluteString, P2PFileManagerFilesInCachePlist];
-    NSData *plistData = [NSData dataWithContentsOfFile:plistLocation];
+//    NSString *plistLocation = [NSString stringWithFormat:@"%@%@", [self cacheDirectory].absoluteString, P2PFileManagerFilesInCachePlist];
+    NSURL *plistURL = [NSURL URLWithString:P2PFileManagerFilesInCachePlist relativeToURL:[self cacheDirectory]];
+//    NSData *plistData = [NSData dataWithContentsOfFile:plistLocation];
+    NSData *plistData = [NSData dataWithContentsOfURL:plistURL];
     if ( plistData != nil )
     {
         NSPropertyListFormat format = NSPropertyListXMLFormat_v1_0;
@@ -149,8 +151,10 @@ static P2PFileManager *sharedInstance = nil;
 - (NSDictionary *)plistForFileId:(NSString *)fileId
 {
     NSError *error;
-    NSString *plistLocation = [NSString stringWithFormat:@"%@%@", [self pathForDirectoryWithHashID:fileId], P2PFileManagerInfoPlistFile];
-    NSData *plistData = [NSData dataWithContentsOfFile:plistLocation];
+    NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:[self pathForDirectoryWithHashID:fileId]];
+//    NSString *plistLocation = [NSString stringWithFormat:@"%@%@", [self pathForDirectoryWithHashID:fileId], P2PFileManagerInfoPlistFile];
+//    NSData *plistData = [NSData dataWithContentsOfFile:plistLocation];
+    NSData *plistData = [NSData dataWithContentsOfURL:plistURL];
     if ( plistData == nil )
     {
         P2PLog( P2PLogLevelWarning, @"Information for FileID: %@ was requested, but no Plist was found", fileId );
@@ -249,30 +253,27 @@ static P2PFileManager *sharedInstance = nil;
     // Respond to a client with what chunks of a file we have
     P2PPeerFileAvailbilityResponse *response = [[P2PPeerFileAvailbilityResponse alloc] initWithRequest:request];
     
-    if ( request.fileId != nil )
-    {
-        // They supplied a fileID... no extra work needed
-        NSDictionary *plist = [self plistForFileId:request.fileId];
-        if ( plist != nil )
-        {
-            // We have some information on the file
-            response.totalFileLength = [[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue];
-            response.availableChunks = [self availableChunksForFileID:request.fileId];
-            response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
-        }
-    }
-    else if (request.fileName != nil )
+    if ( [[response matchingFileIds] count] == 0 && request.fileName != nil )
     {
         // Only a file name was supplied... we have to file out what file IDs could match up to this filename
         // The client making the request will have to decide which file ID they want then send another request
         response.matchingFileIds = [_filesInCache objectForKey:request.fileName];
     }
-    else
+    if ( [[response matchingFileIds] count] == 1 )
     {
-        P2PLog( P2PLogLevelError, @"A response contained neither a fileID nor filename: %@", request );
-    }
 
-    
+        // We have one matching file ID... we can send information on that file
+        NSString *fileId = [[response matchingFileIds] firstObject];
+        NSDictionary *plist = [self plistForFileId:fileId];
+        if ( plist != nil )
+        {
+            // We have some information on the file
+            response.totalFileLength = [[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue];
+            response.availableChunks = [self availableChunksForFileID:fileId];
+            response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
+        }
+        
+    }
     return response;
 }
 
@@ -282,17 +283,30 @@ static P2PFileManager *sharedInstance = nil;
  */
 
 - (NSArray *)availableChunksForFileID:(NSString *)fileID {
-    NSArray *chunkIDs;
     NSError *error;
     NSURL *path = [self pathForDirectoryWithHashID:fileID];
     
-    chunkIDs = [self contentsOfDirectoryAtPath:path.path error:&error];
+//    chunkIDs = [self contentsOfDirectoryAtPath:path.absoluteString error:&error];
+    NSArray *filesFound = [self contentsOfDirectoryAtURL:path includingPropertiesForKeys:nil options:0 error:&error];
     
     if (error) {
-        P2PLog(P2PLogLevelError, @"Unable to retrieve chunkIDs");
+        P2PLog(P2PLogLevelError, @"Unable to retrieve chunkIDs: %@", error);
         return nil;
     } else {
-        return chunkIDs;
+        NSMutableArray *chunkIds = [[NSMutableArray alloc] initWithCapacity:[filesFound count] - 1 ];
+        
+        for ( NSString *file in filesFound )
+        {
+            NSString *anId = [file lastPathComponent];
+            
+            if ( ![anId isEqualToString:P2PFileManagerInfoPlistFile] )
+            {
+                [chunkIds addObject:@( [anId integerValue] )];
+            }
+        }
+
+        
+        return chunkIds;
     }
 }
 
@@ -302,8 +316,9 @@ static P2PFileManager *sharedInstance = nil;
 - (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
 {
     NSDictionary *plist = [self plistForFileId:request.fileId];
-    NSString *path = [NSString stringWithFormat:@"%@%lu", [self pathForDirectoryWithHashID:request.fileId], (unsigned long)request.chunkId];
-    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:[NSData dataWithContentsOfFile:path]
+//    NSString *path = [NSString stringWithFormat:@"%@%lu", [self pathForDirectoryWithHashID:request.fileId], (unsigned long)request.chunkId];
+    NSURL *urlPath = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", request.chunkId] relativeToURL:[self pathForDirectoryWithHashID:request.fileId]];
+    P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:[NSData dataWithContentsOfURL:urlPath]
                                                      chunkId:request.chunkId
                                                       fileId:request.fileId
                                                     fileName:[plist objectForKey:P2PFileManagerInfoFileNameKey]

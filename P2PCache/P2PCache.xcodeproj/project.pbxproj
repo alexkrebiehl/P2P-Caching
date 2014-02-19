@@ -56,6 +56,8 @@
 		FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */; };
 		FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */; };
 		FAB2E159189D5F350081ECA3 /* P2PPeerNode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */; };
+		FAB92DDB18B40D0500E515E0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB92DDA18B40D0500E515E0 /* libz.dylib */; };
+		FAB92DDD18B429F000E515E0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB92DDC18B429F000E515E0 /* libz.dylib */; };
 		FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FABA8DBD18A5825E00115463 /* P2PFileManager.h */; };
 		FABA8DC018A5825E00115463 /* P2PFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DBE18A5825E00115463 /* P2PFileManager.m */; };
 		FABA8DC118A5825E00115463 /* P2PFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DBE18A5825E00115463 /* P2PFileManager.m */; };
@@ -153,6 +155,8 @@
 		FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCache_iOSTests.m; sourceTree = "<group>"; };
 		FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerNode.h; sourceTree = "<group>"; };
 		FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerNode.m; sourceTree = "<group>"; };
+		FAB92DDA18B40D0500E515E0 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		FAB92DDC18B429F000E515E0 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		FABA8DBD18A5825E00115463 /* P2PFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileManager.h; sourceTree = "<group>"; };
 		FABA8DBE18A5825E00115463 /* P2PFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileManager.m; sourceTree = "<group>"; };
 		FABA8DC218A5829200115463 /* P2PFileChunk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileChunk.h; sourceTree = "<group>"; };
@@ -177,6 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAB92DDD18B429F000E515E0 /* libz.dylib in Frameworks */,
 				FA3CA983189B1ACD00208607 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAB92DDB18B40D0500E515E0 /* libz.dylib in Frameworks */,
 				FA3E9E7A189B52FE009FEB99 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,6 +280,8 @@
 		FA3CA981189B1ACD00208607 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FAB92DDC18B429F000E515E0 /* libz.dylib */,
+				FAB92DDA18B40D0500E515E0 /* libz.dylib */,
 				FA3CA982189B1ACD00208607 /* Cocoa.framework */,
 				FA3CA997189B1ACD00208607 /* XCTest.framework */,
 				FA3E9E79189B52FE009FEB99 /* Foundation.framework */,

@@ -64,9 +64,9 @@ static NSUInteger currentId = 1;
     return self;
 }
 
-- (void)peer:(P2PPeerNode *)peer didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response
+- (void)didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response
 {
-    [self.delegate peer:peer didRecieveAvailibilityResponse:response];
+    [self.delegate fileAvailabilityRequest:self didRecieveAvailibilityResponse:response];
 }
 
 @end

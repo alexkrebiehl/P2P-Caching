@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class P2PPeerFileAvailibilityRequest;
+@class P2PPeerFileAvailibilityRequest, P2PPeerNode;
 
 @interface P2PPeerFileAvailbilityResponse : NSObject <NSCoding>
 
@@ -29,6 +29,9 @@
 
 /** The identifier for this request */
 @property (nonatomic, readonly) NSUInteger requestId;
+
+/** The peer handling this response */
+@property (weak, nonatomic) P2PPeerNode *owningPeer;
 
 /** Creates a new response object from a given request
  @param request The request this object is responding to

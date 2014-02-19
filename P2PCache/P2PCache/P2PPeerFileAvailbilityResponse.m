@@ -31,6 +31,7 @@ static NSString *P2PAvailabilityResponseTotalFileSize =     @"TotalSize";
     if ( self = [super init] )
     {
         _fileName = request.fileName;
+        _requestId = request.requestId;
         if ( request.fileId != nil )
         {
             _matchingFileIds = @[ request.fileId ];
