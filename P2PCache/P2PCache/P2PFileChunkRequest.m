@@ -58,4 +58,9 @@ static NSString *P2PFileChunkRequestChunkSizeKey =  @"ChunkSize";
     [self.delegate fileChunkRequestDidFail:self];
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ - id:%@ [%lu]>", [self class], self.fileId, (unsigned long)self.chunkId];
+}
+
 @end

@@ -47,7 +47,6 @@ static NSString *P2PFileChunkDecodeKeyFileSize =    @"TotalSize";
     return self;
 }
 
-
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:self.dataBlock forKey:P2PFileChunkDecodeKeyDataBlock];
@@ -55,6 +54,11 @@ static NSString *P2PFileChunkDecodeKeyFileSize =    @"TotalSize";
     [aCoder encodeObject:self.fileId forKey:P2PFileChunkDecodeKeyFileId];
     [aCoder encodeObject:self.fileName forKey:P2PFileChunkDecodeKeyFileName];
     [aCoder encodeObject:@( self.totalFileSize ) forKey:P2PFileChunkDecodeKeyFileSize];
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ - id:%@ [%lu]>", [self class], self.fileId, (unsigned long)self.chunkId];
 }
 
 @end

@@ -22,6 +22,7 @@
 #import "Utilities.h"
 #import "P2PLogging.h"
 #import "NSObject+cleanup.h"
+#import "NSData+mD5Hash.h"
 
 // Networking
 #import "P2PNode.h"

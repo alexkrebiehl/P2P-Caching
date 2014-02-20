@@ -8,6 +8,7 @@
 
 #import "P2PNode.h"
 #import "P2PPeerFileAvailibilityRequest.h"
+#import <zlib.h>
 
 /** Since the peer and server will share a lot of the same functionality,
  I decided to go ahead and just make them children of this superclass.
@@ -22,109 +23,49 @@
 
 @end
 
-typedef NS_ENUM(uint8_t, P2PNetworkTransmissionType)
-{
-    P2PNetworkTransmissionTypeUnknown = 0,
-    P2PNetworkTransmissionTypeObject,
-    P2PNetworkTransmissionTypeData
-};
-
-typedef NS_ENUM(NSUInteger, P2PIncomingDataStatus)
+typedef NS_ENUM( NSUInteger, P2PIncomingDataStatus )
 {
     P2PIncomingDataStatusNotStarted = 0,
     P2PIncomingDataStatusStarting,
     P2PIncomingDataStatusReadingHeader,
     P2PIncomingDataStatusReadingData,
+    P2PIncomingDataStatusReadingFooter,
     P2PIncomingDataStatusFinished,
     P2PIncomingDataStatusError
 };
 
-typedef NS_ENUM(NSUInteger, P2PIncomingDataErrorCode)
+typedef NS_ENUM( NSUInteger, P2PIncomingDataErrorCode )
 {
     P2PIncomingDataErrorCodeNoError = 0,    // There is no error
     P2PIncomingDataErrorCodeNoData,         // For some reason we just recieved a NULL character... still trying to figure out why this happens...
     P2PIncomingDataErrorCodeInvalidHeader,  // Something about the header was off on the transmission
     P2PIncomingDataErrorCodeStreamEnded,    // The peer disconnected in the middle of the transmission
-    P2PIncomingDataErrorCodeStreamError     // An error occoured in the stream... connection probably dropped
+    P2PIncomingDataErrorCodeStreamError,    // An error occoured in the stream... connection probably dropped
+    P2PIncomingDataErrorCodeCurruptFile     // Recieved file had a bad checksum
 };
 
-typedef NS_ENUM(NSUInteger, P2PIncomingDataHeaderPosition)
+enum
 {
-    P2PIncomingDataHeaderPositionNone = 0,
-    P2PIncomingDataHeaderPositionType,
-    P2PIncomingDataHeaderPositionSize,
-    P2PIncomingDataHeaderPositionParity
+    P2PNodeConnectionBufferSize = 32 * 1024, // 32kb buffer
 };
 
 static const NSUInteger P2PIncomingDataFileSizeUnknown = NSUIntegerMax;
 
-/*
- Header/Data format
- 
-     size(bytes)    file
-         |           |
- :00:000000000000:0:<data>
-   |              |
-  Type          parity
- 
- Type:   The type of data that is about to be transmitted (P2PNetworkTransmissionType)
- Size:   The size in bytes of the data that is about to be transmitted
- Parity: Parity bit for the data to verify after recieving
- Data:   The binary data
- 
- */
-
-uint8_t computeParityBit( NSData *data )
-{
-    return 0; // TODO
-}
-
-NSData* prepareTransmission( NSData *dataToTransmit, P2PNetworkTransmissionType dataType )
-{
-    NSMutableData *compositeData = [[NSMutableData alloc] init];
-    
-    // Seperator between information
-    const char seperator = ':';
-    
-    // Initial seperator
-    [compositeData appendBytes:&seperator length:sizeof( seperator )];
-    
-    // Data type flag
-    [compositeData appendBytes:&dataType length:sizeof( dataType )];
-    
-    // Seperator
-    [compositeData appendBytes:&seperator length:sizeof( seperator )];
-    
-    // File size
-    NSUInteger size = dataToTransmit.length;
-    [compositeData appendBytes:&size length:sizeof( size )];
-    
-    // Seperator
-    [compositeData appendBytes:&seperator length:sizeof( seperator )];
-    
-    // Parity bit
-    uint8_t p = computeParityBit( dataToTransmit );
-    [compositeData appendBytes:&p length:sizeof( p )];
-    
-    // Seperator
-    [compositeData appendBytes:&seperator length:sizeof( seperator )];
-    
-    // Append data to the header
-    [compositeData appendData:dataToTransmit];
-    
-    return compositeData;
-}
-
 NSData* prepareObjectForTransmission( id<NSCoding> object )
 {
-    return prepareTransmission( [NSKeyedArchiver archivedDataWithRootObject:object], P2PNetworkTransmissionTypeObject );
+    NSData *objectData = [NSKeyedArchiver archivedDataWithRootObject:object];
+    NSUInteger fileSize = [objectData length];
+    uLong crc = crc32( 0, [objectData bytes], (uInt)[objectData length] );
+    
+    // Combine the pieces
+    NSMutableData *combinedData = [NSMutableData dataWithCapacity:sizeof( fileSize ) + [objectData length] + sizeof( crc )];
+    [combinedData appendBytes:&fileSize length:sizeof( fileSize )];
+    [combinedData appendBytes:[objectData bytes] length:[objectData length]];
+    [combinedData appendBytes:&crc length:sizeof( crc )];
+    
+    
+    return combinedData;
 }
-
-NSData* prepareDataForTransmission( NSData *dataToTransmit )
-{
-    return prepareTransmission( dataToTransmit, P2PNetworkTransmissionTypeData );
-}
-
 
 
 
@@ -163,7 +104,7 @@ static NSUInteger currentConnectionId = 1;
 {
     if ( _inBuffer == nil)
     {
-        _inBuffer = [[NSMutableData alloc] initWithCapacity:2048];
+        _inBuffer = [[NSMutableData alloc] initWithCapacity:P2PNodeConnectionBufferSize];
     }
     return _inBuffer;
 }
@@ -172,7 +113,7 @@ static NSUInteger currentConnectionId = 1;
 {
     if ( _outBuffer == nil )
     {
-        _outBuffer = [[NSMutableData alloc] initWithCapacity:2048];
+        _outBuffer = [[NSMutableData alloc] initWithCapacity:P2PNodeConnectionBufferSize];
     }
     return _outBuffer;
 }
@@ -200,6 +141,14 @@ static NSUInteger currentConnectionId = 1;
  calling calling object (presumably an instance of P2PNode).  This class will inform the delegate that the download
  is complete and the data is now available.
  
+ Header/Data format
+ 
+ 
+ New format:
+ 64-bit file size
+ data
+ 32-bit checksum (crc32)
+ 
  */
 @interface P2PIncomingData : NSObject <NSStreamDelegate>
 
@@ -210,21 +159,18 @@ static NSUInteger currentConnectionId = 1;
 @property (readonly, nonatomic) P2PIncomingDataErrorCode errorCode;
 
 @property (weak, nonatomic) id<P2PIncomingDataDelegate> delegate;
-@property (strong, nonatomic, readonly) id downloadedData;          // Downloaded data may either be an object (such as a request)
-@property (readonly, nonatomic) P2PNetworkTransmissionType type;    // Or a binary data file
-                                                                    // The correct one can be found by using the type property
-                                                                    // well, now that i think about it, it will probably always be an object,
-                                                                    // because a binary file will be wrapped in a P2PFileChunk object
-                                                                    // so..... we'll come back to this
+@property (strong, nonatomic, readonly) NSData *downloadedData;
 
 @end
 
 @implementation P2PIncomingData
 {
     NSMutableData *_buffer;
-    P2PIncomingDataHeaderPosition _placeInHeader;
-    
-    uint8_t _parity;
+    NSUInteger _bufferOffset;
+    NSUInteger _fileOffset;
+
+    uLong _crc;
+    NSMutableData *_assembledData;
 }
 
 - (id)init
@@ -241,6 +187,7 @@ static NSUInteger currentConnectionId = 1;
         _status = P2PIncomingDataStatusNotStarted;
         _errorCode = P2PIncomingDataErrorCodeNoError;
         _fileSize = P2PIncomingDataFileSizeUnknown;
+        _bufferOffset = 0;
     }
     return self;
 }
@@ -280,132 +227,134 @@ static NSUInteger currentConnectionId = 1;
     
 }
 
+- (void)prepareToReadHeader
+{
+    assert( _bufferOffset == 0 );
+    _buffer = [[NSMutableData alloc] init];
+    [_buffer setLength:sizeof(uint64_t)];
+    
+    _status = P2PIncomingDataStatusReadingHeader;
+}
+
+- (void)processHeader
+{
+    // set file length here
+    assert( [_buffer length] == sizeof(uint64_t) );
+    uint64_t tmp = * (const uint64_t *) [_buffer bytes];
+    _fileSize = tmp;
+    assert( _fileOffset == 0 );
+    assert( _fileSize != 0 );
+    _status = P2PIncomingDataStatusReadingData;
+}
+
+- (void)prepareNextReadBuffer
+{
+    if ( _fileOffset < _fileSize )
+    {
+        // There is more file data to read
+        NSUInteger remainingFileSize = _fileSize - _fileOffset;
+        NSUInteger nextBuferSize = ( remainingFileSize < P2PNodeConnectionBufferSize ) ? remainingFileSize : P2PNodeConnectionBufferSize;
+        [_buffer setLength:nextBuferSize];
+        _status = P2PIncomingDataStatusReadingData;
+    }
+    else
+    {
+        [self prepareToReadFooter];
+    }
+}
+
+- (void)processBody
+{
+    if ( _assembledData == nil )
+    {
+        _assembledData = [[NSMutableData alloc] initWithCapacity:_fileSize];
+    }
+    
+    // We just received a block of file data.  Update our CRC calculation.
+    _crc = crc32(_crc, [_buffer bytes], (uInt) [_buffer length]);
+    
+    // Append the buffer to our assembled data
+    [_assembledData appendBytes:[_buffer bytes] length:[_buffer length]];
+    _fileOffset += [_buffer length];
+    [_buffer setLength:0];
+}
+
+- (void)prepareToReadFooter
+{
+    // It's time for the footer
+    [_buffer setLength:sizeof( uLong )];
+    _status = P2PIncomingDataStatusReadingFooter;
+}
+
+- (void)processFooter
+{
+    assert( [_buffer length] == sizeof( uLong ) );
+    uLong crcReceived = * (const uint32_t *) [_buffer bytes];
+    
+    if ( crcReceived == _crc )
+    {
+        [self dataDownloadDidFinish];
+    }
+    else
+    {
+        [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeCurruptFile];
+    }
+}
+
 - (void)readFromStream
 {
-    if ( _connection.inStream.hasBytesAvailable )
+    if ( _status == P2PIncomingDataStatusStarting )
     {
-        // Setup (if needed)
-        if ( _buffer == nil )
+        [self prepareToReadHeader];
+    }
+    
+    // Read as much from the stream as we can
+    assert( _bufferOffset < [_buffer length] );
+    NSInteger actuallyRead = [_connection.inStream read:((uint8_t *)([_buffer mutableBytes]) + _bufferOffset)
+                                              maxLength:[_buffer length] - _bufferOffset];
+    if ( actuallyRead < 0 )
+    {
+        // An error has occoured
+        P2PLog( P2PLogLevelError, @"%@ - failed to read from stream: %@", self, [_connection.inStream streamError] );
+        [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeStreamError];
+    }
+    else if ( actuallyRead == 0 )
+    {
+        P2PLog( P2PLogLevelError, @"%@ - failed to read from stream: %@", self, [_connection.inStream streamError] );
+        [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeStreamError];
+    }
+    else
+    {
+        // We have actually read data!
+        _bufferOffset += actuallyRead;
+        if ( _bufferOffset == [_buffer length] )
         {
-            _buffer = [[NSMutableData alloc] initWithCapacity:2048];
-        }
-        
-        if ( _status == P2PIncomingDataStatusStarting )
-        {
-            _status = P2PIncomingDataStatusReadingHeader;
-            _placeInHeader = P2PIncomingDataHeaderPositionNone;
-        }
-        
-        uint8_t oneByte;
-        NSInteger actuallyRead = 0;
-        
-        // Read from buffer
-        actuallyRead = [_connection.inStream read:&oneByte maxLength:1];
-
-        if ( _status == P2PIncomingDataStatusReadingHeader )
-        {
-            if ( _placeInHeader == P2PIncomingDataHeaderPositionNone )
+            // Buffer is full... process it
+            _bufferOffset = 0;
+            switch ( _status )
             {
-                if ( oneByte != ':' )
+                case P2PIncomingDataStatusReadingHeader:
                 {
-                    // For some reason we are getting a "null" character as soon
-                    // as we connect to a peer.
-                    // I suppose for now we will just ignore this and
-                    // cancel this download object
-                    [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeInvalidHeader];
-                    return;
+                    [self processHeader];
+                    [self prepareNextReadBuffer];
+                    break;
                 }
-//                NSAssert( oneByte == ':', @"Invalid beginning of header");
-                _placeInHeader = P2PIncomingDataHeaderPositionType;
-            }
-            else if ( _placeInHeader == P2PIncomingDataHeaderPositionType )
-            {
-                // Start reading the type
-//                NSAssert( !(_buffer.length == 0 && oneByte == ':'), @"Unexpected end of type" );
-                if ( _buffer.length == 0 && oneByte == ':' )
+                case P2PIncomingDataStatusReadingData:
                 {
-                    // The type section ended without supplying any data
-                    [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeInvalidHeader];
-                    return;
+                    [self processBody];
+                    [self prepareNextReadBuffer];
+                    break;
                 }
-                
-                if ( oneByte == ':' )
+                case P2PIncomingDataStatusReadingFooter:
                 {
-                    // End of type block
-                    uint8_t *b = (uint8_t *)[_buffer bytes];
-                    _type = *b;
-                    
-                    _placeInHeader = P2PIncomingDataHeaderPositionSize;
-                    _buffer.length = 0;
+                    [self processFooter];
+                    break;
                 }
-                else
+                default:
                 {
-                    // Keep appending bytes
-                    [_buffer appendBytes:&oneByte length:1];
+                    assert( NO );
+                    break;
                 }
-            }
-            else if ( _placeInHeader == P2PIncomingDataHeaderPositionSize )
-            {
-//                NSAssert( !(_buffer.length == 0 && oneByte == ':'), @"Unexpected end of size" );
-                if ( _buffer.length == 0 && oneByte == ':' )
-                {
-                    // The type section ended without supplying any data
-                    [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeInvalidHeader];
-                    return;
-                }
-                
-                if ( oneByte == ':' )
-                {
-                    // End of size block
-                    NSUInteger *b = (NSUInteger *)[_buffer bytes];
-                    _fileSize = *b;
-                    
-                    _placeInHeader = P2PIncomingDataHeaderPositionParity;
-                    _buffer.length = 0;
-                }
-                else
-                {
-                    // Keep appending bytes
-                    [_buffer appendBytes:&oneByte length:1];
-                }
-            }
-            else if ( _placeInHeader == P2PIncomingDataHeaderPositionParity )
-            {
-//                NSAssert( !(_buffer.length == 0 && oneByte == ':'), @"Unexpected end of parity" );
-                if ( _buffer.length == 0 && oneByte == ':' )
-                {
-                    // The type section ended without supplying any data
-                    [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeInvalidHeader];
-                    return;
-                }
-                
-                if ( oneByte == ':' )
-                {
-                    // End of parity block
-                    uint8_t *b = (uint8_t *)[_buffer bytes];
-                    _parity = *b;
-                    
-                    _placeInHeader = P2PIncomingDataHeaderPositionNone;
-                    _buffer.length = 0;
-                    
-                    // End of header.  We can start reading data now
-                    _status = P2PIncomingDataStatusReadingData;
-                }
-                else
-                {
-                    // Keep appending bytes
-                    [_buffer appendBytes:&oneByte length:1];
-                }
-            }
-        }
-        else if ( _status == P2PIncomingDataStatusReadingData )
-        {
-            [_buffer appendBytes:&oneByte length:1];
-            
-            if ( [_buffer length] == _fileSize )
-            {
-                // Data has been recieved
-                [self dataDownloadDidFinish];
             }
         }
     }
@@ -417,6 +366,7 @@ static NSUInteger currentConnectionId = 1;
     _errorCode = errorCode;
     _downloadedData = nil;
     _buffer = nil;
+    _assembledData = nil;
     [self returnControlToSender];
     [self.delegate dataFailedToDownload:self];
 }
@@ -424,13 +374,11 @@ static NSUInteger currentConnectionId = 1;
 - (void)dataDownloadDidFinish
 {
     _status = P2PIncomingDataStatusFinished;
-    
-    // Move our buffered data over to the publicly available property
-    _downloadedData = _buffer;
-    _buffer = nil;
+    _downloadedData = _assembledData;
     
     [self returnControlToSender];
     [self.delegate dataDidFinishLoading:self];
+    
 }
 
 - (void)returnControlToSender
@@ -521,7 +469,10 @@ static NSUInteger currentConnectionId = 1;
     [connection.outBuffer appendData:preparedData];
 
     P2PLogDebug( @"%@ - sending object: %@ to %@", self, object, connection );
-    [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
+//    });
+    
 }
 
 #pragma mark - NSStream Delegate Methods
@@ -543,7 +494,10 @@ static NSUInteger currentConnectionId = 1;
             
             [_activeDataTransfers addObject:d];
             d.delegate = self;
-            [d takeOverStream];
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
+//            {
+                [d takeOverStream];
+//            });
             
             break;
         }
@@ -592,21 +546,23 @@ static NSUInteger currentConnectionId = 1;
 {
     [_activeDataTransfers removeObject:loader];
     
-    switch ( loader.type )
-    {
-        case P2PNetworkTransmissionTypeObject:
-        {
+//    switch ( loader.type )
+//    {
+//        case P2PNetworkTransmissionTypeObject:
+//        {
+//            // We have to copy the data from the loader to a new memory location
+//            NSData *recievedData = [NSData dataWithBytes:[loader.downloadedData bytes] length:loader.fileSize];
             id obj = [NSKeyedUnarchiver unarchiveObjectWithData:loader.downloadedData];
             P2PLogDebug(@"%@ - recieved object: %@ from %@", self, obj, loader.connection);
             [self handleRecievedObject:obj from:loader.connection];
-            break;
-        }
-        case P2PNetworkTransmissionTypeData:
-        case P2PNetworkTransmissionTypeUnknown:
-        default:
-            NSAssert(NO, @"Unknown file recieved");
-            break;
-    }
+//            break;
+//        }
+//        case P2PNetworkTransmissionTypeData:
+//        case P2PNetworkTransmissionTypeUnknown:
+//        default:
+//            NSAssert(NO, @"Unknown file recieved");
+//            break;
+//    }
     
 //    [self objectDidFailToSend:loader.]
 }
@@ -620,11 +576,20 @@ static NSUInteger currentConnectionId = 1;
             P2PLog( P2PLogLevelWarning, @"%@ - failed with error: NO DATA", loader );
             break;
         case P2PIncomingDataErrorCodeStreamEnded:
-            [self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
+        {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
+            });
             break;
+        }
         case P2PIncomingDataErrorCodeStreamError:
-            [self connection:loader.connection failedWithStreamError:NSStreamEventErrorOccurred];
+        {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self connection:loader.connection failedWithStreamError:NSStreamEventErrorOccurred];
+            });
+            
             break;
+        }
         default:
             break;
     }

@@ -51,7 +51,6 @@
     P2PFileRequest *request = [P2PCache requestFileWithName:@"library.jpg"];
     request.delegate = self;
     [request getFile];
-    
 }
 - (IBAction)addFileToCacheButtonPressed:(id)sender
 {

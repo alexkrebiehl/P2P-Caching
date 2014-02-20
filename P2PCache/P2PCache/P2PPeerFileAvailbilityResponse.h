@@ -24,8 +24,8 @@
 /** The length of each chunk */
 @property (nonatomic) NSUInteger chunkSizeInBytes;
 
-/** The total size of the completed file */
-@property (nonatomic) NSUInteger totalFileLength;
+/** The total number of chunks for the complete file */
+@property (nonatomic) NSUInteger totalChunks;
 
 /** The identifier for this request */
 @property (nonatomic, readonly) NSUInteger requestId;

@@ -70,6 +70,14 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 @property (nonatomic, readonly) P2PFileRequestStatus status;
 /** The reason why the request failed */
 @property (nonatomic, readonly) P2PFileRequestError errorCode;
+/** Total number of chunks for complete file */
+@property (nonatomic, readonly) NSUInteger totalChunks;
+/** Number of chunks available from peers */
+@property (nonatomic, readonly) NSUInteger chunksAvailable;
+/** Number of chunks downloaded to the local machine */
+@property (nonatomic, readonly) NSUInteger chunksReady;
+/** Total completion of the request (0.0-1.0) */
+@property (nonatomic, readonly) float progress;
 
 
 
