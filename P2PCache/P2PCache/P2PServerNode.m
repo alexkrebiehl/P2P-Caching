@@ -117,19 +117,19 @@
 
 - (void)netServiceWillPublish:(NSNetService *)netService
 {
-    LogSelector();
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PServerNodeWillStartNotification object:self];
 }
 
 - (void)netServiceDidPublish:(NSNetService *)sender
 {
-    LogSelector();
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PServerNodeDidStartNotification object:self];
     assert( sender == _service );
 }
 
 - (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict
 {
-    LogSelector();
-    assert(NO); // For debugging... find out why we did not publish
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PServerNodeFailedToStartNotification object:self];
+    P2PLog( P2PLogLevelError, @"%@ - failed to publish: %@", self, [errorDict objectForKey:NSNetServicesErrorCode] );
 }
 
 - (void)netServiceWillResolve:(NSNetService *)sender
@@ -154,7 +154,7 @@
 
 - (void)netServiceDidStop:(NSNetService *)netService
 {
-    LogSelector();
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PServerNodeDidStopNotification object:self];
 }
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream

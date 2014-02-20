@@ -10,8 +10,12 @@
 
 @interface P2PAppDelegate : NSObject <NSApplicationDelegate>
 
+@property (weak) IBOutlet NSImageView *serverStatusIcon;
+
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSTextField *peersFoundLabel;
-- (IBAction)requestFileButtonPressed:(id)sender;
+@property (weak) IBOutlet NSTextField *filesInCacheLabel;
+@property (weak) IBOutlet NSTextField *activeRequestsLabel;
 
+- (IBAction)requestFileButtonPressed:(id)sender;
 @end

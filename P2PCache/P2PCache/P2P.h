@@ -18,7 +18,10 @@
 #define P2P_BONJOUR_SERVICE_NAME    @"" // Uses machine name for identification
 #define P2P_BONJOUR_SERVICE_PORT    0   // Selects random port
 
+
+
 // Global imports
+#import "P2PCache.h"    // "Public" notifications
 #import "Utilities.h"
 #import "P2PLogging.h"
 #import "NSObject+cleanup.h"

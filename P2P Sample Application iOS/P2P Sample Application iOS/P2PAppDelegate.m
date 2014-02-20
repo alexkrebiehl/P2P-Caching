@@ -47,4 +47,6 @@
     [P2PCache shutdown];
 }
 
+- (IBAction)filesInCacheToolbarButtonPressed:(id)sender {
+}
 @end

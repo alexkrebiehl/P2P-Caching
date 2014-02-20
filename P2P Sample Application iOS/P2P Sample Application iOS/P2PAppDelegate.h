@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface P2PAppDelegate : UIResponder <UIApplicationDelegate>
+@interface P2PAppDelegate : UIResponder <UIApplicationDelegate, UIToolbarDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
