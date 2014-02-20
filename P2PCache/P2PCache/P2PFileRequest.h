@@ -61,11 +61,12 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 
 @interface P2PFileRequest : NSObject
 
-@property (copy, nonatomic, readonly) NSString *fileId;             // Hash of the file
-@property (copy, nonatomic) NSString *fileName;                     // Name of the file requested
-@property (strong, nonatomic, readonly) NSData *fileData;           // Populated after the file is completely loaded
+/** Unique ID of the file */
+@property (copy, nonatomic, readonly) NSString *fileId;
+/** Human readable name of the file */
+@property (copy, nonatomic) NSString *fileName;
+/** Delegate to recieve callbacks with the status of the request */
 @property (weak, nonatomic) id<P2PFileRequestDelegate> delegate;
-
 /** Current state the request is in */
 @property (nonatomic, readonly) P2PFileRequestStatus status;
 /** The reason why the request failed */

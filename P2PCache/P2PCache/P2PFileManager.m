@@ -268,8 +268,8 @@ static P2PFileManager *sharedInstance = nil;
         if ( plist != nil )
         {
             // We have some information on the file
-            response.totalChunks = [[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue] / P2PFileManagerFileChunkSize;
-            response.availableChunks = [self availableChunksForFileID:fileId];
+            response.totalChunks = ceil( [[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue] / (float)P2PFileManagerFileChunkSize );
+            response.availableChunks = [[NSMutableArray alloc] initWithArray:[self availableChunksForFileID:fileId]];
             response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
         }
         

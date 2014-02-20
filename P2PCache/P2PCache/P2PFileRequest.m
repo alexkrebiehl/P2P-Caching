@@ -131,6 +131,7 @@ static NSMutableArray *_pendingFileRequests = nil;
     P2PPeerFileAvailbilityResponse *responseFromSelf = [[P2PFileManager sharedManager] fileAvailibilityForRequest:requestToSelf];
     for ( NSNumber *chunkId in [responseFromSelf availableChunks] )
     {
+        _totalChunks = [responseFromSelf totalChunks];
         [_chunksAvailable addObject:chunkId];
         [_chunksReady addObject:chunkId];
     }
@@ -202,17 +203,25 @@ static NSMutableArray *_pendingFileRequests = nil;
 
 - (void)processResponses
 {
-    // For now we'll just download whatever the peer as available
-    // eventually we'll be smarter about this...
+    // Found out what chunks we still need
+    NSMutableSet *chunksNeeded = [[NSMutableSet alloc] initWithSet:_chunksAvailable copyItems:YES];
+    [chunksNeeded minusSet:_chunksReady];  // We dont need chunks that we already have
+    [chunksNeeded minusSet:_chunksCurrentlyBeingRequested]; // These already have a filechunkrequest going
+    
     for ( P2PPeerFileAvailbilityResponse *response in _recievedAvailabiltyResponses )
     {
-        for ( NSNumber *aChunk in response.availableChunks )
+        // See if this peer has a chunk we still need
+        NSSet *chunksToGetFromPeer = [chunksNeeded objectsPassingTest:^BOOL(NSNumber *chunkId, BOOL *stop)
+        {
+            return [[response availableChunks] containsObject:chunkId];
+        }];
+        for ( NSNumber *aChunk in chunksToGetFromPeer )
         {
             P2PFileChunkRequest *chunkRequest = [[P2PFileChunkRequest alloc] initWithFileId:self.fileId chunkId:[aChunk unsignedIntegerValue] chunkSize:response.chunkSizeInBytes];
             [self requestFileChunk:chunkRequest fromPeer:response.owningPeer];
+            [chunksNeeded removeObject:aChunk];
         }
     }
-    
 }
 
 - (void)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PPeerNode *)peer
@@ -221,16 +230,18 @@ static NSMutableArray *_pendingFileRequests = nil;
     assert( peer != nil );
     _status = P2PFileRequestStatusRetreivingFile;
     request.delegate = self;
+    [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
     [peer requestFileChunk:request];
 }
 
 - (void)fileChunkRequest:(P2PFileChunkRequest *)request didRecieveChunk:(P2PFileChunk *)chunk
 {
+    [_chunksCurrentlyBeingRequested removeObject:@( request.chunkId )];
     [[P2PFileManager sharedManager] fileRequest:self didRecieveFileChunk:chunk];
     
     // Update our available chunks set
     assert( self.fileId != nil );
-    [_chunksAvailable addObjectsFromArray:[[P2PFileManager sharedManager] availableChunksForFileID:self.fileId]];
+    [_chunksReady addObjectsFromArray:[[P2PFileManager sharedManager] availableChunksForFileID:self.fileId]];
     
     if ( [self fileIsComplete] )
     {
@@ -240,12 +251,23 @@ static NSMutableArray *_pendingFileRequests = nil;
 
 - (void)fileChunkRequestDidFail:(P2PFileChunkRequest *)request
 {
+    NSAssert(NO, @"To be handled...");
+
+    // Mark this chunk as no longer available from this peer somehow...
     
+    
+    
+    [_chunksCurrentlyBeingRequested removeObject:@( request.chunkId )];
+    [self processResponses];
 }
 
 - (bool)fileIsComplete
 {
-    return [_chunksAvailable count] == [_chunksReady count];
+    if ( self.totalChunks == 0 )
+    {
+        return NO;
+    }
+    return self.totalChunks == [_chunksReady count];
 }
 
 - (void)failWithError:(P2PFileRequestError)errorCode
