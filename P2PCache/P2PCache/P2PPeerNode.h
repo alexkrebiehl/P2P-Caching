@@ -29,10 +29,6 @@
 
 @property (weak, nonatomic) id<P2PPeerProtocol> delegate;
 
-//@property (copy, nonatomic, readonly) NSString *ipAddress;  // Peer's IP address
-//@property (copy, nonatomic, readonly) NSString *domain;     // Peer's resolved domain
-//@property (nonatomic, readonly) NSUInteger port;            // Port number
-
 @property (strong, nonatomic, readonly) NSNetService *netService;
 @property (nonatomic, readonly) bool isReady;
 

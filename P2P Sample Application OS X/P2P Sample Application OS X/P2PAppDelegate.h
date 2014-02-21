@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface P2PAppDelegate : NSObject <NSApplicationDelegate>
+@interface P2PAppDelegate : NSObject <NSApplicationDelegate, NSTableViewDelegate, NSTableViewDataSource>
 
 @property (weak) IBOutlet NSImageView *serverStatusIcon;
 
@@ -16,6 +16,7 @@
 @property (weak) IBOutlet NSTextField *peersFoundLabel;
 @property (weak) IBOutlet NSTextField *filesInCacheLabel;
 @property (weak) IBOutlet NSTextField *activeRequestsLabel;
+@property (weak) IBOutlet NSDrawer *peerDrawer;
+@property (weak) IBOutlet NSTableView *peerListTableView;
 
-- (IBAction)requestFileButtonPressed:(id)sender;
 @end

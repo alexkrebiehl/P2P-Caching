@@ -655,19 +655,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FYU-Oy-voB">
-                        <rect key="frame" x="47" y="93" width="153" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Request File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kPl-Pr-aKW">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="requestFileButtonPressed:" target="494" id="5Kq-p8-gS2"/>
-                        </connections>
-                    </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KKh-p9-gRy">
-                        <rect key="frame" x="243" y="93" width="153" height="32"/>
+                        <rect key="frame" x="280" y="248" width="153" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Add File To Cache" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UHj-8b-9Nn">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -790,12 +779,136 @@
                 <outlet property="activeRequestsLabel" destination="M0D-D5-6Ut" id="Vtz-Bg-at9"/>
                 <outlet property="filesInCacheButtonPressed" destination="Ryu-s5-NmX" id="zo9-yJ-sUi"/>
                 <outlet property="filesInCacheLabel" destination="kId-zF-Ewz" id="Xk4-gk-qKt"/>
+                <outlet property="peerDrawer" destination="8jo-Ip-mWO" id="dYg-Lj-C3r"/>
+                <outlet property="peerListTableView" destination="UGK-vt-g2k" id="KnW-5t-GaV"/>
                 <outlet property="peersFoundLabel" destination="JlC-PW-cRG" id="11j-E9-6o8"/>
                 <outlet property="serverStatusIcon" destination="3Zm-CU-Vft" id="MLj-YV-QrB"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
+        <customView id="wTl-aV-zuk" userLabel="Drawer Content View">
+            <rect key="frame" x="0.0" y="0.0" width="189" height="382"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qWY-RS-Tpd">
+                    <rect key="frame" x="0.0" y="0.0" width="189" height="382"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <clipView key="contentView" id="zug-dM-tVW">
+                        <rect key="frame" x="1" y="17" width="187" height="364"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="eO7-fD-dyI" viewBased="YES" id="UGK-vt-g2k">
+                                <rect key="frame" x="0.0" y="0.0" width="187" height="364"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <size key="intercellSpacing" width="3" height="2"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="gridColor" red="0.93981402853260865" green="0.93981402853260865" blue="0.93981402853260865" alpha="1" colorSpace="calibratedRGB"/>
+                                <tableColumns>
+                                    <tableColumn identifier="P2PPeerTableStatusColumn" width="20" minWidth="20" maxWidth="20" id="QoW-so-3Q6">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="ojH-yH-1Xg">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView identifier="P2PPeerTableStatusCell" id="8Vy-Ej-sg4">
+                                                <rect key="frame" x="1" y="1" width="20" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dd0-x4-41H">
+                                                        <rect key="frame" x="3" y="0.0" width="17" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSStatusAvailable" id="1tv-K9-ACD"/>
+                                                    </imageView>
+                                                </subviews>
+                                                <connections>
+                                                    <outlet property="imageView" destination="dd0-x4-41H" id="BMG-Bq-MuE"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
+                                    <tableColumn identifier="P2PPeerTableNameColumn" width="116" minWidth="40" maxWidth="1000" id="jvv-OS-qcI">
+                                        <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Peer Name">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                        </tableHeaderCell>
+                                        <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="ZUE-ic-MpF">
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <tableColumnResizingMask key="resizingMask" resizeWithTable="YES"/>
+                                        <prototypeCellViews>
+                                            <tableCellView identifier="P2PPeerTableNameCell" id="aRF-wX-vuQ">
+                                                <rect key="frame" x="24" y="1" width="116" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rgh-iU-1Fe">
+                                                        <rect key="frame" x="0.0" y="0.0" width="116" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="LMB-CY-cxV">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="rgh-iU-1Fe" secondAttribute="trailing" constant="2" id="Nbv-Up-FBY"/>
+                                                    <constraint firstItem="rgh-iU-1Fe" firstAttribute="leading" secondItem="aRF-wX-vuQ" secondAttribute="leading" constant="2" id="SxX-sA-7vG"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="textField" destination="rgh-iU-1Fe" id="EgS-Ip-lvJ"/>
+                                                </connections>
+                                            </tableCellView>
+                                        </prototypeCellViews>
+                                    </tableColumn>
+                                </tableColumns>
+                                <connections>
+                                    <outlet property="dataSource" destination="494" id="z9u-A0-e4Y"/>
+                                    <outlet property="delegate" destination="494" id="LpK-fg-b1x"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="8Eq-fJ-497">
+                        <rect key="frame" x="1" y="345" width="160" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="t16-jF-6gl">
+                        <rect key="frame" x="-15" y="17" width="16" height="0.0"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <tableHeaderView key="headerView" id="eO7-fD-dyI">
+                        <rect key="frame" x="0.0" y="0.0" width="187" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </tableHeaderView>
+                </scrollView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="qWY-RS-Tpd" firstAttribute="leading" secondItem="wTl-aV-zuk" secondAttribute="leading" id="3J0-5W-kke"/>
+                <constraint firstAttribute="trailing" secondItem="qWY-RS-Tpd" secondAttribute="trailing" id="3lf-Mk-Sng"/>
+                <constraint firstAttribute="bottom" secondItem="qWY-RS-Tpd" secondAttribute="bottom" id="DIL-NI-4aP"/>
+                <constraint firstItem="qWY-RS-Tpd" firstAttribute="top" secondItem="wTl-aV-zuk" secondAttribute="top" id="evC-O1-mkZ"/>
+            </constraints>
+        </customView>
+        <drawer preferredEdge="minX" trailingOffset="15" id="8jo-Ip-mWO">
+            <size key="contentSize" width="100" height="100"/>
+            <size key="maxContentSize" width="10000" height="10000"/>
+            <connections>
+                <outlet property="contentView" destination="wTl-aV-zuk" id="OYO-B5-iQL"/>
+                <outlet property="parentWindow" destination="371" id="bI9-MX-ajZ"/>
+            </connections>
+        </drawer>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>
@@ -803,6 +916,7 @@
         <image name="NSInfo" width="32" height="32"/>
         <image name="NSNetwork" width="32" height="32"/>
         <image name="NSPathTemplate" width="13" height="10"/>
+        <image name="NSStatusAvailable" width="16" height="16"/>
         <image name="NSStatusNone" width="16" height="16"/>
     </resources>
 </document>

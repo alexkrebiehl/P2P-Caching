@@ -12,17 +12,20 @@
 #import "P2PFileManager.h"
 #import "P2PFileRequest.h"
 #import "P2PFilesInCacheWindowController.h"
-#import "P2PPeerListWindowController.h"
+#import "P2PPeerNode.h"
+#import "P2PActiveTransfersWindowController.h"
 //#import "P2PServerNode.h"
 
-@interface P2PAppDelegate () <P2PFileRequestDelegate, NSToolbarDelegate>
+@interface P2PAppDelegate () <NSToolbarDelegate>
 
 @end
 
 @implementation P2PAppDelegate
 {
     P2PFilesInCacheWindowController *_filesInCacheWindowController;
-    P2PPeerListWindowController *_peerListWindowController;
+    P2PActiveTransfersWindowController *_activeFilesController;
+    
+    NSMutableOrderedSet *_allPeers;  // A list of peers, including ones that have disconnected
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -36,9 +39,7 @@
     
     [self registerForServerStatusNotifications];
     [self setupToolbar];
-    
-    // Server Status
-    
+
     [P2PCache start];
 }
 
@@ -57,7 +58,7 @@
         }
         else if ( [item.itemIdentifier isEqualToString:@"P2PMainWindowPeerListButton"] )
         {
-            [item setAction:@selector(peerListButtonPressed)];
+            [item setAction:@selector(peerListButtonPressed:)];
         }
         else if ( [item.itemIdentifier isEqualToString:@"P2PMainWindowFilesInCacheButton"] )
         {
@@ -70,24 +71,14 @@
     }
 }
 
-//- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
-//{
-//    NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier];
-//    [item setTarget:self];
-//    
-//
-//    
-////    P2PMainWindowActiveRequestsButton
-////    P2PMainWindowLogButton
-////    P2PMainWindowPeerListButton
-////    P2PMainWindowFilesInCacheButton
-////    P2PMainWindowStatsButton
-//    return item;
-//}
-
 - (void)activeRequestsButtonPressed
 {
-    NSLog(@"active button");
+    if ( _activeFilesController == nil )
+    {
+        _activeFilesController = [[P2PActiveTransfersWindowController alloc] initWithWindowNibName:@"P2PActiveTransfersWindowController"];
+    }
+    
+    [_activeFilesController showWindow:self];
 }
 
 - (void)logButtonPressed
@@ -95,14 +86,10 @@
     
 }
 
-- (void)peerListButtonPressed
+- (void)peerListButtonPressed:(NSToolbarItem *)sender
 {
-    if ( _peerListWindowController == nil )
-    {
-        _peerListWindowController = [[P2PPeerListWindowController alloc] initWithWindowNibName:@"P2PPeerListWindowController"];
-    }
-    
-    [_peerListWindowController showWindow:self];
+    self.peerDrawer.contentSize = CGSizeMake(200, 0);
+    [self.peerDrawer toggle:self];
 }
 
 - (void)filesInCacheButtonPressed
@@ -130,8 +117,17 @@
 
 - (void)peersUpdatedNotification:(NSNotification *)notification
 {
-    NSUInteger numPeers = [[[P2PPeerManager sharedManager] activePeers] count];
-    [self.peersFoundLabel setStringValue:[NSString stringWithFormat:@"%lu", (unsigned long)numPeers]];
+    NSArray *activePeers = [[P2PPeerManager sharedManager] activePeers];
+    if ( _allPeers == nil )
+    {
+        _allPeers = [[NSMutableOrderedSet alloc] initWithArray:activePeers copyItems:NO];
+    }
+    else
+    {
+        [_allPeers addObjectsFromArray:activePeers];
+    }
+    [self.peerListTableView reloadData];
+    [self.peersFoundLabel setStringValue:[NSString stringWithFormat:@"%lu", (unsigned long)[activePeers count]]];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
@@ -146,12 +142,6 @@
     return NSTerminateNow;
 }
 
-- (IBAction)requestFileButtonPressed:(id)sender
-{
-    P2PFileRequest *request = [P2PCache requestFileWithName:@"library.jpg"];
-    request.delegate = self;
-    [request getFile];
-}
 - (IBAction)addFileToCacheButtonPressed:(id)sender
 {
     NSOpenPanel* openDlg = [NSOpenPanel openPanel];
@@ -174,22 +164,6 @@
    
 }
 
-
-- (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename
-{
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-}
-
-- (void)fileRequestDidComplete:(P2PFileRequest *)fileRequest
-{
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-}
-
-- (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode
-{
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-}
-
 #pragma mark - Server Status Updates
 - (void)serverWillStartNotification:(NSNotification *)notificaiton
 {
@@ -210,5 +184,42 @@
 {
     [self.serverStatusIcon setImage:[NSImage imageNamed:NSImageNameStatusNone]];
 }
+
+
+#pragma mark - Peer table view delegate/datasource
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+    return [_allPeers count];
+}
+
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSView *view;
+    P2PPeerNode *peer = [_allPeers objectAtIndex:row];
+    if ( [tableColumn.identifier isEqualToString:@"P2PPeerTableStatusColumn"] )
+    {
+        view = [tableView makeViewWithIdentifier:@"P2PPeerTableStatusCell" owner:self];
+        NSImageView *statusIcon = [view viewWithTag:0];
+        
+        if ( [[[P2PPeerManager sharedManager] allPeers] containsObject:peer] )
+        {
+            [statusIcon setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
+        }
+        else
+        {
+            [statusIcon setImage:[NSImage imageNamed:NSImageNameStatusUnavailable]];
+        }
+        
+        
+    }
+    else if ( [tableColumn.identifier isEqualToString:@"P2PPeerTableNameColumn"] )
+    {
+        view = [tableView makeViewWithIdentifier:@"P2PPeerTableNameCell" owner:self];
+        NSTextField *text = [view viewWithTag:0];
+        text.stringValue = peer.netService.name;
+    }
+    return view;
+}
+
 
 @end

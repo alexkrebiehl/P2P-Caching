@@ -13,7 +13,7 @@
 #define P2PCache_P2P_h
 
 // Bonjour (peer discovery) settings
-#define P2P_BONJOUR_SERVICE_DOMAIN  @""  //@"local."
+#define P2P_BONJOUR_SERVICE_DOMAIN  @"local."
 #define P2P_BONJOUR_SERVICE_TYPE    @"_p2pcache._tcp."
 #define P2P_BONJOUR_SERVICE_NAME    @"" // Uses machine name for identification
 #define P2P_BONJOUR_SERVICE_PORT    0   // Selects random port

@@ -26,6 +26,9 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
     /** Could not find a file with the specified ID, or no files matching the specified filename were found */
     P2PFileRequestErrorFileNotFound,
     
+    /** The request was able to partially complete the request, but is missing chunks */
+    P2PFileRequestErrorMissingChunks,
+    
     /** The request doesn't know which file to retrieve because the specified filename matched multiple file IDs */
     P2PFileRequestErrorMultipleIdsForFile
 };
@@ -34,7 +37,7 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 
 @protocol P2PFileRequestDelegate <NSObject>
 
-
+@required
 /** A file request has completed.  The fileData property of the object will now contain the downloaded data
  
  @param fileRequest The file requested object that finished
@@ -77,8 +80,8 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 @property (nonatomic, readonly) NSUInteger chunksAvailable;
 /** Number of chunks downloaded to the local machine */
 @property (nonatomic, readonly) NSUInteger chunksReady;
-/** Total completion of the request (0.0-1.0) */
-@property (nonatomic, readonly) float progress;
+/** Total completion of the request (0.0-100.0) */
+@property (nonatomic, readonly) double progress;
 
 
 
