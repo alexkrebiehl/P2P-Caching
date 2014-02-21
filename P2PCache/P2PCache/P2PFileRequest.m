@@ -14,6 +14,8 @@
 #import "P2PPeerFileAvailibilityRequest.h"
 #import "P2PFileManager.h"
 
+#define P2PMaximumSimultaneousFileRequests 10
+
 @interface P2PPeerFileAvailbilityResponse (P2PFileRequestExtension)
 
 @end
@@ -228,8 +230,6 @@ static NSMutableArray *_pendingFileRequests = nil;
         [chunksNeeded minusSet:_chunksReady];  // We dont need chunks that we already have
         [chunksNeeded minusSet:_chunksCurrentlyBeingRequested]; // These already have a filechunkrequest going
         
-        
-        
         for ( P2PPeerFileAvailbilityResponse *response in _recievedAvailabiltyResponses )
         {
             // See if this peer has a chunk we still need
@@ -240,21 +240,35 @@ static NSMutableArray *_pendingFileRequests = nil;
             for ( NSNumber *aChunk in chunksToGetFromPeer )
             {
                 P2PFileChunkRequest *chunkRequest = [[P2PFileChunkRequest alloc] initWithFileId:self.fileId chunkId:[aChunk unsignedIntegerValue] chunkSize:response.chunkSizeInBytes];
-                [self requestFileChunk:chunkRequest fromPeer:response.owningPeer];
-                [chunksNeeded removeObject:aChunk];
+                if ( [self requestFileChunk:chunkRequest fromPeer:response.owningPeer] )
+                {
+                    [chunksNeeded removeObject:aChunk];
+                }
+                else
+                {
+                    return;
+                }
             }
         }
     }
 }
 
-- (void)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PPeerNode *)peer
+/** Sends a file chunk request to a peer.
+ @return YES if the chunk can be sent right now, NO if we've reached the maximum number of simultaneous requests
+ */
+- (bool)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PPeerNode *)peer
 {
     assert( request != nil );
     assert( peer != nil );
-    _status = P2PFileRequestStatusRetreivingFile;
-    request.delegate = self;
-    [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
-    [peer requestFileChunk:request];
+    if ( [_chunksCurrentlyBeingRequested count] < P2PMaximumSimultaneousFileRequests )
+    {
+        _status = P2PFileRequestStatusRetreivingFile;
+        request.delegate = self;
+        [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
+        [peer requestFileChunk:request];
+        return YES;
+    }
+    return NO;
 }
 
 - (void)fileChunkRequest:(P2PFileChunkRequest *)request didRecieveChunk:(P2PFileChunk *)chunk
@@ -269,6 +283,10 @@ static NSMutableArray *_pendingFileRequests = nil;
     if ( [self fileIsComplete] )
     {
         [self requestDidComplete];
+    }
+    else
+    {
+        [self processResponses];
     }
 }
 

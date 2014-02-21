@@ -577,16 +577,16 @@ static NSUInteger currentConnectionId = 1;
             break;
         case P2PIncomingDataErrorCodeStreamEnded:
         {
-            dispatch_sync(dispatch_get_main_queue(), ^{
+//            dispatch_sync(dispatch_get_main_queue(), ^{
                 [self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
-            });
+//            });
             break;
         }
         case P2PIncomingDataErrorCodeStreamError:
         {
-            dispatch_sync(dispatch_get_main_queue(), ^{
+//            dispatch_sync(dispatch_get_main_queue(), ^{
                 [self connection:loader.connection failedWithStreamError:NSStreamEventErrorOccurred];
-            });
+//            });
             
             break;
         }
