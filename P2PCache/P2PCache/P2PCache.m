@@ -12,10 +12,14 @@
 #import "P2PFileRequest.h"
 #import "P2PFileManager.h"
 
+/** Server Notifications */
 NSString *P2PServerNodeWillStartNotification =       @"P2PServerNodeWillStartNotification";
 NSString *P2PServerNodeDidStartNotification =        @"P2PServerNodeDidStartNotification";
 NSString *P2PServerNodeFailedToStartNotification =   @"P2PServerNodeFailedToStartNotification";
 NSString *P2PServerNodeDidStopNotification =         @"P2PServerNodeDidStopNotification";
+
+/** File Request Notifications */
+NSString *P2PActiveFileRequestsDidChange =           @"P2PActiveFileRequestsDidChange";
 
 @implementation P2PCache
 

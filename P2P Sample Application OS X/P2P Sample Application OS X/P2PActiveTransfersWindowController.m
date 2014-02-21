@@ -81,7 +81,24 @@
 
 - (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode
 {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSString *error;
+    switch ( errorCode )
+    {
+        case P2PFileRequestErrorFileNotFound:
+            error = @"file not found";
+            break;
+        case P2PFileRequestErrorMissingChunks:
+            error = @"file missing chunks";
+            break;
+        case P2PFileRequestErrorMultipleIdsForFile:
+            error = @"multiple ids for filename";
+            break;
+        case P2PFileRequestErrorNone:
+        default:
+            assert( NO );
+            break;
+    }
+    NSLog(@"File request failed with error: %@", error);
     NSUInteger index = [_allTransfers indexOfObject:fileRequest];
     [self reloadEntireRowAtIndex:index];
 }
@@ -163,4 +180,6 @@
     }
     return view;
 }
+
+
 @end

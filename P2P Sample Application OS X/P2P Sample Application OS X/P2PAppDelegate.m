@@ -36,6 +36,9 @@
                                                  name:P2PPeerManagerPeerListUpdatedNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(activeFileRequestsUpdated:) name:P2PActiveFileRequestsDidChange
+                                               object:nil];
     
     [self registerForServerStatusNotifications];
     [self setupToolbar];
@@ -128,6 +131,11 @@
     }
     [self.peerListTableView reloadData];
     [self.peersFoundLabel setStringValue:[NSString stringWithFormat:@"%lu", (unsigned long)[activePeers count]]];
+}
+
+- (void)activeFileRequestsUpdated:(NSNotification *)notification
+{
+    self.activeRequestsLabel.stringValue = [NSString stringWithFormat:@"%lu", [[P2PFileRequest pendingFileRequests] count]];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender

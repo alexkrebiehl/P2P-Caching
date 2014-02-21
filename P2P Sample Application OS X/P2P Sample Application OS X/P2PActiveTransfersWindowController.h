@@ -8,9 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface P2PActiveTransfersWindowController : NSWindowController <NSTableViewDataSource, NSTableViewDelegate>
-- (IBAction)requestFileButtonPressed:(id)sender;
+@interface P2PActiveTransfersWindowController : NSWindowController <NSTableViewDataSource, NSTableViewDelegate, NSComboBoxDelegate>
+
+
 @property (weak) IBOutlet NSComboBox *fileNameComboBox;
 @property (weak) IBOutlet NSTableView *tableView;
+
+- (IBAction)requestFileButtonPressed:(id)sender;
 
 @end

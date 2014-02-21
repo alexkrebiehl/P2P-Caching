@@ -62,7 +62,7 @@
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="P2PFileTransferColumnFilename" width="205" minWidth="40" maxWidth="1000" id="NaA-wF-DwQ">
+                                        <tableColumn identifier="P2PFileTransferColumnFilename" width="129.55078125" minWidth="40" maxWidth="1000" id="NaA-wF-DwQ">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="File name">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -76,11 +76,11 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="P2PFileTransferCellFilename" id="4Ha-Tq-yOL">
-                                                    <rect key="frame" x="24" y="1" width="205" height="17"/>
+                                                    <rect key="frame" x="24" y="1" width="130" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SWo-jr-BIW">
-                                                            <rect key="frame" x="0.0" y="0.0" width="205" height="17"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="130" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="filename" id="dpr-oz-r4R">
                                                                 <font key="font" metaFont="system"/>
@@ -95,7 +95,7 @@
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="P2PFileTransferColumnProgress" width="64" minWidth="10" maxWidth="3.4028234663852886e+38" id="2et-zJ-1nA">
+                                        <tableColumn identifier="P2PFileTransferColumnProgress" width="151.1015625" minWidth="10" maxWidth="3.4028234663852886e+38" id="2et-zJ-1nA">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Progress">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -109,10 +109,10 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="P2PFileTransferCellProgress" id="Gae-N2-Brz">
-                                                    <rect key="frame" x="232" y="1" width="64" height="17"/>
+                                                    <rect key="frame" x="157" y="1" width="151" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <progressIndicator maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="hds-bF-fZq">
+                                                        <progressIndicator misplaced="YES" maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="hds-bF-fZq">
                                                             <rect key="frame" x="3" y="-2" width="58" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         </progressIndicator>
@@ -132,7 +132,7 @@
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
-                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="left" title="Text Cell" id="1FO-tw-lRi">
+                                            <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" alignment="right" title="Text Cell" id="1FO-tw-lRi">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -140,7 +140,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="P2PFileTransferCellAvailable" id="lTg-pq-4HW">
-                                                    <rect key="frame" x="299" y="1" width="120" height="17"/>
+                                                    <rect key="frame" x="311" y="1" width="120" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3JK-pJ-nVn">
@@ -159,7 +159,7 @@
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="P2PFileTransferColumnTotal" width="58" minWidth="10" maxWidth="3.4028234663852886e+38" id="8Pz-2p-80I">
+                                        <tableColumn identifier="P2PFileTransferColumnTotal" width="46" minWidth="10" maxWidth="3.4028234663852886e+38" id="8Pz-2p-80I">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Total">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -173,11 +173,11 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="P2PFileTransferCellTotal" id="M06-Zz-qzH">
-                                                    <rect key="frame" x="422" y="1" width="58" height="17"/>
+                                                    <rect key="frame" x="434" y="1" width="46" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m1s-v8-yhe">
-                                                            <rect key="frame" x="0.0" y="0.0" width="58" height="17"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="46" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" baseWritingDirection="rightToLeft" title="0" id="5sc-Bw-ZD3">
                                                                 <font key="font" metaFont="system"/>
@@ -205,7 +205,7 @@
                             <rect key="frame" x="1" y="1" width="0.0" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="37" horizontal="NO" id="1lF-LS-4LM">
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="1lF-LS-4LM">
                             <rect key="frame" x="-15" y="17" width="16" height="0.0"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>

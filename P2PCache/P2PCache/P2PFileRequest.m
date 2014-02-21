@@ -55,11 +55,13 @@ static NSMutableArray *_pendingFileRequests = nil;
         _pendingFileRequests = [[NSMutableArray alloc] init];
     }
     [_pendingFileRequests addObject:request];
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PActiveFileRequestsDidChange object:nil];
 }
 
 + (void)removeRequestFromPendingList:(P2PFileRequest *)request
 {
     [_pendingFileRequests removeObject:request];
+    [[NSNotificationCenter defaultCenter] postNotificationName:P2PActiveFileRequestsDidChange object:nil];
 }
 
 
@@ -208,7 +210,7 @@ static NSMutableArray *_pendingFileRequests = nil;
 
 - (void)processResponses
 {
-    if ( [_pendingAvailabilityRequests count] == 0 && self.chunksAvailable < self.totalChunks )
+    if ( [_pendingAvailabilityRequests count] == 0 && (self.chunksAvailable < self.totalChunks || self.totalChunks == 0) && [_chunksCurrentlyBeingRequested count] == 0 )
     {
         if ( self.totalChunks == 0 )
         {
@@ -274,6 +276,7 @@ static NSMutableArray *_pendingFileRequests = nil;
 - (void)fileChunkRequest:(P2PFileChunkRequest *)request didRecieveChunk:(P2PFileChunk *)chunk
 {
     [_chunksCurrentlyBeingRequested removeObject:@( request.chunkId )];
+    [_pendingFileRequests removeObject:request];
     [[P2PFileManager sharedManager] fileRequest:self didRecieveFileChunk:chunk];
     
     // Update our available chunks set

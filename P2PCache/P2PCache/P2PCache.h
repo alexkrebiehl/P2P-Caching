@@ -8,11 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+/** Server Notifications */
 extern NSString *P2PServerNodeWillStartNotification;
 extern NSString *P2PServerNodeDidStartNotification;
 extern NSString *P2PServerNodeFailedToStartNotification;
 extern NSString *P2PServerNodeDidStopNotification;
 
+/** File Request Notifications */
+extern NSString *P2PActiveFileRequestsDidChange;
 
 //static NSString *P2PCacheShutDownSignalRecievedNotification = @"P2PCacheShutDownSignalRecievedNotification";
 

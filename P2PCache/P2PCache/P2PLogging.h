@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define LOG_TO_CONSOLE  1
-#define LOG_TO_FILE     1
+#define LOG_TO_FILE     0
 #define LOG_DATE_FORMAT @"HH:mm:ss"    //@"MM-dd-yy HH:mm:ss"
 
 
@@ -23,7 +23,7 @@ typedef NS_ENUM( NSInteger, P2PLogLevel )
 };
 
 /** Currently set logging level */
-static const P2PLogLevel LOG_LEVEL = P2PLogLevelNormal;
+static const P2PLogLevel LOG_LEVEL = P2PLogLevelDebug;
 
 /** Shortcut for debug log */
 void P2PLogDebug( NSString *message, ... ) NS_FORMAT_FUNCTION(1,2);
