@@ -62,7 +62,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Display all found peers
-    return [[[P2PPeerManager sharedManager] peerList] count];
+    return [[[P2PPeerManager sharedManager] allPeers] count];
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -74,7 +75,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    P2PPeerNode *aPeer = [[[P2PPeerManager sharedManager] peerList] objectAtIndex:indexPath.row];
+    P2PPeerNode *aPeer = [[[P2PPeerManager sharedManager] allPeers] objectAtIndex:indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@", aPeer.netService.name];
     
     return cell;
