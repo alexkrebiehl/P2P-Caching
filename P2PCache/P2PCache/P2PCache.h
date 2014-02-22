@@ -17,8 +17,6 @@ extern NSString *P2PServerNodeDidStopNotification;
 /** File Request Notifications */
 extern NSString *P2PActiveFileRequestsDidChange;
 
-//static NSString *P2PCacheShutDownSignalRecievedNotification = @"P2PCacheShutDownSignalRecievedNotification";
-
 @class P2PFileRequest;
 
 @interface P2PCache : NSObject

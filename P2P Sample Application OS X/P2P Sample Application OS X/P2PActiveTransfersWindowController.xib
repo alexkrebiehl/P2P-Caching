@@ -112,8 +112,8 @@
                                                     <rect key="frame" x="157" y="1" width="151" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <progressIndicator misplaced="YES" maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="hds-bF-fZq">
-                                                            <rect key="frame" x="3" y="-2" width="58" height="20"/>
+                                                        <progressIndicator maxValue="100" doubleValue="50" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="hds-bF-fZq">
+                                                            <rect key="frame" x="3" y="-2" width="145" height="20"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                         </progressIndicator>
                                                     </subviews>
@@ -215,10 +215,10 @@
                         </tableHeaderView>
                     </scrollView>
                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8bW-kL-IaP">
-                        <rect key="frame" x="112" y="292" width="353" height="26"/>
+                        <rect key="frame" x="20" y="290" width="353" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
-                            <constraint firstAttribute="width" priority="1" constant="348" id="hV9-BF-UWw"/>
+                            <constraint firstAttribute="width" priority="1" constant="350" id="hV9-BF-UWw"/>
                         </constraints>
                         <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" numberOfVisibleItems="5" id="rhp-sB-fYT">
                             <font key="font" metaFont="system"/>
@@ -227,7 +227,7 @@
                         </comboBoxCell>
                     </comboBox>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rUN-xg-L0h">
-                        <rect key="frame" x="20" y="295" width="84" height="19"/>
+                        <rect key="frame" x="378" y="293" width="84" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="roundRect" title="Request File" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jGe-Hv-wIN">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -241,12 +241,12 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="C2X-yx-2HQ" secondAttribute="trailing" constant="-1" id="A62-eY-SGK"/>
                     <constraint firstAttribute="bottom" secondItem="C2X-yx-2HQ" secondAttribute="bottom" constant="-1" id="CdY-sa-OhO"/>
-                    <constraint firstAttribute="trailing" secondItem="8bW-kL-IaP" secondAttribute="trailing" constant="20" symbolic="YES" id="VtQ-WX-2RH"/>
+                    <constraint firstAttribute="trailing" secondItem="rUN-xg-L0h" secondAttribute="trailing" constant="20" id="P1U-dB-Xfg"/>
                     <constraint firstItem="C2X-yx-2HQ" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="-1" id="ZgT-kz-C19"/>
-                    <constraint firstItem="8bW-kL-IaP" firstAttribute="leading" secondItem="rUN-xg-L0h" secondAttribute="trailing" constant="8" symbolic="YES" id="aAU-p1-vn4"/>
-                    <constraint firstItem="rUN-xg-L0h" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="cfd-DZ-bS9"/>
-                    <constraint firstItem="C2X-yx-2HQ" firstAttribute="top" secondItem="8bW-kL-IaP" secondAttribute="bottom" constant="13" id="hG1-Et-PtN"/>
+                    <constraint firstItem="rUN-xg-L0h" firstAttribute="leading" secondItem="8bW-kL-IaP" secondAttribute="trailing" constant="8" id="gwg-zV-UTS"/>
+                    <constraint firstItem="C2X-yx-2HQ" firstAttribute="top" secondItem="8bW-kL-IaP" secondAttribute="bottom" constant="11" id="hG1-Et-PtN"/>
                     <constraint firstItem="C2X-yx-2HQ" firstAttribute="top" secondItem="2" secondAttribute="top" constant="51" id="kRb-QO-etX"/>
+                    <constraint firstItem="8bW-kL-IaP" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" id="mkU-bR-4Hk"/>
                     <constraint firstItem="8bW-kL-IaP" firstAttribute="centerY" secondItem="rUN-xg-L0h" secondAttribute="centerY" constant="-1" id="yZn-72-xTu"/>
                 </constraints>
             </view>

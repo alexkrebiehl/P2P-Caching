@@ -11,21 +11,23 @@
 
 #define P2PLogFile @"P2PLog.plist"
 
+#if LOG_TO_FILE
 void P2PLogToFile(NSString *message)
 {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:LOG_DATE_FORMAT];
-    
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    [formatter setDateFormat:LOG_DATE_FORMAT];
+//    
     NSURL *logURL = [NSURL URLWithString:P2PLogFile relativeToURL:[[P2PFileManager sharedManager] cacheDirectory]];
     
     NSData *logData = [NSData dataWithContentsOfURL:logURL];
     NSError *error;
     NSPropertyListFormat format = NSPropertyListXMLFormat_v1_0;
     NSArray *theLog = [NSPropertyListSerialization propertyListWithData:logData options:NSPropertyListMutableContainersAndLeaves format:&format error:&error];
-    
+//
     /* Write logging messages to file here */
 //    NSLog(@"[%@] - %@", [formatter stringFromDate:[NSDate new]], message);
 }
+#endif
 
 static NSDateFormatter *_dateFormatter = nil;
 
@@ -56,8 +58,6 @@ void P2PLog( P2PLogLevel level, NSString *message, ... )
         
 #if LOG_TO_CONSOLE
         printf("[%s] %s\n", [[_dateFormatter stringFromDate:[NSDate new]] UTF8String], [fullMessage UTF8String]);
-//        fputs([fullMessage UTF8String], stdout);
-//        NSLog(@"%@", fullMessage);
 #endif
         
 #if LOG_TO_FILE
