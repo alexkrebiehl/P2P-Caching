@@ -27,6 +27,8 @@
  */
 - (void)objectDidFailToSend:(id)object;
 
+- (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent;
+
 @end
 
 @interface P2PNode ( MethodsNotToBeSubclassed )

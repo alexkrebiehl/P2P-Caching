@@ -103,6 +103,12 @@
     [self peerIsNoLongerReady];
 }
 
+- (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent
+{
+    [super connection:node failedWithStreamError:errorEvent];
+    [self peerIsNoLongerReady];
+}
+
 
 
 #pragma mark - File Handling

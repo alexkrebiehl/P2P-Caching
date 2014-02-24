@@ -209,7 +209,7 @@
         view = [tableView makeViewWithIdentifier:@"P2PPeerTableStatusCell" owner:self];
         NSImageView *statusIcon = [view viewWithTag:0];
         
-        if ( [[[P2PPeerManager sharedManager] allPeers] containsObject:peer] )
+        if ( [[[P2PPeerManager sharedManager] activePeers] containsObject:peer] )
         {
             [statusIcon setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         }

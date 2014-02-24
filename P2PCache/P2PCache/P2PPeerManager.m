@@ -107,7 +107,7 @@ static P2PPeerManager *sharedInstance = nil;
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
-    if ( [aNetService.name isEqualToString:P2P_BONJOUR_SERVICE_NAME] )
+    if ( [aNetService.name isEqualToString:P2P_BONJOUR_SERVICE_TYPE] )
     {
         // Find a good way to do this
         P2PLog( P2PLogLevelNormal, @"******** DID LOSE PEER: %@ NEED TO HANDLE **********", aNetService.name );

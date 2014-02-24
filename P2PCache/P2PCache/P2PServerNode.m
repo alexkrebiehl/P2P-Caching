@@ -31,7 +31,10 @@
 
 @implementation P2PServerNode
 {
+#if !TARGET_OS_IPHONE
     NSSocketPort        *_socket;
+#endif
+    
     NSNetService        *_service;
     struct sockaddr     *_addr;
     int                 _port;
@@ -39,6 +42,7 @@
 
 - (void)beginBroadcasting
 {
+#if !TARGET_OS_IPHONE
     _socket = [[NSSocketPort alloc] init];
     
     if ( _socket != nil )
@@ -63,30 +67,29 @@
     {
         P2PLog( P2PLogLevelError, @"An error occurred initializing the NSSocketPort object." );
     }
-    
-    
-    
-    if ( socket != nil )
+    if ( socket == nil )
     {
-        _service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
-                                                   type:P2P_BONJOUR_SERVICE_TYPE
-                                                   name:P2P_BONJOUR_SERVICE_NAME
-                                                   port:P2P_BONJOUR_SERVICE_PORT];
-        
-        if ( _service != nil)
-        {
-            [_service setDelegate:self];
-            [_service publishWithOptions:NSNetServiceListenForConnections];
-        }
-        else
-        {
-            P2PLog( P2PLogLevelError, @"An error occurred initializing the NSNetService object." );
-        }
-        
+        P2PLog( P2PLogLevelError, @"An error occurred initializing the NSSocketPort object." );
+        return;
+    }
+#endif
+    
+    
+
+
+    _service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
+                                               type:P2P_BONJOUR_SERVICE_TYPE
+                                               name:P2P_BONJOUR_SERVICE_NAME
+                                               port:P2P_BONJOUR_SERVICE_PORT];
+    
+    if ( _service != nil)
+    {
+        [_service setDelegate:self];
+        [_service publishWithOptions:NSNetServiceListenForConnections];
     }
     else
     {
-        P2PLog( P2PLogLevelError, @"An error occurred initializing the NSSocketPort object." );
+        P2PLog( P2PLogLevelError, @"An error occurred initializing the NSNetService object." );
     }
 }
 

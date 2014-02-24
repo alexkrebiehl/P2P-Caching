@@ -134,8 +134,8 @@
 			children = (
 				FAD68654189B4D8500CA7E18 /* P2PAppDelegate.h */,
 				FAD68655189B4D8500CA7E18 /* P2PAppDelegate.m */,
-				FAD68657189B4D8500CA7E18 /* Main_iPhone.storyboard */,
 				FAD6865A189B4D8500CA7E18 /* Main_iPad.storyboard */,
+				FAD68657189B4D8500CA7E18 /* Main_iPhone.storyboard */,
 				FAD68660189B4D8500CA7E18 /* P2PSecondViewController.h */,
 				FAD68661189B4D8500CA7E18 /* P2PSecondViewController.m */,
 				FAD68663189B4D8500CA7E18 /* Images.xcassets */,
