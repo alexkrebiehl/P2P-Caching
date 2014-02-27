@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface P2PPeerListTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
-
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@interface P2PPeerListTableViewController : UITableViewController
 
 
 @end
