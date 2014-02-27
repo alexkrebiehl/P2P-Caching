@@ -70,20 +70,4 @@
     NSLog(@"selected row: %lu", selectedRow);
 }
 
-//- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-//{
-//    NSString *cellText = @"asdf";
-//    if ( [tableColumn.identifier isEqualToString:@"P2PFilesInCacheFilenameColumn"] )
-//    {
-//        cellText = @"filename.jpg";
-//    }
-//    else if ( [tableColumn.identifier isEqualToString:@"P2PFilesInCacheAvailableColumn"] )
-//    {
-//        cellText = @"0";
-//    }
-//    NSCell *cell = [[NSCell alloc] initTextCell:cellText];
-//    return cell;
-//}
-
-
 @end
