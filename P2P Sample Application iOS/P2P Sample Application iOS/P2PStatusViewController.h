@@ -13,6 +13,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *filesInCacheNumber;
 @property (weak, nonatomic) IBOutlet UILabel *activeRequestsNumber;
 
-@property (weak, nonatomic) IBOutlet UIImageView *serverStatusIcon;
+
+@property (weak, nonatomic) IBOutlet UIView *circleView;
+
+@property (strong, nonatomic) NSMutableOrderedSet *allPeers;
 
 @end
