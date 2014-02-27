@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA0C4A6318BBD45D00FAE260 /* P2PFilesInCachePopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA0C4A6218BBD45D00FAE260 /* P2PFilesInCachePopoverViewController.m */; };
 		FA34C21F18B6B242006E94AB /* P2PActiveTransfersWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA34C21D18B6B242006E94AB /* P2PActiveTransfersWindowController.m */; };
 		FA34C22018B6B242006E94AB /* P2PActiveTransfersWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA34C21E18B6B242006E94AB /* P2PActiveTransfersWindowController.xib */; };
 		FA3E9EAB189B5413009FEB99 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3E9EAA189B5413009FEB99 /* Cocoa.framework */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA0C4A6118BBD45D00FAE260 /* P2PFilesInCachePopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFilesInCachePopoverViewController.h; sourceTree = "<group>"; };
+		FA0C4A6218BBD45D00FAE260 /* P2PFilesInCachePopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFilesInCachePopoverViewController.m; sourceTree = "<group>"; };
 		FA34C21C18B6B242006E94AB /* P2PActiveTransfersWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PActiveTransfersWindowController.h; sourceTree = "<group>"; };
 		FA34C21D18B6B242006E94AB /* P2PActiveTransfersWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PActiveTransfersWindowController.m; sourceTree = "<group>"; };
 		FA34C21E18B6B242006E94AB /* P2PActiveTransfersWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = P2PActiveTransfersWindowController.xib; sourceTree = "<group>"; };
@@ -88,6 +91,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA0C4A5F18BBD42C00FAE260 /* Files In Cache Window */ = {
+			isa = PBXGroup;
+			children = (
+				FA67470C18B5C794004E889F /* P2PFilesInCacheWindowController.h */,
+				FA67470D18B5C794004E889F /* P2PFilesInCacheWindowController.m */,
+				FA67470E18B5C794004E889F /* P2PFilesInCacheWindowController.xib */,
+				FA0C4A6118BBD45D00FAE260 /* P2PFilesInCachePopoverViewController.h */,
+				FA0C4A6218BBD45D00FAE260 /* P2PFilesInCachePopoverViewController.m */,
+			);
+			name = "Files In Cache Window";
+			sourceTree = "<group>";
+		};
+		FA0C4A6018BBD43800FAE260 /* Active Transfers Window */ = {
+			isa = PBXGroup;
+			children = (
+				FA34C21C18B6B242006E94AB /* P2PActiveTransfersWindowController.h */,
+				FA34C21D18B6B242006E94AB /* P2PActiveTransfersWindowController.m */,
+				FA34C21E18B6B242006E94AB /* P2PActiveTransfersWindowController.xib */,
+			);
+			name = "Active Transfers Window";
+			sourceTree = "<group>";
+		};
 		FA3E9E9E189B5413009FEB99 = {
 			isa = PBXGroup;
 			children = (
@@ -138,12 +163,8 @@
 				FA3E9EBF189B5413009FEB99 /* MainMenu.xib */,
 				FA3E9EC2189B5413009FEB99 /* Images.xcassets */,
 				FA3E9EB1189B5413009FEB99 /* Supporting Files */,
-				FA67470C18B5C794004E889F /* P2PFilesInCacheWindowController.h */,
-				FA67470D18B5C794004E889F /* P2PFilesInCacheWindowController.m */,
-				FA67470E18B5C794004E889F /* P2PFilesInCacheWindowController.xib */,
-				FA34C21C18B6B242006E94AB /* P2PActiveTransfersWindowController.h */,
-				FA34C21D18B6B242006E94AB /* P2PActiveTransfersWindowController.m */,
-				FA34C21E18B6B242006E94AB /* P2PActiveTransfersWindowController.xib */,
+				FA0C4A5F18BBD42C00FAE260 /* Files In Cache Window */,
+				FA0C4A6018BBD43800FAE260 /* Active Transfers Window */,
 			);
 			path = "P2P Sample Application OS X";
 			sourceTree = "<group>";
@@ -280,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA67470F18B5C794004E889F /* P2PFilesInCacheWindowController.m in Sources */,
+				FA0C4A6318BBD45D00FAE260 /* P2PFilesInCachePopoverViewController.m in Sources */,
 				FA34C21F18B6B242006E94AB /* P2PActiveTransfersWindowController.m in Sources */,
 				FA3E9EB7189B5413009FEB99 /* main.m in Sources */,
 				FA3E9EBE189B5413009FEB99 /* P2PAppDelegate.m in Sources */,

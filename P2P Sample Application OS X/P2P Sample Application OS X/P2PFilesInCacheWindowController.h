@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface P2PFilesInCacheWindowController : NSWindowController
+@interface P2PFilesInCacheWindowController : NSWindowController <NSTableViewDataSource, NSTableViewDelegate>
+@property (weak) IBOutlet NSTableView *tableView;
 
 @end
