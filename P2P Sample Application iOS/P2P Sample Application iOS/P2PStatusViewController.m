@@ -18,9 +18,11 @@
 
 @implementation P2PStatusViewController
 @synthesize peersNumber = _peersNumber;
-@synthesize serverStatusIcon = _serverStatusIcon;
+
 @synthesize filesInCacheNumber = _filesInCacheNumber;
 @synthesize activeRequestsNumber = _activeRequestsNumber;
+@synthesize allPeers = _allPeers;
+@synthesize circleView = _circleView;
 
 
 
@@ -39,7 +41,8 @@
 {
     [super viewDidLoad];
     
-	// Do any additional setup after loading the view.
+    
+    _circleView.layer.cornerRadius = 10;
     
     [self registerForNotifications];
     
@@ -50,32 +53,50 @@
     
     
     //Server Notifications
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverWillStartNotification:) name:P2PServerNodeWillStartNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverDidStartNotification:) name:P2PServerNodeDidStartNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverDidStopNotification:) name:P2PServerNodeDidStopNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverFailedToStartNotification:) name:P2PServerNodeFailedToStartNotification object:nil];
-//    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverWillStartNotification:) name:P2PServerNodeWillStartNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverDidStartNotification:) name:P2PServerNodeDidStartNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverDidStopNotification:) name:P2PServerNodeDidStopNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverFailedToStartNotification:) name:P2PServerNodeFailedToStartNotification object:nil];
+    
     //Peer Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(peersUpdatedNotification:) name:P2PPeerManagerPeerListUpdatedNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activeFileRequestsUpdated:) name:P2PActiveFileRequestsDidChange object:nil];
 }
 
+
+#pragma mark - Server Status Updates
+//Server started, sets circleView to green to indicate connection to user
+- (void)serverDidStartNotification:(NSNotification *)notification{
+    _circleView.backgroundColor = [UIColor colorWithRed:63/255.0 green:166/255.0 blue:73/255.0 alpha:1];
+}
+
+- (void)serverWillStartNotification:(NSNotification *)notification{
+    _circleView.backgroundColor = [UIColor darkGrayColor];
+}
+
+- (void)serverDidStopNotification:(NSNotification *)notification{
+    _circleView.backgroundColor = [UIColor colorWithRed:63/255.0 green:166/255.0 blue:73/255.0 alpha:1];
+}
+
+- (void)serverFailedToStartNotification:(NSNotification *)notification{
+    _circleView.backgroundColor = [UIColor colorWithRed:255.0 green:0/255.0 blue:0/255.0 alpha:1];
+}
+
+
 - (void)peersUpdatedNotification:(NSNotification *)notification
 {
-//    NSArray *activePeers = [[P2PPeerManager sharedManager] activePeers];
-//    if ( _allPeers == nil )
-//    {
-//        _allPeers = [[NSMutableOrderedSet alloc] initWithArray:activePeers copyItems:NO];
-//    }
-//    else
-//    {
-//        [_allPeers addObjectsFromArray:activePeers];
-//    }
-//    [self.peerListTableView reloadData];
-//    [self.peersFoundLabel setStringValue:[NSString stringWithFormat:@"%lu", (unsigned long)[activePeers count]]];
+    NSArray *activePeers = [[P2PPeerManager sharedManager] activePeers];
+    if ( _allPeers == nil )
+    {
+        _allPeers = [[NSMutableOrderedSet alloc] initWithArray:activePeers copyItems:NO];
+    }
+    else
+    {
+        [_allPeers addObjectsFromArray:activePeers];
+    }
     
-    _peersNumber.text = [NSString stringWithFormat:@"%lu", (unsigned long)[[[P2PPeerManager sharedManager] activePeers] count]];
+    _peersNumber.text = [NSString stringWithFormat:@"%lu", (unsigned long)[activePeers count]];
 }
 
 - (void)activeFileRequestsUpdated:(NSNotification *)notification

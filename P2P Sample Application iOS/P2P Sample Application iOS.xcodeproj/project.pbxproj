@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		60122F7918B9235C006564BE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 60122F7818B9235C006564BE /* libz.dylib */; };
 		60122F8218B93E68006564BE /* P2PStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60122F8118B93E68006564BE /* P2PStatusViewController.m */; };
+		60D3A06A18BF052E00C5708E /* P2PCachesFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D3A06918BF052E00C5708E /* P2PCachesFilesViewController.m */; };
 		FA3924FA189D5A33002B6324 /* P2PPeerListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F9189D5A33002B6324 /* P2PPeerListTableViewController.m */; };
 		FAB2E158189D5EB10081ECA3 /* libP2PCache-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB2E157189D5EB10081ECA3 /* libP2PCache-iOS.a */; };
 		FAD68646189B4D8500CA7E18 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD68645189B4D8500CA7E18 /* Foundation.framework */; };
@@ -42,6 +43,8 @@
 		60122F7818B9235C006564BE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		60122F8018B93E68006564BE /* P2PStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PStatusViewController.h; sourceTree = "<group>"; };
 		60122F8118B93E68006564BE /* P2PStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PStatusViewController.m; sourceTree = "<group>"; };
+		60D3A06818BF052E00C5708E /* P2PCachesFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PCachesFilesViewController.h; sourceTree = "<group>"; };
+		60D3A06918BF052E00C5708E /* P2PCachesFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PCachesFilesViewController.m; sourceTree = "<group>"; };
 		FA3924F8189D5A33002B6324 /* P2PPeerListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerListTableViewController.h; sourceTree = "<group>"; };
 		FA3924F9189D5A33002B6324 /* P2PPeerListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerListTableViewController.m; sourceTree = "<group>"; };
 		FA3924FC189D5BA1002B6324 /* libP2PCache-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libP2PCache-iOS.a"; path = "../P2PCache/build/Debug-iphoneos/libP2PCache-iOS.a"; sourceTree = "<group>"; };
@@ -144,6 +147,8 @@
 				FA3924F9189D5A33002B6324 /* P2PPeerListTableViewController.m */,
 				60122F8018B93E68006564BE /* P2PStatusViewController.h */,
 				60122F8118B93E68006564BE /* P2PStatusViewController.m */,
+				60D3A06818BF052E00C5708E /* P2PCachesFilesViewController.h */,
+				60D3A06918BF052E00C5708E /* P2PCachesFilesViewController.m */,
 			);
 			path = "P2P Sample Application iOS";
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 				FAD68652189B4D8500CA7E18 /* main.m in Sources */,
 				60122F8218B93E68006564BE /* P2PStatusViewController.m in Sources */,
 				FAD68662189B4D8500CA7E18 /* P2PSecondViewController.m in Sources */,
+				60D3A06A18BF052E00C5708E /* P2PCachesFilesViewController.m in Sources */,
 				FAD68656189B4D8500CA7E18 /* P2PAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
