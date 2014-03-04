@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class P2PFileInfo;
+
 @interface P2PFilesInCachePopoverViewController : NSViewController
+
+@property (strong, nonatomic) P2PFileInfo *fileInfo;
 
 @end
