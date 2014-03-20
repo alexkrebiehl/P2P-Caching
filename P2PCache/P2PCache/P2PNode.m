@@ -15,6 +15,8 @@
  
  All of the common networking tools will be found here */
 
+typedef uint32_t crc_type;
+
 @class P2PIncomingData;
 @protocol P2PIncomingDataDelegate <NSObject>
 
@@ -55,7 +57,7 @@ NSData* prepareObjectForTransmission( id<NSCoding> object )
 {
     NSData *objectData = [NSKeyedArchiver archivedDataWithRootObject:object];
     NSUInteger fileSize = [objectData length];
-    uint32_t crc = (uint32_t)crc32( 0, [objectData bytes], (uInt)[objectData length] );
+    crc_type crc = (crc_type) crc32( 0, [objectData bytes], (uInt)[objectData length] );
     
     // Combine the pieces
     NSMutableData *combinedData = [NSMutableData dataWithCapacity:sizeof( fileSize ) + [objectData length] + sizeof( crc )];
@@ -157,7 +159,7 @@ NSUInteger getNextConnectionId()
  New format:
  64-bit file size
  data
- 32-bit checksum (crc32)
+ 32-bit checksum (crc_type)
  
  */
 @interface P2PIncomingData : NSObject <NSStreamDelegate>
@@ -179,7 +181,7 @@ NSUInteger getNextConnectionId()
     NSUInteger _bufferOffset;
     NSUInteger _fileOffset;
 
-    uLong _crc;
+    crc_type _crc;
     NSMutableData *_assembledData;
 }
 
@@ -232,6 +234,7 @@ NSUInteger getNextConnectionId()
         case NSStreamEventOpenCompleted:
         case NSStreamEventNone:
         default:
+            assert( NO );
             break;
     }
     
@@ -281,7 +284,7 @@ NSUInteger getNextConnectionId()
     }
     
     // We just received a block of file data.  Update our CRC calculation.
-    _crc = crc32(_crc, [_buffer bytes], (uInt) [_buffer length]);
+    _crc = (crc_type)crc32(_crc, [_buffer bytes], (uInt) [_buffer length]);
     
     // Append the buffer to our assembled data
     [_assembledData appendBytes:[_buffer bytes] length:[_buffer length]];
@@ -299,14 +302,14 @@ NSUInteger getNextConnectionId()
 - (void)prepareToReadFooter
 {
     // It's time for the footer
-    [_buffer setLength:sizeof( uLong )];
+    [_buffer setLength:sizeof( crc_type )];
     _status = P2PIncomingDataStatusReadingFooter;
 }
 
 - (void)processFooter
 {
     assert( [_buffer length] == sizeof( uLong ) );
-    uLong crcReceived = * (const uint32_t *) [_buffer bytes];
+    uLong crcReceived = * (const crc_type *) [_buffer bytes];
     
     if ( crcReceived == _crc )
     {
@@ -329,14 +332,9 @@ NSUInteger getNextConnectionId()
     assert( _bufferOffset < [_buffer length] );
     NSInteger actuallyRead = [_connection.inStream read:((uint8_t *)([_buffer mutableBytes]) + _bufferOffset)
                                               maxLength:[_buffer length] - _bufferOffset];
-    if ( actuallyRead < 0 )
+    if ( actuallyRead <= 0 )
     {
         // An error has occoured
-        P2PLog( P2PLogLevelError, @"%@ - failed to read from stream: %@", self, [_connection.inStream streamError] );
-        [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeStreamError];
-    }
-    else if ( actuallyRead == 0 )
-    {
         P2PLog( P2PLogLevelError, @"%@ - failed to read from stream: %@", self, [_connection.inStream streamError] );
         [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeStreamError];
     }
@@ -404,8 +402,10 @@ NSUInteger getNextConnectionId()
     // Return control of the stream to our delegate.
     // For the intents of this P2P demo, we're going to assume that our delegate also
     // implements the NSStreamDelegate protocol...
+    assert( self.delegate != nil );
     assert( [self.delegate conformsToProtocol:@protocol(NSStreamDelegate)] );
-    _connection.inStream.delegate = (id<NSStreamDelegate>)self.delegate;
+    assert( [_connection.inStream respondsToSelector:@selector(setDelegate:)] );
+    [_connection.inStream setDelegate:(id<NSStreamDelegate>)self.delegate];
 }
 
 @end
