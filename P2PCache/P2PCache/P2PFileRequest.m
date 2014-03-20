@@ -283,6 +283,12 @@ static NSMutableArray *_pendingFileRequests = nil;
     assert( self.fileId != nil );
     [_chunksReady addObjectsFromArray:[[P2PFileManager sharedManager] availableChunksForFileID:self.fileId]];
     
+    // Notify the delegate that the chunk was recieved
+    if ( [self.delegate respondsToSelector:@selector(fileChunkRequest:didRecieveChunk:)] )
+    {
+        [self.delegate fileRequest:self didRecieveChunk:chunk];
+    }
+    
     if ( [self fileIsComplete] )
     {
         [self requestDidComplete];
@@ -335,14 +341,6 @@ static NSMutableArray *_pendingFileRequests = nil;
     [self.delegate fileRequestDidFail:self withError:errorCode];
     [P2PFileRequest removeRequestFromPendingList:self];
 }
-
-//- (void)requestDidUpdateStatus
-//{
-//    if ( [self.delegate respondsToSelector:@selector(fileRequestDidUpdateStatus:)] )
-//    {
-//        [self.delegate fileRequestDidUpdateStatus:self];
-//    }
-//}
 
 - (void)requestDidComplete
 {

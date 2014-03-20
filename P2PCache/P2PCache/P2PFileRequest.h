@@ -33,7 +33,7 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
     P2PFileRequestErrorMultipleIdsForFile
 };
 
-@class P2PPeerNode, P2PFileRequest, P2PPeerFileAvailbilityResponse;
+@class P2PPeerNode, P2PFileRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk;
 
 @protocol P2PFileRequestDelegate <NSObject>
 
@@ -59,6 +59,16 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  @param filename The filename that returned multiple matches
  */
 - (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename;
+
+
+
+/** If the delegate wants to recieve updates as chunks arrive, this optional method can be implemented.
+
+ @param fileRequest The file request object calling this delegate method
+ @param chunk A chunk of the file that was recieved
+ */
+@optional
+- (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveChunk:(P2PFileChunk *)chunk;
 
 @end
 

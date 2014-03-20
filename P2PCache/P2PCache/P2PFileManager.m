@@ -317,14 +317,6 @@ static P2PFileManager *sharedInstance = nil;
             response.availableChunks = [info.chunksAvailable copy];
             response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
         }
-//        NSDictionary *plist = [self plistForFileId:fileId];
-//        if ( plist != nil )
-//        {
-//            // We have some information on the file
-//            response.totalChunks = ceil( [[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue] / (float)P2PFileManagerFileChunkSize );
-//            response.availableChunks = [[NSMutableArray alloc] initWithArray:[self availableChunksForFileID:fileId]];
-//            response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
-//        }
     }
     return response;
 }
@@ -370,7 +362,7 @@ static P2PFileManager *sharedInstance = nil;
 - (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
 {
     NSDictionary *plist = [self plistForFileId:request.fileId];
-    NSURL *urlPath = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", request.chunkId] relativeToURL:[self pathForDirectoryWithHashID:request.fileId]];
+    NSURL *urlPath = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", (unsigned long)request.chunkId] relativeToURL:[self pathForDirectoryWithHashID:request.fileId]];
     P2PFileChunk *chunk = [[P2PFileChunk alloc] initWithData:[NSData dataWithContentsOfURL:urlPath]
                                                      chunkId:request.chunkId
                                                       fileId:request.fileId

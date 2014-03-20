@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface P2PPeerListTableViewController : UITableViewController
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 
 @end

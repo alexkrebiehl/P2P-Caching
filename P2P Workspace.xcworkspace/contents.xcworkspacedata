@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:P2P Video Streaming Sample/P2P Video Streaming Sample.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:P2P Sample Application OS X/P2P Sample Application OS X.xcodeproj">
    </FileRef>
    <FileRef

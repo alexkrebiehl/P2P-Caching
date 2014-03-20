@@ -1,0 +1,478 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FAC3F96318D54782004B7361 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3F96218D54782004B7361 /* Foundation.framework */; };
+		FAC3F96518D54782004B7361 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3F96418D54782004B7361 /* CoreGraphics.framework */; };
+		FAC3F96718D54782004B7361 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3F96618D54782004B7361 /* UIKit.framework */; };
+		FAC3F96D18D54782004B7361 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAC3F96B18D54782004B7361 /* InfoPlist.strings */; };
+		FAC3F96F18D54782004B7361 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3F96E18D54782004B7361 /* main.m */; };
+		FAC3F97318D54782004B7361 /* P2PAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3F97218D54782004B7361 /* P2PAppDelegate.m */; };
+		FAC3F97618D54782004B7361 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAC3F97418D54782004B7361 /* Main.storyboard */; };
+		FAC3F97918D54782004B7361 /* P2PFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3F97818D54782004B7361 /* P2PFirstViewController.m */; };
+		FAC3F97C18D54782004B7361 /* P2PSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3F97B18D54782004B7361 /* P2PSecondViewController.m */; };
+		FAC3F97E18D54782004B7361 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAC3F97D18D54782004B7361 /* Images.xcassets */; };
+		FAC3F98518D54782004B7361 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3F98418D54782004B7361 /* XCTest.framework */; };
+		FAC3F98618D54782004B7361 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3F96218D54782004B7361 /* Foundation.framework */; };
+		FAC3F98718D54782004B7361 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3F96618D54782004B7361 /* UIKit.framework */; };
+		FAC3F98F18D54782004B7361 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAC3F98D18D54782004B7361 /* InfoPlist.strings */; };
+		FAC3F99118D54782004B7361 /* P2P_Video_Streaming_SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC3F99018D54782004B7361 /* P2P_Video_Streaming_SampleTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FAC3F98818D54782004B7361 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAC3F95718D54782004B7361 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FAC3F95E18D54782004B7361;
+			remoteInfo = "P2P Video Streaming Sample";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FAC3F95F18D54782004B7361 /* P2P Video Streaming Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "P2P Video Streaming Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAC3F96218D54782004B7361 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FAC3F96418D54782004B7361 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FAC3F96618D54782004B7361 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FAC3F96A18D54782004B7361 /* P2P Video Streaming Sample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2P Video Streaming Sample-Info.plist"; sourceTree = "<group>"; };
+		FAC3F96C18D54782004B7361 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FAC3F96E18D54782004B7361 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FAC3F97018D54782004B7361 /* P2P Video Streaming Sample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "P2P Video Streaming Sample-Prefix.pch"; sourceTree = "<group>"; };
+		FAC3F97118D54782004B7361 /* P2PAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PAppDelegate.h; sourceTree = "<group>"; };
+		FAC3F97218D54782004B7361 /* P2PAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PAppDelegate.m; sourceTree = "<group>"; };
+		FAC3F97518D54782004B7361 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FAC3F97718D54782004B7361 /* P2PFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PFirstViewController.h; sourceTree = "<group>"; };
+		FAC3F97818D54782004B7361 /* P2PFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PFirstViewController.m; sourceTree = "<group>"; };
+		FAC3F97A18D54782004B7361 /* P2PSecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PSecondViewController.h; sourceTree = "<group>"; };
+		FAC3F97B18D54782004B7361 /* P2PSecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PSecondViewController.m; sourceTree = "<group>"; };
+		FAC3F97D18D54782004B7361 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		FAC3F98318D54782004B7361 /* P2P Video Streaming SampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "P2P Video Streaming SampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAC3F98418D54782004B7361 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		FAC3F98C18D54782004B7361 /* P2P Video Streaming SampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "P2P Video Streaming SampleTests-Info.plist"; sourceTree = "<group>"; };
+		FAC3F98E18D54782004B7361 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FAC3F99018D54782004B7361 /* P2P_Video_Streaming_SampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2P_Video_Streaming_SampleTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FAC3F95C18D54782004B7361 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC3F96518D54782004B7361 /* CoreGraphics.framework in Frameworks */,
+				FAC3F96718D54782004B7361 /* UIKit.framework in Frameworks */,
+				FAC3F96318D54782004B7361 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAC3F98018D54782004B7361 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC3F98518D54782004B7361 /* XCTest.framework in Frameworks */,
+				FAC3F98718D54782004B7361 /* UIKit.framework in Frameworks */,
+				FAC3F98618D54782004B7361 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FAC3F95618D54782004B7361 = {
+			isa = PBXGroup;
+			children = (
+				FAC3F96818D54782004B7361 /* P2P Video Streaming Sample */,
+				FAC3F98A18D54782004B7361 /* P2P Video Streaming SampleTests */,
+				FAC3F96118D54782004B7361 /* Frameworks */,
+				FAC3F96018D54782004B7361 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FAC3F96018D54782004B7361 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FAC3F95F18D54782004B7361 /* P2P Video Streaming Sample.app */,
+				FAC3F98318D54782004B7361 /* P2P Video Streaming SampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FAC3F96118D54782004B7361 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FAC3F96218D54782004B7361 /* Foundation.framework */,
+				FAC3F96418D54782004B7361 /* CoreGraphics.framework */,
+				FAC3F96618D54782004B7361 /* UIKit.framework */,
+				FAC3F98418D54782004B7361 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FAC3F96818D54782004B7361 /* P2P Video Streaming Sample */ = {
+			isa = PBXGroup;
+			children = (
+				FAC3F97118D54782004B7361 /* P2PAppDelegate.h */,
+				FAC3F97218D54782004B7361 /* P2PAppDelegate.m */,
+				FAC3F97418D54782004B7361 /* Main.storyboard */,
+				FAC3F97718D54782004B7361 /* P2PFirstViewController.h */,
+				FAC3F97818D54782004B7361 /* P2PFirstViewController.m */,
+				FAC3F97A18D54782004B7361 /* P2PSecondViewController.h */,
+				FAC3F97B18D54782004B7361 /* P2PSecondViewController.m */,
+				FAC3F97D18D54782004B7361 /* Images.xcassets */,
+				FAC3F96918D54782004B7361 /* Supporting Files */,
+			);
+			path = "P2P Video Streaming Sample";
+			sourceTree = "<group>";
+		};
+		FAC3F96918D54782004B7361 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FAC3F96A18D54782004B7361 /* P2P Video Streaming Sample-Info.plist */,
+				FAC3F96B18D54782004B7361 /* InfoPlist.strings */,
+				FAC3F96E18D54782004B7361 /* main.m */,
+				FAC3F97018D54782004B7361 /* P2P Video Streaming Sample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FAC3F98A18D54782004B7361 /* P2P Video Streaming SampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				FAC3F99018D54782004B7361 /* P2P_Video_Streaming_SampleTests.m */,
+				FAC3F98B18D54782004B7361 /* Supporting Files */,
+			);
+			path = "P2P Video Streaming SampleTests";
+			sourceTree = "<group>";
+		};
+		FAC3F98B18D54782004B7361 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FAC3F98C18D54782004B7361 /* P2P Video Streaming SampleTests-Info.plist */,
+				FAC3F98D18D54782004B7361 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FAC3F95E18D54782004B7361 /* P2P Video Streaming Sample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAC3F99418D54782004B7361 /* Build configuration list for PBXNativeTarget "P2P Video Streaming Sample" */;
+			buildPhases = (
+				FAC3F95B18D54782004B7361 /* Sources */,
+				FAC3F95C18D54782004B7361 /* Frameworks */,
+				FAC3F95D18D54782004B7361 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "P2P Video Streaming Sample";
+			productName = "P2P Video Streaming Sample";
+			productReference = FAC3F95F18D54782004B7361 /* P2P Video Streaming Sample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FAC3F98218D54782004B7361 /* P2P Video Streaming SampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAC3F99718D54782004B7361 /* Build configuration list for PBXNativeTarget "P2P Video Streaming SampleTests" */;
+			buildPhases = (
+				FAC3F97F18D54782004B7361 /* Sources */,
+				FAC3F98018D54782004B7361 /* Frameworks */,
+				FAC3F98118D54782004B7361 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FAC3F98918D54782004B7361 /* PBXTargetDependency */,
+			);
+			name = "P2P Video Streaming SampleTests";
+			productName = "P2P Video Streaming SampleTests";
+			productReference = FAC3F98318D54782004B7361 /* P2P Video Streaming SampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FAC3F95718D54782004B7361 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = P2P;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "NKU Research";
+				TargetAttributes = {
+					FAC3F98218D54782004B7361 = {
+						TestTargetID = FAC3F95E18D54782004B7361;
+					};
+				};
+			};
+			buildConfigurationList = FAC3F95A18D54782004B7361 /* Build configuration list for PBXProject "P2P Video Streaming Sample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FAC3F95618D54782004B7361;
+			productRefGroup = FAC3F96018D54782004B7361 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FAC3F95E18D54782004B7361 /* P2P Video Streaming Sample */,
+				FAC3F98218D54782004B7361 /* P2P Video Streaming SampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FAC3F95D18D54782004B7361 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC3F97E18D54782004B7361 /* Images.xcassets in Resources */,
+				FAC3F96D18D54782004B7361 /* InfoPlist.strings in Resources */,
+				FAC3F97618D54782004B7361 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAC3F98118D54782004B7361 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC3F98F18D54782004B7361 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FAC3F95B18D54782004B7361 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC3F96F18D54782004B7361 /* main.m in Sources */,
+				FAC3F97C18D54782004B7361 /* P2PSecondViewController.m in Sources */,
+				FAC3F97318D54782004B7361 /* P2PAppDelegate.m in Sources */,
+				FAC3F97918D54782004B7361 /* P2PFirstViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAC3F97F18D54782004B7361 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAC3F99118D54782004B7361 /* P2P_Video_Streaming_SampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FAC3F98918D54782004B7361 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FAC3F95E18D54782004B7361 /* P2P Video Streaming Sample */;
+			targetProxy = FAC3F98818D54782004B7361 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FAC3F96B18D54782004B7361 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAC3F96C18D54782004B7361 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		FAC3F97418D54782004B7361 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAC3F97518D54782004B7361 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FAC3F98D18D54782004B7361 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAC3F98E18D54782004B7361 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FAC3F99218D54782004B7361 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FAC3F99318D54782004B7361 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FAC3F99518D54782004B7361 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P Video Streaming Sample/P2P Video Streaming Sample-Prefix.pch";
+				INFOPLIST_FILE = "P2P Video Streaming Sample/P2P Video Streaming Sample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		FAC3F99618D54782004B7361 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P Video Streaming Sample/P2P Video Streaming Sample-Prefix.pch";
+				INFOPLIST_FILE = "P2P Video Streaming Sample/P2P Video Streaming Sample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		FAC3F99818D54782004B7361 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/P2P Video Streaming Sample.app/P2P Video Streaming Sample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P Video Streaming Sample/P2P Video Streaming Sample-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "P2P Video Streaming SampleTests/P2P Video Streaming SampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		FAC3F99918D54782004B7361 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/P2P Video Streaming Sample.app/P2P Video Streaming Sample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "P2P Video Streaming Sample/P2P Video Streaming Sample-Prefix.pch";
+				INFOPLIST_FILE = "P2P Video Streaming SampleTests/P2P Video Streaming SampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FAC3F95A18D54782004B7361 /* Build configuration list for PBXProject "P2P Video Streaming Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAC3F99218D54782004B7361 /* Debug */,
+				FAC3F99318D54782004B7361 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAC3F99418D54782004B7361 /* Build configuration list for PBXNativeTarget "P2P Video Streaming Sample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAC3F99518D54782004B7361 /* Debug */,
+				FAC3F99618D54782004B7361 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		FAC3F99718D54782004B7361 /* Build configuration list for PBXNativeTarget "P2P Video Streaming SampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAC3F99818D54782004B7361 /* Debug */,
+				FAC3F99918D54782004B7361 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FAC3F95718D54782004B7361 /* Project object */;
+}

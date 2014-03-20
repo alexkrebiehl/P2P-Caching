@@ -1,5 +1,5 @@
 //
-//  P2PCachesFilesViewController.h
+//  P2PCachedFilesViewController.h
 //  P2P Sample Application iOS
 //
 //  Created by Tyler Darby on 2/27/14.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface P2PCachesFilesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface P2PCachedFilesViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *headerView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @end
