@@ -22,13 +22,15 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 
 - (id)init
 {
-    return [self initWithFileName:nil fileId:nil chunksOnDisk:nil totalChunks:0 totalFileSize:0];
+    return [self initWithFileName:nil fileId:nil chunksOnDisk:nil totalFileSize:0];
 }
 
-- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSArray *)chunksOnDisk totalChunks:(NSUInteger)totalChunks totalFileSize:(NSUInteger)totalFileSize
+- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSArray *)chunksOnDisk totalFileSize:(NSUInteger)totalFileSize
 {
-    assert( fileName != nil );
-    assert( fileId != nil );
+    if ( fileName == nil || fileId == nil )
+    {
+        return nil;
+    }
     if ( chunksOnDisk == nil )
     {
         chunksOnDisk = @[ ];
@@ -39,7 +41,7 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
         _filename = fileName;
         _fileId = fileId;
         _chunksOnDisk = [NSMutableSet setWithArray:chunksOnDisk];
-        _totalChunks = totalChunks;
+//        _totalChunks = totalChunks;
         _totalFileSize = totalFileSize;
     }
     return self;
@@ -49,12 +51,10 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 {
     NSString *filename = [plist objectForKey:P2PFileManagerInfoFileNameKey];
     NSUInteger totalFileSize = [[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue];
-    NSUInteger totalChunks = ceil( totalFileSize / (float)P2PFileManagerFileChunkSize );
     
     return [self initWithFileName:filename
                            fileId:fileId
                      chunksOnDisk:chunksOnDisk
-                      totalChunks:totalChunks
                     totalFileSize:totalFileSize];
 }
 
@@ -84,9 +84,27 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
     }
     [_chunksAvailable addObject:chunkId];
     dispatch_async(dispatch_get_main_queue(), ^
-   {
+    {
        [self.delegate fileInfo:self didUpdateChunksAvailableFromPeers:[_chunksAvailable count]];
-   });
+    });
+}
+
+- (void)chunksBecameAvailable:(NSArray *)multipleChunkIds
+{
+    if ( _chunksAvailable == nil )
+    {
+        _chunksAvailable = [[NSMutableSet alloc] init];
+    }
+    [_chunksAvailable addObjectsFromArray:multipleChunkIds];
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+       [self.delegate fileInfo:self didUpdateChunksAvailableFromPeers:[_chunksAvailable count]];
+    });
+}
+
+- (NSUInteger)totalChunks
+{
+    return ceil( self.totalFileSize / (float)P2PFileManagerFileChunkSize );
 }
 
 @end

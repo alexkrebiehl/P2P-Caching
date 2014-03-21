@@ -39,8 +39,11 @@
 @property (readonly, nonatomic) NSUInteger totalChunks;
 @property (readonly, nonatomic) NSUInteger totalFileSize;
 
-- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSArray *)chunksOnDisk totalChunks:(NSUInteger)totalChunks totalFileSize:(NSUInteger)totalFileSize;
 
+/** This should only ever be initialized by the FileManager! */
+- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSArray *)chunksOnDisk totalFileSize:(NSUInteger)totalFileSize;
+
+/** This should only ever be initialized by the FileManager! */
 - (id)initWithFileId:(NSString *)fileId info:(NSDictionary *)plist chunksOnDisk:(NSArray *)chunksOnDisk;
 
 - (NSDictionary *)toDictionary;
@@ -48,5 +51,6 @@
 
 - (void)chunkWasAddedToDisk:(NSNumber *)chunkId;
 - (void)chunkBecameAvailable:(NSNumber *)chunkId;
+- (void)chunksBecameAvailable:(NSArray *)multipleChunkIds;
 
 @end

@@ -154,8 +154,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EeA-YE-rnu">
-                                <rect key="frame" x="86" y="407" width="149" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EeA-YE-rnu">
+                                <rect key="frame" x="86" y="460" width="149" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Delete file from cache">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -164,20 +164,20 @@
                                     <action selector="deleteFileButtonPressed:" destination="LZV-6q-7M0" eventType="touchUpInside" id="E1u-3d-ERt"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Chunks on Disk" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epM-ZR-lZ3">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Chunks on Disk" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epM-ZR-lZ3">
                                 <rect key="frame" x="26" y="116" width="152" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Chunks Available" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJg-Dh-bq3">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Chunks Available" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJg-Dh-bq3">
                                 <rect key="frame" x="8" y="145" width="170" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total Chunks" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfw-gM-1JV">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Chunks" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfw-gM-1JV">
                                 <rect key="frame" x="58" y="174" width="120" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -195,26 +195,71 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJP-Xv-MoD">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJP-Xv-MoD">
                                 <rect key="frame" x="206" y="174" width="114" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0 %" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xS-0v-A9q">
-                                <rect key="frame" x="91" y="259" width="144" height="86"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 %" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9xS-0v-A9q">
+                                <rect key="frame" x="20" y="214" width="280" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="47"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="86" id="MzA-P0-fwX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="75"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Size on Disk" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXs-zX-bEp">
+                                <rect key="frame" x="62" y="329" width="116" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="116" id="Ltf-uO-cRe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0 Kb" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CR6-rA-bJD">
+                                <rect key="frame" x="206" y="329" width="100" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJM-eg-b5z">
+                                <rect key="frame" x="79" y="402" width="163" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Retreive more of the file">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9xS-0v-A9q" firstAttribute="centerX" secondItem="EeA-YE-rnu" secondAttribute="centerX" id="0Ek-17-u68"/>
+                            <constraint firstItem="9xS-0v-A9q" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="20" id="31w-cZ-fRG"/>
+                            <constraint firstItem="ZXs-zX-bEp" firstAttribute="baseline" secondItem="CR6-rA-bJD" secondAttribute="baseline" id="8Fz-3r-Q9b"/>
+                            <constraint firstItem="9xS-0v-A9q" firstAttribute="top" secondItem="kfw-gM-1JV" secondAttribute="bottom" constant="19" id="Bzx-Il-z8y"/>
+                            <constraint firstItem="ZXs-zX-bEp" firstAttribute="trailing" secondItem="kfw-gM-1JV" secondAttribute="trailing" id="KQw-lH-eJW"/>
+                            <constraint firstItem="kfw-gM-1JV" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="58" id="OMq-PM-KVL"/>
+                            <constraint firstItem="EeA-YE-rnu" firstAttribute="top" secondItem="ZXs-zX-bEp" secondAttribute="bottom" constant="110" id="QEt-je-v1b"/>
+                            <constraint firstItem="ZXs-zX-bEp" firstAttribute="top" secondItem="9xS-0v-A9q" secondAttribute="bottom" constant="29" id="RGp-kd-Eau"/>
+                            <constraint firstItem="tSH-4v-qMd" firstAttribute="top" secondItem="EeA-YE-rnu" secondAttribute="bottom" constant="29" id="WxT-NG-yoj"/>
+                            <constraint firstItem="kfw-gM-1JV" firstAttribute="top" secondItem="jJg-Dh-bq3" secondAttribute="bottom" constant="8" symbolic="YES" id="XTQ-ZR-d7w"/>
+                            <constraint firstAttribute="trailing" secondItem="9xS-0v-A9q" secondAttribute="trailing" constant="20" id="bmU-u6-ka2"/>
+                            <constraint firstItem="EJP-Xv-MoD" firstAttribute="leading" secondItem="kfw-gM-1JV" secondAttribute="trailing" constant="28" id="hQf-T8-aDc"/>
+                            <constraint firstItem="kfw-gM-1JV" firstAttribute="baseline" secondItem="EJP-Xv-MoD" secondAttribute="baseline" id="nmF-PG-BTc"/>
+                            <constraint firstItem="CR6-rA-bJD" firstAttribute="leading" secondItem="ZXs-zX-bEp" secondAttribute="trailing" constant="28" id="oKh-y8-vaC"/>
+                            <constraint firstItem="kfw-gM-1JV" firstAttribute="trailing" secondItem="epM-ZR-lZ3" secondAttribute="trailing" id="oPw-6h-3YC"/>
+                            <constraint firstItem="kfw-gM-1JV" firstAttribute="trailing" secondItem="jJg-Dh-bq3" secondAttribute="trailing" id="v7o-Dr-hZa"/>
+                            <constraint firstItem="ZXs-zX-bEp" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="62" id="zfR-wp-sHQ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="4hc-d8-LoT"/>
                     <connections>
                         <outlet property="chunksAvailableLabel" destination="CSW-eB-hvD" id="fXr-1c-15K"/>
                         <outlet property="chunksOnDiskLabel" destination="A9m-jl-t5V" id="1nk-gX-b8q"/>
                         <outlet property="percentCompleteLabel" destination="9xS-0v-A9q" id="LJV-A0-gFg"/>
+                        <outlet property="sizeOnDiskLabel" destination="CR6-rA-bJD" id="gHx-ZI-BAW"/>
                         <outlet property="totalChunksLabel" destination="EJP-Xv-MoD" id="8xD-mK-xSK"/>
                     </connections>
                 </viewController>

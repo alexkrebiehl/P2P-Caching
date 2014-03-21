@@ -52,6 +52,7 @@ static P2PFileManager *sharedInstance = nil;
     if ( self = [super init] )
     {
         [self loadFilesInCacheList];
+        _cachedFileInfo = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -208,38 +209,43 @@ static P2PFileManager *sharedInstance = nil;
 
 - (void)writeChunk:(P2PFileChunk *)chunk
 {
-    NSError *error;
     P2PFileInfo *fileInfo = [self fileInfoForFileId:chunk.fileId];
-    NSURL *directoryPath = [self pathForDirectoryWithHashID:chunk.fileId];
-    BOOL isDirectory = YES;
-    if ( ![self fileExistsAtPath:directoryPath.absoluteString isDirectory:&isDirectory] || !isDirectory )
+    if ( fileInfo == nil )
     {
-        NSAssert( fileInfo == nil, @"If the directory doesn't exist, why do we have information on the file?" );
-        [self createDirectoryAtURL:directoryPath withIntermediateDirectories:YES attributes:Nil error:&error];
-        
-        if ( error != nil )
-        {
-            P2PLog(P2PLogLevelError, @"ERROR: Unable to create directory for file: %@", error);
-            return;
-        }
-        else
-        {
-            fileInfo = [[P2PFileInfo alloc] initWithFileName:chunk.fileName fileId:chunk.fileId chunksOnDisk:@[ ] totalChunks:0 totalFileSize:chunk.totalFileSize];
-            // create plist
-            NSDictionary *plistDictionary = [fileInfo toDictionary];
-            NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:plistDictionary format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
-            if (error)
-            {
-                P2PLog(P2PLogLevelError, @"ERROR: Unable to create plist: %@", error);
-                return;
-            }
-            else
-            {
-                NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:directoryPath];
-                [plistData writeToURL:plistURL atomically:YES];
-            }
-        }
+        fileInfo = [self generateFileInfoForFileId:chunk.fileId fileName:chunk.fileName totalFileSize:chunk.totalFileSize];
     }
+//    NSError *error;
+//    P2PFileInfo *fileInfo = [self fileInfoForFileId:chunk.fileId];
+    NSURL *directoryPath = [self pathForDirectoryWithHashID:chunk.fileId];
+//    BOOL isDirectory = YES;
+//    if ( ![self fileExistsAtPath:directoryPath.absoluteString isDirectory:&isDirectory] || !isDirectory )
+//    {
+//        NSAssert( fileInfo == nil, @"If the directory doesn't exist, why do we have information on the file?" );
+//        [self createDirectoryAtURL:directoryPath withIntermediateDirectories:YES attributes:Nil error:&error];
+//        
+//        if ( error != nil )
+//        {
+//            P2PLog(P2PLogLevelError, @"ERROR: Unable to create directory for file: %@", error);
+//            return;
+//        }
+//        else
+//        {
+//            fileInfo = [[P2PFileInfo alloc] initWithFileName:chunk.fileName fileId:chunk.fileId chunksOnDisk:@[ ] totalChunks:0 totalFileSize:chunk.totalFileSize];
+//            // create plist
+//            NSDictionary *plistDictionary = [fileInfo toDictionary];
+//            NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:plistDictionary format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+//            if (error)
+//            {
+//                P2PLog(P2PLogLevelError, @"ERROR: Unable to create plist: %@", error);
+//                return;
+//            }
+//            else
+//            {
+//                NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:directoryPath];
+//                [plistData writeToURL:plistURL atomically:YES];
+//            }
+//        }
+//    }
     
     NSMutableArray *idsForFilename = [_filesInCache objectForKey:chunk.fileName];
     if ( idsForFilename == nil )
@@ -257,6 +263,46 @@ static P2PFileManager *sharedInstance = nil;
     NSURL *urlWithFile = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId] relativeToURL:directoryPath];
     [chunk.dataBlock writeToURL:urlWithFile atomically:YES];
     [fileInfo chunkWasAddedToDisk:@( chunk.chunkId )];
+}
+
+- (P2PFileInfo *)generateFileInfoForFileId:(NSString *)fileId fileName:(NSString *)filename totalFileSize:(NSUInteger)totalSize
+{
+    NSError *error;
+    P2PFileInfo *fileInfo;
+    NSURL *directoryPath = [self pathForDirectoryWithHashID:fileId];
+    BOOL isDirectory = YES;
+    if ( ![self fileExistsAtPath:directoryPath.absoluteString isDirectory:&isDirectory] || !isDirectory )
+    {
+        NSAssert( fileInfo == nil, @"If the directory doesn't exist, why do we have information on the file?" );
+        [self createDirectoryAtURL:directoryPath withIntermediateDirectories:YES attributes:Nil error:&error];
+        
+        if ( error != nil )
+        {
+            P2PLog(P2PLogLevelError, @"ERROR: Unable to create directory for file: %@", error);
+            return nil;
+        }
+        else
+        {
+            fileInfo = [[P2PFileInfo alloc] initWithFileName:filename fileId:fileId chunksOnDisk:@[ ] totalFileSize:totalSize];
+            // create plist
+            NSDictionary *plistDictionary = [fileInfo toDictionary];
+            NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:plistDictionary format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+            if (error)
+            {
+                P2PLog(P2PLogLevelError, @"ERROR: Unable to create plist: %@", error);
+                return nil;
+            }
+            else
+            {
+                NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:directoryPath];
+                [plistData writeToURL:plistURL atomically:YES];
+                
+                // Cache the file info
+                [_cachedFileInfo setObject:fileInfo forKey:fileId];
+            }
+        }
+    }
+    return fileInfo;
 }
 
 #pragma mark - File Path Methods

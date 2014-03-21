@@ -95,7 +95,7 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 /** Total completion of the request (0.0-100.0) */
 @property (nonatomic, readonly) double progress;
 
-@property (weak, nonatomic, readonly) P2PFileInfo *fileInfo;
+@property (strong, nonatomic, readonly) P2PFileInfo *fileInfo;
 
 
 

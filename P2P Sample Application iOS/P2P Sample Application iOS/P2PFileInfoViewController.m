@@ -8,12 +8,13 @@
 
 #import "P2PFileInfoViewController.h"
 #import "P2PFileInfo.h"
+#import "P2PFileManager.h"
 
 static NSString *kChunksAvailableKeyPath =  @"chunksAvailable";
 static NSString *kTotalChunksKeyPath =      @"totalChunks";
 static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
-@interface P2PFileInfoViewController ()
+@interface P2PFileInfoViewController () <P2PFileInfoDelegate>
 
 @end
 
@@ -29,36 +30,101 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 //}
 - (void)setFileInfo:(P2PFileInfo *)fileInfo
 {
-    if ( _fileInfo != nil )
-    {
-        // Stop observing old file
-        [_fileInfo removeObserver:self forKeyPath:kChunksAvailableKeyPath];
-        [_fileInfo removeObserver:self forKeyPath:kTotalFileSizeKeyPath];
-        [_fileInfo removeObserver:self forKeyPath:kTotalChunksKeyPath];
-    }
+//    if ( _fileInfo != nil )
+//    {
+//        // Stop observing old file
+//        [_fileInfo removeObserver:self forKeyPath:kChunksAvailableKeyPath];
+//        [_fileInfo removeObserver:self forKeyPath:kTotalFileSizeKeyPath];
+//        [_fileInfo removeObserver:self forKeyPath:kTotalChunksKeyPath];
+//    }
     
     _fileInfo = fileInfo;
-    [fileInfo addObserver:self forKeyPath:kChunksAvailableKeyPath options:0 context:NULL];
-    [fileInfo addObserver:self forKeyPath:kTotalChunksKeyPath options:0 context:NULL];
-    [fileInfo addObserver:self forKeyPath:kTotalFileSizeKeyPath options:0 context:NULL];
+    fileInfo.delegate = self;
+    [self updateAllFileInfo];
+//    [fileInfo addObserver:self forKeyPath:kChunksAvailableKeyPath options:0 context:NULL];
+//    [fileInfo addObserver:self forKeyPath:kTotalChunksKeyPath options:0 context:NULL];
+//    [fileInfo addObserver:self forKeyPath:kTotalFileSizeKeyPath options:0 context:NULL];
     
-    [self fileInfoDidUpdate];
+//    [self fileInfoDidUpdate];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+//{
+//    assert( object == _fileInfo );
+//    [self fileInfoDidUpdate];
+//}
+//
+//- (void)fileInfoDidUpdate
+//{
+//    self.chunksOnDiskLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[_fileInfo.chunksOnDisk count]];
+//}
+
+- (void)updateAllFileInfo
 {
-    assert( object == _fileInfo );
-    [self fileInfoDidUpdate];
+    self.navigationItem.title = self.fileInfo.filename;
+    [self updateChunksAvailableLabel];
+    [self updateChunksOnDiskLabel];
+    [self updateTotalChunksLabel];
 }
 
-- (void)fileInfoDidUpdate
+- (void)updateChunksOnDiskLabel
 {
-    self.chunksOnDiskLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[_fileInfo.chunksOnDisk count]];
+    self.chunksOnDiskLabel.text = [NSString stringWithFormat:@"%lu", [self.fileInfo.chunksOnDisk count]];
+    [self updatePercentCompleteLabel];
+    [self updateFileSizeLabel];
+}
+
+- (void)updateChunksAvailableLabel
+{
+    if ( self.fileInfo.chunksAvailable == nil )
+    {
+        self.chunksAvailableLabel.text = @"?";
+    }
+    else
+    {
+        self.chunksAvailableLabel.text = [NSString stringWithFormat:@"%lu", [self.fileInfo.chunksAvailable count]];
+    }
+}
+
+- (void)updateTotalChunksLabel
+{
+    self.totalChunksLabel.text = [NSString stringWithFormat:@"%lu", [self.fileInfo totalChunks]];
+    [self updatePercentCompleteLabel];
+}
+
+- (void)updatePercentCompleteLabel
+{
+    if ( [self.fileInfo totalChunks] == 0 )
+    {
+        self.percentCompleteLabel.text = [NSString stringWithFormat:@"%d %%", 0];
+    }
+    else
+    {
+        self.percentCompleteLabel.text = [NSString stringWithFormat:@"%d %%", (int)(((float)[self.fileInfo.chunksOnDisk count] / [self.fileInfo totalChunks]) * 100)];
+    }
+}
+
+- (void)updateFileSizeLabel
+{
+    NSUInteger sizeInBytes = self.fileInfo.chunksOnDisk.count * P2PFileManagerFileChunkSize;
+    NSString *s = [NSByteCountFormatter stringFromByteCount:sizeInBytes countStyle:NSByteCountFormatterCountStyleFile];
+    self.sizeOnDiskLabel.text = s;
+}
+
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksAvailableFromPeers:(NSUInteger)chunksAvailable
+{
+    
+}
+
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksOnDisk:(NSUInteger)chunksOnDisk
+{
+    NSLog(@"chunks on disk updated: %lu", chunksOnDisk);
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self updateAllFileInfo];
     // Do any additional setup after loading the view.
 }
 

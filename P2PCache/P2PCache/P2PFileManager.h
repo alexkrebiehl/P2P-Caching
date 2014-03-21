@@ -33,6 +33,7 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
 - (void)cacheFile:(NSData *)file withFileName:(NSString *)filename;
 
 - (P2PFileInfo *)fileInfoForFileId:(NSString *)fileId;
+- (P2PFileInfo *)generateFileInfoForFileId:(NSString *)fileId fileName:(NSString *)filename totalFileSize:(NSUInteger)totalSize;
 
 //- (NSArray *)availableChunksForFileID:(NSString *)fileID;
 

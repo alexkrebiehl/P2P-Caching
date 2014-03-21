@@ -132,8 +132,8 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
         assert( cell != nil );
         
         P2PFileRequest *request = [[P2PFileRequest pendingFileRequests] objectAtIndex:indexPath.row];
-        cell.textLabel.text = request.fileName;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu / %lu", (unsigned long)request.chunksReady, (unsigned long)request.chunksAvailable];
+        cell.textLabel.text = request.fileInfo.filename;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu / %lu", (unsigned long)[request.fileInfo.chunksOnDisk count], (unsigned long)[request.fileInfo.chunksAvailable count]];
     }
     
     return cell;
@@ -147,7 +147,7 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
     }
     else if ( [segue.destinationViewController isKindOfClass:[P2PFileInfoViewController class]] )
     {
-        NSIndexPath *indexPath = [[self.tableView indexPathsForSelectedRows] objectAtIndex:0];
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         P2PFileInfo *info;
         switch ( indexPath.section )
         {
@@ -160,12 +160,18 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
             case kTableViewSectionActiveRequests:
             {
                 P2PFileRequest *request = [[P2PFileRequest pendingFileRequests] objectAtIndex:indexPath.row];
-                
+                info = request.fileInfo;
             }
                 
             default:
+            {
+                assert( NO );
                 break;
+            }
+                
         }
+        ((P2PFileInfoViewController *)segue.destinationViewController).fileInfo = info;
+        
     }
 }
 
