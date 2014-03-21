@@ -19,7 +19,7 @@
 @property (copy, readonly) NSString *fileName;
 
 /** Chunks that are available from the responding peer */
-@property (strong, nonatomic) NSMutableArray *availableChunks;
+@property (strong, nonatomic) NSMutableSet *availableChunks;
 
 /** The length of each chunk */
 @property (nonatomic) NSUInteger chunkSizeInBytes;

@@ -49,7 +49,7 @@ static NSString *P2PAvailabilityResponseTotalChunks =       @"TotalChunks";
     if ( self = [super init] )
     {
         _fileName = [aDecoder decodeObjectForKey:P2PAvailabilityResponseFilenameKey];
-        _availableChunks = [aDecoder decodeObjectForKey:P2PAvailabilityResponseChunksKey];
+        _availableChunks = [NSMutableSet setWithArray:[aDecoder decodeObjectForKey:P2PAvailabilityResponseChunksKey]];
         _chunkSizeInBytes = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseChunkSizeKey] unsignedIntegerValue];
         _requestId = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseId] unsignedIntegerValue];
         _matchingFileIds = [aDecoder decodeObjectForKey:P2PAvailabilityResponseMatchingFileIds];
@@ -61,7 +61,7 @@ static NSString *P2PAvailabilityResponseTotalChunks =       @"TotalChunks";
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:self.fileName forKey:P2PAvailabilityResponseFilenameKey];
-    [aCoder encodeObject:self.availableChunks forKey:P2PAvailabilityResponseChunksKey];
+    [aCoder encodeObject:[self.availableChunks allObjects] forKey:P2PAvailabilityResponseChunksKey];
     [aCoder encodeObject:@( self.chunkSizeInBytes ) forKey:P2PAvailabilityResponseChunkSizeKey];
     [aCoder encodeObject:@( self.requestId ) forKey:P2PAvailabilityResponseId];
     [aCoder encodeObject:self.matchingFileIds forKey:P2PAvailabilityResponseMatchingFileIds];

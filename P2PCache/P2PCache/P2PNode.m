@@ -506,7 +506,6 @@ NSUInteger getNextConnectionId()
         case NSStreamEventHasBytesAvailable:
         {
             assert([aStream isKindOfClass:[NSInputStream class]]);
-
             P2PIncomingData *d = [[P2PIncomingData alloc] initWithConnection:connection];
             d.delegate = self;
             
@@ -529,7 +528,10 @@ NSUInteger getNextConnectionId()
         case NSStreamEventHasSpaceAvailable:
         {
             assert( [aStream isKindOfClass:[NSOutputStream class]] );
+            
             P2PNodeConnection *connection = [self connectionNodeForStream:aStream];
+            assert( connection != nil );
+            
             [self workOutputBufferForStream:(NSOutputStream *)aStream buffer:connection.outBuffer];
             break;
         }

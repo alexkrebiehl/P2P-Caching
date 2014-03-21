@@ -23,44 +23,12 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
 @implementation P2PFileInfoViewController
 
-//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-//{
-//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-//    if (self) {
-//        // Custom initialization
-//    }
-//    return self;
-//}
 - (void)setFileInfo:(P2PFileInfo *)fileInfo
 {
-//    if ( _fileInfo != nil )
-//    {
-//        // Stop observing old file
-//        [_fileInfo removeObserver:self forKeyPath:kChunksAvailableKeyPath];
-//        [_fileInfo removeObserver:self forKeyPath:kTotalFileSizeKeyPath];
-//        [_fileInfo removeObserver:self forKeyPath:kTotalChunksKeyPath];
-//    }
-    
     _fileInfo = fileInfo;
     fileInfo.delegate = self;
     [self updateAllFileInfo];
-//    [fileInfo addObserver:self forKeyPath:kChunksAvailableKeyPath options:0 context:NULL];
-//    [fileInfo addObserver:self forKeyPath:kTotalChunksKeyPath options:0 context:NULL];
-//    [fileInfo addObserver:self forKeyPath:kTotalFileSizeKeyPath options:0 context:NULL];
-    
-//    [self fileInfoDidUpdate];
 }
-
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-//{
-//    assert( object == _fileInfo );
-//    [self fileInfoDidUpdate];
-//}
-//
-//- (void)fileInfoDidUpdate
-//{
-//    self.chunksOnDiskLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[_fileInfo.chunksOnDisk count]];
-//}
 
 - (void)updateAllFileInfo
 {

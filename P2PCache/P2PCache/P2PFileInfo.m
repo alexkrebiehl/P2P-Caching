@@ -91,13 +91,14 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
     });
 }
 
-- (void)chunksBecameAvailable:(NSArray *)multipleChunkIds
+- (void)chunksBecameAvailable:(NSSet *)multipleChunkIds
 {
     if ( _chunksAvailable == nil )
     {
         _chunksAvailable = [[NSMutableSet alloc] init];
     }
-    [_chunksAvailable addObjectsFromArray:multipleChunkIds];
+//    [_chunksAvailable addObjectsFromArray:multipleChunkIds];
+    [_chunksAvailable unionSet:multipleChunkIds];
     dispatch_async(dispatch_get_main_queue(), ^
     {
        [self.delegate fileInfo:self didUpdateChunksAvailableFromPeers:[_chunksAvailable count]];

@@ -107,7 +107,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Cou-lg-D6o">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PPeerTableCellIdentifier" id="Cou-lg-D6o">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cou-lg-D6o" id="A0q-FC-7dG">
@@ -164,14 +164,14 @@
                                     <action selector="deleteFileButtonPressed:" destination="LZV-6q-7M0" eventType="touchUpInside" id="E1u-3d-ERt"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Chunks on Disk" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epM-ZR-lZ3">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chunks on Disk" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="epM-ZR-lZ3">
                                 <rect key="frame" x="26" y="116" width="152" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Chunks Available" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJg-Dh-bq3">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chunks Available" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jJg-Dh-bq3">
                                 <rect key="frame" x="8" y="145" width="170" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -183,19 +183,19 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A9m-jl-t5V">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A9m-jl-t5V">
                                 <rect key="frame" x="206" y="116" width="114" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSW-eB-hvD">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSW-eB-hvD">
                                 <rect key="frame" x="206" y="145" width="114" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJP-Xv-MoD">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJP-Xv-MoD">
                                 <rect key="frame" x="206" y="174" width="114" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -219,13 +219,13 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0 Kb" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CR6-rA-bJD">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Kb" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CR6-rA-bJD">
                                 <rect key="frame" x="206" y="203" width="100" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJM-eg-b5z">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJM-eg-b5z">
                                 <rect key="frame" x="79" y="402" width="163" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Retreive more of the file">
@@ -235,25 +235,34 @@
                                     <action selector="retreiveRestOfFileButtonPressed:" destination="LZV-6q-7M0" eventType="touchUpInside" id="mDE-dH-MbW"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EiQ-8S-Uzj">
-                                <rect key="frame" x="150" y="81" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="9xS-0v-A9q" firstAttribute="centerX" secondItem="EeA-YE-rnu" secondAttribute="centerX" constant="5.5" id="0Ek-17-u68"/>
+                            <constraint firstItem="CR6-rA-bJD" firstAttribute="trailing" secondItem="9xS-0v-A9q" secondAttribute="trailing" id="0y1-Zg-D2d"/>
                             <constraint firstItem="9xS-0v-A9q" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="26" id="31w-cZ-fRG"/>
+                            <constraint firstItem="epM-ZR-lZ3" firstAttribute="baseline" secondItem="A9m-jl-t5V" secondAttribute="baseline" id="6lC-Rt-aLV"/>
                             <constraint firstItem="ZXs-zX-bEp" firstAttribute="baseline" secondItem="CR6-rA-bJD" secondAttribute="baseline" id="8Fz-3r-Q9b"/>
                             <constraint firstItem="9xS-0v-A9q" firstAttribute="top" secondItem="kfw-gM-1JV" secondAttribute="bottom" constant="84" id="Bzx-Il-z8y"/>
+                            <constraint firstItem="CSW-eB-hvD" firstAttribute="trailing" secondItem="A9m-jl-t5V" secondAttribute="trailing" id="Df6-gw-JgC"/>
+                            <constraint firstItem="epM-ZR-lZ3" firstAttribute="leading" secondItem="9xS-0v-A9q" secondAttribute="leading" id="HbR-Or-zU8"/>
                             <constraint firstItem="ZXs-zX-bEp" firstAttribute="trailing" secondItem="kfw-gM-1JV" secondAttribute="trailing" id="KQw-lH-eJW"/>
+                            <constraint firstItem="EeA-YE-rnu" firstAttribute="top" secondItem="bJM-eg-b5z" secondAttribute="bottom" constant="28" id="LkN-1Y-BNZ"/>
                             <constraint firstItem="kfw-gM-1JV" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="58" id="OMq-PM-KVL"/>
                             <constraint firstItem="EeA-YE-rnu" firstAttribute="top" secondItem="ZXs-zX-bEp" secondAttribute="bottom" constant="236" id="QEt-je-v1b"/>
                             <constraint firstItem="ZXs-zX-bEp" firstAttribute="top" secondItem="9xS-0v-A9q" secondAttribute="bottom" constant="-162" id="RGp-kd-Eau"/>
                             <constraint firstItem="tSH-4v-qMd" firstAttribute="top" secondItem="EeA-YE-rnu" secondAttribute="bottom" constant="29" id="WxT-NG-yoj"/>
+                            <constraint firstItem="bJM-eg-b5z" firstAttribute="centerX" secondItem="EeA-YE-rnu" secondAttribute="centerX" id="XPR-9e-9tq"/>
                             <constraint firstItem="kfw-gM-1JV" firstAttribute="top" secondItem="jJg-Dh-bq3" secondAttribute="bottom" constant="8" symbolic="YES" id="XTQ-ZR-d7w"/>
+                            <constraint firstItem="jJg-Dh-bq3" firstAttribute="top" secondItem="epM-ZR-lZ3" secondAttribute="bottom" constant="8" symbolic="YES" id="ZRj-HF-Z6p"/>
                             <constraint firstAttribute="trailing" secondItem="9xS-0v-A9q" secondAttribute="trailing" constant="14" id="bmU-u6-ka2"/>
+                            <constraint firstItem="CSW-eB-hvD" firstAttribute="leading" secondItem="A9m-jl-t5V" secondAttribute="leading" id="fCm-M6-gdl"/>
+                            <constraint firstItem="CSW-eB-hvD" firstAttribute="leading" secondItem="EJP-Xv-MoD" secondAttribute="leading" id="gcx-IP-zOa"/>
                             <constraint firstItem="EJP-Xv-MoD" firstAttribute="leading" secondItem="kfw-gM-1JV" secondAttribute="trailing" constant="28" id="hQf-T8-aDc"/>
+                            <constraint firstItem="jJg-Dh-bq3" firstAttribute="baseline" secondItem="CSW-eB-hvD" secondAttribute="baseline" id="hhW-GO-wq9"/>
+                            <constraint firstAttribute="trailing" secondItem="CSW-eB-hvD" secondAttribute="trailing" id="jC4-Y1-QOe"/>
+                            <constraint firstItem="EJP-Xv-MoD" firstAttribute="trailing" secondItem="CSW-eB-hvD" secondAttribute="trailing" id="jdW-4f-vdo"/>
+                            <constraint firstItem="jJg-Dh-bq3" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="8" id="nEt-Ok-hdm"/>
                             <constraint firstItem="kfw-gM-1JV" firstAttribute="baseline" secondItem="EJP-Xv-MoD" secondAttribute="baseline" id="nmF-PG-BTc"/>
                             <constraint firstItem="CR6-rA-bJD" firstAttribute="leading" secondItem="ZXs-zX-bEp" secondAttribute="trailing" constant="28" id="oKh-y8-vaC"/>
                             <constraint firstItem="kfw-gM-1JV" firstAttribute="trailing" secondItem="epM-ZR-lZ3" secondAttribute="trailing" id="oPw-6h-3YC"/>
@@ -263,7 +272,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="4hc-d8-LoT"/>
                     <connections>
-                        <outlet property="activityIndicatorView" destination="EiQ-8S-Uzj" id="uPE-K6-1x9"/>
                         <outlet property="chunksAvailableLabel" destination="CSW-eB-hvD" id="fXr-1c-15K"/>
                         <outlet property="chunksOnDiskLabel" destination="A9m-jl-t5V" id="1nk-gX-b8q"/>
                         <outlet property="percentCompleteLabel" destination="9xS-0v-A9q" id="LJV-A0-gFg"/>
@@ -284,7 +292,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PFilesInCacheCell" textLabel="NZo-0V-ilA" detailTextLabel="6gL-nb-sZR" style="IBUITableViewCellStyleValue1" id="sx8-pg-gdW">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PFilesInCacheCell" textLabel="NZo-0V-ilA" detailTextLabel="6gL-nb-sZR" style="IBUITableViewCellStyleValue1" id="sx8-pg-gdW" customClass="P2PFileInCacheTableViewCell">
                                 <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sx8-pg-gdW" id="lhC-XW-efg">

@@ -66,6 +66,6 @@
 
 - (void)chunkWasAddedToDisk:(NSNumber *)chunkId;
 - (void)chunkBecameAvailable:(NSNumber *)chunkId;
-- (void)chunksBecameAvailable:(NSArray *)multipleChunkIds;
+- (void)chunksBecameAvailable:(NSSet *)multipleChunkIds;
 
 @end

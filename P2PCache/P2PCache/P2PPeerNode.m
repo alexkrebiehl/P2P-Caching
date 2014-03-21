@@ -27,6 +27,7 @@
     NSMutableArray *_pendingFileChunkRequests;
 }
 
+static dispatch_queue_t dispatchQueuePeerNode = nil;
 - (id)init
 {
     return [self initWithNetService:nil];
@@ -42,6 +43,11 @@
         
         _netService = netService;
         _netService.delegate = self;
+        
+        if ( dispatchQueuePeerNode == nil )
+        {
+            dispatchQueuePeerNode = dispatch_queue_create("dispatchQueuePeerNode", DISPATCH_QUEUE_SERIAL);
+        }
     }
     return self;
 }
@@ -114,58 +120,70 @@
 #pragma mark - File Handling
 - (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request
 {
-    if ( _pendingFileAvailibilityRequests == nil )
+    dispatch_async(dispatchQueuePeerNode, ^
     {
-        _pendingFileAvailibilityRequests = [[NSMutableArray alloc] init];
-    }
-    
-    [_pendingFileAvailibilityRequests addObject:request];
-
-    [self transmitObject:request];
-    P2PLogDebug(@"%@ - File availability request sent", self);
+        if ( _pendingFileAvailibilityRequests == nil )
+        {
+            _pendingFileAvailibilityRequests = [[NSMutableArray alloc] init];
+        }
+        
+        [_pendingFileAvailibilityRequests addObject:request];
+        
+        [self transmitObject:request];
+        P2PLogDebug(@"%@ - File availability request sent", self);
+    });
 }
 
 - (void)didRecieveFileAvailabilityResponse:(P2PPeerFileAvailbilityResponse *)response
 {
-    // Find out what request this response is for...
-    for ( P2PPeerFileAvailibilityRequest *aRequest in _pendingFileAvailibilityRequests )
+    dispatch_async(dispatchQueuePeerNode, ^
     {
-        //good enough for now..
-        if ( aRequest.requestId == response.requestId )
+        // Find out what request this response is for...
+        for ( P2PPeerFileAvailibilityRequest *aRequest in _pendingFileAvailibilityRequests )
         {
-            // found the request.....
-            response.owningPeer = self;
-            [aRequest didRecieveAvailibilityResponse:response];
-            [_pendingFileAvailibilityRequests removeObject:aRequest];
-            return;
+            //good enough for now..
+            if ( aRequest.requestId == response.requestId )
+            {
+                // found the request.....
+                response.owningPeer = self;
+                [aRequest didRecieveAvailibilityResponse:response];
+                [_pendingFileAvailibilityRequests removeObject:aRequest];
+                return;
+            }
         }
-    }
+    });
 }
 
 - (void)requestFileChunk:(P2PFileChunkRequest *)request
 {
-    if ( _pendingFileChunkRequests == nil )
+    dispatch_async(dispatchQueuePeerNode, ^
     {
-        _pendingFileChunkRequests = [[NSMutableArray alloc] init];
-    }
-    
-    [_pendingFileChunkRequests addObject:request];
-    [self transmitObject:request];
+        if ( _pendingFileChunkRequests == nil )
+        {
+            _pendingFileChunkRequests = [[NSMutableArray alloc] init];
+        }
+        
+        [_pendingFileChunkRequests addObject:request];
+        [self transmitObject:request];
+    });
 }
 
 - (void)didRecieveFileChunk:(P2PFileChunk *)fileChunk
 {
-    for ( P2PFileChunkRequest *aRequest in _pendingFileChunkRequests )
+    dispatch_async(dispatchQueuePeerNode, ^
     {
-        //good enough for now..
-        if ( [aRequest.fileId isEqualToString:fileChunk.fileId] && aRequest.chunkId == fileChunk.chunkId )
+        for ( P2PFileChunkRequest *aRequest in _pendingFileChunkRequests )
         {
-            // found the request.....
-            [aRequest peer:self didRecieveChunk:fileChunk];
-            [_pendingFileAvailibilityRequests removeObject:aRequest];
-            return;
+            //good enough for now..
+            if ( [aRequest.fileId isEqualToString:fileChunk.fileId] && aRequest.chunkId == fileChunk.chunkId )
+            {
+                // found the request.....
+                [aRequest peer:self didRecieveChunk:fileChunk];
+                [_pendingFileAvailibilityRequests removeObject:aRequest];
+                return;
+            }
         }
-    }
+    });
 }
 
 

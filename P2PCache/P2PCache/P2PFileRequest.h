@@ -37,24 +37,29 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 
 @class P2PPeerNode, P2PFileRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk;
 
+
+
+
 @protocol P2PFileRequestDelegate <NSObject>
 
 @required
-/** A file request has completed.  The fileData property of the object will now contain the downloaded data
+/** A file request has completed.  The fileData property of the object will now contain the downloaded data.  Will be called on the main thread.
  
  @param fileRequest The file requested object that finished
  */
 - (void)fileRequestDidComplete:(P2PFileRequest *)fileRequest;
 
-/** The file request failed for some reason.  Check the errorCode parameter to find out why
+
+/** The file request failed for some reason.  Check the errorCode parameter to find out why.  Will be called on the main thread.
  
  @param fileRequest The file request object that failed
  @param errorCode The reason the file request failed
  */
 - (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode;
 
+
 /** The request returned multiple Ids for a filename.  By the time this is called, the request will have already
- failed and a new one must be created with an explicit file Id
+ failed and a new one must be created with an explicit file Id.  Will be called on the main thread.
  
  @param fileRequest The file request object calling this delegate method
  @param fileIds An array of fileIds that match the filename requested
@@ -62,45 +67,34 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  */
 - (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename;
 
-
-
-/** If the delegate wants to recieve updates as chunks arrive, this optional method can be implemented.
-
- @param fileRequest The file request object calling this delegate method
- @param chunk A chunk of the file that was recieved
- */
-//@optional
-//- (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveChunk:(P2PFileChunk *)chunk;
-
 @end
+
+
+
+
 
 @interface P2PFileRequest : NSObject
 
-/** Unique ID of the file */
-//@property (copy, nonatomic, readonly) NSString *fileId;
-/** Human readable name of the file */
-//@property (copy, nonatomic) NSString *fileName;
 /** Delegate to recieve callbacks with the status of the request */
 @property (weak, nonatomic) id<P2PFileRequestDelegate> delegate;
+
 /** Current state the request is in */
 @property (nonatomic, readonly) P2PFileRequestStatus status;
+
 /** The reason why the request failed */
 @property (nonatomic, readonly) P2PFileRequestError errorCode;
-/** Total number of chunks for complete file */
-//@property (nonatomic, readonly) NSUInteger totalChunks;
-/** Number of chunks available from peers */
-//@property (nonatomic, readonly) NSUInteger chunksAvailable;
-/** Number of chunks downloaded to the local machine */
-//@property (nonatomic, readonly) NSUInteger chunksReady;
-/** Total completion of the request (0.0-100.0) */
-//@property (nonatomic, readonly) double progress;
 
+/** Information about the file (total file size, chunks on hand/available).  This property will be populated if either
+ 1) the file info was supplied when initializing the file request,
+ 2) a match for a file was found if the filename or fileId was found */
 @property (strong, nonatomic, readonly) P2PFileInfo *fileInfo;
 
 
 
 /** Gets a list of file requests currently processing
- @return pendingFileRequests An array of P2PFileRequest objects currently working */
+ 
+ @return pendingFileRequests An array of P2PFileRequest objects currently working 
+ */
 + (NSArray *)pendingFileRequests;
 
 
@@ -109,7 +103,7 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  will exit with a P2PFileRequestErrorMultipleIdsForFile error.  It must then be recreated with the explicit fileID that you want.
  
  @param filename Thename of the file
- @return A new File Request object
+ @return A new File Request object or nil if the file request couldn't be created
  */
 - (id)initWithFilename:(NSString *)filename;
 
@@ -119,20 +113,26 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  will fail with error P2PFileRequestErrorFileNotFound
  
  @param fileId The file ID of the file you want to retrieve
- @return A new request object
+ @return A new request object or nil if the file request couldn't be created
  */
 - (id)initWithFileId:(NSString *)fileId;
 
 
 
-/** Creates a new file request.  Either fileID or filename must be specified.  One of them may be nil.
+/** Creates a new file request.  Either fileID or filename must be specified.
  
  @param fileId The ID of the file the request should get
  @param filename The name of a file the request should get
- @return A new file request object
+ @return A new file request object or nil if the file request couldn't be created
  */
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename;
 
+
+/** Designated initializer.  Creates a new file request for the fileInfo object given
+ 
+ @param info A P2PFileInfo object to request from peers
+ @return A new file request object or nil if the file request couldn't be created
+ */
 - (id)initWithFileInfo:(P2PFileInfo *)info;
 
 
