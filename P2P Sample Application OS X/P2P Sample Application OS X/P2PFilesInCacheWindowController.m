@@ -8,6 +8,7 @@
 
 #import "P2PFilesInCacheWindowController.h"
 #import "P2PFileManager.h"
+#import "P2PFileInfo.h"
 
 @interface P2PFilesInCacheWindowController ()
 
@@ -41,7 +42,7 @@
 {
     NSView *view;
     NSString *currentId = [[[P2PFileManager sharedManager] allFileIds] objectAtIndex:row];
-    P2PFileInfo *info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId];
+    P2PFileInfo *info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId filename:nil];
     if ( [tableColumn.identifier isEqualToString:@"P2PFilesInCacheFilenameColumn"] )
     {
         view = [tableView makeViewWithIdentifier:@"P2PFilesInCacheFilenameCell" owner:self];

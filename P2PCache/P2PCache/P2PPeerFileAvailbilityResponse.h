@@ -18,7 +18,7 @@
 /** Human readable name of the file */
 @property (copy, readonly) NSString *fileName;
 
-/** What chunks are available */
+/** Chunks that are available from the responding peer */
 @property (strong, nonatomic) NSMutableArray *availableChunks;
 
 /** The length of each chunk */

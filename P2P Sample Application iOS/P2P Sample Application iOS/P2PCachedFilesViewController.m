@@ -51,6 +51,11 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
     [_headerView.layer addSublayer:bottomBorder];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return kNumberOfTableSections;

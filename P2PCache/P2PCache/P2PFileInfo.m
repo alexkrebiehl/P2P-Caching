@@ -34,7 +34,7 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
     }
     if ( chunksOnDisk == nil )
     {
-        chunksOnDisk = @[ ];
+        chunksOnDisk = [[NSArray alloc] init];
     }
     
     if ( self = [super init] )

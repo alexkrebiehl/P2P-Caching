@@ -9,6 +9,7 @@
 #import "P2PActiveTransfersWindowController.h"
 #import "P2PFileRequest.h"
 #import "P2PCache.h"
+#import "P2PFileInfo.h"
 
 @interface P2PActiveTransfersWindowController () <P2PFileRequestDelegate>
 
@@ -157,26 +158,27 @@
     {
         view = [tableView makeViewWithIdentifier:@"P2PFileTransferCellFilename" owner:self];
         NSTextField *text = [view viewWithTag:0];
-        text.stringValue = request.fileName;
+        text.stringValue = request.fileInfo.filename;
     }
     else if ( [tableColumn.identifier isEqualToString:@"P2PFileTransferColumnProgress"] )
     {
         view = [tableView makeViewWithIdentifier:@"P2PFileTransferCellProgress" owner:self];
         NSProgressIndicator *progress = [[view subviews] objectAtIndex:0];
+        double newProgress = (((float)[request.fileInfo.chunksOnDisk count] / [request.fileInfo totalChunks]) * 100);
         
-        [progress incrementBy:request.progress - progress.doubleValue];
+        [progress incrementBy:newProgress - progress.doubleValue];
     }
     else if ( [tableColumn.identifier isEqualToString:@"P2PFileTransferColumnAvailable"] )
     {
         view = [tableView makeViewWithIdentifier:@"P2PFileTransferCellAvailable" owner:self];
         NSTextField *text = [view viewWithTag:0];
-        text.stringValue = [NSString stringWithFormat:@"%lu / %lu", request.chunksReady, request.chunksAvailable];
+        text.stringValue = [NSString stringWithFormat:@"%lu / %lu", request.fileInfo.chunksOnDisk.count, request.fileInfo.chunksAvailable.count];
     }
     else if ( [tableColumn.identifier isEqualToString:@"P2PFileTransferColumnTotal"] )
     {
         view = [tableView makeViewWithIdentifier:@"P2PFileTransferCellTotal" owner:self];
         NSTextField *text = [view viewWithTag:0];
-        text.stringValue = [NSString stringWithFormat:@"%lu", request.totalChunks];
+        text.stringValue = [NSString stringWithFormat:@"%lu", request.fileInfo.totalChunks];
     }
     return view;
 }

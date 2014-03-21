@@ -17,7 +17,7 @@ extern NSString *P2PFileInfoStoryboardViewIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *chunksAvailableLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalChunksLabel;
 @property (weak, nonatomic) IBOutlet UILabel *percentCompleteLabel;
-@property (weak, nonatomic) P2PFileInfo *fileInfo;
+@property (strong, nonatomic) P2PFileInfo *fileInfo;
 @property (weak, nonatomic) IBOutlet UILabel *sizeOnDiskLabel;
 - (IBAction)retreiveRestOfFileButtonPressed:(id)sender;
 

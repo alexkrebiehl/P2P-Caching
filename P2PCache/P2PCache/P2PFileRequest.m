@@ -87,22 +87,39 @@ static NSMutableArray *_pendingFileRequests = nil;
 }
 
 /** Designated initializer */
+- (id)initWithFileInfo:(P2PFileInfo *)info
+{
+    assert( info != nil );
+    if ( self = [super init] )
+    {
+        _status = P2PFileRequestStatusNotStarted;
+        _recievedAvailabiltyResponses = [[NSMutableArray alloc] init];
+        _chunksCurrentlyBeingRequested = [[NSMutableSet alloc] init];
+        _fileInfo = info;
+    }
+    return self;
+}
+
+
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename
 {
-    NSAssert( fileId != nil || filename != nil, @"Must supply a fileId");
+    NSAssert( fileId != nil || filename != nil, @"Must supply a fileId or filename");
+    return [self initWithFileInfo:[[P2PFileManager sharedManager] fileInfoForFileId:fileId filename:filename]];
+    
+    /*
     if ( self = [super init] )
     {
         //------_fileId = fileId;
         //------_fileName = filename;
         
         
-        _status = P2PFileRequestStatusNotStarted;
+//        _status = P2PFileRequestStatusNotStarted;
         
         // Data structure initialization
-        _recievedAvailabiltyResponses = [[NSMutableArray alloc] init];
+//        _recievedAvailabiltyResponses = [[NSMutableArray alloc] init];
         //------_chunksAvailable = [[NSMutableSet alloc] init];
         //------_chunksReady = [[NSMutableSet alloc] init];
-        _chunksCurrentlyBeingRequested = [[NSMutableSet alloc] init];
+//        _chunksCurrentlyBeingRequested = [[NSMutableSet alloc] init];
         
         _fileInfo = [[P2PFileManager sharedManager] fileInfoForFileId:fileId filename:filename];
 //        if ( _fileInfo == nil )
@@ -112,6 +129,7 @@ static NSMutableArray *_pendingFileRequests = nil;
         assert( _fileInfo != nil );
     }
     return self;
+     */
 }
 
 #pragma mark - Property implementations

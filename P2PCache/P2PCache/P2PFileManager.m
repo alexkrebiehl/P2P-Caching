@@ -310,7 +310,7 @@ static P2PFileManager *sharedInstance = nil;
         if ( info != nil )
         {
             response.totalChunks = info.totalChunks;
-            response.availableChunks = [info.chunksAvailable copy];
+            response.availableChunks = [info.chunksOnDisk copy];
             response.chunkSizeInBytes = P2PFileManagerFileChunkSize;
         }
     }
@@ -395,7 +395,7 @@ static P2PFileManager *sharedInstance = nil;
     {
         // A file ID was not given, but we only have one name in our cache that matches 'filename',
         // so we'll just use that ID
-        fileId = [[_filesInCache objectForKey:filename] anyObject];
+        fileId = [[_filesInCache objectForKey:filename] objectAtIndex:0];
     }
     
     
@@ -478,6 +478,9 @@ static P2PFileManager *sharedInstance = nil;
             
             NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:[self pathForDirectoryWithHashID:fileInfo.fileId]];
             [plistData writeToURL:plistURL atomically:YES];
+            
+            // Cache the file info
+            [_cachedFileInfo setObject:fileInfo forKey:fileInfo.fileId];
         }
         else
         {

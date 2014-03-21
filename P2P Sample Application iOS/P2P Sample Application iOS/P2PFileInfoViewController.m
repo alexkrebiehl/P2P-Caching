@@ -167,7 +167,7 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
 - (IBAction)retreiveRestOfFileButtonPressed:(id)sender
 {
-    P2PFileRequest *request = [[P2PFileRequest alloc] initWithFileId:self.fileInfo.fileId filename:self.fileInfo.fileId];
+    P2PFileRequest *request = [[P2PFileRequest alloc] initWithFileInfo:self.fileInfo];
     [request getFile];
 #warning To Do
 }

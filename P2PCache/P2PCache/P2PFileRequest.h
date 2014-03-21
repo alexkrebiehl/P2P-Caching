@@ -93,7 +93,7 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 /** Number of chunks downloaded to the local machine */
 //@property (nonatomic, readonly) NSUInteger chunksReady;
 /** Total completion of the request (0.0-100.0) */
-@property (nonatomic, readonly) double progress;
+//@property (nonatomic, readonly) double progress;
 
 @property (strong, nonatomic, readonly) P2PFileInfo *fileInfo;
 
@@ -132,6 +132,8 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  @return A new file request object
  */
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename;
+
+- (id)initWithFileInfo:(P2PFileInfo *)info;
 
 
 
