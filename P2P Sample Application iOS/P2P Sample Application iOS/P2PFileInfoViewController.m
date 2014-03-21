@@ -17,7 +17,7 @@ static NSString *kChunksAvailableKeyPath =  @"chunksAvailable";
 static NSString *kTotalChunksKeyPath =      @"totalChunks";
 static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
-@interface P2PFileInfoViewController () <P2PFileInfoDelegate>
+@interface P2PFileInfoViewController () <P2PFileInfoDelegate, UIAlertViewDelegate>
 
 @end
 
@@ -142,6 +142,22 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
 - (IBAction)deleteFileButtonPressed:(id)sender
 {
-#warning To Do
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:self.fileInfo.filename message:@"Are you sure you want to delete this file?" delegate:self cancelButtonTitle:@"no" otherButtonTitles:@"delete", nil];
+    [alert show];
+}
+
+
+
+#pragma mark - AlertView Delegate Methods
+- (void)alertView:(UIAlertView *)alertView willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if ( [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"delete"] )
+    {
+        [[P2PFileManager sharedManager] deleteFileFromCache:self.fileInfo];
+        [self.navigationController popViewControllerAnimated:YES];
+//        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//        [self.navigationController dismissViewControllerAnimated:<#(BOOL)#> completion:<#^(void)completion#>]
+    }
 }
 @end

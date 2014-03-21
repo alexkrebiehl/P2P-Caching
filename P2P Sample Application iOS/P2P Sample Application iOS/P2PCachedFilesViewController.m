@@ -16,8 +16,6 @@
 #import "P2PFileInCacheTableViewCell.h"
 
 #define kNumberOfTableSections                      1
-#define kTableViewSectionFilesOnDisk                0
-//#define kTableViewSectionActiveRequests             1
 
 static NSString *FilesInCacheCellIdentifier =       @"P2PFilesInCacheCell";
 static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
@@ -62,97 +60,29 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
     return kNumberOfTableSections;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *title;
-//    switch ( section )
-//    {
-//        case kTableViewSectionFilesOnDisk:
-            title = @"Files on disk";
-//            break;
-//            
-//        case kTableViewSectionActiveRequests:
-//            title = @"Active Requests";
-//            break;
-//    }
-    return title;
+    return @"Files on disk";
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-    NSString *title;
-//    switch ( section )
-//    {
-//        case kTableViewSectionFilesOnDisk:
-            title = [NSString stringWithFormat:@"%lu files", (unsigned long)[[[P2PFileManager sharedManager] allFileIds] count]];
-//            break;
-//            
-//        case kTableViewSectionActiveRequests:
-//            title = [NSString stringWithFormat:@"%lu requests", (unsigned long)[[P2PFileRequest pendingFileRequests] count]];
-//            break;
-//    }
-    return title;
+    return [NSString stringWithFormat:@"%lu files", (unsigned long)[[[P2PFileManager sharedManager] allFileIds] count]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger rows = 0;
-//    switch ( section )
-//    {
-//        case kTableViewSectionFilesOnDisk:
-            rows = [[[P2PFileManager sharedManager] allFileIds] count];
-//            break;
-//        case kTableViewSectionActiveRequests:
-//            rows = [[P2PFileRequest pendingFileRequests] count];
-//            break;
-//        default:
-//            break;
-//    }
-    return rows;
+    return [[[P2PFileManager sharedManager] allFileIds] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    P2PFileInCacheTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:FilesInCacheCellIdentifier];
+    assert( cell != nil );
     
-    P2PFileInCacheTableViewCell *cell;
-    
-    
-//    if ( indexPath.section == kTableViewSectionFilesOnDisk )
-//    {
-        cell = [tableView dequeueReusableCellWithIdentifier:FilesInCacheCellIdentifier];
-        assert( cell != nil );
-        
-        NSString *currentId = [[[P2PFileManager sharedManager] allFileIds] objectAtIndex:indexPath.row];
-        cell.fileInfo = [[P2PFileManager sharedManager] fileInfoForFileId:currentId filename:nil];
-//        info.delegate = self;
-//        cell.textLabel.text = info.filename;
-//        
-//        if ( [info totalChunks] == 0 )
-//        {
-//            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %%", 0];
-//        }
-//        else
-//        {
-//            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %%", (int)(((float)[info.chunksOnDisk count] / [info totalChunks]) * 100)];
-//        }
-        
-//    }
-//    else if ( indexPath.section == kTableViewSectionActiveRequests )
-//    {
-//        cell = [tableView dequeueReusableCellWithIdentifier:ActiveTransfersCellIdentifier];
-//        assert( cell != nil );
-//        
-//        P2PFileRequest *request = [[P2PFileRequest pendingFileRequests] objectAtIndex:indexPath.row];
-//        cell.textLabel.text = request.fileInfo.filename;
-//        cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu / %lu", (unsigned long)[request.fileInfo.chunksOnDisk count], (unsigned long)[request.fileInfo.chunksAvailable count]];
-//    }
-    
+    NSString *currentId = [[[P2PFileManager sharedManager] allFileIds] objectAtIndex:indexPath.row];
+    cell.fileInfo = [[P2PFileManager sharedManager] fileInfoForFileId:currentId filename:nil];
+
     return cell;
 }
 
@@ -165,30 +95,10 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
     else if ( [segue.destinationViewController isKindOfClass:[P2PFileInfoViewController class]] )
     {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        P2PFileInfo *info;
-//        switch ( indexPath.section )
-//        {
-//            case kTableViewSectionFilesOnDisk:
-//            {
-                NSString *currentId = [[[P2PFileManager sharedManager] allFileIds] objectAtIndex:indexPath.row];
-                info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId filename:nil];
-//                break;
-//            }
-//            case kTableViewSectionActiveRequests:
-//            {
-//                P2PFileRequest *request = [[P2PFileRequest pendingFileRequests] objectAtIndex:indexPath.row];
-//                info = request.fileInfo;
-//            }
-//                
-//            default:
-//            {
-//                assert( NO );
-//                break;
-//            }
-//                
-//        }
+        NSString *currentId = [[[P2PFileManager sharedManager] allFileIds] objectAtIndex:indexPath.row];
+        P2PFileInfo *info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId filename:nil];
+
         ((P2PFileInfoViewController *)segue.destinationViewController).fileInfo = info;
-        
     }
 }
 
@@ -197,21 +107,18 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
 {
     P2PFileRequest *request = [[P2PFileRequest alloc] initWithFilename:filename];
     request.delegate = self;
+    request.fileInfo.delegate = self;
     [request getFile];
     
-    P2PFileInfoViewController *fileInfoVC = [self.storyboard instantiateViewControllerWithIdentifier:P2PFileInfoStoryboardViewIdentifier];
-    fileInfoVC.fileInfo = request.fileInfo;
-    [self.navigationController pushViewController:fileInfoVC animated:NO];
+    [self.tableView reloadData];
     
-    [controller dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - File Request Delegate Methods
 - (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveChunk:(P2PFileChunk *)chunk
 {
     NSLog( @"%@", NSStringFromSelector(_cmd) );
-//    NSUInteger index = [[P2PFileRequest pendingFileRequests] indexOfObject:fileRequest];
-//    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:kTableViewSectionActiveRequests]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename
@@ -227,6 +134,30 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
 - (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode
 {
     NSLog( @"%@", NSStringFromSelector(_cmd) );
+}
+
+
+#pragma mark - FileInfo Delegate Methods
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksAvailableFromPeers:(NSUInteger)chunksAvailable
+{
+    // No handled here
+}
+
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksOnDisk:(NSUInteger)chunksOnDisk
+{
+    // No handled here
+}
+
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateFileId:(NSString *)fileId filename:(NSString *)filename
+{
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[[[P2PFileManager sharedManager] allFileIds] indexOfObject:fileInfo] inSection:0];
+//    [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateTotalChunks:(NSUInteger)totalChunks
+{
+    // No handled here
 }
 
 @end

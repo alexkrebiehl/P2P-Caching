@@ -82,11 +82,17 @@ static NSMutableArray *_pendingFileRequests = nil;
     return [self initWithFileId:nil filename:filename];
 }
 
+- (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename
+{
+    NSAssert( fileId != nil || filename != nil, @"Must supply a fileId or filename");
+    return [self initWithFileInfo:[[P2PFileManager sharedManager] fileInfoForFileId:fileId filename:filename]];
+}
+
 /** Designated initializer */
 static NSUInteger requestId = 0;
 - (id)initWithFileInfo:(P2PFileInfo *)info
 {
-    assert( info != nil );    
+    assert( info != nil );
     if ( self = [super init] )
     {
         _status = P2PFileRequestStatusNotStarted;
@@ -98,13 +104,6 @@ static NSUInteger requestId = 0;
         _dispatchQueueFileRequest = dispatch_queue_create( queueName.UTF8String, DISPATCH_QUEUE_SERIAL );
     }
     return self;
-}
-
-
-- (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename
-{
-    NSAssert( fileId != nil || filename != nil, @"Must supply a fileId or filename");
-    return [self initWithFileInfo:[[P2PFileManager sharedManager] fileInfoForFileId:fileId filename:filename]];
 }
 
 #pragma mark - File handling

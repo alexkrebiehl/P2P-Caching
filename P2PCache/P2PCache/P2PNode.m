@@ -491,9 +491,7 @@ NSUInteger getNextConnectionId()
     [connection.outBuffer appendData:preparedData];
 
     P2PLogDebug( @"%@ - sending object: %@ to %@", self, object, connection );
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
-//    });
+    [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
     
 }
 

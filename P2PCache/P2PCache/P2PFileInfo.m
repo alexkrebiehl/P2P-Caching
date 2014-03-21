@@ -42,7 +42,6 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
         _filename = fileName;
         _fileId = fileId;
         _chunksOnDisk = [NSMutableSet setWithArray:chunksOnDisk];
-//        _totalChunks = totalChunks;
         _totalFileSize = totalFileSize;
     }
     return self;
@@ -63,9 +62,23 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 - (NSDictionary *)toDictionary
 {
     NSDictionary *rootDict = [NSDictionary dictionaryWithObjects:@[self.filename, @(self.totalFileSize)] forKeys:@[P2PFileManagerInfoFileNameKey, P2PFileManagerInfoFileSizeKey]];
-//    NSData *plist = [NSPropertyListSerialization dataWithPropertyList:rootDict format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
     return rootDict;
 
+}
+
+- (void)fileWasDeleted
+{
+    _chunksOnDisk = nil;
+    _chunksAvailable = nil;
+    _totalFileSize = 0;
+    _totalChunks = 0;
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        [self.delegate fileInfo:self didUpdateChunksOnDisk:[_chunksOnDisk count]];
+        [self.delegate fileInfo:self didUpdateChunksAvailableFromPeers:[_chunksAvailable count]];
+        [self.delegate fileInfo:self didUpdateTotalChunks:self.totalChunks];
+    });
+    
 }
 
 - (void)chunkWasAddedToDisk:(NSNumber *)chunkId
@@ -97,7 +110,6 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
     {
         _chunksAvailable = [[NSMutableSet alloc] init];
     }
-//    [_chunksAvailable addObjectsFromArray:multipleChunkIds];
     [_chunksAvailable unionSet:multipleChunkIds];
     dispatch_async(dispatch_get_main_queue(), ^
     {

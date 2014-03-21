@@ -63,9 +63,12 @@
 
 - (NSDictionary *)toDictionary;
 
+- (void)fileWasDeleted;
 
 - (void)chunkWasAddedToDisk:(NSNumber *)chunkId;
+
 - (void)chunkBecameAvailable:(NSNumber *)chunkId;
+
 - (void)chunksBecameAvailable:(NSSet *)multipleChunkIds;
 
 @end
