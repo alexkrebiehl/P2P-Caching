@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class P2PFileInfo;
+
 typedef NS_ENUM(NSUInteger, P2PFileRequestStatus)
 {
     P2PFileRequestStatusUnknown = 0,
@@ -75,9 +77,9 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 @interface P2PFileRequest : NSObject
 
 /** Unique ID of the file */
-@property (copy, nonatomic, readonly) NSString *fileId;
+//@property (copy, nonatomic, readonly) NSString *fileId;
 /** Human readable name of the file */
-@property (copy, nonatomic) NSString *fileName;
+//@property (copy, nonatomic) NSString *fileName;
 /** Delegate to recieve callbacks with the status of the request */
 @property (weak, nonatomic) id<P2PFileRequestDelegate> delegate;
 /** Current state the request is in */
@@ -85,13 +87,15 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 /** The reason why the request failed */
 @property (nonatomic, readonly) P2PFileRequestError errorCode;
 /** Total number of chunks for complete file */
-@property (nonatomic, readonly) NSUInteger totalChunks;
+//@property (nonatomic, readonly) NSUInteger totalChunks;
 /** Number of chunks available from peers */
-@property (nonatomic, readonly) NSUInteger chunksAvailable;
+//@property (nonatomic, readonly) NSUInteger chunksAvailable;
 /** Number of chunks downloaded to the local machine */
-@property (nonatomic, readonly) NSUInteger chunksReady;
+//@property (nonatomic, readonly) NSUInteger chunksReady;
 /** Total completion of the request (0.0-100.0) */
 @property (nonatomic, readonly) double progress;
+
+@property (weak, nonatomic, readonly) P2PFileInfo *fileInfo;
 
 
 

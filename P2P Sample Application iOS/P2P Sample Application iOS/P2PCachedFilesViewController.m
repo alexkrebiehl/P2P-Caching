@@ -11,6 +11,8 @@
 #import "P2PFileManager.h"
 #import "P2PFileRequest.h"
 #import "P2PAddFileViewController.h"
+#import "P2PFileInfoViewController.h"
+#import "P2PFileInfo.h"
 
 #define kNumberOfTableSections                      2
 #define kTableViewSectionFilesOnDisk                0
@@ -82,11 +84,11 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
     switch ( section )
     {
         case kTableViewSectionFilesOnDisk:
-            title = [NSString stringWithFormat:@"%d files", [[[P2PFileManager sharedManager] allFileIds] count]];
+            title = [NSString stringWithFormat:@"%lu files", (unsigned long)[[[P2PFileManager sharedManager] allFileIds] count]];
             break;
             
         case kTableViewSectionActiveRequests:
-            title = [NSString stringWithFormat:@"%d requests", [[P2PFileRequest pendingFileRequests] count]];
+            title = [NSString stringWithFormat:@"%lu requests", (unsigned long)[[P2PFileRequest pendingFileRequests] count]];
             break;
     }
     return title;
@@ -143,6 +145,28 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
     {
         ((P2PAddFileViewController *)segue.destinationViewController).delegate = self;
     }
+    else if ( [segue.destinationViewController isKindOfClass:[P2PFileInfoViewController class]] )
+    {
+        NSIndexPath *indexPath = [[self.tableView indexPathsForSelectedRows] objectAtIndex:0];
+        P2PFileInfo *info;
+        switch ( indexPath.section )
+        {
+            case kTableViewSectionFilesOnDisk:
+            {
+                NSString *currentId = [[[P2PFileManager sharedManager] allFileIds] objectAtIndex:indexPath.row];
+                info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId];
+                break;
+            }
+            case kTableViewSectionActiveRequests:
+            {
+                P2PFileRequest *request = [[P2PFileRequest pendingFileRequests] objectAtIndex:indexPath.row];
+                
+            }
+                
+            default:
+                break;
+        }
+    }
 }
 
 #pragma mark - Add File View Controller Delegate Methods
@@ -162,6 +186,8 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
 - (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveChunk:(P2PFileChunk *)chunk
 {
     NSLog( @"%@", NSStringFromSelector(_cmd) );
+    NSUInteger index = [[P2PFileRequest pendingFileRequests] indexOfObject:fileRequest];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:kTableViewSectionActiveRequests]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename

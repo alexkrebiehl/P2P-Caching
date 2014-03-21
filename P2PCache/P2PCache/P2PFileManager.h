@@ -11,24 +11,15 @@
 
 static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File chunk size
 
-@interface P2PFileInfo : NSObject
 
-@property (copy, readonly, nonatomic) NSString *filename;
-@property (copy, readonly, nonatomic) NSString *fileId;
-@property (readonly, nonatomic) NSArray *chunksAvailable;
-@property (readonly, nonatomic) NSUInteger totalChunks;
-@property (readonly, nonatomic) NSUInteger totalFileSize;
 
-- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksAvailable:(NSArray *)chunksAvailable totalChunks:(NSUInteger)totalChunks totalFileSize:(NSUInteger)totalFileSize;
-
-@end
-
-@class P2PPeerFileAvailibilityRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk, P2PFileChunkRequest, P2PFileRequest;
+@class P2PPeerFileAvailibilityRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk, P2PFileChunkRequest, P2PFileRequest, P2PFileInfo;
 
 @interface P2PFileManager : NSFileManager
 
 @property (strong, nonatomic, readonly) NSOrderedSet *allFileIds;
 @property (strong, nonatomic, readonly) NSURL *cacheDirectory;
+
 
 
 + (P2PFileManager *)sharedManager;
@@ -43,7 +34,7 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
 
 - (P2PFileInfo *)fileInfoForFileId:(NSString *)fileId;
 
-- (NSArray *)availableChunksForFileID:(NSString *)fileID;
+//- (NSArray *)availableChunksForFileID:(NSString *)fileID;
 
 @end
 

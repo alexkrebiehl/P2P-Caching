@@ -15,7 +15,6 @@
  
  All of the common networking tools will be found here */
 
-typedef uint32_t crc_type;
 
 @class P2PIncomingData;
 @protocol P2PIncomingDataDelegate <NSObject>
@@ -50,6 +49,8 @@ enum
 {
     P2PNodeConnectionBufferSize = 32 * 1024, // 32kb buffer
 };
+
+typedef uint32_t crc_type;
 
 static const NSUInteger P2PIncomingDataFileSizeUnknown = NSUIntegerMax;
 
@@ -308,7 +309,7 @@ NSUInteger getNextConnectionId()
 
 - (void)processFooter
 {
-    assert( [_buffer length] == sizeof( uLong ) );
+    assert( [_buffer length] == sizeof( crc_type ) );
     uLong crcReceived = * (const crc_type *) [_buffer bytes];
     
     if ( crcReceived == _crc )
