@@ -101,7 +101,7 @@
 
 - (void)activeFileRequestsUpdated:(NSNotification *)notification
 {
-    _activeRequestsNumber.text = [NSString stringWithFormat:@"%lu", [[P2PFileRequest pendingFileRequests] count]];
+    _activeRequestsNumber.text = [NSString stringWithFormat:@"%lu", (unsigned long)[[P2PFileRequest pendingFileRequests] count]];
 }
 
 

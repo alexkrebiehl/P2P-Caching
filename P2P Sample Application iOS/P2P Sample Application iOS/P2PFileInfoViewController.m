@@ -40,7 +40,7 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
 - (void)updateChunksOnDiskLabel
 {
-    self.chunksOnDiskLabel.text = [NSString stringWithFormat:@"%lu", [self.fileInfo.chunksOnDisk count]];
+    self.chunksOnDiskLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.fileInfo.chunksOnDisk count]];
     [self updatePercentCompleteLabel];
     [self updateFileSizeLabel];
 }
@@ -53,13 +53,13 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
     }
     else
     {
-        self.chunksAvailableLabel.text = [NSString stringWithFormat:@"%lu", [self.fileInfo.chunksAvailable count]];
+        self.chunksAvailableLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.fileInfo.chunksAvailable count]];
     }
 }
 
 - (void)updateTotalChunksLabel
 {
-    self.totalChunksLabel.text = [NSString stringWithFormat:@"%lu", [self.fileInfo totalChunks]];
+    self.totalChunksLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.fileInfo totalChunks]];
     [self updatePercentCompleteLabel];
 }
 
