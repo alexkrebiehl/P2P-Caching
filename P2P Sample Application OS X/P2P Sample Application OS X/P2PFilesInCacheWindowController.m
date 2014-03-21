@@ -54,7 +54,7 @@
         view = [tableView makeViewWithIdentifier:@"P2PFilesInCacheAvailableCell" owner:self];
         NSTextField *text = [view viewWithTag:0];
 //        NSUInteger chunksAvailable = [[[P2PFileManager sharedManager] availableChunksForFileID:currentId] count];
-        text.stringValue = [NSString stringWithFormat:@"%d %%", (int)ceil((([info.chunksAvailable count] / (float)[info totalChunks]) * 100))];
+        text.stringValue = [NSString stringWithFormat:@"%d %%", (int)ceil((([info.chunksOnDisk count] / (float)[info totalChunks]) * 100))];
     }
     return view;
 }

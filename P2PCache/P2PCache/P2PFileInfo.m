@@ -50,6 +50,7 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 
 - (id)initWithFileId:(NSString *)fileId info:(NSDictionary *)plist chunksOnDisk:(NSArray *)chunksOnDisk
 {
+    assert( plist != nil );
     NSString *filename = [plist objectForKey:P2PFileManagerInfoFileNameKey];
     NSUInteger totalFileSize = [[plist objectForKey:P2PFileManagerInfoFileSizeKey] unsignedIntegerValue];
     

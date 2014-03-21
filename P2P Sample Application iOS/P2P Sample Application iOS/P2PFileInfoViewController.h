@@ -19,6 +19,7 @@ extern NSString *P2PFileInfoStoryboardViewIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *percentCompleteLabel;
 @property (strong, nonatomic) P2PFileInfo *fileInfo;
 @property (weak, nonatomic) IBOutlet UILabel *sizeOnDiskLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 - (IBAction)retreiveRestOfFileButtonPressed:(id)sender;
 
 - (IBAction)deleteFileButtonPressed:(id)sender;

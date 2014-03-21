@@ -210,11 +210,12 @@ static P2PFileManager *sharedInstance = nil;
 - (void)writeChunk:(P2PFileChunk *)chunk
 {
     P2PFileInfo *fileInfo = [self fileInfoForFileId:chunk.fileId filename:chunk.fileName];
-    if ( fileInfo == nil )
-    {
-        fileInfo = [self generateFileInfoForFileId:chunk.fileId fileName:chunk.fileName totalFileSize:chunk.totalFileSize];
-        assert( fileInfo != nil );
-    }
+//    if ( fileInfo == nil )
+//    {
+//        fileInfo = [self generateFileInfoForFileId:chunk.fileId fileName:chunk.fileName totalFileSize:chunk.totalFileSize];
+//        
+//    }
+    assert( fileInfo != nil );
 //    NSError *error;
 //    P2PFileInfo *fileInfo = [self fileInfoForFileId:chunk.fileId];
     NSURL *directoryPath = [self pathForDirectoryWithHashID:chunk.fileId];
@@ -403,10 +404,11 @@ static P2PFileManager *sharedInstance = nil;
     {
         // No Cached file info... see if we can pull it up
         NSDictionary *plist = [self plistForFileId:fileId];
-        info = [[P2PFileInfo alloc] initWithFileId:fileId info:plist chunksOnDisk:[self chunkIdsOnDiskForFileId:fileId]];
-        
-        // Check to see if we still dont have any info on the file
-        if ( info == nil )
+        if ( plist != nil )
+        {
+            info = [[P2PFileInfo alloc] initWithFileId:fileId info:plist chunksOnDisk:[self chunkIdsOnDiskForFileId:fileId]];
+        }
+        else
         {
             // See if we can generate one off of the information given
             info = [self generateFileInfoForFileId:fileId fileName:filename totalFileSize:0];

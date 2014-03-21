@@ -235,6 +235,10 @@
                                     <action selector="retreiveRestOfFileButtonPressed:" destination="LZV-6q-7M0" eventType="touchUpInside" id="mDE-dH-MbW"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="EiQ-8S-Uzj">
+                                <rect key="frame" x="150" y="81" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -259,6 +263,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="4hc-d8-LoT"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="EiQ-8S-Uzj" id="uPE-K6-1x9"/>
                         <outlet property="chunksAvailableLabel" destination="CSW-eB-hvD" id="fXr-1c-15K"/>
                         <outlet property="chunksOnDiskLabel" destination="A9m-jl-t5V" id="1nk-gX-b8q"/>
                         <outlet property="percentCompleteLabel" destination="9xS-0v-A9q" id="LJV-A0-gFg"/>
