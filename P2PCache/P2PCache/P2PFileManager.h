@@ -32,8 +32,18 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
 
 - (void)cacheFile:(NSData *)file withFileName:(NSString *)filename;
 
-- (P2PFileInfo *)fileInfoForFileId:(NSString *)fileId;
-- (P2PFileInfo *)generateFileInfoForFileId:(NSString *)fileId fileName:(NSString *)filename totalFileSize:(NSUInteger)totalSize;
+
+/** Returns info about a file given either it's ID, or a file name.  If a filename is given, this will return a P2PFileInfo object if exactly one match to the name is found.  If there are multiple matches, nil is returned and a fileId must be supplied.
+ 
+ @param fileId The identifier unique to a file
+ @param filename The name of a file to retrieve info on
+ 
+ @return Returns information if a match is found, otherwise nil 
+ */
+- (P2PFileInfo *)fileInfoForFileId:(NSString *)fileId filename:(NSString *)filename;
+
+- (void)saveFileInfoToDisk:(P2PFileInfo *)fileInfo;
+//- (P2PFileInfo *)generateFileInfoForFileId:(NSString *)fileId fileName:(NSString *)filename totalFileSize:(NSUInteger)totalSize;
 
 //- (NSArray *)availableChunksForFileID:(NSString *)fileID;
 

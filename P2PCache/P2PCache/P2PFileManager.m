@@ -209,10 +209,11 @@ static P2PFileManager *sharedInstance = nil;
 
 - (void)writeChunk:(P2PFileChunk *)chunk
 {
-    P2PFileInfo *fileInfo = [self fileInfoForFileId:chunk.fileId];
+    P2PFileInfo *fileInfo = [self fileInfoForFileId:chunk.fileId filename:chunk.fileName];
     if ( fileInfo == nil )
     {
         fileInfo = [self generateFileInfoForFileId:chunk.fileId fileName:chunk.fileName totalFileSize:chunk.totalFileSize];
+        assert( fileInfo != nil );
     }
 //    NSError *error;
 //    P2PFileInfo *fileInfo = [self fileInfoForFileId:chunk.fileId];
@@ -261,49 +262,13 @@ static P2PFileManager *sharedInstance = nil;
     [_allFileIds addObject:chunk.fileId];
     
     NSURL *urlWithFile = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId] relativeToURL:directoryPath];
-    [chunk.dataBlock writeToURL:urlWithFile atomically:YES];
+    assert( [chunk.dataBlock writeToURL:urlWithFile atomically:YES] );
     [fileInfo chunkWasAddedToDisk:@( chunk.chunkId )];
 }
 
-- (P2PFileInfo *)generateFileInfoForFileId:(NSString *)fileId fileName:(NSString *)filename totalFileSize:(NSUInteger)totalSize
-{
-    NSError *error;
-    P2PFileInfo *fileInfo;
-    NSURL *directoryPath = [self pathForDirectoryWithHashID:fileId];
-    BOOL isDirectory = YES;
-    if ( ![self fileExistsAtPath:directoryPath.absoluteString isDirectory:&isDirectory] || !isDirectory )
-    {
-        NSAssert( fileInfo == nil, @"If the directory doesn't exist, why do we have information on the file?" );
-        [self createDirectoryAtURL:directoryPath withIntermediateDirectories:YES attributes:Nil error:&error];
-        
-        if ( error != nil )
-        {
-            P2PLog(P2PLogLevelError, @"ERROR: Unable to create directory for file: %@", error);
-            return nil;
-        }
-        else
-        {
-            fileInfo = [[P2PFileInfo alloc] initWithFileName:filename fileId:fileId chunksOnDisk:@[ ] totalFileSize:totalSize];
-            // create plist
-            NSDictionary *plistDictionary = [fileInfo toDictionary];
-            NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:plistDictionary format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
-            if (error)
-            {
-                P2PLog(P2PLogLevelError, @"ERROR: Unable to create plist: %@", error);
-                return nil;
-            }
-            else
-            {
-                NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:directoryPath];
-                [plistData writeToURL:plistURL atomically:YES];
-                
-                // Cache the file info
-                [_cachedFileInfo setObject:fileInfo forKey:fileId];
-            }
-        }
-    }
-    return fileInfo;
-}
+
+
+
 
 #pragma mark - File Path Methods
 - (NSURL *)pathForDirectoryWithHashID:(NSString *)hashID
@@ -340,7 +305,7 @@ static P2PFileManager *sharedInstance = nil;
 
         // We have one matching file ID... we can send information on that file
         NSString *fileId = [[response matchingFileIds] firstObject];
-        P2PFileInfo *info = [self fileInfoForFileId:fileId];
+        P2PFileInfo *info = [self fileInfoForFileId:fileId filename:request.fileName];
         
         if ( info != nil )
         {
@@ -392,7 +357,7 @@ static P2PFileManager *sharedInstance = nil;
 /** Returns a file chunk for a given request, or nil if the request could not be completed */
 - (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request
 {
-    P2PFileInfo *fileInfo = [self fileInfoForFileId:request.fileId];
+    P2PFileInfo *fileInfo = [self fileInfoForFileId:request.fileId filename:nil];
     P2PFileChunk *aChunk;
     if ( fileInfo != nil )
     {
@@ -423,11 +388,16 @@ static P2PFileManager *sharedInstance = nil;
 //    return chunk;
 }
 
-
-/** Returns information about a given fileId, or nil if the fileId was not found */
-- (P2PFileInfo *)fileInfoForFileId:(NSString *)fileId
+- (P2PFileInfo *)fileInfoForFileId:(NSString *)fileId filename:(NSString *)filename
 {
     P2PFileInfo *info;
+    if ( fileId == nil && [[_filesInCache objectForKey:filename] count] == 1 )
+    {
+        // A file ID was not given, but we only have one name in our cache that matches 'filename',
+        // so we'll just use that ID
+        fileId = [[_filesInCache objectForKey:filename] anyObject];
+    }
+    
     
     if ( !(info = [_cachedFileInfo objectForKey:fileId]) )
     {
@@ -435,12 +405,20 @@ static P2PFileManager *sharedInstance = nil;
         NSDictionary *plist = [self plistForFileId:fileId];
         info = [[P2PFileInfo alloc] initWithFileId:fileId info:plist chunksOnDisk:[self chunkIdsOnDiskForFileId:fileId]];
         
-        if ( info != nil )
+        // Check to see if we still dont have any info on the file
+        if ( info == nil )
         {
-            // Cache the file info
-            [_cachedFileInfo setObject:info forKey:fileId];
+            // See if we can generate one off of the information given
+            info = [self generateFileInfoForFileId:fileId fileName:filename totalFileSize:0];
         }
     }
+    
+    if ( info.fileId != nil )
+    {
+        // Cache the file info
+        [_cachedFileInfo setObject:info forKey:info.fileId];
+    }
+    
     return info;
     
 //    if ( plist != nil )
@@ -452,6 +430,60 @@ static P2PFileManager *sharedInstance = nil;
 //        return [[P2PFileInfo alloc] initWithFileName:filename fileId:fileId chunksAvailable:[self availableChunksForFileID:fileId] totalChunks:totalChunks totalFileSize:totalFileSize];
 //    }
 //    return info;
+}
+
+- (P2PFileInfo *)generateFileInfoForFileId:(NSString *)fileId fileName:(NSString *)filename totalFileSize:(NSUInteger)totalSize
+{
+    // If there was an ID, we at least created a directory for it
+    P2PFileInfo *fileInfo = [[P2PFileInfo alloc] initWithFileName:filename fileId:fileId chunksOnDisk:@[ ] totalFileSize:totalSize];
+    if ( fileInfo.fileId != nil )
+    {
+        [self saveFileInfoToDisk:fileInfo];
+    }
+    else
+    {
+        P2PLog(P2PLogLevelWarning, @"%@ - Unable to save generated fileInfo (no fileId): %@", self, filename);
+    }
+    return fileInfo;
+}
+
+- (void)saveFileInfoToDisk:(P2PFileInfo *)fileInfo
+{
+    // create plist
+    NSError *error;
+    NSDictionary *plistDictionary = [fileInfo toDictionary];
+    NSData *plistData = [NSPropertyListSerialization dataWithPropertyList:plistDictionary format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+    if ( error )
+    {
+        P2PLog( P2PLogLevelError, @"ERROR: Unable to serialize fileInfo to plist: %@ for %@", error, fileInfo );
+    }
+    else
+    {
+        if ( fileInfo.fileId != nil )
+        {
+            NSError *error;
+            NSURL *directoryPath = [self pathForDirectoryWithHashID:fileInfo.fileId];
+            BOOL isDirectory = YES;
+            if ( ![self fileExistsAtPath:directoryPath.absoluteString isDirectory:&isDirectory] || !isDirectory )
+            {
+                [self createDirectoryAtURL:directoryPath withIntermediateDirectories:YES attributes:Nil error:&error];
+                
+                if ( error != nil )
+                {
+                    P2PLog(P2PLogLevelError, @"ERROR: Unable to create directory for file: %@", error);
+                    return;
+                }
+            }
+                
+            
+            NSURL *plistURL = [NSURL URLWithString:P2PFileManagerInfoPlistFile relativeToURL:[self pathForDirectoryWithHashID:fileInfo.fileId]];
+            [plistData writeToURL:plistURL atomically:YES];
+        }
+        else
+        {
+            P2PLog( P2PLogLevelWarning, @"%@ - Can't save file info with no fileId: %@", self, fileInfo );
+        }
+    }
 }
 
 @end

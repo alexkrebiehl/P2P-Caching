@@ -9,6 +9,9 @@
 #import "P2PFileInfoViewController.h"
 #import "P2PFileInfo.h"
 #import "P2PFileManager.h"
+#import "P2PFileRequest.h"
+
+NSString *P2PFileInfoStoryboardViewIdentifier = @"P2PFileInfoStoryboardViewIdentifier";
 
 static NSString *kChunksAvailableKeyPath =  @"chunksAvailable";
 static NSString *kTotalChunksKeyPath =      @"totalChunks";
@@ -111,14 +114,26 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
     self.sizeOnDiskLabel.text = s;
 }
 
+
+#pragma mark - P2PFileInfo Delegate Methods
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksAvailableFromPeers:(NSUInteger)chunksAvailable
 {
-    
+    [self updateChunksAvailableLabel];
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksOnDisk:(NSUInteger)chunksOnDisk
 {
-    NSLog(@"chunks on disk updated: %lu", chunksOnDisk);
+    [self updateChunksOnDiskLabel];
+}
+
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateTotalChunks:(NSUInteger)totalChunks
+{
+    [self updateTotalChunksLabel];
+}
+
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateFileId:(NSString *)fileId filename:(NSString *)filename
+{
+    [self updateAllFileInfo];
 }
 
 - (void)viewDidLoad
@@ -150,6 +165,15 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 }
 */
 
-- (IBAction)deleteFileButtonPressed:(id)sender {
+- (IBAction)retreiveRestOfFileButtonPressed:(id)sender
+{
+    P2PFileRequest *request = [[P2PFileRequest alloc] initWithFileId:self.fileInfo.fileId filename:self.fileInfo.fileId];
+    [request getFile];
+#warning To Do
+}
+
+- (IBAction)deleteFileButtonPressed:(id)sender
+{
+#warning To Do
 }
 @end

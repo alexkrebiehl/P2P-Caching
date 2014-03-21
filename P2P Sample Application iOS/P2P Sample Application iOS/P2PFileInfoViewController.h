@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *P2PFileInfoStoryboardViewIdentifier;
+
 @class P2PFileInfo;
 
 @interface P2PFileInfoViewController : UIViewController
@@ -17,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *percentCompleteLabel;
 @property (weak, nonatomic) P2PFileInfo *fileInfo;
 @property (weak, nonatomic) IBOutlet UILabel *sizeOnDiskLabel;
+- (IBAction)retreiveRestOfFileButtonPressed:(id)sender;
 
 - (IBAction)deleteFileButtonPressed:(id)sender;
 @end

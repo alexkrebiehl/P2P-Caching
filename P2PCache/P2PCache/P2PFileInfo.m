@@ -19,6 +19,7 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 }
 @synthesize chunksOnDisk = _chunksOnDisk;
 @synthesize chunksAvailable = _chunksAvailable;
+@synthesize totalChunks = _totalChunks;
 
 - (id)init
 {
@@ -27,7 +28,7 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 
 - (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSArray *)chunksOnDisk totalFileSize:(NSUInteger)totalFileSize
 {
-    if ( fileName == nil || fileId == nil )
+    if ( fileName == nil && fileId == nil )
     {
         return nil;
     }
@@ -105,6 +106,41 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 - (NSUInteger)totalChunks
 {
     return ceil( self.totalFileSize / (float)P2PFileManagerFileChunkSize );
+}
+
+- (void)setTotalChunks:(NSUInteger)totalChunks
+{
+    _totalChunks = totalChunks;
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        [self.delegate fileInfo:self didUpdateTotalChunks:totalChunks];
+    });
+}
+
+- (void)setTotalFileSize:(NSUInteger)totalFileSize
+{
+    _totalFileSize = totalFileSize;
+    [[P2PFileManager sharedManager] saveFileInfoToDisk:self];
+}
+
+- (void)setFileId:(NSString *)fileId
+{
+    _fileId = fileId;
+    [[P2PFileManager sharedManager] saveFileInfoToDisk:self];
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        [self.delegate fileInfo:self didUpdateFileId:fileId filename:self.filename];
+    });
+}
+
+- (void)setFilename:(NSString *)filename
+{
+    _filename = filename;
+    [[P2PFileManager sharedManager] saveFileInfoToDisk:self];
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        [self.delegate fileInfo:self didUpdateFileId:self.fileId filename:filename];
+    });
 }
 
 @end

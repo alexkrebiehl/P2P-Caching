@@ -69,8 +69,8 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
  @param fileRequest The file request object calling this delegate method
  @param chunk A chunk of the file that was recieved
  */
-@optional
-- (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveChunk:(P2PFileChunk *)chunk;
+//@optional
+//- (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveChunk:(P2PFileChunk *)chunk;
 
 @end
 

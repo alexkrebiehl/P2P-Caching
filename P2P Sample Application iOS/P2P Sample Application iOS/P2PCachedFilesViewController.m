@@ -123,8 +123,18 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
         assert( cell != nil );
         
         NSString *currentId = [[[P2PFileManager sharedManager] allFileIds] objectAtIndex:indexPath.row];
-        P2PFileInfo *info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId];
+        P2PFileInfo *info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId filename:nil];
         cell.textLabel.text = info.filename;
+        
+        if ( [info totalChunks] == 0 )
+        {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %%", 0];
+        }
+        else
+        {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %%", (int)(((float)[info.chunksOnDisk count] / [info totalChunks]) * 100)];
+        }
+        
     }
     else if ( indexPath.section == kTableViewSectionActiveRequests )
     {
@@ -154,7 +164,7 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
             case kTableViewSectionFilesOnDisk:
             {
                 NSString *currentId = [[[P2PFileManager sharedManager] allFileIds] objectAtIndex:indexPath.row];
-                info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId];
+                info = [[P2PFileManager sharedManager] fileInfoForFileId:currentId filename:nil];
                 break;
             }
             case kTableViewSectionActiveRequests:
@@ -182,7 +192,12 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
     request.delegate = self;
     [request getFile];
     
-    [self.tableView reloadData];
+    P2PFileInfoViewController *fileInfoVC = [self.storyboard instantiateViewControllerWithIdentifier:P2PFileInfoStoryboardViewIdentifier];
+    fileInfoVC.fileInfo = request.fileInfo;
+    [self.navigationController pushViewController:fileInfoVC animated:NO];
+    
+#warning Fix the reoading of the table
+//    [self.tableView reloadData];
     
     
     [controller dismissViewControllerAnimated:YES completion:nil];
@@ -192,8 +207,8 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
 - (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveChunk:(P2PFileChunk *)chunk
 {
     NSLog( @"%@", NSStringFromSelector(_cmd) );
-    NSUInteger index = [[P2PFileRequest pendingFileRequests] indexOfObject:fileRequest];
-    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:kTableViewSectionActiveRequests]] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    NSUInteger index = [[P2PFileRequest pendingFileRequests] indexOfObject:fileRequest];
+//    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:kTableViewSectionActiveRequests]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename

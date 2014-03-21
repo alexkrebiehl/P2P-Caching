@@ -27,17 +27,32 @@
  */
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksAvailableFromPeers:(NSUInteger)chunksAvailable;
 
+/** Called when the file info object has updated the total number of file chunks
+ 
+ @param fileInfo The object containing the file's information
+ @param totalChunks The total number of chunks needed to fully cache the file
+ */
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateTotalChunks:(NSUInteger)totalChunks;
+
+/** Called when the file info object has updated the filename or fileId
+ 
+ @param fileInfo The object containing the file's information
+ @param fileId The new Id of the file.  May be nil
+ @param filename The new name of the file.  May be nil
+ */
+- (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateFileId:(NSString *)fileId filename:(NSString *)filename;
+
 @end
 
 @interface P2PFileInfo : NSObject
 
 @property (weak, nonatomic) id<P2PFileInfoDelegate> delegate;
-@property (copy, readonly, nonatomic) NSString *filename;
-@property (copy, readonly, nonatomic) NSString *fileId;
+@property (copy, nonatomic) NSString *filename;
+@property (copy, nonatomic) NSString *fileId;
 @property (readonly, nonatomic) NSSet *chunksAvailable;
 @property (readonly, nonatomic) NSSet *chunksOnDisk;
 @property (readonly, nonatomic) NSUInteger totalChunks;
-@property (readonly, nonatomic) NSUInteger totalFileSize;
+@property (nonatomic) NSUInteger totalFileSize;
 
 
 /** This should only ever be initialized by the FileManager! */
