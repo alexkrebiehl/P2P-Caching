@@ -11,7 +11,7 @@
 #import "P2PCache.h"
 #import "P2PFileInfo.h"
 
-@interface P2PActiveTransfersWindowController () <P2PFileRequestDelegate>
+@interface P2PActiveTransfersWindowController () <P2PFileRequestDelegate, P2PFileInfoDelegate>
 
 @end
 
@@ -60,6 +60,7 @@
         [self.tableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:0] withAnimation:NSTableViewAnimationSlideDown];
 //        [self.tableView reloadData];
         request.delegate = self;
+        request.fileInfo.delegate = self;
         [request getFile];
     }
 }

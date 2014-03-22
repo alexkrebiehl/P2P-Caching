@@ -122,17 +122,6 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 - (IBAction)retreiveRestOfFileButtonPressed:(id)sender
 {
     P2PFileRequest *request = [[P2PFileRequest alloc] initWithFileInfo:self.fileInfo];
@@ -142,7 +131,6 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
 - (IBAction)deleteFileButtonPressed:(id)sender
 {
-
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:self.fileInfo.filename message:@"Are you sure you want to delete this file?" delegate:self cancelButtonTitle:@"no" otherButtonTitles:@"delete", nil];
     [alert show];
 }
@@ -156,8 +144,6 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
     {
         [[P2PFileManager sharedManager] deleteFileFromCache:self.fileInfo];
         [self.navigationController popViewControllerAnimated:YES];
-//        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//        [self.navigationController dismissViewControllerAnimated:<#(BOOL)#> completion:<#^(void)completion#>]
     }
 }
 @end

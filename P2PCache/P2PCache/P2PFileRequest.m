@@ -89,7 +89,12 @@ static NSMutableArray *_pendingFileRequests = nil;
 }
 
 /** Designated initializer */
-static NSUInteger requestId = 0;
+static NSUInteger nextRequestId = 0;
+NSUInteger getNExtRequestId()
+{
+    return nextRequestId++;
+}
+
 - (id)initWithFileInfo:(P2PFileInfo *)info
 {
     assert( info != nil );
@@ -100,7 +105,7 @@ static NSUInteger requestId = 0;
         _chunksCurrentlyBeingRequested = [[NSMutableSet alloc] init];
         _fileInfo = info;
         
-        NSString *queueName = [NSString stringWithFormat:@"dispatchQueueFileRequest%lu", (unsigned long)requestId];
+        NSString *queueName = [NSString stringWithFormat:@"dispatchQueueFileRequest%lu", (unsigned long)getNExtRequestId()];
         _dispatchQueueFileRequest = dispatch_queue_create( queueName.UTF8String, DISPATCH_QUEUE_SERIAL );
     }
     return self;
@@ -110,6 +115,7 @@ static NSUInteger requestId = 0;
 - (void)getFile
 {
     [P2PFileRequest addRequestToPendingList:self];
+    assert( _fileInfo != nil );
     
     // Launch the file retrevial process off the main thread...
     // We'll see how this goes...
@@ -118,15 +124,9 @@ static NSUInteger requestId = 0;
         NSAssert( _status == P2PFileRequestStatusNotStarted, @"The request can only be started once");
         
         _status = P2PFileRequestStatusCheckingAvailability;
-        
-        
-        if ( _fileInfo != nil )
-        {
-            [_fileInfo chunksBecameAvailable:[_fileInfo chunksOnDisk]];
-        }
-        
-        
-        
+
+        [_fileInfo chunksBecameAvailable:[_fileInfo chunksOnDisk]];
+
         if ( [self fileIsComplete] )
         {
             // No need to do anything more

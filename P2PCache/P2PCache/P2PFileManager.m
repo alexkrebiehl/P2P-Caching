@@ -226,13 +226,16 @@ static P2PFileManager *sharedInstance = nil;
     
     if ( fileInfo.fileId != nil )
     {
-        NSError *error;
-        [self removeItemAtURL:[self pathForDirectoryWithHashID:fileInfo.fileId] error:&error];
-        if ( error != nil )
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^
         {
-            P2PLog( P2PLogLevelWarning, @"%@ - Unable to delete file: %@ - %@", self, fileInfo.filename, error );
-            return NO;
-        }
+            NSError *error;
+            [self removeItemAtURL:[self pathForDirectoryWithHashID:fileInfo.fileId] error:&error];
+            if ( error != nil )
+            {
+                P2PLog( P2PLogLevelWarning, @"%@ - Unable to delete file: %@ - %@", self, fileInfo.filename, error );
+            }
+        });
+        
         
         // The file's been removed from disk.  Just update revelant objects now
         [fileInfo fileWasDeleted];
@@ -244,7 +247,7 @@ static P2PFileManager *sharedInstance = nil;
             [_filenameToFileIds removeObjectForKey:fileInfo.filename];
         }
         [self saveFilesInCacheList];
-        
+        return YES;
     }
     return NO;
 }

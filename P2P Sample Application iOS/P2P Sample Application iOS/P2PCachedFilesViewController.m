@@ -86,6 +86,24 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( editingStyle == UITableViewCellEditingStyleDelete )
+    {
+        P2PFileInCacheTableViewCell *cell = (P2PFileInCacheTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
+        assert( [cell isMemberOfClass:[P2PFileInCacheTableViewCell class]] );
+                 
+        [[P2PFileManager sharedManager] deleteFileFromCache:cell.fileInfo];
+        [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ( [segue.destinationViewController isKindOfClass:[P2PAddFileViewController class]] )
@@ -140,24 +158,22 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
 #pragma mark - FileInfo Delegate Methods
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksAvailableFromPeers:(NSUInteger)chunksAvailable
 {
-    // No handled here
+    // Not handled here
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksOnDisk:(NSUInteger)chunksOnDisk
 {
-    // No handled here
+    // Not handled here
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateFileId:(NSString *)fileId filename:(NSString *)filename
 {
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[[[P2PFileManager sharedManager] allFileIds] indexOfObject:fileInfo] inSection:0];
-//    [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateTotalChunks:(NSUInteger)totalChunks
 {
-    // No handled here
+    // Not handled here
 }
 
 @end
