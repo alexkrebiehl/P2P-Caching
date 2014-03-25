@@ -134,11 +134,6 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
 }
 
 #pragma mark - File Request Delegate Methods
-- (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveChunk:(P2PFileChunk *)chunk
-{
-    NSLog( @"%@", NSStringFromSelector(_cmd) );
-}
-
 - (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filename
 {
     NSLog( @"%@", NSStringFromSelector(_cmd) );
@@ -151,7 +146,28 @@ static NSString *ActiveTransfersCellIdentifier =    @"P2PActiveTransfersCell";
 
 - (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode
 {
-    NSLog( @"%@", NSStringFromSelector(_cmd) );
+    NSString *detailMessage;
+    switch ( errorCode )
+    {
+        case P2PFileRequestErrorCanceled:
+            detailMessage = @"The request was canceled";
+            break;
+        case P2PFileRequestErrorMissingChunks:
+            detailMessage = @"Could not locate all of the chunks for the file";
+            break;
+        case P2PFileRequestErrorMultipleIdsForFile:
+            detailMessage = @"Multiple IDs were found for a filename.  An explicit fileId must be supplied";
+            break;
+        case P2PFileRequestErrorFileNotFound:
+            detailMessage = @"Could not find the file on any connected peers";
+            break;
+        case P2PFileRequestErrorNone:
+        default:
+            assert( NO );
+            break;
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"File request failed" message:detailMessage delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+    [alert show];
 }
 
 
