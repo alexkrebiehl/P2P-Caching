@@ -199,58 +199,61 @@ NSUInteger getNExtRequestId()
     #warning We need to determine how to set chunk unavailable if the peer disconnects (and no other peer has the chunks they had)
        
         }
-        
+        _status = P2PFileRequestStatusRetreivingFile;
         [self processResponses];
     });
 }
 
 - (void)processResponses
 {
-    // We dont need to use a dispatch queue here... this method can only be called internall by a method already on that thread
+    // We dont need to use a dispatch queue here... this method can only be called internally by a method already on that thread
 
-    if ( [_pendingAvailabilityRequests count] == 0 && ([self.fileInfo.chunksAvailable count] < self.fileInfo.totalChunks || self.fileInfo.totalChunks == 0) && [_chunksCurrentlyBeingRequested count] == 0 )
+    // Make sure we only process responses if the request is still active
+    if ( _status == P2PFileRequestStatusRetreivingFile )
     {
-        if ( self.fileInfo.totalChunks == 0 )
+        if ( [_pendingAvailabilityRequests count] == 0 && ([self.fileInfo.chunksAvailable count] < self.fileInfo.totalChunks || self.fileInfo.totalChunks == 0) && [_chunksCurrentlyBeingRequested count] == 0 )
         {
-            // We couldn't even find the file on the network..
-            // Total fail
-            [self failWithError:P2PFileRequestErrorFileNotFound];
+            if ( self.fileInfo.totalChunks == 0 )
+            {
+                // We couldn't even find the file on the network..
+                // Total fail
+                [self failWithError:P2PFileRequestErrorFileNotFound];
+            }
+            else
+            {
+                // We at least found some information on the file, but couldn't get all of the chunks we need
+                [self failWithError:P2PFileRequestErrorMissingChunks];
+            }
         }
         else
         {
-            // We at least found some information on the file, but couldn't get all of the chunks we need
-            [self failWithError:P2PFileRequestErrorMissingChunks];
-        }
-    }
-    else
-    {
-        // Found out what chunks we still need
-        NSMutableSet *chunksNeeded = [[NSMutableSet alloc] initWithSet:self.fileInfo.chunksAvailable copyItems:YES];
-        [chunksNeeded minusSet:self.fileInfo.chunksOnDisk];  // We dont need chunks that we already have
-        [chunksNeeded minusSet:_chunksCurrentlyBeingRequested]; // These already have a filechunkrequest going
-        
-        for ( P2PPeerFileAvailbilityResponse *response in _recievedAvailabiltyResponses )
-        {
-            // See if this peer has a chunk we still need
-            NSSet *chunksToGetFromPeer = [chunksNeeded objectsPassingTest:^BOOL(NSNumber *chunkId, BOOL *stop)
+            // Found out what chunks we still need
+            NSMutableSet *chunksNeeded = [[NSMutableSet alloc] initWithSet:self.fileInfo.chunksAvailable copyItems:YES];
+            [chunksNeeded minusSet:self.fileInfo.chunksOnDisk];  // We dont need chunks that we already have
+            [chunksNeeded minusSet:_chunksCurrentlyBeingRequested]; // These already have a filechunkrequest going
+            
+            for ( P2PPeerFileAvailbilityResponse *response in _recievedAvailabiltyResponses )
             {
-                return [[response availableChunks] containsObject:chunkId];
-            }];
-            for ( NSNumber *aChunk in chunksToGetFromPeer )
-            {
-                P2PFileChunkRequest *chunkRequest = [[P2PFileChunkRequest alloc] initWithFileId:self.fileInfo.fileId chunkId:[aChunk unsignedIntegerValue] chunkSize:response.chunkSizeInBytes];
-                if ( [self requestFileChunk:chunkRequest fromPeer:response.owningPeer] )
+                // See if this peer has a chunk we still need
+                NSSet *chunksToGetFromPeer = [chunksNeeded objectsPassingTest:^BOOL(NSNumber *chunkId, BOOL *stop)
                 {
-                    [chunksNeeded removeObject:aChunk];
-                }
-                else
+                    return [[response availableChunks] containsObject:chunkId];
+                }];
+                for ( NSNumber *aChunk in chunksToGetFromPeer )
                 {
-                    return;
+                    P2PFileChunkRequest *chunkRequest = [[P2PFileChunkRequest alloc] initWithFileId:self.fileInfo.fileId chunkId:[aChunk unsignedIntegerValue] chunkSize:response.chunkSizeInBytes];
+                    if ( [self requestFileChunk:chunkRequest fromPeer:response.owningPeer] )
+                    {
+                        [chunksNeeded removeObject:aChunk];
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
         }
     }
-    
 }
 
 /** Sends a file chunk request to a peer.
@@ -264,7 +267,6 @@ NSUInteger getNExtRequestId()
     assert( peer != nil );
     if ( [_chunksCurrentlyBeingRequested count] < P2PMaximumSimultaneousFileRequests )
     {
-        _status = P2PFileRequestStatusRetreivingFile;
         request.delegate = self;
         [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
         [peer requestFileChunk:request];
@@ -357,6 +359,14 @@ NSUInteger getNExtRequestId()
     {
         [self.delegate fileRequestDidComplete:self];
         [P2PFileRequest removeRequestFromPendingList:self];
+    });
+}
+
+- (void)abortRequest
+{
+    dispatch_async(_dispatchQueueFileRequest, ^
+    {
+        [self failWithError:P2PFileRequestErrorCanceled];
     });
 }
 

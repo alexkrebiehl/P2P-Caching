@@ -8,7 +8,7 @@
 
 #import "P2PAddFileViewController.h"
 
-@interface P2PAddFileViewController () <UIAlertViewDelegate>
+@interface P2PAddFileViewController () <UIAlertViewDelegate, UITextFieldDelegate>
 
 @end
 
@@ -28,6 +28,14 @@
     [super viewDidLoad];
     self.navigationItem.title = @"Request File";
     // Do any additional setup after loading the view.
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self.filenameLabel becomeFirstResponder];
+    self.filenameLabel.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -64,7 +72,12 @@
     }
 }
 
-
-
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    [self getFileButtonPressed:textField];
+    
+    return YES;
+}
 
 @end

@@ -32,7 +32,10 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
     P2PFileRequestErrorMissingChunks,
     
     /** The request doesn't know which file to retrieve because the specified filename matched multiple file IDs */
-    P2PFileRequestErrorMultipleIdsForFile
+    P2PFileRequestErrorMultipleIdsForFile,
+    
+    /** The request was canceled */
+    P2PFileRequestErrorCanceled
 };
 
 @class P2PPeerNode, P2PFileRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk;
@@ -140,5 +143,10 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 /** Signals this file request object to start fetching the file.  The delegate for this object should be set before calling this method 
  */
 - (void)getFile;
+
+
+/** Stops retreiving the file from peers.  Any files already downloaded will remain cached
+ */
+- (void)abortRequest;
 
 @end

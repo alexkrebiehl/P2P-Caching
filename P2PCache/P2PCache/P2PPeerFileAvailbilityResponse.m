@@ -68,4 +68,9 @@ static NSString *P2PAvailabilityResponseTotalChunks =       @"TotalChunks";
     [aCoder encodeObject:@( self.totalChunks ) forKey:P2PAvailabilityResponseTotalChunks];
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ - %@ (%lu/%lu)>", NSStringFromClass([self class]), self.fileName, (unsigned long)[self.availableChunks count], (unsigned long)self.totalChunks];
+}
+
 @end
