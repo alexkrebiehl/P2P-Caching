@@ -425,8 +425,8 @@ NSUInteger getNextConnectionId()
 
 @implementation P2PNode
 {
-    NSMutableArray *_activeConnections;     // An array of active P2PNodeConnection objects
-    NSMutableArray *_activeDataTransfers;   // An array of P2PIncomingData objects
+    NSMutableSet *_activeConnections;     // A set of active P2PNodeConnection objects
+    NSMutableSet *_activeDataTransfers;   // A set of P2PIncomingData objects
 }
 
 - (void)workOutputBufferForStream:(NSOutputStream *)stream buffer:(NSMutableData *)buffer
@@ -474,20 +474,30 @@ NSUInteger getNextConnectionId()
 
 - (void)transmitObject:(P2PTransmittableObject *)transmittableObject toNodeConnection:(P2PNodeConnection *)connection;
 {
-    NSData *preparedData = prepareObjectForTransmission( transmittableObject );
-    
     if ( connection == nil && [_activeConnections count] == 1 )
     {
-        connection = [_activeConnections objectAtIndex:0];
+        connection = [_activeConnections anyObject];
     }
-    NSAssert( connection != nil, @"Ambigious connection.  A node connection must be specified to send an object to" );
     
-    // Add data to buffer
-    [connection.outBuffer appendData:preparedData];
+    // If connection is still nil, we can't send this object
+    if ( connection == nil )
+    {
+        [transmittableObject peer:self failedToSendObjectWithError:P2PTransmissionErrorPeerNoLongerReady];
+    }
+    else
+    {
+    //    NSAssert( connection != nil, @"Ambigious connection.  A node connection must be specified to send an object to" );
+        
+        // Serialize data... Add header and footer
+        NSData *preparedData = prepareObjectForTransmission( transmittableObject );
+        
+        // Add data to buffer
+        [connection.outBuffer appendData:preparedData];
 
-    P2PLogDebug( @"%@ - sending object: %@ to %@", self, transmittableObject, connection );
-    [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
-    [transmittableObject peerDidBeginToSendObject:self];
+        P2PLogDebug( @"%@ - sending object: %@ to %@", self, transmittableObject, connection );
+        [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
+        [transmittableObject peerDidBeginToSendObject:self];
+    }
 }
 
 - (void)objectDidFailToSend:(id)object
@@ -503,17 +513,24 @@ NSUInteger getNextConnectionId()
     {
         case NSStreamEventHasBytesAvailable:
         {
+            if ( connection != nil )
+            {
             assert([aStream isKindOfClass:[NSInputStream class]]);
             P2PIncomingData *d = [[P2PIncomingData alloc] initWithConnection:connection];
             d.delegate = self;
             
             if ( _activeDataTransfers == nil )
             {
-                _activeDataTransfers = [[NSMutableArray alloc] init];
+                _activeDataTransfers = [[NSMutableSet alloc] init];
             }
             
             [_activeDataTransfers addObject:d];
             [d takeOverStream];
+            }
+            else
+            {
+                P2PLog( P2PLogLevelError, @"Could not take over stream: %@ - No matching P2PNodeConnection object", aStream );
+            }
             
             break;
         }
@@ -546,7 +563,7 @@ NSUInteger getNextConnectionId()
     if ( stream == nil )
     {
         assert( [_activeConnections count] == 1 );
-        return [_activeConnections objectAtIndex:0];
+        return [_activeConnections anyObject];
     }
     
     for ( P2PNodeConnection *c in _activeConnections )
@@ -567,8 +584,8 @@ NSUInteger getNextConnectionId()
 
     id obj = [NSKeyedUnarchiver unarchiveObjectWithData:loader.downloadedData];
     P2PLogDebug(@"%@ - recieved object: %@ from %@", self, obj, loader.connection);
-    
-    [self handleRecievedObject:obj from:loader.connection];
+
+	[self handleReceivedObject:obj from:loader.connection];
 }
 
 - (void)dataFailedToDownload:(P2PIncomingData *)loader
@@ -578,20 +595,16 @@ NSUInteger getNextConnectionId()
     {
         case P2PIncomingDataErrorCodeNoData:
             P2PLog( P2PLogLevelWarning, @"%@ - failed with error: NO DATA", loader );
+			[self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
             break;
         case P2PIncomingDataErrorCodeStreamEnded:
         {
-//            dispatch_sync(dispatch_get_main_queue(), ^{
-                [self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
-//            });
+            [self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
             break;
         }
         case P2PIncomingDataErrorCodeStreamError:
         {
-//            dispatch_sync(dispatch_get_main_queue(), ^{
-                [self connection:loader.connection failedWithStreamError:NSStreamEventErrorOccurred];
-//            });
-            
+			[self connection:loader.connection failedWithStreamError:NSStreamEventErrorOccurred];
             break;
         }
         default:
@@ -601,7 +614,7 @@ NSUInteger getNextConnectionId()
 
 /** If we have an incoming object from a data transfer, it will be sent here so we can figure out
  what to do with it */
-- (void)handleRecievedObject:(id)object from:(P2PNodeConnection *)sender
+- (void)handleReceivedObject:(id)object from:(P2PNodeConnection *)sender
 {
     NSAssert([self class] != [P2PNode class], @"This selector should be overridden by subclasses");
 }
@@ -617,23 +630,26 @@ NSUInteger getNextConnectionId()
     
     if ( _activeConnections == nil )
     {
-        _activeConnections = [[NSMutableArray alloc] init];
+        _activeConnections = [[NSMutableSet alloc] init];
     }
     [_activeConnections addObject:connection];
     
     
     inStream.delegate = self;
-    [inStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [inStream open];
     
     outStream.delegate = self;
-    [outStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     [outStream open];
 }
 
 - (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent
 {
-    [_activeConnections removeObject:node];
+    if ( node != nil )
+    {
+        [_activeConnections removeObject:node];
+    }
     P2PLog( P2PLogLevelWarning, @"%@ - connection lost: %@", self, node);
 }
 

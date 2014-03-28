@@ -27,8 +27,8 @@
 
 @implementation P2PFileRequest
 {
-    NSMutableArray *_pendingAvailabilityRequests;   // Availability requests waiting for a response
-    NSMutableArray *_recievedAvailabiltyResponses;  // Availability responses recieved
+    NSMutableSet *_pendingAvailabilityRequests;   // Availability requests waiting for a response
+    NSMutableSet *_receivedAvailabiltyResponses;  // Availability responses received
     
     NSArray *_matchingFileIds;                      // Used when multiple Ids match a given file name
     
@@ -99,7 +99,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     if ( self = [super init] )
     {
         _status = P2PFileRequestStatusNotStarted;
-        _recievedAvailabiltyResponses = [[NSMutableArray alloc] init];
+		_receivedAvailabiltyResponses = [[NSMutableSet alloc] init];
         _chunksCurrentlyBeingRequested = [[NSMutableSet alloc] init];
         _fileInfo = info;
         
@@ -115,7 +115,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     [P2PFileRequest addRequestToPendingList:self];
     assert( _fileInfo != nil );
     
-    // Launch the file retrevial process off the main thread...
+    // Launch the file retrieval process off the main thread...
     // We'll see how this goes...
     dispatch_async(_dispatchQueueFileRequest, ^
     {
@@ -133,7 +133,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
         else
         {
             NSArray *peers = [[P2PPeerManager sharedManager] activePeers];
-            _pendingAvailabilityRequests = [[NSMutableArray alloc] initWithCapacity:[peers count]];
+            _pendingAvailabilityRequests = [[NSMutableSet alloc] initWithCapacity:[peers count]];
             for ( P2PPeerNode *aPeer in peers )
             {
                 P2PPeerFileAvailibilityRequest *availabilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileId:self.fileInfo.fileId filename:self.fileInfo.filename];
@@ -146,7 +146,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     });
 }
 
-- (void)fileAvailabilityRequest:(P2PPeerFileAvailibilityRequest *)request failedWithEvent:(NSStreamEvent)event
+- (void)fileAvailabilityRequest:(P2PPeerFileAvailibilityRequest *)request failedWithError:(P2PTransmissionError)error;
 {
     dispatch_async(_dispatchQueueFileRequest, ^
     {
@@ -168,7 +168,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
         // If they have no files available for us, we dont need to do anything
         if ( [[response matchingFileIds] count] > 0 )
         {
-            [_recievedAvailabiltyResponses addObject:response];
+            [_receivedAvailabiltyResponses addObject:response];
             
             // First thing we need to make sure of is that we're getting the same file ID from every response
             // and only one matching file ID
@@ -238,10 +238,10 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
         {
             // Found out what chunks we still need
             NSMutableSet *chunksNeeded = [[NSMutableSet alloc] initWithSet:self.fileInfo.chunksAvailable copyItems:YES];
-            [chunksNeeded minusSet:self.fileInfo.chunksOnDisk];  // We dont need chunks that we already have
+            [chunksNeeded minusSet:self.fileInfo.chunksOnDisk];  // We don't need chunks that we already have
             [chunksNeeded minusSet:_chunksCurrentlyBeingRequested]; // These already have a filechunkrequest going
             
-            for ( P2PPeerFileAvailbilityResponse *response in _recievedAvailabiltyResponses )
+            for ( P2PPeerFileAvailbilityResponse *response in _receivedAvailabiltyResponses )
             {
                 // See if this peer has a chunk we still need
                 NSSet *chunksToGetFromPeer = [chunksNeeded objectsPassingTest:^BOOL(NSNumber *chunkId, BOOL *stop)
@@ -270,7 +270,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
  */
 - (bool)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PPeerNode *)node
 {
-    // We dont need to use a dispatch queue here... this method can only be called internally by a method already on that thread
+    // We don't need to use a dispatch queue here... this method can only be called internally by a method already on that thread
     
     assert( request != nil );
     assert( node != nil );
@@ -311,12 +311,12 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     });
 }
 
-- (void)fileChunkRequestDidFail:(P2PFileChunkRequest *)request
+- (void)fileChunkRequest:(P2PFileChunkRequest *)request failedWithError:(P2PTransmissionError)error
 {
     dispatch_async(_dispatchQueueFileRequest, ^
     {
         // Mark this chunk as no longer available from this peer somehow...
-        NSAssert(NO, @"To be handled...");
+//        NSAssert(NO, @"To be handled...");
 
         [_chunksCurrentlyBeingRequested removeObject:@( request.chunkId )];
         [self processResponses];
@@ -340,7 +340,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
 
 - (void)failWithError:(P2PFileRequestError)errorCode
 {
-    // We dont need to use a dispatch queue here... this method can only be called internall by a method already on that thread
+    // We don't need to use a dispatch queue here... this method can only be called internally by a method already on that thread
     
     _status = P2PFileRequestStatusFailed;
     _errorCode = errorCode;

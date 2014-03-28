@@ -308,7 +308,7 @@ static P2PFileManager *sharedInstance = nil;
 
 /*  Returns a list of chunk files available. If error, it returns nil.
  */
-- (NSArray *)chunkIdsOnDiskForFileId:(NSString *)fileID
+- (NSSet *)chunkIdsOnDiskForFileId:(NSString *)fileID
 {
     NSError *error;
     NSURL *path = [self pathForDirectoryWithHashID:fileID];
@@ -319,7 +319,7 @@ static P2PFileManager *sharedInstance = nil;
         P2PLog(P2PLogLevelError, @"Unable to retrieve chunkIDs: %@", error);
         return nil;
     } else {
-        NSMutableArray *chunkIds = [[NSMutableArray alloc] initWithCapacity:[filesFound count] - 1 ];
+        NSMutableSet *chunkIds = [[NSMutableSet alloc] initWithCapacity:[filesFound count] - 1 ];
         
         for ( NSString *file in filesFound )
         {
@@ -425,7 +425,7 @@ static P2PFileManager *sharedInstance = nil;
 - (P2PFileInfo *)generateFileInfoForFileId:(NSString *)fileId fileName:(NSString *)filename totalFileSize:(NSUInteger)totalSize
 {
     // If there was an ID, we at least created a directory for it
-    P2PFileInfo *fileInfo = [[P2PFileInfo alloc] initWithFileName:filename fileId:fileId chunksOnDisk:@[ ] totalFileSize:totalSize];
+    P2PFileInfo *fileInfo = [[P2PFileInfo alloc] initWithFileName:filename fileId:fileId chunksOnDisk:nil totalFileSize:totalSize];
     if ( fileInfo.fileId != nil )
     {
         [self saveFileInfoToDisk:fileInfo];

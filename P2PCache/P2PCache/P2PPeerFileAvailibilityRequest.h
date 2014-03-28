@@ -8,15 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
-#warning Implement Timeout
-
-@class P2PPeerFileAvailbilityResponse, P2PPeerFileAvailibilityRequest, P2PPeerNode;
+@class P2PPeerFileAvailbilityResponse, P2PPeerFileAvailibilityRequest;
 
 @protocol P2PPeerFileAvailabilityDelegate <NSObject>
 
+/** Delegate method called by a request object indicating that it did receive a response
+ 
+ @param request The request object that received a response
+ @param response The response that was received
+ */
 - (void)fileAvailabilityRequest:(P2PPeerFileAvailibilityRequest *)request didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response;
 
-- (void)fileAvailabilityRequest:(P2PPeerFileAvailibilityRequest *)request failedWithEvent:(NSStreamEvent)event;
+/** Delegate method called by a request object that has failed.
+ 
+ @param request The request object that failed
+ @param error The error that occurred
+ */
+- (void)fileAvailabilityRequest:(P2PPeerFileAvailibilityRequest *)request failedWithError:(P2PTransmissionError)error;
 
 @end
 
@@ -24,16 +32,12 @@
 
 @interface P2PPeerFileAvailibilityRequest : P2PTransmittableObject
 
-@property (readonly, nonatomic, copy) NSString *fileId;       // File's hash
-//@property (readonly, nonatomic) NSUInteger requestId;
+@property (readonly, nonatomic, copy) NSString *fileId;
 @property (copy, nonatomic) NSString *fileName;
 @property (weak, nonatomic) id<P2PPeerFileAvailabilityDelegate> delegate;
 
 - (id)initWithFileId:(NSString *)fileId;
 - (id)initWithFilename:(NSString *)filename;
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename;
-
-- (void)didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response;
-- (void)failedWithStreamEvent:(NSStreamEvent)event;
 
 @end

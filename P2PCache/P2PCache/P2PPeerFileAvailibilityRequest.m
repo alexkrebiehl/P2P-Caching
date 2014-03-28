@@ -16,7 +16,6 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
 
 @implementation P2PPeerFileAvailibilityRequest
 
-
 - (id)init
 {
     return [self initWithFileId:nil filename:nil];
@@ -39,7 +38,6 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
     
     if ( self = [super init] )
     {
-//        _requestId = currentId++;
         _fileId = fileId;
         _fileName = filename;
         self.shouldWaitForResponse = YES;
@@ -52,7 +50,6 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
 {
     [super encodeWithCoder:aCoder];
     [aCoder encodeObject:self.fileName forKey:P2PAvailabilityRequestFilenameKey];
-//    [aCoder encodeObject:self.requestId forKey:P2PAvailabilityRequestIdKey];
     [aCoder encodeObject:self.fileId forKey:P2PAvailabilityRequestFileIdKey];
 }
 
@@ -66,22 +63,7 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
         _fileId = fileId;
         _fileName = fileName;
     }
-    
-//    if ( self = [self initWithFileId:fileId filename:fileName] )
-//    {
-////        self.requestId = [aDecoder decodeObjectForKey:P2PAvailabilityRequestIdKey];
-//    }
     return self;
-}
-
-- (void)didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)response
-{
-    [self.delegate fileAvailabilityRequest:self didRecieveAvailibilityResponse:response];
-}
-
-- (void)failedWithStreamEvent:(NSStreamEvent)event
-{
-    [self.delegate fileAvailabilityRequest:self failedWithEvent:event];
 }
 
 - (void)peer:(P2PNode *)peer didRecieveResponse:(P2PTransmittableObject *)recievedObject
@@ -90,6 +72,20 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
     
     [super peer:peer didRecieveResponse:recievedObject];
     [self.delegate fileAvailabilityRequest:self didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)recievedObject];
+}
+
+- (void)peer:(P2PNode *)peer failedToSendObjectWithError:(P2PTransmissionError)error
+{
+    [super peer:peer failedToSendObjectWithError:error];
+    
+    [self.delegate fileAvailabilityRequest:self failedWithError:error];
+}
+
+- (void)peer:(P2PNode *)peer failedToRecieveResponseWithError:(P2PTransmissionError)error
+{
+    [super peer:peer failedToRecieveResponseWithError:error];
+    
+    [self.delegate fileAvailabilityRequest:self failedWithError:error];
 }
 
 @end

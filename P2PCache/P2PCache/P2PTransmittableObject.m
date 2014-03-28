@@ -31,7 +31,6 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-
     if ( self = [super init] )
     {
         _requestId = [aDecoder decodeObjectForKey:P2PTransmittableObjectRequestIdKey];
@@ -42,18 +41,19 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-
     [aCoder encodeObject:self.requestId forKey:P2PTransmittableObjectRequestIdKey];
     [aCoder encodeObject:self.responseForRequestId forKey:P2PTransmittableObjectResponseIdKey];
 }
 
 - (void)peer:(P2PNode *)peer failedToSendObjectWithError:(P2PTransmissionError)error
 {
-
+    P2PLog( P2PLogLevelWarning, @"<%@> peer: %@ failed to send transmission", self, peer );
 }
 
 - (void)peer:(P2PNode *)peer failedToRecieveResponseWithError:(P2PTransmissionError)error
 {
+    // If this object is waiting for a response, this method should be overridden
+    P2PLog( P2PLogLevelWarning, @"<%@> peer: %@ failed to recieve response", self, peer );
 }
 
 - (void)peerDidBeginToSendObject:(P2PNode *)peer
@@ -63,7 +63,7 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
     if ( self.shouldWaitForResponse )
     {
         _timeoutTimer = [NSTimer timerWithTimeInterval:P2PTransmittableObjectTimeout target:self selector:@selector(requestTimedOut) userInfo:nil repeats:NO];
-        [[NSRunLoop mainRunLoop] addTimer:_timeoutTimer forMode:NSDefaultRunLoopMode];
+        [[NSRunLoop currentRunLoop] addTimer:_timeoutTimer forMode:NSDefaultRunLoopMode];
     }
 }
 

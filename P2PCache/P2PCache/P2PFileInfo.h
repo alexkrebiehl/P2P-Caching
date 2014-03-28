@@ -56,10 +56,10 @@
 
 
 /** This should only ever be initialized by the FileManager! */
-- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSArray *)chunksOnDisk totalFileSize:(NSUInteger)totalFileSize;
+- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSSet *)chunksOnDisk totalFileSize:(NSUInteger)totalFileSize;
 
 /** This should only ever be initialized by the FileManager! */
-- (id)initWithFileId:(NSString *)fileId info:(NSDictionary *)plist chunksOnDisk:(NSArray *)chunksOnDisk;
+- (id)initWithFileId:(NSString *)fileId info:(NSDictionary *)plist chunksOnDisk:(NSSet *)chunksOnDisk;
 
 - (NSDictionary *)toDictionary;
 

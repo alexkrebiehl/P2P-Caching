@@ -64,11 +64,24 @@ static NSString *P2PFileChunkRequestChunkSizeKey =  @"ChunkSize";
 
 - (void)peer:(P2PNode *)peer didRecieveResponse:(P2PTransmittableObject *)recievedObject
 {
-    assert( [recievedObject isMemberOfClass:[P2PFileChunk class]] );
     [super peer:peer didRecieveResponse:recievedObject];
     
+    assert( [recievedObject isMemberOfClass:[P2PFileChunk class]] );
     [self.delegate fileChunkRequest:self didRecieveChunk:(P2PFileChunk *)recievedObject];
+}
+
+- (void)peer:(P2PNode *)peer failedToRecieveResponseWithError:(P2PTransmissionError)error
+{
+    [super peer:peer failedToRecieveResponseWithError:error];
     
+    [self.delegate fileChunkRequestDidFail:self];
+}
+
+- (void)peer:(P2PNode *)peer failedToSendObjectWithError:(P2PTransmissionError)error
+{
+    [super peer:peer failedToSendObjectWithError:error];
+    
+    [self.delegate fileChunkRequestDidFail:self];
 }
 
 //- (void)peer:(P2PPeerNode *)node didRecieveChunk:(P2PFileChunk *)chunk

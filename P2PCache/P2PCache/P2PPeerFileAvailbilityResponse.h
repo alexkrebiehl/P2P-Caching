@@ -27,13 +27,9 @@
 /** The total number of chunks for the complete file */
 @property (nonatomic) NSUInteger totalChunks;
 
-/** The identifier for this request */
-//@property (nonatomic, readonly) NSUInteger requestId;
-
-/** The peer handling this response */
-//@property (weak, nonatomic) P2PPeerNode *owningPeer;
 
 /** Creates a new response object from a given request
+ 
  @param request The request this object is responding to
  @return A new file availability response object
  */

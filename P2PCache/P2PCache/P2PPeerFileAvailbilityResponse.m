@@ -31,7 +31,6 @@ static NSString *P2PAvailabilityResponseTotalChunks =       @"TotalChunks";
     if ( self = [super init] )
     {
         _fileName = request.fileName;
-//        _requestId = request.requestId;
         self.responseForRequestId = request.requestId;
         
         if ( request.fileId != nil )
@@ -65,7 +64,6 @@ static NSString *P2PAvailabilityResponseTotalChunks =       @"TotalChunks";
     [aCoder encodeObject:self.fileName forKey:P2PAvailabilityResponseFilenameKey];
     [aCoder encodeObject:[self.availableChunks allObjects] forKey:P2PAvailabilityResponseChunksKey];
     [aCoder encodeObject:@( self.chunkSizeInBytes ) forKey:P2PAvailabilityResponseChunkSizeKey];
-//    [aCoder encodeObject:@( self.requestId ) forKey:P2PAvailabilityResponseId];
     [aCoder encodeObject:self.matchingFileIds forKey:P2PAvailabilityResponseMatchingFileIds];
     [aCoder encodeObject:@( self.totalChunks ) forKey:P2PAvailabilityResponseTotalChunks];
 }

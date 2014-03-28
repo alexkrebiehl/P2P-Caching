@@ -93,7 +93,7 @@
     }
 }
 
-- (void)handleRecievedObject:(id)object from:(P2PNodeConnection *)sender
+- (void)handleReceivedObject:(id)object from:(P2PNodeConnection *)sender
 {   
     if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
     {

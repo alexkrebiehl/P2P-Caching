@@ -76,14 +76,20 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
 }
 
 
-- (void)handleRecievedObject:(P2PTransmittableObject *)object from:(P2PNodeConnection *)sender
+- (void)handleReceivedObject:(id)object from:(P2PNodeConnection *)sender
 {
     P2PTransmittableObject *requestingObject = [_pendingRequests objectForKey:object.responseForRequestId];
-    assert( requestingObject != nil );
-    
-    [_pendingRequests removeObjectForKey:requestingObject.requestId];
-    object.associatedNode = self;
-    [requestingObject peer:self didRecieveResponse:object];
+    if ( requestingObject == nil )
+    {
+        // We recieved an object without a request?
+        P2PLog( P2PLogLevelWarning, @"Recieved an object without making a request: %@ - response toe requestId: %@", object, object.responseForRequestId );
+    }
+    else
+    {
+        [_pendingRequests removeObjectForKey:requestingObject.requestId];
+        object.associatedNode = self;
+        [requestingObject peer:self didRecieveResponse:object];
+    }
 }
 
 - (void)peerDidBecomeReady

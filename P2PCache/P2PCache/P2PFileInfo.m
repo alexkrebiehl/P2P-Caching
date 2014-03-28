@@ -26,28 +26,32 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
     return [self initWithFileName:nil fileId:nil chunksOnDisk:nil totalFileSize:0];
 }
 
-- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSArray *)chunksOnDisk totalFileSize:(NSUInteger)totalFileSize
+- (id)initWithFileName:(NSString *)fileName fileId:(NSString *)fileId chunksOnDisk:(NSSet *)chunksOnDisk totalFileSize:(NSUInteger)totalFileSize
 {
     if ( fileName == nil && fileId == nil )
     {
         return nil;
-    }
-    if ( chunksOnDisk == nil )
-    {
-        chunksOnDisk = [[NSArray alloc] init];
     }
     
     if ( self = [super init] )
     {
         _filename = fileName;
         _fileId = fileId;
-        _chunksOnDisk = [NSMutableSet setWithArray:chunksOnDisk];
         _totalFileSize = totalFileSize;
+        
+        if ( chunksOnDisk == nil )
+        {
+            _chunksOnDisk = [[NSMutableSet alloc] init];
+        }
+        else
+        {
+            _chunksOnDisk = [[NSMutableSet alloc] initWithSet:chunksOnDisk];
+        }
     }
     return self;
 }
 
-- (id)initWithFileId:(NSString *)fileId info:(NSDictionary *)plist chunksOnDisk:(NSArray *)chunksOnDisk
+- (id)initWithFileId:(NSString *)fileId info:(NSDictionary *)plist chunksOnDisk:(NSSet *)chunksOnDisk
 {
     assert( plist != nil );
     NSString *filename = [plist objectForKey:P2PFileManagerInfoFileNameKey];
