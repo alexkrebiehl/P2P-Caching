@@ -7,6 +7,7 @@
 //
 
 #import "P2PFileChunkRequest.h"
+#import "P2PFileChunk.h"
 
 static NSString *P2PFileChunkRequestFileIdKey =     @"FileId";
 static NSString *P2PFileChunkRequestChunkIdKey =    @"ChunkId";
@@ -61,20 +62,30 @@ static NSString *P2PFileChunkRequestChunkSizeKey =  @"ChunkSize";
     [aCoder encodeObject:@( self.chunkSize ) forKey:P2PFileChunkRequestChunkSizeKey];
 }
 
-- (void)peer:(P2PPeerNode *)node didRecieveChunk:(P2PFileChunk *)chunk
+- (void)peer:(P2PNode *)peer didRecieveResponse:(P2PTransmittableObject *)recievedObject
 {
-    [self.delegate fileChunkRequest:self didRecieveChunk:chunk];
+    assert( [recievedObject isMemberOfClass:[P2PFileChunk class]] );
+    [super peer:peer didRecieveResponse:recievedObject];
+    
+    [self.delegate fileChunkRequest:self didRecieveChunk:(P2PFileChunk *)recievedObject];
+    
 }
 
-- (void)peer:(P2PPeerNode *)node failedToRecieveChunkWithError:(NSStreamEvent)event
-{
-    [self.delegate fileChunkRequestDidFail:self];
-}
+//- (void)peer:(P2PPeerNode *)node didRecieveChunk:(P2PFileChunk *)chunk
+//{
+//    [self.delegate fileChunkRequest:self didRecieveChunk:chunk];
+//}
+
+//- (void)peer:(P2PPeerNode *)node failedToRecieveChunkWithError:(NSStreamEvent)event
+//{
+//    [self.delegate fileChunkRequestDidFail:self];
+//}
 
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<%@ - id:%@ [%lu]>", [self class], self.fileId, (unsigned long)self.chunkId];
 }
+
 
 
 

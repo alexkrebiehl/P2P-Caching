@@ -31,8 +31,7 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    NSAssert( [self class] != [P2PTransmittableObject class], @"This method is meant to be overriddent" );
-    
+
     if ( self = [super init] )
     {
         _requestId = [aDecoder decodeObjectForKey:P2PTransmittableObjectRequestIdKey];
@@ -43,7 +42,6 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    NSAssert( [self class] != [P2PTransmittableObject class], @"This method is meant to be over-ridden" );
 
     [aCoder encodeObject:self.requestId forKey:P2PTransmittableObjectRequestIdKey];
     [aCoder encodeObject:self.responseForRequestId forKey:P2PTransmittableObjectResponseIdKey];
@@ -51,12 +49,11 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
 
 - (void)peer:(P2PNode *)peer failedToSendObjectWithError:(P2PTransmissionError)error
 {
-    NSAssert( [self class] != [P2PTransmittableObject class], @"This method is meant to be over-ridden" );
+
 }
 
 - (void)peer:(P2PNode *)peer failedToRecieveResponseWithError:(P2PTransmissionError)error
 {
-    NSAssert( [self class] != [P2PTransmittableObject class], @"This method is meant to be over-ridden" );
 }
 
 - (void)peerDidBeginToSendObject:(P2PNode *)peer
@@ -72,9 +69,10 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
 
 - (void)peer:(P2PNode *)peer didRecieveResponse:(P2PTransmittableObject *)recievedObject
 {
-    NSAssert( [self class] != [P2PTransmittableObject class], @"This method is meant to be over-ridden" );
     [_timeoutTimer invalidate];
     _timeoutTimer = nil;
+    
+    _associatedNode = peer;
 }
 
 - (void)requestTimedOut

@@ -357,6 +357,7 @@ static P2PFileManager *sharedInstance = nil;
                                                  fileId:request.fileId
                                                fileName:fileInfo.filename
                                           totalFileSize:fileInfo.totalFileSize];
+            aChunk.responseForRequestId = request.requestId;
         }
     }
     

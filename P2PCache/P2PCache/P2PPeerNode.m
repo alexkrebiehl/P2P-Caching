@@ -82,6 +82,7 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
     assert( requestingObject != nil );
     
     [_pendingRequests removeObjectForKey:requestingObject.requestId];
+    object.associatedNode = self;
     [requestingObject peer:self didRecieveResponse:object];
 }
 

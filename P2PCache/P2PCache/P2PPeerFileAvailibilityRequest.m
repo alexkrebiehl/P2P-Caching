@@ -87,6 +87,8 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
 - (void)peer:(P2PNode *)peer didRecieveResponse:(P2PTransmittableObject *)recievedObject
 {
     assert( [recievedObject isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] );
+    
+    [super peer:peer didRecieveResponse:recievedObject];
     [self.delegate fileAvailabilityRequest:self didRecieveAvailibilityResponse:(P2PPeerFileAvailbilityResponse *)recievedObject];
 }
 
