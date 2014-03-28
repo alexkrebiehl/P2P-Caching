@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class P2PNodeConnection;
+@class P2PNodeConnection, P2PTransmittableObject;
 
 @interface P2PNode : NSObject <NSStreamDelegate>
 
@@ -37,24 +37,23 @@
  
  @param inStream An input stream supplied by a NSNetService instance
  @param outStream An output stream supplied by a NSNetService instance
- @param service The service supplying the streams
  */
 - (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream;
 
 /** Transmits an object to a peer's cache server.
  
- @param object The object to send
+ @param transmittableObject The object to send
  */
-- (void)transmitObject:(id<NSCoding>)object;
+- (void)transmitObject:(P2PTransmittableObject *)transmittableObject;
 
 
 /** Transmits an object to a peer that is connected through a NSNetService object.
  This method will be used by a server instance of P2PNode to specify which peer to send the object to.
  
- @param object An object to send
+ @param transmittableObject An object to send
  @param connection The P2PNodeConnection instance object connected to a peer.
  */
-- (void)transmitObject:(id<NSCoding>)object toNodeConnection:(P2PNodeConnection *)connection;
+- (void)transmitObject:(P2PTransmittableObject *)transmittableObject toNodeConnection:(P2PNodeConnection *)connection;
 
 @end
 

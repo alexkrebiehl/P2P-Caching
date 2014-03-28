@@ -29,6 +29,9 @@ static NSString *P2PFileChunkRequestChunkSizeKey =  @"ChunkSize";
         _fileId = fileId;
         _chunkId = chunkId;
         _chunkSize = chunkSize;
+        
+        // This request needs to have a response
+        self.shouldWaitForResponse = YES;
     }
     return self;
 }
@@ -38,11 +41,21 @@ static NSString *P2PFileChunkRequestChunkSizeKey =  @"ChunkSize";
     NSString *fileId = [aDecoder decodeObjectForKey:P2PFileChunkRequestFileIdKey];
     NSUInteger chunkId = [[aDecoder decodeObjectForKey:P2PFileChunkRequestChunkIdKey] unsignedIntegerValue];
     NSUInteger chunkSize = [[aDecoder decodeObjectForKey:P2PFileChunkRequestChunkSizeKey] unsignedIntegerValue];
+    
+    if ( self = [super initWithCoder:aDecoder] )
+    {
+        _fileId = fileId;
+        _chunkId = chunkId;
+        _chunkSize = chunkSize;
+        
+    }
+    
     return [self initWithFileId:fileId chunkId:chunkId chunkSize:chunkSize];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    [super encodeWithCoder:aCoder];
     [aCoder encodeObject:self.fileId forKey:P2PFileChunkRequestFileIdKey];
     [aCoder encodeObject:@( self.chunkId ) forKey:P2PFileChunkRequestChunkIdKey];
     [aCoder encodeObject:@( self.chunkSize ) forKey:P2PFileChunkRequestChunkSizeKey];
@@ -62,5 +75,7 @@ static NSString *P2PFileChunkRequestChunkSizeKey =  @"ChunkSize";
 {
     return [NSString stringWithFormat:@"<%@ - id:%@ [%lu]>", [self class], self.fileId, (unsigned long)self.chunkId];
 }
+
+
 
 @end

@@ -10,7 +10,7 @@
 
 @class P2PPeerFileAvailibilityRequest, P2PPeerNode;
 
-@interface P2PPeerFileAvailbilityResponse : NSObject <NSCoding>
+@interface P2PPeerFileAvailbilityResponse : P2PTransmittableObject
 
 /** Possible file ID matches for the request */
 @property (copy, nonatomic) NSArray *matchingFileIds;
@@ -28,10 +28,10 @@
 @property (nonatomic) NSUInteger totalChunks;
 
 /** The identifier for this request */
-@property (nonatomic, readonly) NSUInteger requestId;
+//@property (nonatomic, readonly) NSUInteger requestId;
 
 /** The peer handling this response */
-@property (weak, nonatomic) P2PPeerNode *owningPeer;
+//@property (weak, nonatomic) P2PPeerNode *owningPeer;
 
 /** Creates a new response object from a given request
  @param request The request this object is responding to

@@ -13,7 +13,7 @@ enum
     P2PFileChunkDefaultSize = 64 * 1024     // 64k chunks
 };
 
-@interface P2PFileChunk : NSObject <NSCoding>
+@interface P2PFileChunk : P2PTransmittableObject
 
 @property (nonatomic, readonly, copy) NSString *fileName;
 @property (nonatomic, readonly, copy) NSString *fileId;

@@ -19,7 +19,7 @@
 
 
 
-@interface P2PFileChunkRequest : NSObject <NSCoding>
+@interface P2PFileChunkRequest : P2PTransmittableObject
 
 @property (weak, nonatomic) id<P2PFileChunkRequestDelegate> delegate;
 
@@ -29,7 +29,7 @@
 
 - (id)initWithFileId:(NSString *)fileId chunkId:(NSUInteger)chunkId chunkSize:(NSUInteger)chunkSize;
 
-- (void)peer:(P2PPeerNode *)node didRecieveChunk:(P2PFileChunk *)chunk;
-- (void)peer:(P2PPeerNode *)node failedToRecieveChunkWithError:(NSStreamEvent)event;
+//- (void)peer:(P2PPeerNode *)node didRecieveChunk:(P2PFileChunk *)chunk;
+//- (void)peer:(P2PPeerNode *)node failedToRecieveChunkWithError:(NSStreamEvent)event;
 
 @end

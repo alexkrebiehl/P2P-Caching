@@ -23,8 +23,9 @@
 
 @implementation P2PPeerNode
 {
-    NSMutableArray *_pendingFileAvailibilityRequests;
-    NSMutableArray *_pendingFileChunkRequests;
+//    NSMutableArray *_pendingFileAvailibilityRequests;
+//    NSMutableArray *_pendingFileChunkRequests;
+    NSMutableDictionary *_pendingRequests;
 }
 
 static dispatch_queue_t dispatchQueuePeerNode = nil;
@@ -75,20 +76,13 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
 }
 
 
-- (void)handleRecievedObject:(id)object from:(P2PNodeConnection *)sender
+- (void)handleRecievedObject:(P2PTransmittableObject *)object from:(P2PNodeConnection *)sender
 {
-    if ( [object isMemberOfClass:[P2PPeerFileAvailbilityResponse class]] )
-    {
-        [self didRecieveFileAvailabilityResponse:object];
-    }
-    else if ( [object isMemberOfClass:[P2PFileChunk class]] )
-    {
-        [self didRecieveFileChunk:object];
-    }
-    else
-    {
-        NSAssert( NO, @"Unable to handle recieved file: %@", object );
-    }
+    P2PTransmittableObject *requestingObject = [_pendingRequests objectForKey:object.responseForRequestId];
+    assert( requestingObject != nil );
+    
+    [_pendingRequests removeObjectForKey:requestingObject.requestId];
+    [requestingObject peer:self didRecieveResponse:object];
 }
 
 - (void)peerDidBecomeReady
@@ -100,6 +94,18 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
 - (void)peerIsNoLongerReady
 {
     _isReady = NO;
+    
+    // Make any object transfers fail
+#warning Finish implementing failure notifications
+    dispatch_async(dispatchQueuePeerNode, ^
+    {
+        for ( P2PTransmittableObject *obj in [_pendingRequests allValues] )
+        {
+            [obj peer:self failedToRecieveResponseWithError:P2PTransmissionErrorPeerNoLongerReady];
+        }
+        _pendingRequests = nil;
+    });
+    
     [self.delegate peerIsNoLongerReady:self];
 }
 
@@ -115,76 +121,108 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
     [self peerIsNoLongerReady];
 }
 
-
-
-#pragma mark - File Handling
-- (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request
+- (void)sendObjectToPeer:(P2PTransmittableObject *)object
 {
     dispatch_async(dispatchQueuePeerNode, ^
     {
-        if ( _pendingFileAvailibilityRequests == nil )
+        if ( object.shouldWaitForResponse )
         {
-            _pendingFileAvailibilityRequests = [[NSMutableArray alloc] init];
+            if ( _pendingRequests == nil )
+            {
+                _pendingRequests = [[NSMutableDictionary alloc] init];
+            }
+            [_pendingRequests setObject:object forKey:object.requestId];
         }
-        
-        [_pendingFileAvailibilityRequests addObject:request];
-        
-        [self transmitObject:request];
+
+        [self transmitObject:object];
         P2PLogDebug(@"%@ - File availability request sent", self);
     });
 }
 
-- (void)didRecieveFileAvailabilityResponse:(P2PPeerFileAvailbilityResponse *)response
-{
-    dispatch_async(dispatchQueuePeerNode, ^
-    {
-        // Find out what request this response is for...
-        for ( P2PPeerFileAvailibilityRequest *aRequest in _pendingFileAvailibilityRequests )
-        {
-            //good enough for now..
-            if ( aRequest.requestId == response.requestId )
-            {
-                // found the request.....
-                response.owningPeer = self;
-                [aRequest didRecieveAvailibilityResponse:response];
-                [_pendingFileAvailibilityRequests removeObject:aRequest];
-                return;
-            }
-        }
-    });
-}
+//#pragma mark - File Handling
+//- (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request
+//{
+//    dispatch_async(dispatchQueuePeerNode, ^
+//    {
+////        if ( _pendingFileAvailibilityRequests == nil )
+////        {
+////            _pendingFileAvailibilityRequests = [[NSMutableArray alloc] init];
+////        }
+////                [_pendingFileAvailibilityRequests addObject:request];
+//        
+//        
+//        if ( _pendingRequests == nil )
+//        {
+//            _pendingRequests = [[NSMutableDictionary alloc] init];
+//        }
+//        [_pendingRequests setObject:request forKey:request.requestId];
+//
+//        [self transmitObject:request];
+//        P2PLogDebug(@"%@ - File availability request sent", self);
+//    });
+//}
 
-- (void)requestFileChunk:(P2PFileChunkRequest *)request
-{
-    dispatch_async(dispatchQueuePeerNode, ^
-    {
-        if ( _pendingFileChunkRequests == nil )
-        {
-            _pendingFileChunkRequests = [[NSMutableArray alloc] init];
-        }
-        
-        [_pendingFileChunkRequests addObject:request];
-        [self transmitObject:request];
-    });
-}
+//- (void)didRecieveFileAvailabilityResponse:(P2PPeerFileAvailbilityResponse *)response
+//{
+//    dispatch_async(dispatchQueuePeerNode, ^
+//    {
+//        
+//        // Find out what request this response is for...
+//        for ( P2PPeerFileAvailibilityRequest *aRequest in _pendingFileAvailibilityRequests )
+//        {
+//            //good enough for now..
+//            if ( aRequest.requestId == response.requestId )
+//            {
+//                // found the request.....
+//                response.owningPeer = self;
+//                [aRequest didRecieveAvailibilityResponse:response];
+//                [_pendingFileAvailibilityRequests removeObject:aRequest];
+//                return;
+//            }
+//        }
+//    });
+//}
 
-- (void)didRecieveFileChunk:(P2PFileChunk *)fileChunk
-{
-    dispatch_async(dispatchQueuePeerNode, ^
-    {
-        for ( P2PFileChunkRequest *aRequest in _pendingFileChunkRequests )
-        {
-            //good enough for now..
-            if ( [aRequest.fileId isEqualToString:fileChunk.fileId] && aRequest.chunkId == fileChunk.chunkId )
-            {
-                // found the request.....
-                [aRequest peer:self didRecieveChunk:fileChunk];
-                [_pendingFileAvailibilityRequests removeObject:aRequest];
-                return;
-            }
-        }
-    });
-}
+//- (void)requestFileChunk:(P2PFileChunkRequest *)request
+//{
+//    dispatch_async(dispatchQueuePeerNode, ^
+//    {
+////        if ( _pendingFileChunkRequests == nil )
+////        {
+////            _pendingFileChunkRequests = [[NSMutableArray alloc] init];
+////        }
+////        
+////        [_pendingFileChunkRequests addObject:request];
+//        
+//        if ( _pendingRequests == nil )
+//        {
+//            _pendingRequests = [[NSMutableSet alloc] init];
+//        }
+//        
+//        [_pendingRequests addObject:request];
+//        [self transmitObject:request];
+//    });
+//}
+
+//- (void)didRecieveFileChunk:(P2PFileChunk *)fileChunk
+//{
+//    dispatch_async(dispatchQueuePeerNode, ^
+//    {
+//        
+//        
+//        for ( P2PFileChunkRequest *aRequest in _pendingFileChunkRequests )
+//        {
+//            //good enough for now..
+//            if ( [aRequest.fileId isEqualToString:fileChunk.fileId] && aRequest.chunkId == fileChunk.chunkId )
+//            {
+//                // found the request.....
+//                [aRequest peer:self didRecieveChunk:fileChunk];
+//                [_pendingFileAvailibilityRequests removeObject:aRequest];
+//                return;
+//            }
+//        }
+//    });
+//}
 
 
 

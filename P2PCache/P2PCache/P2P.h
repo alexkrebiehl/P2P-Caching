@@ -27,6 +27,8 @@
 #import "NSObject+cleanup.h"
 #import "NSData+mD5Hash.h"
 
+#import "P2PTransmittableObject.h"
+
 // Networking
 #import "P2PNode.h"
 

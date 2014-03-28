@@ -467,9 +467,9 @@ NSUInteger getNextConnectionId()
     
 }
 
-- (void)transmitObject:(id<NSCoding>)object
+- (void)transmitObject:(P2PTransmittableObject *)transmittableObject
 {
-    [self transmitObject:object toNodeConnection:nil];
+    [self transmitObject:transmittableObject toNodeConnection:nil];
 }
 
 - (void)objectDidFailToSend:(id)object
@@ -477,9 +477,9 @@ NSUInteger getNextConnectionId()
     NSAssert([self class] != [P2PNode class], @"This selector should be overridden by subclasses");
 }
 
-- (void)transmitObject:(id<NSCoding>)object toNodeConnection:(P2PNodeConnection *)connection
+- (void)transmitObject:(P2PTransmittableObject *)transmittableObject toNodeConnection:(P2PNodeConnection *)connection;
 {
-    NSData *preparedData = prepareObjectForTransmission( object );
+    NSData *preparedData = prepareObjectForTransmission( transmittableObject );
     
     if ( connection == nil && [_activeConnections count] == 1 )
     {
@@ -490,9 +490,9 @@ NSUInteger getNextConnectionId()
     // Add data to buffer
     [connection.outBuffer appendData:preparedData];
 
-    P2PLogDebug( @"%@ - sending object: %@ to %@", self, object, connection );
+    P2PLogDebug( @"%@ - sending object: %@ to %@", self, transmittableObject, connection );
     [self workOutputBufferForStream:connection.outStream buffer:connection.outBuffer];
-    
+    [transmittableObject peerDidBeginToSendObject:self];
 }
 
 #pragma mark - NSStream Delegate Methods

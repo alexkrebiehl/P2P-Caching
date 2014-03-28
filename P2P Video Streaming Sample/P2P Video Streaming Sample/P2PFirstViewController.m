@@ -7,6 +7,7 @@
 //
 
 #import "P2PFirstViewController.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface P2PFirstViewController ()
 
@@ -24,6 +25,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    AVAsset *asset = [[AVAsset alloc] init];
+    AVPlayerItem *item = [[AVPlayerItem alloc] initWithAsset:asset];
+    AVPlayer *p = [[AVPlayer alloc] initWithPlayerItem:item];
+    
 }
 
 @end

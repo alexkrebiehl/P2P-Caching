@@ -19,7 +19,7 @@
 		FA3924F5189CC94F002B6324 /* SimplePing.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3924F3189CC94F002B6324 /* SimplePing.h */; };
 		FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F4189CC94F002B6324 /* SimplePing.m */; };
 		FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3924F4189CC94F002B6324 /* SimplePing.m */; };
-		FA3924FB189D5B51002B6324 /* P2PPeerManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FAD685EB189B390700CA7E18 /* P2PPeerManager.h */; };
+		FA3924FB189D5B51002B6324 /* P2PPeerManager.h in Copy Files */ = {isa = PBXBuildFile; fileRef = FAD685EB189B390700CA7E18 /* P2PPeerManager.h */; };
 		FA3974BC18A9BF0F007FCD93 /* this_file_is_a_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA3974BB18A9BF0F007FCD93 /* this_file_is_a_test.jpg */; };
 		FA3974BF18A9C1AF007FCD93 /* P2PFileRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3974BD18A9C1AF007FCD93 /* P2PFileRequest.h */; };
 		FA3974C018A9C1AF007FCD93 /* P2PFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3974BE18A9C1AF007FCD93 /* P2PFileRequest.m */; };
@@ -51,11 +51,15 @@
 		FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
 		FA3E9EE7189B5A06009FEB99 /* P2PServerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PServerNode.m */; };
-		FA3E9EE8189B5A18009FEB99 /* P2PCache.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; };
+		FA3E9EE8189B5A18009FEB99 /* P2PCache.h in Copy Files */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; };
 		FA64EF3D189C7A4B00C35EFF /* P2PPeerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */; };
 		FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */; };
-		FAB2E159189D5F350081ECA3 /* P2PPeerNode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */; };
+		FA75B8F618E3AE61008E3C54 /* P2PTransmittableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FA75B8F418E3AE61008E3C54 /* P2PTransmittableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA75B8F718E3AE61008E3C54 /* P2PTransmittableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B8F518E3AE61008E3C54 /* P2PTransmittableObject.m */; };
+		FA75B8F818E3AE61008E3C54 /* P2PTransmittableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B8F518E3AE61008E3C54 /* P2PTransmittableObject.m */; };
+		FA75B8F918E3B0F1008E3C54 /* P2PTransmittableObject.h in Copy Files */ = {isa = PBXBuildFile; fileRef = FA75B8F418E3AE61008E3C54 /* P2PTransmittableObject.h */; };
+		FAB2E159189D5F350081ECA3 /* P2PPeerNode.h in Copy Files */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */; };
 		FAB92DDD18B429F000E515E0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB92DDC18B429F000E515E0 /* libz.dylib */; };
 		FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FABA8DBD18A5825E00115463 /* P2PFileManager.h */; };
 		FABA8DC018A5825E00115463 /* P2PFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DBE18A5825E00115463 /* P2PFileManager.m */; };
@@ -101,16 +105,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		FA3E9E76189B52FE009FEB99 /* CopyFiles */ = {
+		FA3E9E76189B52FE009FEB99 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				FA3E9EE8189B5A18009FEB99 /* P2PCache.h in CopyFiles */,
-				FA3924FB189D5B51002B6324 /* P2PPeerManager.h in CopyFiles */,
-				FAB2E159189D5F350081ECA3 /* P2PPeerNode.h in CopyFiles */,
+				FA75B8F918E3B0F1008E3C54 /* P2PTransmittableObject.h in Copy Files */,
+				FA3E9EE8189B5A18009FEB99 /* P2PCache.h in Copy Files */,
+				FA3924FB189D5B51002B6324 /* P2PPeerManager.h in Copy Files */,
+				FAB2E159189D5F350081ECA3 /* P2PPeerNode.h in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -158,6 +164,8 @@
 		FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCache_iOSTests.m; sourceTree = "<group>"; };
 		FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerNode.h; sourceTree = "<group>"; };
 		FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerNode.m; sourceTree = "<group>"; };
+		FA75B8F418E3AE61008E3C54 /* P2PTransmittableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PTransmittableObject.h; sourceTree = "<group>"; };
+		FA75B8F518E3AE61008E3C54 /* P2PTransmittableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PTransmittableObject.m; sourceTree = "<group>"; };
 		FAB92DDA18B40D0500E515E0 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		FAB92DDC18B429F000E515E0 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		FABA8DBD18A5825E00115463 /* P2PFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileManager.h; sourceTree = "<group>"; };
@@ -228,14 +236,9 @@
 		FA0DFF8918AD16AE00B2C1CB /* Requests/Responses */ = {
 			isa = PBXGroup;
 			children = (
-				FA0DFF8A18AD16DD00B2C1CB /* P2PFileChunkRequest.h */,
-				FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */,
-				FABA8DC218A5829200115463 /* P2PFileChunk.h */,
-				FABA8DC318A5829200115463 /* P2PFileChunk.m */,
-				FA3974C718A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h */,
-				FA3974C818A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.m */,
-				FA3974CD18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.h */,
-				FA3974CE18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m */,
+				FA75B8F418E3AE61008E3C54 /* P2PTransmittableObject.h */,
+				FA75B8F518E3AE61008E3C54 /* P2PTransmittableObject.m */,
+				FAC013D218E271B10034D557 /* Transmittable Subclasses */,
 			);
 			name = Requests/Responses;
 			sourceTree = "<group>";
@@ -377,6 +380,21 @@
 			name = "File Management";
 			sourceTree = "<group>";
 		};
+		FAC013D218E271B10034D557 /* Transmittable Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				FA0DFF8A18AD16DD00B2C1CB /* P2PFileChunkRequest.h */,
+				FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */,
+				FABA8DC218A5829200115463 /* P2PFileChunk.h */,
+				FABA8DC318A5829200115463 /* P2PFileChunk.m */,
+				FA3974C718A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h */,
+				FA3974C818A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.m */,
+				FA3974CD18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.h */,
+				FA3974CE18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m */,
+			);
+			name = "Transmittable Subclasses";
+			sourceTree = "<group>";
+		};
 		FAD685EA189B35BA00CA7E18 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -447,6 +465,7 @@
 				FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */,
 				FAC0304818DBB57C001051F9 /* P2PFileInfo.h in Headers */,
 				FA3924F5189CC94F002B6324 /* SimplePing.h in Headers */,
+				FA75B8F618E3AE61008E3C54 /* P2PTransmittableObject.h in Headers */,
 				FAF5F3CC18AC6B73002B97BF /* P2PNode.h in Headers */,
 				FAD685F4189B41CF00CA7E18 /* P2PServerNode.h in Headers */,
 				FAD685E4189B229E00CA7E18 /* P2PLogging.h in Headers */,
@@ -504,7 +523,7 @@
 			buildPhases = (
 				FA3E9E74189B52FE009FEB99 /* Sources */,
 				FA3E9E75189B52FE009FEB99 /* Frameworks */,
-				FA3E9E76189B52FE009FEB99 /* CopyFiles */,
+				FA3E9E76189B52FE009FEB99 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -614,6 +633,7 @@
 				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
 				FA3974D018A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,
 				FAD685F5189B41CF00CA7E18 /* P2PServerNode.m in Sources */,
+				FA75B8F718E3AE61008E3C54 /* P2PTransmittableObject.m in Sources */,
 				FAD685E9189B33D500CA7E18 /* CanonicalRequest.m in Sources */,
 				FABA8DC018A5825E00115463 /* P2PFileManager.m in Sources */,
 				FABA8DC518A5829200115463 /* P2PFileChunk.m in Sources */,
@@ -647,6 +667,7 @@
 				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
 				FA3974D118A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,
 				FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */,
+				FA75B8F818E3AE61008E3C54 /* P2PTransmittableObject.m in Sources */,
 				FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */,
 				FABA8DC118A5825E00115463 /* P2PFileManager.m in Sources */,
 				FABA8DC618A5829200115463 /* P2PFileChunk.m in Sources */,
@@ -780,6 +801,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -801,6 +823,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ADDITIONAL_SDKS = "";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -862,6 +885,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DSTROOT = /tmp/P2PCache_iOS.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "P2PCache-iOS/P2PCache-iOS-Prefix.pch";
@@ -885,6 +909,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DSTROOT = /tmp/P2PCache_iOS.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "P2PCache-iOS/P2PCache-iOS-Prefix.pch";

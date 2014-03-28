@@ -88,13 +88,11 @@ static NSMutableArray *_pendingFileRequests = nil;
     return [self initWithFileInfo:[[P2PFileManager sharedManager] fileInfoForFileId:fileId filename:filename]];
 }
 
-/** Designated initializer */
-static NSUInteger nextRequestId = 0;
-NSUInteger getNExtRequestId()
-{
-    return nextRequestId++;
-}
 
+static NSUInteger nextFileRequestId = 0;
+NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
+
+/** Designated initializer */
 - (id)initWithFileInfo:(P2PFileInfo *)info
 {
     assert( info != nil );
@@ -105,7 +103,7 @@ NSUInteger getNExtRequestId()
         _chunksCurrentlyBeingRequested = [[NSMutableSet alloc] init];
         _fileInfo = info;
         
-        NSString *queueName = [NSString stringWithFormat:@"dispatchQueueFileRequest%lu", (unsigned long)getNExtRequestId()];
+        NSString *queueName = [NSString stringWithFormat:@"dispatchQueueFileRequest%lu", (unsigned long)getNextFileRequestId()];
         _dispatchQueueFileRequest = dispatch_queue_create( queueName.UTF8String, DISPATCH_QUEUE_SERIAL );
     }
     return self;
@@ -141,9 +139,20 @@ NSUInteger getNExtRequestId()
                 P2PPeerFileAvailibilityRequest *availabilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileId:self.fileInfo.fileId filename:self.fileInfo.filename];
                 [_pendingAvailabilityRequests addObject:availabilityRequest];
                 availabilityRequest.delegate = self;
-                [aPeer requestFileAvailability:availabilityRequest];
+                [aPeer sendObjectToPeer:availabilityRequest];
+//                [aPeer requestFileAvailability:availabilityRequest];
             }
         }
+    });
+}
+
+- (void)fileAvailabilityRequest:(P2PPeerFileAvailibilityRequest *)request failedWithEvent:(NSStreamEvent)event
+{
+    dispatch_async(_dispatchQueueFileRequest, ^
+    {
+        P2PLog( P2PLogLevelWarning, @"%@ - failed", request );
+        [_pendingAvailabilityRequests removeObject:request];
+        [self processResponses];
     });
 }
 
@@ -153,7 +162,7 @@ NSUInteger getNExtRequestId()
     {
         assert( self.fileInfo != nil );
         // Somehow assemble responses from all peers here
-        P2PLogDebug(@"%@ - recieved response from %@", self, response.owningPeer);
+        P2PLogDebug( @"%@ - recieved response from %@", self, response.associatedNode );
         [_pendingAvailabilityRequests removeObject:request];
         
         // If they have no files available for us, we dont need to do anything
@@ -242,7 +251,7 @@ NSUInteger getNExtRequestId()
                 for ( NSNumber *aChunk in chunksToGetFromPeer )
                 {
                     P2PFileChunkRequest *chunkRequest = [[P2PFileChunkRequest alloc] initWithFileId:self.fileInfo.fileId chunkId:[aChunk unsignedIntegerValue] chunkSize:response.chunkSizeInBytes];
-                    if ( [self requestFileChunk:chunkRequest fromPeer:response.owningPeer] )
+                    if ( [self requestFileChunk:chunkRequest fromPeer:response.associatedNode] )
                     {
                         [chunksNeeded removeObject:aChunk];
                     }
@@ -259,22 +268,27 @@ NSUInteger getNExtRequestId()
 /** Sends a file chunk request to a peer.
  @return YES if the chunk can be sent right now, NO if we've reached the maximum number of simultaneous requests
  */
-- (bool)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PPeerNode *)peer
+- (bool)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PNode *)node
 {
-    // We dont need to use a dispatch queue here... this method can only be called internall by a method already on that thread
+    // We dont need to use a dispatch queue here... this method can only be called internally by a method already on that thread
     
     assert( request != nil );
-    assert( peer != nil );
+    assert( node != nil );
     if ( [_chunksCurrentlyBeingRequested count] < P2PMaximumSimultaneousFileRequests )
     {
         request.delegate = self;
         [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
-        [peer requestFileChunk:request];
+//        [peer requestFileChunk:request];
+        [node sendObjectToPeer:request];
         return YES;
     }
     return NO;
 }
 
+
+
+
+#pragma mark - File Chunk Request Delegate Methods
 - (void)fileChunkRequest:(P2PFileChunkRequest *)request didRecieveChunk:(P2PFileChunk *)chunk
 {
     dispatch_async(_dispatchQueueFileRequest, ^
@@ -309,6 +323,11 @@ NSUInteger getNExtRequestId()
     });
 }
 
+
+
+
+
+#pragma mark - Methods terminating the transfer
 - (bool)fileIsComplete
 {
 #warning make these properties thread safe
@@ -352,7 +371,6 @@ NSUInteger getNExtRequestId()
 - (void)requestDidComplete
 {
     _status = P2PFileRequestStatusComplete;
-    
     _dispatchQueueFileRequest = nil;
     
     dispatch_async(dispatch_get_main_queue(), ^

@@ -42,10 +42,11 @@
 /** Resolves the peer's IP address and connects to their I/O streams */
 - (void)preparePeer;
 
+//- (void)sendObjectToPeer:(P2PTransmittableObject *)object;
 
 // File Handling
-- (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request;
-
-- (void)requestFileChunk:(P2PFileChunkRequest *)request;
+//- (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request;
+//
+//- (void)requestFileChunk:(P2PFileChunkRequest *)request;
 
 @end

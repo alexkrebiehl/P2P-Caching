@@ -31,7 +31,9 @@ static NSString *P2PAvailabilityResponseTotalChunks =       @"TotalChunks";
     if ( self = [super init] )
     {
         _fileName = request.fileName;
-        _requestId = request.requestId;
+//        _requestId = request.requestId;
+        self.responseForRequestId = request.requestId;
+        
         if ( request.fileId != nil )
         {
             _matchingFileIds = @[ request.fileId ];
@@ -46,12 +48,11 @@ static NSString *P2PAvailabilityResponseTotalChunks =       @"TotalChunks";
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    if ( self = [super init] )
+    if ( self = [super initWithCoder:aDecoder] )
     {
         _fileName = [aDecoder decodeObjectForKey:P2PAvailabilityResponseFilenameKey];
         _availableChunks = [NSMutableSet setWithArray:[aDecoder decodeObjectForKey:P2PAvailabilityResponseChunksKey]];
         _chunkSizeInBytes = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseChunkSizeKey] unsignedIntegerValue];
-        _requestId = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseId] unsignedIntegerValue];
         _matchingFileIds = [aDecoder decodeObjectForKey:P2PAvailabilityResponseMatchingFileIds];
         _totalChunks = [[aDecoder decodeObjectForKey:P2PAvailabilityResponseTotalChunks] unsignedIntegerValue];
     }
@@ -60,10 +61,11 @@ static NSString *P2PAvailabilityResponseTotalChunks =       @"TotalChunks";
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    [super encodeWithCoder:aCoder];
     [aCoder encodeObject:self.fileName forKey:P2PAvailabilityResponseFilenameKey];
     [aCoder encodeObject:[self.availableChunks allObjects] forKey:P2PAvailabilityResponseChunksKey];
     [aCoder encodeObject:@( self.chunkSizeInBytes ) forKey:P2PAvailabilityResponseChunkSizeKey];
-    [aCoder encodeObject:@( self.requestId ) forKey:P2PAvailabilityResponseId];
+//    [aCoder encodeObject:@( self.requestId ) forKey:P2PAvailabilityResponseId];
     [aCoder encodeObject:self.matchingFileIds forKey:P2PAvailabilityResponseMatchingFileIds];
     [aCoder encodeObject:@( self.totalChunks ) forKey:P2PAvailabilityResponseTotalChunks];
 }
