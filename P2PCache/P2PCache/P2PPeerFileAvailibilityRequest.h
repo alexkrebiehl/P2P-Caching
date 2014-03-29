@@ -32,12 +32,24 @@
 
 @interface P2PPeerFileAvailibilityRequest : P2PTransmittableObject
 
+/** The file identifier that we are looking for information on */
 @property (readonly, nonatomic, copy) NSString *fileId;
+
+/** The name of the file we're trying to find information on */
 @property (copy, nonatomic) NSString *fileName;
+
+/** The delegate to recieve updates on this request */
 @property (weak, nonatomic) id<P2PPeerFileAvailabilityDelegate> delegate;
 
-- (id)initWithFileId:(NSString *)fileId;
-- (id)initWithFilename:(NSString *)filename;
+
+/** Creates a new request with a file identifier or a file name.  If only a file name is supplied, 
+ responses to this object will attempt to locate a matching @c fileId.  At most one of the parameters
+ may be @c nil
+ 
+ @param fileId The file identifier that we are looking for information on
+ @param filename The name of the file we're trying to find information on
+ @return A new request object
+ */
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename;
 
 @end

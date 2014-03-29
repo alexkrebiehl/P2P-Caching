@@ -17,18 +17,13 @@
 
 #define P2PMaximumSimultaneousFileRequests 10
 
-@interface P2PPeerFileAvailbilityResponse (P2PFileRequestExtension)
-
-@end
-
 @interface P2PFileRequest() <P2PFileChunkRequestDelegate, P2PPeerFileAvailabilityDelegate>
-
 @end
 
 @implementation P2PFileRequest
 {
-    NSMutableSet *_pendingAvailabilityRequests;   // Availability requests waiting for a response
-    NSMutableSet *_receivedAvailabiltyResponses;  // Availability responses received
+    NSMutableSet *_pendingAvailabilityRequests;     // Availability requests waiting for a response
+    NSMutableSet *_receivedAvailabiltyResponses;    // Availability responses received
     
     NSArray *_matchingFileIds;                      // Used when multiple Ids match a given file name
     
@@ -140,7 +135,6 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
                 [_pendingAvailabilityRequests addObject:availabilityRequest];
                 availabilityRequest.delegate = self;
                 [aPeer sendObjectToPeer:availabilityRequest];
-//                [aPeer requestFileAvailability:availabilityRequest];
             }
         }
     });
@@ -216,6 +210,12 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
 - (void)processResponses
 {
     // We dont need to use a dispatch queue here... this method can only be called internally by a method already on that thread
+    
+    // See if we ever even recieved all of our availabililty responses
+    if ( _status == P2PFileRequestStatusCheckingAvailability && [_pendingAvailabilityRequests count] == 0 )
+    {
+        [self failWithError:P2PFileRequestErrorFileNotFound];
+    }
 
     // Make sure we only process responses if the request is still active
     if ( _status == P2PFileRequestStatusRetreivingFile )
@@ -278,7 +278,6 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     {
         request.delegate = self;
         [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
-//        [peer requestFileChunk:request];
         [node sendObjectToPeer:request];
         return YES;
     }

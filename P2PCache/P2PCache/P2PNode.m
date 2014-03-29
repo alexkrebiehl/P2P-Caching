@@ -136,6 +136,11 @@ NSUInteger getNextConnectionId()
     return [NSString stringWithFormat:@"<%@ - ID: %lu>", [self class], (unsigned long)_connectionId];
 }
 
+//- (void)dealloc
+//{
+//    assert( NO );
+//}
+
 @end
 
 
@@ -515,17 +520,17 @@ NSUInteger getNextConnectionId()
         {
             if ( connection != nil )
             {
-            assert([aStream isKindOfClass:[NSInputStream class]]);
-            P2PIncomingData *d = [[P2PIncomingData alloc] initWithConnection:connection];
-            d.delegate = self;
-            
-            if ( _activeDataTransfers == nil )
-            {
-                _activeDataTransfers = [[NSMutableSet alloc] init];
-            }
-            
-            [_activeDataTransfers addObject:d];
-            [d takeOverStream];
+                assert([aStream isKindOfClass:[NSInputStream class]]);
+                P2PIncomingData *d = [[P2PIncomingData alloc] initWithConnection:connection];
+                d.delegate = self;
+                
+                if ( _activeDataTransfers == nil )
+                {
+                    _activeDataTransfers = [[NSMutableSet alloc] init];
+                }
+                
+                [_activeDataTransfers addObject:d];
+                [d takeOverStream];
             }
             else
             {
@@ -636,11 +641,11 @@ NSUInteger getNextConnectionId()
     
     
     inStream.delegate = self;
-    [inStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     [inStream open];
     
     outStream.delegate = self;
-    [outStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     [outStream open];
 }
 

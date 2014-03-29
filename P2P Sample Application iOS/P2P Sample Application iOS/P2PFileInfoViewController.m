@@ -11,6 +11,8 @@
 #import "P2PFileManager.h"
 #import "P2PFileRequest.h"
 
+#define kLabelUpdateInterval 1
+
 NSString *P2PFileInfoStoryboardViewIdentifier = @"P2PFileInfoStoryboardViewIdentifier";
 
 static NSString *kChunksAvailableKeyPath =  @"chunksAvailable";
@@ -18,6 +20,10 @@ static NSString *kTotalChunksKeyPath =      @"totalChunks";
 static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
 @interface P2PFileInfoViewController () <P2PFileInfoDelegate, UIAlertViewDelegate>
+{
+    bool _labelsNeedUpdate;
+    NSTimer *_labelUpdateTimer;
+}
 
 @end
 
@@ -27,15 +33,20 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 {
     _fileInfo = fileInfo;
     fileInfo.delegate = self;
+    _labelsNeedUpdate = YES;
     [self updateAllFileInfo];
 }
 
 - (void)updateAllFileInfo
 {
-    self.navigationItem.title = self.fileInfo.filename;
-    [self updateChunksAvailableLabel];
-    [self updateChunksOnDiskLabel];
-    [self updateTotalChunksLabel];
+    if ( _labelsNeedUpdate )
+    {
+        _labelsNeedUpdate = NO;
+        self.navigationItem.title = self.fileInfo.filename;
+        [self updateChunksAvailableLabel];
+        [self updateChunksOnDiskLabel];
+        [self updateTotalChunksLabel];
+    }
 }
 
 - (void)updateChunksOnDiskLabel
@@ -86,34 +97,46 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 #pragma mark - P2PFileInfo Delegate Methods
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksAvailableFromPeers:(NSUInteger)chunksAvailable
 {
-    [self updateChunksAvailableLabel];
+//    [self updateChunksAvailableLabel];
+    _labelsNeedUpdate = YES;
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksOnDisk:(NSUInteger)chunksOnDisk
 {
-    [self updateChunksOnDiskLabel];
+//    [self updateChunksOnDiskLabel];
+    _labelsNeedUpdate = YES;
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateTotalChunks:(NSUInteger)totalChunks
 {
     [self updateTotalChunksLabel];
+    _labelsNeedUpdate = YES;
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateFileId:(NSString *)fileId filename:(NSString *)filename
 {
-    [self updateAllFileInfo];
+//    [self updateAllFileInfo];
+    _labelsNeedUpdate = YES;
 }
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
+    [super viewWillAppear:animated];
+    
+    _labelsNeedUpdate = YES;
     [self updateAllFileInfo];
+    
+    _labelUpdateTimer = [NSTimer timerWithTimeInterval:kLabelUpdateInterval target:self selector:@selector(updateAllFileInfo) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:_labelUpdateTimer forMode:NSDefaultRunLoopMode];
     // Do any additional setup after loading the view.
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     self.fileInfo = nil;
+    [_labelUpdateTimer invalidate];
+    _labelUpdateTimer = nil;
 }
 
 - (void)didReceiveMemoryWarning

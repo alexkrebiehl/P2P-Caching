@@ -63,7 +63,7 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
     if ( self.shouldWaitForResponse )
     {
         _timeoutTimer = [NSTimer timerWithTimeInterval:P2PTransmittableObjectTimeout target:self selector:@selector(requestTimedOut) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:_timeoutTimer forMode:NSDefaultRunLoopMode];
+        [[NSRunLoop mainRunLoop] addTimer:_timeoutTimer forMode:NSDefaultRunLoopMode];
     }
 }
 

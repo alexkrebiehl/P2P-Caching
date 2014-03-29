@@ -8,6 +8,7 @@
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -112,10 +113,10 @@
             </objects>
             <point key="canvasLocation" x="2988" y="-668"/>
         </scene>
-        <!--Split View Controller-->
+        <!--Files In Cache Split View Controller-->
         <scene sceneID="6Rg-3q-dP3">
             <objects>
-                <splitViewController id="cf7-JA-aRK" sceneMemberID="viewController">
+                <splitViewController id="cf7-JA-aRK" customClass="P2PFilesInCacheSplitViewController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="downloads" id="szp-8w-KG7"/>
                     <toolbarItems/>
                     <connections>
@@ -125,7 +126,7 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eqT-11-Gs1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2692" y="776"/>
+            <point key="canvasLocation" x="2692" y="786"/>
         </scene>
         <!--Add File View Controller-->
         <scene sceneID="xxc-Bl-ErD">
@@ -189,11 +190,11 @@
                         <viewControllerLayoutGuide type="bottom" id="WYs-gN-ans"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O0j-Z3-GgO">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F4c-K8-TOr">
-                                <rect key="frame" x="310" y="656" width="149" height="30"/>
+                                <rect key="frame" x="310" y="592" width="149" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Delete file from cache">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -203,7 +204,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="0 %" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mvP-oj-ynm">
-                                <rect key="frame" x="20" y="446" width="728" height="86"/>
+                                <rect key="frame" x="20" y="382" width="728" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="86" id="OZw-ZS-NiA"/>
@@ -212,7 +213,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPl-HY-HGx">
-                                <rect key="frame" x="303" y="604" width="163" height="30"/>
+                                <rect key="frame" x="303" y="540" width="163" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Retreive more of the file">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

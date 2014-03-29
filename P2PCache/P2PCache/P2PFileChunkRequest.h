@@ -32,6 +32,7 @@
 
 @interface P2PFileChunkRequest : P2PTransmittableObject
 
+/** The delegate to recieve updates for this request */
 @property (weak, nonatomic) id<P2PFileChunkRequestDelegate> delegate;
 
 /** The file identifier of the chunk we need */
@@ -42,6 +43,7 @@
 
 /** The size of the chunk we are expecting */
 @property (nonatomic, readonly) NSUInteger chunkSize;
+
 
 /** Creates a new chunk request object with the parameters needed
  

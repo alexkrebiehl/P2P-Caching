@@ -21,17 +21,6 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
     return [self initWithFileId:nil filename:nil];
 }
 
-- (id)initWithFileId:(NSString *)fileId
-{
-    return [self initWithFileId:fileId filename:nil];
-}
-
-- (id)initWithFilename:(NSString *)filename
-{
-    return [self initWithFileId:nil filename:filename];
-}
-
-//static NSUInteger currentId = 1;
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename
 {
 //    NSAssert( fileId != nil || filename != nil, @"Must supply a file Id or filename" );

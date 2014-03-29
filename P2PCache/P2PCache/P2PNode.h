@@ -18,7 +18,7 @@
  @param object The recieved object
  @param sender The service which this object came from
  */
-- (void)handleReceivedObject:(id)object from:(P2PNodeConnection *)sender;
+- (void)handleReceivedObject:(P2PTransmittableObject *)object from:(P2PNodeConnection *)sender;
 
 
 /** When an object is unable to be sent across the network connection 

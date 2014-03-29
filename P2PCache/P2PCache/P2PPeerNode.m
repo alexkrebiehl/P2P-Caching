@@ -23,8 +23,6 @@
 
 @implementation P2PPeerNode
 {
-//    NSMutableArray *_pendingFileAvailibilityRequests;
-//    NSMutableArray *_pendingFileChunkRequests;
     NSMutableDictionary *_pendingRequests;
 }
 
@@ -55,16 +53,13 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
 
 - (void)preparePeer
 {
-    // Resolve addresses
-//    [_netService resolveWithTimeout:0];
-    
     // open streams
     NSInputStream		*inStream;
     NSOutputStream		*outStream;
     if ( [_netService getInputStream:&inStream outputStream:&outStream] )
     {
         P2PLog( P2PLogLevelNormal, @"%@ - Successfully connected to peer's stream", self);
-        [self takeOverInputStream:inStream outputStream:outStream]; // forService:_netService];
+        [self takeOverInputStream:inStream outputStream:outStream];
         [self peerDidBecomeReady];
     }
     else
@@ -76,7 +71,7 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
 }
 
 
-- (void)handleReceivedObject:(id)object from:(P2PNodeConnection *)sender
+- (void)handleReceivedObject:(P2PTransmittableObject *)object from:(P2PNodeConnection *)sender
 {
     P2PTransmittableObject *requestingObject = [_pendingRequests objectForKey:object.responseForRequestId];
     if ( requestingObject == nil )
@@ -145,92 +140,6 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
         P2PLogDebug(@"%@ - File availability request sent", self);
     });
 }
-
-//#pragma mark - File Handling
-//- (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request
-//{
-//    dispatch_async(dispatchQueuePeerNode, ^
-//    {
-////        if ( _pendingFileAvailibilityRequests == nil )
-////        {
-////            _pendingFileAvailibilityRequests = [[NSMutableArray alloc] init];
-////        }
-////                [_pendingFileAvailibilityRequests addObject:request];
-//        
-//        
-//        if ( _pendingRequests == nil )
-//        {
-//            _pendingRequests = [[NSMutableDictionary alloc] init];
-//        }
-//        [_pendingRequests setObject:request forKey:request.requestId];
-//
-//        [self transmitObject:request];
-//        P2PLogDebug(@"%@ - File availability request sent", self);
-//    });
-//}
-
-//- (void)didRecieveFileAvailabilityResponse:(P2PPeerFileAvailbilityResponse *)response
-//{
-//    dispatch_async(dispatchQueuePeerNode, ^
-//    {
-//        
-//        // Find out what request this response is for...
-//        for ( P2PPeerFileAvailibilityRequest *aRequest in _pendingFileAvailibilityRequests )
-//        {
-//            //good enough for now..
-//            if ( aRequest.requestId == response.requestId )
-//            {
-//                // found the request.....
-//                response.owningPeer = self;
-//                [aRequest didRecieveAvailibilityResponse:response];
-//                [_pendingFileAvailibilityRequests removeObject:aRequest];
-//                return;
-//            }
-//        }
-//    });
-//}
-
-//- (void)requestFileChunk:(P2PFileChunkRequest *)request
-//{
-//    dispatch_async(dispatchQueuePeerNode, ^
-//    {
-////        if ( _pendingFileChunkRequests == nil )
-////        {
-////            _pendingFileChunkRequests = [[NSMutableArray alloc] init];
-////        }
-////        
-////        [_pendingFileChunkRequests addObject:request];
-//        
-//        if ( _pendingRequests == nil )
-//        {
-//            _pendingRequests = [[NSMutableSet alloc] init];
-//        }
-//        
-//        [_pendingRequests addObject:request];
-//        [self transmitObject:request];
-//    });
-//}
-
-//- (void)didRecieveFileChunk:(P2PFileChunk *)fileChunk
-//{
-//    dispatch_async(dispatchQueuePeerNode, ^
-//    {
-//        
-//        
-//        for ( P2PFileChunkRequest *aRequest in _pendingFileChunkRequests )
-//        {
-//            //good enough for now..
-//            if ( [aRequest.fileId isEqualToString:fileChunk.fileId] && aRequest.chunkId == fileChunk.chunkId )
-//            {
-//                // found the request.....
-//                [aRequest peer:self didRecieveChunk:fileChunk];
-//                [_pendingFileAvailibilityRequests removeObject:aRequest];
-//                return;
-//            }
-//        }
-//    });
-//}
-
 
 
 

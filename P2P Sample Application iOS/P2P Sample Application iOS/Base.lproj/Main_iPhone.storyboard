@@ -281,7 +281,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xcF-Xt-eah" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1449" y="1150"/>
+            <point key="canvasLocation" x="1820" y="1102"/>
         </scene>
         <!--Cached Files View Controller - Files-->
         <scene sceneID="8iL-tn-vJw">
@@ -359,7 +359,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sdJ-K9-oQ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="934" y="1144"/>
+            <point key="canvasLocation" x="1305" y="1096"/>
         </scene>
         <!--Add File View Controller-->
         <scene sceneID="LJY-2i-lgv">
@@ -411,7 +411,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5xr-tZ-8YS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="934" y="1854"/>
+            <point key="canvasLocation" x="1820" y="1862"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AqM-Mi-E7U">
@@ -427,7 +427,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Baw-vS-KG7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="528" y="1150"/>
+            <point key="canvasLocation" x="795" y="1102"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

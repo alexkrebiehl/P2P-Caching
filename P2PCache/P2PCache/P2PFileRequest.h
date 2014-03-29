@@ -39,10 +39,6 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 };
 
 @class P2PPeerNode, P2PFileRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk;
-
-
-
-
 @protocol P2PFileRequestDelegate <NSObject>
 
 @required

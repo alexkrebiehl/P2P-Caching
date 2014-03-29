@@ -428,9 +428,9 @@
 				FABA8DBC18A5823B00115463 /* File Management */,
 				FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */,
 				FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */,
+				FAD685F1189B41B200CA7E18 /* Peer Management */,
 				FAD685EA189B35BA00CA7E18 /* Utility */,
 				FA3CA989189B1ACD00208607 /* Supporting Files */,
-				FAD685F1189B41B200CA7E18 /* Peer Management */,
 			);
 			name = "Private Framework Classes";
 			sourceTree = "<group>";
