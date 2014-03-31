@@ -57,7 +57,7 @@ static const NSUInteger P2PIncomingDataFileSizeUnknown = NSUIntegerMax;
 NSData* prepareObjectForTransmission( id<NSCoding> object )
 {
     NSData *objectData = [NSKeyedArchiver archivedDataWithRootObject:object];
-    NSUInteger fileSize = [objectData length];
+    uint32_t fileSize = (uint32_t)[objectData length];
     crc_type crc = (crc_type) crc32( 0, [objectData bytes], (uInt)[objectData length] );
     
     // Combine the pieces
@@ -651,11 +651,12 @@ NSUInteger getNextConnectionId()
 
 - (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent
 {
-    if ( node != nil )
-    {
-        [_activeConnections removeObject:node];
-    }
-    P2PLog( P2PLogLevelWarning, @"%@ - connection lost: %@", self, node);
+    P2PLog( P2PLogLevelWarning, @"<%@> node: %@ failed do download an object.  Maybe peer has disconnected?", self, node );
+//    if ( node != nil )
+//    {
+//        [_activeConnections removeObject:node];
+//    }
+//    P2PLog( P2PLogLevelWarning, @"%@ - connection lost: %@", self, node);
 }
 
 - (void)cleanup

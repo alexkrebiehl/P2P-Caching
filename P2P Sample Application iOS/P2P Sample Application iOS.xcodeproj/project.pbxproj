@@ -155,6 +155,7 @@
 		FABB82C918E6712000B528D9 /* Device Shared */ = {
 			isa = PBXGroup;
 			children = (
+				FA93DDDB18D6B22800ACC411 /* Cached Files */,
 				FAD68660189B4D8500CA7E18 /* P2PSecondViewController.h */,
 				FAD68661189B4D8500CA7E18 /* P2PSecondViewController.m */,
 				FA3924F8189D5A33002B6324 /* P2PPeerListTableViewController.h */,
@@ -224,7 +225,6 @@
 				FABB82C818E6710800B528D9 /* Storyboards */,
 				FAD68663189B4D8500CA7E18 /* Images.xcassets */,
 				FAD6864C189B4D8500CA7E18 /* Supporting Files */,
-				FA93DDDB18D6B22800ACC411 /* Cached Files */,
 			);
 			path = "P2P Sample Application iOS";
 			sourceTree = "<group>";
