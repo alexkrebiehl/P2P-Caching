@@ -23,7 +23,7 @@ typedef NS_ENUM( NSInteger, P2PLogLevel )
 };
 
 /** Currently set logging level */
-static const P2PLogLevel LOG_LEVEL = P2PLogLevelNormal;
+static const P2PLogLevel LOG_LEVEL = P2PLogLevelDebug;
 
 /** Shortcut for debug log */
 void P2PLogDebug( NSString *message, ... ) NS_FORMAT_FUNCTION(1,2);

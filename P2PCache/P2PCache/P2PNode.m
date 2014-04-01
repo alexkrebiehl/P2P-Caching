@@ -434,6 +434,16 @@ NSUInteger getNextConnectionId()
     NSMutableSet *_activeDataTransfers;   // A set of P2PIncomingData objects
 }
 
+static NSUInteger nextNodeID = 0;
+NSUInteger getNextNodeID() { return nextNodeID++; }
+
+- (id) init {
+    
+    if (self = [super init]) {
+        _nodeID = @(getNextNodeID());
+    }
+    return self;
+}
 - (void)workOutputBufferForStream:(NSOutputStream *)stream buffer:(NSMutableData *)buffer
 {
     assert(buffer != nil);

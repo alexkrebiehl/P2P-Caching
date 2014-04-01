@@ -11,6 +11,8 @@
 @class P2PNodeConnection, P2PTransmittableObject;
 
 @interface P2PNode : NSObject <NSStreamDelegate>
+@property (strong, readonly, nonatomic) NSNumber *nodeID;
+
 
 /** This method will be called when the node recieves an object.  Subclasses MUST override this method
  and handle any incoming objects.  Subclasses don't need to call this method directly.

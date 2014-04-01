@@ -49,7 +49,7 @@
 @property (weak, nonatomic) id<P2PFileInfoDelegate> delegate;
 @property (copy, nonatomic) NSString *filename;
 @property (copy, nonatomic) NSString *fileId;
-@property (readonly, nonatomic) NSSet *chunksAvailable;
+@property (readonly, nonatomic) NSCountedSet *chunksAvailable;
 @property (readonly, nonatomic) NSSet *chunksOnDisk;
 @property (readonly, nonatomic) NSUInteger totalChunks;
 @property (nonatomic) NSUInteger totalFileSize;
@@ -70,5 +70,7 @@
 - (void)chunkBecameAvailable:(NSNumber *)chunkId;
 
 - (void)chunksBecameAvailable:(NSSet *)multipleChunkIds;
+
+- (void)chunkBecameUnavailable:(NSSet *)unavailableChunks;
 
 @end

@@ -15,7 +15,7 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 @implementation P2PFileInfo
 {
     NSMutableSet *_chunksOnDisk;
-    NSMutableSet *_chunksAvailable;
+    NSCountedSet *_chunksAvailable;
 }
 @synthesize chunksOnDisk = _chunksOnDisk;
 @synthesize chunksAvailable = _chunksAvailable;
@@ -99,7 +99,7 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 {
     if ( _chunksAvailable == nil )
     {
-        _chunksAvailable = [[NSMutableSet alloc] init];
+        _chunksAvailable = [[NSCountedSet alloc] init];
     }
     [_chunksAvailable addObject:chunkId];
     dispatch_async(dispatch_get_main_queue(), ^
@@ -112,7 +112,7 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 {
     if ( _chunksAvailable == nil )
     {
-        _chunksAvailable = [[NSMutableSet alloc] init];
+        _chunksAvailable = [[NSCountedSet alloc] init];
     }
     [_chunksAvailable unionSet:multipleChunkIds];
     dispatch_async(dispatch_get_main_queue(), ^
@@ -120,6 +120,16 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
        [self.delegate fileInfo:self didUpdateChunksAvailableFromPeers:[_chunksAvailable count]];
     });
 }
+
+- (void)chunkBecameUnavailable:(NSSet *)unavailableChunks {
+    [_chunksAvailable minusSet:unavailableChunks];
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+       [self.delegate fileInfo:self didUpdateChunksAvailableFromPeers:[_chunksAvailable count]];
+    });
+    
+}
+
 
 - (NSUInteger)totalChunks
 {
