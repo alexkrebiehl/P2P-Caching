@@ -50,14 +50,15 @@ enum
     P2PNodeConnectionBufferSize = 32 * 1024, // 32kb buffer
 };
 
+typedef uint32_t file_size_type;
 typedef uint32_t crc_type;
 
-static const NSUInteger P2PIncomingDataFileSizeUnknown = NSUIntegerMax;
+static const file_size_type P2PIncomingDataFileSizeUnknown = UINT32_MAX;
 
 NSData* prepareObjectForTransmission( id<NSCoding> object )
 {
     NSData *objectData = [NSKeyedArchiver archivedDataWithRootObject:object];
-    uint32_t fileSize = (uint32_t)[objectData length];
+    file_size_type fileSize = (file_size_type)[objectData length];
     crc_type crc = (crc_type) crc32( 0, [objectData bytes], (uInt)[objectData length] );
     
     // Combine the pieces
@@ -171,7 +172,7 @@ NSUInteger getNextConnectionId()
 @interface P2PIncomingData : NSObject <NSStreamDelegate>
 
 @property (weak, nonatomic, readonly) P2PNodeConnection *connection;
-@property (nonatomic, readonly) NSUInteger fileSize;
+@property (nonatomic, readonly) file_size_type fileSize;
 
 @property (readonly, nonatomic) P2PIncomingDataStatus status;
 @property (readonly, nonatomic) P2PIncomingDataErrorCode errorCode;
@@ -250,7 +251,7 @@ NSUInteger getNextConnectionId()
 {
     assert( _bufferOffset == 0 );
     _buffer = [[NSMutableData alloc] init];
-    [_buffer setLength:sizeof(uint64_t)];
+    [_buffer setLength:sizeof( file_size_type )];
     
     _status = P2PIncomingDataStatusReadingHeader;
 }
@@ -258,9 +259,9 @@ NSUInteger getNextConnectionId()
 - (void)processHeader
 {
     // set file length here
-    assert( [_buffer length] == sizeof(uint64_t) );
-    uint64_t tmp = * (const uint64_t *) [_buffer bytes];
-    _fileSize = (NSUInteger)tmp;
+    assert( [_buffer length] == sizeof( file_size_type ) );
+    file_size_type tmp = * (const file_size_type *) [_buffer bytes];
+    _fileSize = tmp;
     assert( _fileOffset == 0 );
     assert( _fileSize != 0 );
     _status = P2PIncomingDataStatusReadingData;
@@ -437,13 +438,15 @@ NSUInteger getNextConnectionId()
 static NSUInteger nextNodeID = 0;
 NSUInteger getNextNodeID() { return nextNodeID++; }
 
-- (id) init {
-    
-    if (self = [super init]) {
-        _nodeID = @(getNextNodeID());
+- (id) init
+{
+    if ( self = [super init] )
+    {
+        _nodeID = @( getNextNodeID() );
     }
     return self;
 }
+
 - (void)workOutputBufferForStream:(NSOutputStream *)stream buffer:(NSMutableData *)buffer
 {
     assert(buffer != nil);

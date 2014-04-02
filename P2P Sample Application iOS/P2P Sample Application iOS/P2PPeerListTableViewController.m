@@ -10,18 +10,22 @@
 #import "P2PCache/P2PPeerManager.h"
 #import "P2PCache/P2PPeerNode.h"
 
+#define kTableViewNumberOfSections 1
+#define kTableViewSectionActivePeers 0
 
 @interface P2PPeerListTableViewController ()
 
 @end
 
 @implementation P2PPeerListTableViewController
-
-
-
-- (void)viewDidLoad
 {
-    [super viewDidLoad];
+    NSArray *_activeUsers;
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -29,16 +33,29 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    _activeUsers = [[[P2PPeerManager sharedManager] activePeers] allObjects];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(peersDidUpdateNotification:)
                                                  name:P2PPeerManagerPeerListUpdatedNotification
                                                object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)peersDidUpdateNotification:(NSNotification *)notification
 {
+    P2PPeerManager *peerManager = [P2PPeerManager sharedManager];
+    
+    _activeUsers = [[peerManager activePeers] allObjects];
+    
     [self.tableView reloadData];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -50,13 +67,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return kTableViewNumberOfSections;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"Connected Peers";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Display all found peers
-    return [[[P2PPeerManager sharedManager] allPeers] count];
+    return [[[P2PPeerManager sharedManager] activePeers] count];
     
 }
 
@@ -69,7 +90,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    P2PPeerNode *aPeer = [[[P2PPeerManager sharedManager] allPeers] objectAtIndex:indexPath.row];
+    P2PPeerNode *aPeer = [_activeUsers objectAtIndex:indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@", aPeer.netService.name];
     
     return cell;

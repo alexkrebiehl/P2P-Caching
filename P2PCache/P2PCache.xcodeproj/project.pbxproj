@@ -46,7 +46,6 @@
 		FA3E9E93189B52FF009FEB99 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA3E9E91189B52FF009FEB99 /* InfoPlist.strings */; };
 		FA3E9E95189B52FF009FEB99 /* P2PCache_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */; };
 		FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3CA990189B1ACD00208607 /* P2PCache.m */; };
-		FA3E9EE3189B5A06009FEB99 /* P2PCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */; };
 		FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E3189B229E00CA7E18 /* P2PLogging.m */; };
 		FA3E9EE5189B5A06009FEB99 /* CanonicalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E7189B33D500CA7E18 /* CanonicalRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FA3E9EE6189B5A06009FEB99 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
@@ -72,8 +71,6 @@
 		FAC0304A18DBB57C001051F9 /* P2PFileInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FAC0304718DBB57C001051F9 /* P2PFileInfo.m */; };
 		FAC3F99B18D6A655004B7361 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3F99A18D6A655004B7361 /* libz.dylib */; };
 		FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3CA98F189B1ACD00208607 /* P2PCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */; };
-		FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */; };
 		FAD685E4189B229E00CA7E18 /* P2PLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685E2189B229E00CA7E18 /* P2PLogging.h */; };
 		FAD685E5189B229E00CA7E18 /* P2PLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685E3189B229E00CA7E18 /* P2PLogging.m */; };
 		FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685E6189B33D500CA7E18 /* CanonicalRequest.h */; };
@@ -175,8 +172,6 @@
 		FAC0304618DBB57C001051F9 /* P2PFileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileInfo.h; sourceTree = "<group>"; };
 		FAC0304718DBB57C001051F9 /* P2PFileInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileInfo.m; sourceTree = "<group>"; };
 		FAC3F99A18D6A655004B7361 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
-		FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PCacheProtocol.h; sourceTree = "<group>"; };
-		FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PCacheProtocol.m; sourceTree = "<group>"; };
 		FAD685E2189B229E00CA7E18 /* P2PLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PLogging.h; sourceTree = "<group>"; };
 		FAD685E3189B229E00CA7E18 /* P2PLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PLogging.m; sourceTree = "<group>"; };
 		FAD685E6189B33D500CA7E18 /* CanonicalRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanonicalRequest.h; sourceTree = "<group>"; };
@@ -426,8 +421,6 @@
 			isa = PBXGroup;
 			children = (
 				FABA8DBC18A5823B00115463 /* File Management */,
-				FAD685DB189B213F00CA7E18 /* P2PCacheProtocol.h */,
-				FAD685DC189B213F00CA7E18 /* P2PCacheProtocol.m */,
 				FAD685F1189B41B200CA7E18 /* Peer Management */,
 				FAD685EA189B35BA00CA7E18 /* Utility */,
 				FA3CA989189B1ACD00208607 /* Supporting Files */,
@@ -457,7 +450,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3974C918A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h in Headers */,
-				FAD685DD189B213F00CA7E18 /* P2PCacheProtocol.h in Headers */,
 				FABA8DC418A5829200115463 /* P2PFileChunk.h in Headers */,
 				FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */,
 				FA64EF3D189C7A4B00C35EFF /* P2PPeerNode.h in Headers */,
@@ -624,7 +616,6 @@
 			files = (
 				FA0DFF9718AF274B00B2C1CB /* NSObject+cleanup.m in Sources */,
 				FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */,
-				FAD685DE189B213F00CA7E18 /* P2PCacheProtocol.m in Sources */,
 				FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
 				FAC0304918DBB57C001051F9 /* P2PFileInfo.m in Sources */,
 				FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */,
@@ -658,7 +649,6 @@
 			files = (
 				FA0DFF9818AF274B00B2C1CB /* NSObject+cleanup.m in Sources */,
 				FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */,
-				FA3E9EE3189B5A06009FEB99 /* P2PCacheProtocol.m in Sources */,
 				FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
 				FAC0304A18DBB57C001051F9 /* P2PFileInfo.m in Sources */,
 				FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */,

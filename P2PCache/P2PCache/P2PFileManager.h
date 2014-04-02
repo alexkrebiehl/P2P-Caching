@@ -8,33 +8,35 @@
 
 #import <Foundation/Foundation.h>
 
-
-static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File chunk size
-
 @class P2PPeerFileAvailibilityRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk, P2PFileChunkRequest, P2PFileRequest, P2PFileInfo;
+
+/** The defualt size (in bytes) file a file chunk */
+static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File chunk size
 
 @interface P2PFileManager : NSFileManager
 
 @property (strong, nonatomic, readonly) NSOrderedSet *allFileIds;
 @property (strong, nonatomic, readonly) NSURL *cacheDirectory;
 
+
+/** Returns the shared instance of the file manager
+ 
+ @return The shared file manager
+ */
 + (P2PFileManager *)sharedManager;
 
 
 /** Responds to a peer asking what we have available of a certian file
  
  @param request A request from a peer
- 
  @return Returns a response to the peer detailing what we have available
  */
 - (P2PPeerFileAvailbilityResponse *)fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)request;
 
 
-
 /** Returns a file chunk from disk to send to another peer on the network
  
  @param request A chunk request from a peer
- 
  @return A file chunk object, or nil if the data couldn't be located 
  */
 - (P2PFileChunk *)fileChunkForRequest:(P2PFileChunkRequest *)request;
@@ -46,7 +48,6 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
  @param chunk A chunk object with data as well as chunk information
  */
 - (void)fileRequest:(P2PFileRequest *)fileRequest didRecieveFileChunk:(P2PFileChunk *)chunk;
-
 
 
 /** Adds a file to the caching system.  This will probably only be used for testing
@@ -61,7 +62,6 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
  
  @param fileId The identifier unique to a file
  @param filename The name of a file to retrieve info on
- 
  @return Returns information if a match is found, otherwise nil 
  */
 - (P2PFileInfo *)fileInfoForFileId:(NSString *)fileId filename:(NSString *)filename;
@@ -77,7 +77,6 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
 /** Deletes all information about a file from the cache.
  
  @param fileInfo Information about a file to be deleted
- 
  @return YES if successful, NO otherwise
  */
 - (bool)deleteFileFromCache:(P2PFileInfo *)fileInfo;

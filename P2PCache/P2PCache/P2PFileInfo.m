@@ -95,19 +95,6 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
    
 }
 
-- (void)chunkBecameAvailable:(NSNumber *)chunkId
-{
-    if ( _chunksAvailable == nil )
-    {
-        _chunksAvailable = [[NSCountedSet alloc] init];
-    }
-    [_chunksAvailable addObject:chunkId];
-    dispatch_async(dispatch_get_main_queue(), ^
-    {
-       [self.delegate fileInfo:self didUpdateChunksAvailableFromPeers:[_chunksAvailable count]];
-    });
-}
-
 - (void)chunksBecameAvailable:(NSSet *)multipleChunkIds
 {
     if ( _chunksAvailable == nil )

@@ -77,7 +77,7 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
     if ( requestingObject == nil )
     {
         // We recieved an object without a request?
-        P2PLog( P2PLogLevelWarning, @"Recieved an object without making a request: %@ - response toe requestId: %@", object, object.responseForRequestId );
+        P2PLog( P2PLogLevelWarning, @"Recieved an object without making a request: %@ - response to requestId: %@", object, object.responseForRequestId );
     }
     else
     {
@@ -127,6 +127,7 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
 {
     dispatch_async(dispatchQueuePeerNode, ^
     {
+        NSAssert( self.isReady, @"<%@> Cannot send to a peer that is not ready!", self );
         if ( object.shouldWaitForResponse )
         {
             if ( _pendingRequests == nil )

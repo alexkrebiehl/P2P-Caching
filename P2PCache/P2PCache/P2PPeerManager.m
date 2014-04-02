@@ -19,13 +19,13 @@
 {
     P2PServerNode   *_peerServer;           // Us broadcasting to others that we offer a service
     
-    NSMutableArray *_activePeers;           // Peers we are connected to and ready to interact with
-    NSMutableArray *_allPeers;              // Every peer we can find, wether we are connected or not
+    NSMutableSet *_activePeers;           // Peers we are connected to and ready to interact with
+//    NSMutableSet *_inactivePeers;         // Peers that are no longer connected (for debugging)
     
     NSNetServiceBrowser *_serviceBrowser;   // Searches for peers
 }
 @synthesize activePeers = _activePeers;
-@synthesize allPeers = _allPeers;
+//@synthesize inactivePeers = _inactivePeers;
 
 
 
@@ -55,8 +55,8 @@ static P2PPeerManager *sharedInstance = nil;
     [_peerServer beginBroadcasting];
     
     // Find some peeps
-    _allPeers = [[NSMutableArray alloc] init];
-    _activePeers = [[NSMutableArray alloc] init];
+//    _allPeers = [[NSMutableSet alloc] init];
+    _activePeers = [[NSMutableSet alloc] init];
     [self beginSearching];
 }
 
@@ -66,7 +66,7 @@ static P2PPeerManager *sharedInstance = nil;
     
     [_serviceBrowser stop];
     [_peerServer cleanup];
-    for ( P2PNode *node in _allPeers )
+    for ( P2PNode *node in self.activePeers )
     {
         [node cleanup];
     }
@@ -98,7 +98,7 @@ static P2PPeerManager *sharedInstance = nil;
     if ( [aNetService.type isEqualToString:P2P_BONJOUR_SERVICE_TYPE] )
     {
         P2PPeerNode *aPeer = [[P2PPeerNode alloc] initWithNetService:aNetService];
-        [_allPeers addObject:aPeer];
+        [_activePeers addObject:aPeer];
         aPeer.delegate = self;
         [aPeer preparePeer];
     }
@@ -107,16 +107,17 @@ static P2PPeerManager *sharedInstance = nil;
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
+#warning I've never seen this called.  Find a better way to remove peers
     if ( [aNetService.name isEqualToString:P2P_BONJOUR_SERVICE_TYPE] )
     {
         // Find a good way to do this
         P2PLog( P2PLogLevelNormal, @"******** DID LOSE PEER: %@ NEED TO HANDLE **********", aNetService.name );
-        for ( P2PPeerNode *peer in _allPeers )
+        for ( P2PPeerNode *peer in _activePeers )
         {
             if ( peer.netService == aNetService )
             {
                 [self peerIsNoLongerReady:peer];
-                [_allPeers removeObject:peer];
+                [_activePeers removeObject:peer];
             }
         }
     }

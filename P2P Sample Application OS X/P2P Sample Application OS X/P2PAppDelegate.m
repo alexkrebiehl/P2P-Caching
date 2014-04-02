@@ -25,7 +25,7 @@
     P2PFilesInCacheWindowController *_filesInCacheWindowController;
     P2PActiveTransfersWindowController *_activeFilesController;
     
-    NSMutableOrderedSet *_allPeers;  // A list of peers, including ones that have disconnected
+    NSArray *_activePeers;  // A list of peers, including ones that have disconnected
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -120,17 +120,17 @@
 
 - (void)peersUpdatedNotification:(NSNotification *)notification
 {
-    NSArray *activePeers = [[P2PPeerManager sharedManager] activePeers];
-    if ( _allPeers == nil )
-    {
-        _allPeers = [[NSMutableOrderedSet alloc] initWithArray:activePeers copyItems:NO];
-    }
-    else
-    {
-        [_allPeers addObjectsFromArray:activePeers];
-    }
+    _activePeers = [[[P2PPeerManager sharedManager] activePeers] allObjects];
+//    if ( _allPeers == nil )
+//    {
+//        _allPeers = [[NSMutableOrderedSet alloc] initWithArray:activePeers copyItems:NO];
+//    }
+//    else
+//    {
+//        [_allPeers addObjectsFromArray:activePeers];
+//    }
     [self.peerListTableView reloadData];
-    [self.peersFoundLabel setStringValue:[NSString stringWithFormat:@"%lu", (unsigned long)[activePeers count]]];
+    [self.peersFoundLabel setStringValue:[NSString stringWithFormat:@"%lu", (unsigned long)[_activePeers count]]];
 }
 
 - (void)activeFileRequestsUpdated:(NSNotification *)notification
@@ -197,13 +197,13 @@
 #pragma mark - Peer table view delegate/datasource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return [_allPeers count];
+    return [[[P2PPeerManager sharedManager] activePeers] count];
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSView *view;
-    P2PPeerNode *peer = [_allPeers objectAtIndex:row];
+    P2PPeerNode *peer = [_activePeers objectAtIndex:row];
     if ( [tableColumn.identifier isEqualToString:@"P2PPeerTableStatusColumn"] )
     {
         view = [tableView makeViewWithIdentifier:@"P2PPeerTableStatusCell" owner:self];

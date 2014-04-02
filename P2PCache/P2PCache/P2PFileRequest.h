@@ -12,11 +12,22 @@
 
 typedef NS_ENUM(NSUInteger, P2PFileRequestStatus)
 {
+    /** Unknown status.  This should never really happen */
     P2PFileRequestStatusUnknown = 0,
+    
+    /** The request hasn't been started yet.  Call @c getFile to start the request */
     P2PFileRequestStatusNotStarted,
+    
+    /** The request is still waiting for peers to respond with file availability */
     P2PFileRequestStatusCheckingAvailability,
+    
+    /** The request is currently downloading chunks of the file */
     P2PFileRequestStatusRetreivingFile,
+    
+    /** The file is completely cached on disk */
     P2PFileRequestStatusComplete,
+    
+    /** The request has failed.  Check @c errorCode to find out what the reason was */
     P2PFileRequestStatusFailed
 };
 

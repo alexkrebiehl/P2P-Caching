@@ -13,8 +13,8 @@ static NSString *P2PPeerManagerPeerListUpdatedNotification =    @"P2PPeerManager
 
 @interface P2PPeerManager : NSObject
 
-@property (strong, readonly, nonatomic) NSArray *activePeers;
-@property (strong, readonly, nonatomic) NSArray *allPeers;
+/** A set of @c P2PNode objects that are currently available */
+@property (strong, readonly, nonatomic) NSSet *activePeers;
 
 /** A shared manager to handle the tracking of compatable peers */
 + (P2PPeerManager *)sharedManager;

@@ -86,17 +86,17 @@
 
 - (void)peersUpdatedNotification:(NSNotification *)notification
 {
-    NSArray *activePeers = [[P2PPeerManager sharedManager] activePeers];
-    if ( _allPeers == nil )
-    {
-        _allPeers = [[NSMutableOrderedSet alloc] initWithArray:activePeers copyItems:NO];
-    }
-    else
-    {
-        [_allPeers addObjectsFromArray:activePeers];
-    }
+//    NSArray *activePeers = [[P2PPeerManager sharedManager] activePeers];
+//    if ( _allPeers == nil )
+//    {
+//        _allPeers = [[NSMutableOrderedSet alloc] initWithArray:activePeers copyItems:NO];
+//    }
+//    else
+//    {
+//        [_allPeers addObjectsFromArray:activePeers];
+//    }
     
-    _peersNumber.text = [NSString stringWithFormat:@"%lu", (unsigned long)[activePeers count]];
+    _peersNumber.text = [NSString stringWithFormat:@"%lu", (unsigned long)[[[P2PPeerManager sharedManager] activePeers] count]];
 }
 
 - (void)activeFileRequestsUpdated:(NSNotification *)notification

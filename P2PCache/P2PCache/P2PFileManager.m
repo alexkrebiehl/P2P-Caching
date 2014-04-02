@@ -176,6 +176,7 @@ static P2PFileManager *sharedInstance = nil;
         [chunksOdata addObject:p2pChunk];
         
         offset += thisChunkSize;
+        
     } while (offset < length);
     
     return chunksOdata;

@@ -11,6 +11,8 @@
 @class P2PNodeConnection, P2PTransmittableObject;
 
 @interface P2PNode : NSObject <NSStreamDelegate>
+
+/** Unique identifier for this node */
 @property (strong, readonly, nonatomic) NSNumber *nodeID;
 
 
@@ -27,7 +29,7 @@
  
  (Not implemented yet)
  */
-- (void)objectDidFailToSend:(id)object;
+//- (void)objectDidFailToSend:(id)object;
 
 - (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent;
 

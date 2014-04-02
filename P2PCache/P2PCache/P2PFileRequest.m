@@ -145,6 +145,12 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     dispatch_async(_dispatchQueueFileRequest, ^
     {
         P2PLog( P2PLogLevelWarning, @"%@ - failed", request );
+        
+        if ( error == P2PTransmissionErrorPeerNoLongerReady )
+        {
+            [self peerBecameUnavailable:request.associatedNode];
+        }
+        
         [_pendingAvailabilityRequests removeObject:request];
         [self processResponses];
     });
@@ -242,6 +248,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
             [chunksNeeded minusSet:self.fileInfo.chunksOnDisk];  // We don't need chunks that we already have
             [chunksNeeded minusSet:_chunksCurrentlyBeingRequested]; // These already have a filechunkrequest going
             
+
 #warning We need to work on this to much enumeration. 
             
             for ( P2PPeerFileAvailbilityResponse *response in _receivedAvailabiltyResponses.allValues )
@@ -315,12 +322,13 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
 
 - (void)fileChunkRequest:(P2PFileChunkRequest *)request failedWithError:(P2PTransmissionError)error
 {
-    dispatch_async(_dispatchQueueFileRequest, ^
+    dispatch_async( _dispatchQueueFileRequest, ^
     {
         // Mark this chunk as no longer available from this peer somehow...
 //        NSAssert(NO, @"To be handled...");
         
-        if (error == P2PTransmissionErrorPeerNoLongerReady) {
+        if ( error == P2PTransmissionErrorPeerNoLongerReady )
+        {
             [self peerBecameUnavailable:request.associatedNode];
         }
 
@@ -329,7 +337,8 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     });
 }
 
-- (void)peerBecameUnavailable:(P2PNode *)node {
+- (void)peerBecameUnavailable:(P2PNode *)node
+{
     P2PPeerFileAvailbilityResponse *response = [_receivedAvailabiltyResponses objectForKey:node.nodeID];
     
     [self.fileInfo chunkBecameUnavailable:response.availableChunks];
