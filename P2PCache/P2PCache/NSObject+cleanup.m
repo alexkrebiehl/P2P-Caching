@@ -13,6 +13,7 @@
 - (void)cleanup
 {
     // Default implementation does nothing
+    NSLog( P2PLogLevelDebug, @"<%@> cleaning up", self );
 }
 
 @end

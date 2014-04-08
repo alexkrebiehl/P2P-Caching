@@ -41,7 +41,7 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
         _isReady = NO;
         
         _netService = netService;
-        _netService.delegate = self;
+//        _netService.delegate = self;
         
         if ( dispatchQueuePeerNode == nil )
         {
@@ -112,10 +112,10 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
 }
 
 
-- (void)netServiceDidStop:(NSNetService *)sender
-{
-    [self peerIsNoLongerReady];
-}
+//- (void)netServiceDidStop:(NSNetService *)sender
+//{
+//    [self peerIsNoLongerReady];
+//}
 
 - (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent
 {
@@ -123,21 +123,21 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
     [self peerIsNoLongerReady];
 }
 
-- (void)sendObjectToPeer:(P2PTransmittableObject *)object
+- (void)sendObjectToPeer:(P2PTransmittableObject *)transmittableObject
 {
     dispatch_async(dispatchQueuePeerNode, ^
     {
-        NSAssert( self.isReady, @"<%@> Cannot send to a peer that is not ready!", self );
-        if ( object.shouldWaitForResponse )
+        assert( self.isReady );
+        if ( transmittableObject.shouldWaitForResponse )
         {
             if ( _pendingRequests == nil )
             {
                 _pendingRequests = [[NSMutableDictionary alloc] init];
             }
-            [_pendingRequests setObject:object forKey:object.requestId];
+            [_pendingRequests setObject:transmittableObject forKey:transmittableObject.requestId];
         }
 
-        [self transmitObject:object];
+        [self transmitObject:transmittableObject];
         P2PLogDebug(@"%@ - File availability request sent", self);
     });
 }

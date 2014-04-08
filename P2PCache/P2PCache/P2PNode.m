@@ -342,7 +342,7 @@ NSUInteger getNextConnectionId()
     if ( actuallyRead <= 0 )
     {
         // An error has occoured
-        P2PLog( P2PLogLevelError, @"%@ - failed to read from stream: %@", self, [_connection.inStream streamError] );
+        P2PLog( P2PLogLevelError, @"%@ - failed to read from stream: %@", self, _connection.inStream );
         [self dataDownloadFailedWithError:P2PIncomingDataErrorCodeStreamError];
     }
     else
@@ -504,12 +504,10 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
     }
     else
     {
-    //    NSAssert( connection != nil, @"Ambigious connection.  A node connection must be specified to send an object to" );
-        
-        // Serialize data... Add header and footer
+        // Serialize data... Add header and footer to the transmission
         NSData *preparedData = prepareObjectForTransmission( transmittableObject );
         
-        // Add data to buffer
+        // Add the binary data to buffer
         [connection.outBuffer appendData:preparedData];
 
         P2PLogDebug( @"%@ - sending object: %@ to %@", self, transmittableObject, connection );
@@ -553,6 +551,10 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
             break;
         }
         case NSStreamEventErrorOccurred:
+        {
+            P2PLog( P2PLogLevelWarning, @"Error occured in stream: %@ (%@) for %@", aStream, [aStream streamError], self );
+            break;
+        }
         case NSStreamEventEndEncountered:
         {
             [self connection:connection failedWithStreamError:NSStreamEventEndEncountered];
@@ -613,16 +615,18 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
     {
         case P2PIncomingDataErrorCodeNoData:
             P2PLog( P2PLogLevelWarning, @"%@ - failed with error: NO DATA", loader );
-			[self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
+//			[self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
             break;
         case P2PIncomingDataErrorCodeStreamEnded:
         {
-            [self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
+            P2PLog( P2PLogLevelWarning, @"%@ - failed with error: Stream ended", loader );
+//            [self connection:loader.connection failedWithStreamError:NSStreamEventEndEncountered];
             break;
         }
         case P2PIncomingDataErrorCodeStreamError:
         {
-			[self connection:loader.connection failedWithStreamError:NSStreamEventErrorOccurred];
+            P2PLog( P2PLogLevelWarning, @"%@ - failed with error: Error with stream", loader );
+//			[self connection:loader.connection failedWithStreamError:NSStreamEventErrorOccurred];
             break;
         }
         default:
@@ -664,17 +668,17 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
 
 - (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent
 {
-    P2PLog( P2PLogLevelWarning, @"<%@> node: %@ failed do download an object.  Maybe peer has disconnected?", self, node );
+    P2PLog( P2PLogLevelWarning, @"<%@> node: %@ failed to download an object.  Maybe peer has disconnected?", self, node );
+    
 //    if ( node != nil )
 //    {
-//        [_activeConnections removeObject:node];
+        [_activeConnections removeObject:node];
 //    }
-//    P2PLog( P2PLogLevelWarning, @"%@ - connection lost: %@", self, node);
+    P2PLog( P2PLogLevelWarning, @"%@ - connection lost: %@", self, node);
 }
 
 - (void)cleanup
 {
-    [super cleanup];
     for ( P2PNodeConnection *connection in _activeConnections )
     {
         [connection.inStream close];

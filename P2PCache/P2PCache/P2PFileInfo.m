@@ -65,7 +65,8 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
 
 - (NSDictionary *)toDictionary
 {
-    NSDictionary *rootDict = [NSDictionary dictionaryWithObjects:@[self.filename, @(self.totalFileSize)] forKeys:@[P2PFileManagerInfoFileNameKey, P2PFileManagerInfoFileSizeKey]];
+    NSDictionary *rootDict = [NSDictionary dictionaryWithObjects:@[self.filename, @(self.totalFileSize)]
+                                                         forKeys:@[P2PFileManagerInfoFileNameKey, P2PFileManagerInfoFileSizeKey]];
     return rootDict;
 
 }

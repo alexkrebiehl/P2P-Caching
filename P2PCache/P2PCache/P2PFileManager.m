@@ -62,7 +62,6 @@ static P2PFileManager *sharedInstance = nil;
 
 - (void)cleanup
 {
-    [super cleanup];
     [self saveFilesInCacheList];
 }
 
