@@ -31,7 +31,13 @@
  */
 //- (void)objectDidFailToSend:(id)object;
 
-- (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent;
+
+/** Called when a node's stream is closing.  Subclasses should override this method and perform any cleanup necessicary.  After
+ this method is called, attempting to continue using the node is an error
+ 
+ @param node The connection for the node that ended
+ */
+- (void)connectionDidEnd:(P2PNodeConnection *)node;
 
 @end
 

@@ -39,9 +39,7 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
         NSAssert( netService != nil, @"Cannot init with a nil netService!" );
         
         _isReady = NO;
-        
         _netService = netService;
-//        _netService.delegate = self;
         
         if ( dispatchQueuePeerNode == nil )
         {
@@ -111,15 +109,9 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
     [self.delegate peerIsNoLongerReady:self];
 }
 
-
-//- (void)netServiceDidStop:(NSNetService *)sender
-//{
-//    [self peerIsNoLongerReady];
-//}
-
-- (void)connection:(P2PNodeConnection *)node failedWithStreamError:(NSStreamEvent)errorEvent
+- (void)connectionDidEnd:(P2PNodeConnection *)node
 {
-    [super connection:node failedWithStreamError:errorEvent];
+    [super connectionDidEnd:node];
     [self peerIsNoLongerReady];
 }
 
@@ -138,7 +130,6 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
         }
 
         [self transmitObject:transmittableObject];
-        P2PLogDebug(@"%@ - File availability request sent", self);
     });
 }
 

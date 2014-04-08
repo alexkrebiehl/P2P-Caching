@@ -286,17 +286,19 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
 /** Sends a file chunk request to a peer.
  @return YES if the chunk can be sent right now, NO if we've reached the maximum number of simultaneous requests
  */
-- (bool)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PPeerNode *)node
+- (bool)requestFileChunk:(P2PFileChunkRequest *)request fromPeer:(P2PNode *)node
 {
     // We don't need to use a dispatch queue here... this method can only be called internally by a method already on that thread
     
     assert( request != nil );
     assert( node != nil );
+    assert( [node isKindOfClass:[P2PPeerNode class]] );
+    
     if ( [_chunksCurrentlyBeingRequested count] < P2PMaximumSimultaneousFileRequests )
     {
         request.delegate = self;
         [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
-        [node sendObjectToPeer:request];
+        [(P2PPeerNode *)node sendObjectToPeer:request];
         return YES;
     }
     return NO;
