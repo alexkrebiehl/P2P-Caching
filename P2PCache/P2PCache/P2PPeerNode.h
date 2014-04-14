@@ -19,7 +19,17 @@
 
 @protocol P2PPeerProtocol <NSObject>
 
+/** When a peer is ready to be used, this delegate method will be called
+ 
+ @param peer A peer object that is ready to be used 
+ */
 - (void)peerDidBecomeReady:(P2PPeerNode *)peer;
+
+/** When a peer is no longer ready to be used, this delegate method will be called.  Attempting to transmit an
+ object to this peer after this is called is an error
+ 
+ @param peer A peer object that is no longer ready
+ */
 - (void)peerIsNoLongerReady:(P2PPeerNode *)peer;
 
 @end
@@ -29,8 +39,12 @@
 
 @property (weak, nonatomic) id<P2PPeerProtocol> delegate;
 
+/** The Bonjour object associated with this peer */
 @property (strong, nonatomic, readonly) NSNetService *netService;
+
+/** Incidates if this peer is ready to be used.  Attempting to send an object to a peer that is not ready is an error */
 @property (nonatomic, readonly) bool isReady;
+
 
 /** Create a new object representing a peer
  @param netService The NetService object controling this peer
@@ -39,15 +53,15 @@
  */
 - (id)initWithNetService:(NSNetService *)netService;
 
-/** Resolves the peer's IP address and connects to their I/O streams */
+
+/** Connects to this peer's I/O streams */
 - (void)preparePeer;
 
+
+/** Sends an object to this peer
+ 
+ @param transmittableObject An object to send to this peer 
+ */
 - (void)sendObjectToPeer:(P2PTransmittableObject *)transmittableObject;
-
-
-// File Handling
-//- (void)requestFileAvailability:(P2PPeerFileAvailibilityRequest *)request;
-//
-//- (void)requestFileChunk:(P2PFileChunkRequest *)request;
 
 @end

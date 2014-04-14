@@ -88,7 +88,7 @@ typedef NS_ENUM( NSUInteger, P2PIncomingDataErrorCode )
  
  
  New format:
- 64-bit file size
+ 32-bit file size (file_size_type)
  data
  32-bit checksum (crc_type)
  
@@ -110,6 +110,7 @@ typedef NS_ENUM( NSUInteger, P2PIncomingDataErrorCode )
 /** After the download is complete, this property will hold the data of the transmitted object */
 @property (strong, nonatomic, readonly) NSData *downloadedData;
 
+
 /** Creates a new incoming data object to download a @c P2PTranmittableObject.  This object should be created if
  a node recieves a @c NSStreamHasBytesAvailable code
  
@@ -117,6 +118,7 @@ typedef NS_ENUM( NSUInteger, P2PIncomingDataErrorCode )
  @return A new @c P2PIncomingData object to handle recieving data
  */
 - (id)initWithConnection:(P2PNodeConnection *)connection;
+
 
 /** Instructs the @c P2PIncomingData object to take over the connection's I/O streams and start downloading data.  The @c delegate of
  this object should be set before calling this method
