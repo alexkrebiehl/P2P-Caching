@@ -69,8 +69,10 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
 }
 
 
-- (void)handleReceivedObject:(P2PTransmittableObject *)object from:(P2PNodeConnection *)sender
+- (void)nodeConnection:(P2PNodeConnection *)connection didRecieveObject:(P2PTransmittableObject *)object
 {
+    [super nodeConnection:connection didRecieveObject:object];
+    
     P2PTransmittableObject *requestingObject = [_pendingRequests objectForKey:object.responseForRequestId];
     if ( requestingObject == nil )
     {
@@ -109,9 +111,9 @@ static dispatch_queue_t dispatchQueuePeerNode = nil;
     [self.delegate peerIsNoLongerReady:self];
 }
 
-- (void)connectionDidEnd:(P2PNodeConnection *)node
+- (void)nodeConnectionDidEnd:(P2PNodeConnection *)node
 {
-    [super connectionDidEnd:node];
+    [super nodeConnectionDidEnd:node];
     [self peerIsNoLongerReady];
 }
 

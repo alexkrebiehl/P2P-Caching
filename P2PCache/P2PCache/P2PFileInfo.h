@@ -88,7 +88,8 @@
 - (NSDictionary *)toDictionary;
 
 
-/** The @c P2PFileManager should call this method if a file is completely deleted from the cache. */
+/** The @c P2PFileManager should call this method if a file is completely deleted from the cache.
+ */
 - (void)fileWasDeleted;
 
 

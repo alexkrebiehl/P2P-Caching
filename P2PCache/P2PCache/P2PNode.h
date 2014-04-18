@@ -7,48 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "P2PNodeConnectionDelegate.h"
 
-@class P2PNodeConnection, P2PTransmittableObject;
+@class P2PTransmittableObject;
 
-@interface P2PNode : NSObject <NSStreamDelegate>
+@interface P2PNode : NSObject <P2PNodeConnectionDelegate>
 
 /** Unique identifier for this node */
 @property (strong, readonly, nonatomic) NSNumber *nodeID;
 
 
-/** This method will be called when the node recieves an object.  Subclasses MUST override this method
- and handle any incoming objects.  Subclasses don't need to call this method directly.
- 
- @param object The recieved object
- @param sender The service which this object came from
- */
-- (void)handleReceivedObject:(P2PTransmittableObject *)object from:(P2PNodeConnection *)sender;
-
-
-/** When an object is unable to be sent across the network connection 
- 
- (Not implemented yet)
- */
-//- (void)objectDidFailToSend:(id)object;
-
-
-/** Called when a node's stream is closing.  Subclasses should override this method and perform any cleanup necessicary.  After
- this method is called, attempting to continue using the node is an error
- 
- @param node The connection for the node that ended
- */
-- (void)connectionDidEnd:(P2PNodeConnection *)node;
-
-@end
-
-@interface P2PNode ( MethodsNotToBeSubclassed )
-
-/** Call this method when recieving input/output streams from a server.  
+/** Call this method when recieving input/output streams from a server.
  
  @param inStream An input stream supplied by a NSNetService instance
  @param outStream An output stream supplied by a NSNetService instance
  */
 - (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream;
+
 
 /** Transmits an object to a peer's cache server.
  

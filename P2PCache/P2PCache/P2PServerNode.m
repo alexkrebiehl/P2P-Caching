@@ -93,20 +93,22 @@
     }
 }
 
-- (void)handleReceivedObject:(id)object from:(P2PNodeConnection *)sender
-{   
+- (void)nodeConnection:(P2PNodeConnection *)connection didRecieveObject:(P2PTransmittableObject *)object
+{
+    [super nodeConnection:connection didRecieveObject:object];
+    
     if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
     {
         // Check file availbility
-        P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:object];
+        P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)object];
         
-        [self transmitObject:response toNodeConnection:sender];
+        [self transmitObject:response toNodeConnection:connection];
     }
     else if ( [object isMemberOfClass:[P2PFileChunkRequest class]] )
     {
         // A peer is requesting a file chunk
-        P2PFileChunk *aChunk = [[P2PFileManager sharedManager] fileChunkForRequest:object];
-        [self transmitObject:aChunk toNodeConnection:sender];
+        P2PFileChunk *aChunk = [[P2PFileManager sharedManager] fileChunkForRequest:(P2PFileChunkRequest *)object];
+        [self transmitObject:aChunk toNodeConnection:connection];
     }
     else
     {
