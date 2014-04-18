@@ -100,6 +100,13 @@
 - (void)chunkWasAddedToDisk:(NSNumber *)chunkId;
 
 
+/** The @c P2PFileManager should call this when it removes a chunk of this file's data from disk.
+ 
+ @param chunkId The @c chunkId that was removed from disk
+ */
+- (void)chunkWasRemovedFromDisk:(NSNumber *)chunkId;
+
+
 /** A @c P2PFileRequest object should call this method as it recieves @c P2PPeerFileAvailabilityResponses in order to update the chunks currently available on this file
  
  @param multipleChunkIds A set of @c chunkIds that have become available from a node

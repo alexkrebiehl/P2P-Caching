@@ -9,63 +9,73 @@
 #import "P2PNodeConnection.h"
 #import <zlib.h>
 
+
+typedef NS_ENUM( NSUInteger, P2PIncomingDataStatus )
+{
+    /** The connection is not currently downloading any data */
+    P2PIncomingDataStatusNotStarted = 0,
+    
+    /** The object is currently reading the header of the transmission */
+    P2PIncomingDataStatusReadingHeader,
+    
+    /** The object is currently reading the data contents of the transmission */
+    P2PIncomingDataStatusReadingData,
+    
+    /** The object is currently reading the footer of the transmission */
+    P2PIncomingDataStatusReadingFooter,
+};
+
+
+
+
+
 @interface P2PNodeConnection () <NSStreamDelegate>
 
-@property (atomic) bool outBufferIsBeingWorked;
-@property (atomic) NSUInteger positionInCurrentBufferItem;
-@property (atomic) NSMutableArray *outputBufferQueue;
 @property (nonatomic, readwrite) NSUInteger connectionId;
-
-/** Input stream of this connection */
 @property (strong, nonatomic, readwrite) NSInputStream *inStream;
-
-/** Output stream of this connection */
 @property (strong, nonatomic, readwrite) NSOutputStream *outStream;
 
+// ----- Outgoing Data Properties -----
+/** Lock on the output buffer worker method.  This prevents multiple threads from calling the worker method at once */
+@property (atomic) bool outBufferIsBeingWorked;
+
+/** Current read pointer of the NSData object we are sending */
+@property (atomic) NSUInteger positionInCurrentBufferItem;
+
+/** An queue of NSData objects waiting to be sent to the connection */
+@property (atomic) NSMutableArray *outputBufferQueue;
+
+
+
+
+// ----- Incomming Data Properties -----
 /** Input buffer of this connection */
 @property (strong, nonatomic) NSMutableData *inBuffer;
 
-/** The current status of this loader object */
+/** The current status of a download */
 @property (nonatomic) P2PIncomingDataStatus status;
 
+/** Expected size of the incoming data */
+@property (nonatomic, readwrite) file_size_type fileSize;
+
+/** Running checksum of the incoming data.  This will be compared with the packet's footer */
+@property (nonatomic, readwrite) crc_type crc;
+
 @end
+
+
 
 @implementation P2PNodeConnection
 {
     NSUInteger _bufferOffset;
     NSUInteger _fileOffset;
-    
-    crc_type _incomingCRC;
     NSMutableData *_assembledData;
-    
-    file_size_type _fileSize;
-}
-
-NSData* prepareObjectForTransmission( id<NSCoding> object )
-{
-    NSData *objectData = [NSKeyedArchiver archivedDataWithRootObject:object];
-    file_size_type fileSize = (file_size_type)[objectData length];
-    crc_type crc = (crc_type) crc32( 0, [objectData bytes], (uInt)[objectData length] );
-    
-    // Combine the pieces
-    NSMutableData *combinedData = [NSMutableData dataWithCapacity:sizeof( fileSize ) + [objectData length] + sizeof( crc )];
-//    [NSMutableData alloc] initwith    
-    [combinedData appendBytes:&fileSize length:sizeof( fileSize )];
-    [combinedData appendData:objectData];
-//    [combinedData appendBytes:[objectData bytes] length:[objectData length]];
-    [combinedData appendBytes:&crc length:sizeof( crc )];
-    
-    
-    return combinedData;
 }
 
 
-NSUInteger getNextConnectionId()
-{
-    static NSUInteger nextId = 1;
-    return nextId++;
-}
 
+static NSUInteger nextId = 1;
+NSUInteger getNextConnectionId() { return nextId++; }
 
 - (id)init
 {
@@ -85,7 +95,7 @@ NSUInteger getNextConnectionId()
         self.outStream = outStream;
         
         self.status = P2PIncomingDataStatusNotStarted;
-        _fileSize = P2PIncomingDataFileSizeUnknown;
+        self.fileSize = P2PIncomingDataFileSizeUnknown;
         _bufferOffset = 0;
     }
     return self;
@@ -203,10 +213,10 @@ NSUInteger getNextConnectionId()
 
 - (void)prepareToReadHeader
 {
-    _fileSize = P2PIncomingDataFileSizeUnknown;
+    self.fileSize = P2PIncomingDataFileSizeUnknown;
     _bufferOffset = 0;
     _fileOffset = 0;
-    _incomingCRC = 0;
+    self.crc = 0;
     
     self.inBuffer = [[NSMutableData alloc] init];
     [self.inBuffer setLength:sizeof( file_size_type )];
@@ -219,18 +229,18 @@ NSUInteger getNextConnectionId()
     // set file length here
     assert( [self.inBuffer length] == sizeof( file_size_type ) );
     file_size_type tmp = * (const file_size_type *) [self.inBuffer bytes];
-    _fileSize = tmp;
+    self.fileSize = tmp;
     assert( _fileOffset == 0 );
-    assert( _fileSize != 0 );
+    assert( self.fileSize != 0 );
     self.status = P2PIncomingDataStatusReadingData;
 }
 
 - (void)prepareNextReadBuffer
 {
-    if ( _fileOffset < _fileSize )
+    if ( _fileOffset < self.fileSize )
     {
         // There is more file data to read
-        NSUInteger remainingFileSize = _fileSize - _fileOffset;
+        NSUInteger remainingFileSize = self.fileSize - _fileOffset;
         NSUInteger nextBufferSize = ( remainingFileSize < P2PNodeConnectionBufferSize ) ? remainingFileSize : P2PNodeConnectionBufferSize;
         [self.inBuffer setLength:nextBufferSize];
         self.status = P2PIncomingDataStatusReadingData;
@@ -245,11 +255,11 @@ NSUInteger getNextConnectionId()
 {
     if ( _assembledData == nil )
     {
-        _assembledData = [[NSMutableData alloc] initWithCapacity:_fileSize];
+        _assembledData = [[NSMutableData alloc] initWithCapacity:self.fileSize];
     }
     
     // We just received a block of file data.  Update our CRC calculation.
-    _incomingCRC = (crc_type)crc32(_incomingCRC, [self.inBuffer bytes], (uInt)[self.inBuffer length]);
+    self.crc = (crc_type)crc32(self.crc, [self.inBuffer bytes], (uInt)[self.inBuffer length]);
     
     // Append the buffer to our assembled data
     [_assembledData appendBytes:[self.inBuffer bytes] length:[self.inBuffer length]];
@@ -257,7 +267,7 @@ NSUInteger getNextConnectionId()
     [self.inBuffer setLength:0];
     
 	// Make sure our file isn't longer than we're expecting
-	if ( _fileOffset > _fileSize )
+	if ( _fileOffset > self.fileSize )
 	{
 		[self dataDownloadFailedWithError:P2PIncomingDataErrorCodeCurruptFile];
 	}
@@ -276,7 +286,7 @@ NSUInteger getNextConnectionId()
     assert( [self.inBuffer length] == sizeof( crc_type ) );
     uLong crcReceived = * (const crc_type *) [self.inBuffer bytes];
     
-    if ( crcReceived == _incomingCRC )
+    if ( crcReceived == self.crc )
     {
         [self dataDownloadDidFinish];
     }

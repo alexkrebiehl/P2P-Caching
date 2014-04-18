@@ -9,18 +9,22 @@
 #import "P2PNode.h"
 #import "P2PPeerFileAvailibilityRequest.h"
 #import "NSMutableArray+QueueExtension.h"
-
 #import "P2PNodeConnection.h"
+#import <zlib.h>
 
 /** Since the peer and server will share a lot of the same functionality,
  I decided to go ahead and just make them children of this superclass.  */
 
-@implementation P2PNode
-{
-    NSMutableSet *_activeConnections;     // A set of active P2PNodeConnection objects
-    NSMutableSet *_activeDataTransfers;   // A set of P2PIncomingData objects
-}
+@interface P2PNode ()
 
+@property (nonatomic, readwrite, strong) NSMutableSet *activeConnections;
+
+@end
+
+@implementation P2PNode
+
+
+#pragma mark - Initialization
 static NSUInteger nextNodeID = 0;
 NSUInteger getNextNodeID() { return nextNodeID++; }
 
@@ -33,6 +37,28 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
     return self;
 }
 
+
+#pragma mark - Preparing Connection
+- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream
+{
+    assert( inStream != nil );
+    assert( outStream != nil );
+    
+    P2PNodeConnection *connection = [[P2PNodeConnection alloc] initWithInputStream:inStream outputStream:outStream];
+    connection.delegate = self;
+    
+    if ( self.activeConnections == nil )
+    {
+        self.activeConnections = [[NSMutableSet alloc] init];
+    }
+    [self.activeConnections addObject:connection];
+    
+    [connection openConnection];
+}
+
+
+
+#pragma mark - Object Transmission
 - (void)transmitObject:(P2PTransmittableObject *)transmittableObject
 {
     [self transmitObject:transmittableObject toNodeConnection:nil];
@@ -40,9 +66,9 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
 
 - (void)transmitObject:(P2PTransmittableObject *)transmittableObject toNodeConnection:(P2PNodeConnection *)connection;
 {
-    if ( connection == nil && [_activeConnections count] == 1 )
+    if ( connection == nil && [self.activeConnections count] == 1 )
     {
-        connection = [_activeConnections anyObject];
+        connection = [self.activeConnections anyObject];
     }
     
     // If connection is still nil, we can't send this object
@@ -53,14 +79,39 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
     else
     {
         // Serialize data... Add header and footer to the transmission
-        NSData *preparedData = prepareObjectForTransmission( transmittableObject );
-
+        NSData *preparedData = [self prepareObjectForTransmission:transmittableObject];
         [connection sendDataToConnection:preparedData];
         [transmittableObject peerDidBeginToSendObject:self];
     }
 }
 
-#pragma mark - P2PNodeConnectionDelegate
+
+/** Serializes an object to be sent to another peer.  Adds header and footer information to the binary data
+ 
+ Packet format:
+ 32-bit file size (file_size_type)
+ archived object
+ 32-bit checksum (crc_type)
+ */
+- (NSData *)prepareObjectForTransmission:(id<NSCoding>)object
+{
+    NSData *objectData = [NSKeyedArchiver archivedDataWithRootObject:object];
+    file_size_type fileSize = (file_size_type)[objectData length];
+    crc_type crc = (crc_type) crc32( 0, [objectData bytes], (uInt)[objectData length] );
+    
+    // Combine the pieces
+    NSMutableData *combinedData = [[NSMutableData alloc] initWithCapacity:sizeof( fileSize ) + [objectData length] + sizeof( crc )];
+    [combinedData appendBytes:&fileSize length:sizeof( fileSize )];
+    [combinedData appendBytes:[objectData bytes] length:[objectData length]];
+    [combinedData appendBytes:&crc length:sizeof( crc )];
+    
+    return combinedData;
+}
+
+
+
+
+#pragma mark - P2PNodeConnectionDelegate Methods
 - (void)nodeConnection:(P2PNodeConnection *)connection didRecieveObject:(P2PTransmittableObject *)object
 {
     // Default implementation does nothing.  Selector should be overridden by subclasses
@@ -89,35 +140,20 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
 
 - (void)nodeConnectionDidEnd:(P2PNodeConnection *)node
 {
-    [_activeConnections removeObject:node];
+    [self.activeConnections removeObject:node];
     P2PLog( P2PLogLevelWarning, @"%@ - connection lost: %@", self, node);
 }
 
-- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream
-{
-    assert( inStream != nil );
-    assert( outStream != nil );
-    
-    P2PNodeConnection *connection = [[P2PNodeConnection alloc] initWithInputStream:inStream outputStream:outStream];
-    connection.delegate = self;
-    
-    if ( _activeConnections == nil )
-    {
-        _activeConnections = [[NSMutableSet alloc] init];
-    }
-    [_activeConnections addObject:connection];
-    
-    [connection openConnection];
-}
 
 
+#pragma mark - Misc
 - (void)cleanup
 {
-    for ( P2PNodeConnection *connection in _activeConnections )
+    for ( P2PNodeConnection *connection in self.activeConnections )
     {
         [connection dropConnection];
     }
-    _activeConnections = nil;
+    self.activeConnections = nil;
 }
 
 @end

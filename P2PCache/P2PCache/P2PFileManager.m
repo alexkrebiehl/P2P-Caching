@@ -212,11 +212,18 @@ static P2PFileManager *sharedInstance = nil;
 - (void)writeChunk:(P2PFileChunk *)chunk withFileInfo:(P2PFileInfo *)fileInfo
 {
     assert( fileInfo != nil );
-    NSURL *directoryPath = [self pathForDirectoryWithHashID:chunk.fileId];
-    
-    NSURL *urlWithFile = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId] relativeToURL:directoryPath];
-    assert( [chunk.dataBlock writeToURL:urlWithFile atomically:YES] );
     [fileInfo chunkWasAddedToDisk:@( chunk.chunkId )];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^
+    {
+        NSURL *directoryPath = [self pathForDirectoryWithHashID:chunk.fileId];
+        NSURL *urlWithFile = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId] relativeToURL:directoryPath];
+        bool success = [chunk.dataBlock writeToURL:urlWithFile atomically:YES];
+        if ( ! success )
+        {
+            [fileInfo chunkWasRemovedFromDisk:@( chunk.chunkId )];
+        }
+    });
 }
 
 - (bool)deleteFileFromCache:(P2PFileInfo *)fileInfo

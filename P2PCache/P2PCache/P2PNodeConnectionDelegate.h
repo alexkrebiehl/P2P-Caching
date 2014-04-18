@@ -10,20 +10,10 @@
 
 @class P2PNodeConnection, P2PTransmittableObject;
 
-typedef NS_ENUM( NSUInteger, P2PIncomingDataStatus )
-{
-    /** The connection is not currently downloading any data */
-    P2PIncomingDataStatusNotStarted = 0,
- 
-    /** The object is currently reading the header of the transmission */
-    P2PIncomingDataStatusReadingHeader,
-    
-    /** The object is currently reading the data contents of the transmission */
-    P2PIncomingDataStatusReadingData,
-    
-    /** The object is currently reading the footer of the transmission */
-    P2PIncomingDataStatusReadingFooter,
-};
+typedef uint32_t file_size_type;
+typedef uint32_t crc_type;
+
+static const file_size_type P2PIncomingDataFileSizeUnknown = UINT32_MAX;
 
 
 /** If this transmission encountered an error, this property will explain the reasoning */
