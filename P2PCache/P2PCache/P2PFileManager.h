@@ -15,7 +15,10 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
 
 @interface P2PFileManager : NSFileManager
 
+/** A set of fileIds that the @c P2PFileManager has information on */
 @property (strong, nonatomic, readonly) NSOrderedSet *allFileIds;
+
+/** Directory of cache on disk */
 @property (strong, nonatomic, readonly) NSURL *cacheDirectory;
 
 

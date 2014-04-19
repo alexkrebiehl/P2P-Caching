@@ -218,6 +218,7 @@ static P2PFileManager *sharedInstance = nil;
     {
         NSURL *directoryPath = [self pathForDirectoryWithHashID:chunk.fileId];
         NSURL *urlWithFile = [NSURL URLWithString:[NSString stringWithFormat:@"%lu", (unsigned long)chunk.chunkId] relativeToURL:directoryPath];
+        
         bool success = [chunk.dataBlock writeToURL:urlWithFile atomically:YES];
         if ( ! success )
         {

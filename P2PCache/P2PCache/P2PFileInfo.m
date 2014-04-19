@@ -93,7 +93,15 @@ static NSString *P2PFileManagerInfoFileSizeKey =    @"size";
     {
         [self.delegate fileInfo:self didUpdateChunksOnDisk:[_chunksOnDisk count]];
     });
-   
+}
+
+- (void)chunkWasRemovedFromDisk:(NSNumber *)chunkId
+{
+    [_chunksOnDisk removeObject:chunkId];
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+       [self.delegate fileInfo:self didUpdateChunksOnDisk:[_chunksOnDisk count]];
+    });
 }
 
 - (void)chunksBecameAvailable:(NSSet *)multipleChunkIds

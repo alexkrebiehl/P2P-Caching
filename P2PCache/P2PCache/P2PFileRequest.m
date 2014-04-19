@@ -19,9 +19,6 @@
 
 @interface P2PFileRequest() <P2PFileChunkRequestDelegate, P2PPeerFileAvailabilityDelegate>
 
-/** Cached set of chunk Ids that we still need */
-@property (strong, nonatomic) NSMutableSet *chunksNeeded;
-
 @end
 
 @implementation P2PFileRequest
@@ -37,6 +34,8 @@
     NSMutableSet *_chunksCurrentlyBeingRequested;
 
     dispatch_queue_t _dispatchQueueFileRequest;      // Each request will run on its on thread
+    
+    NSMutableSet *_chunksNeeded;
 }
 
 
@@ -252,23 +251,21 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
         else
         {
             // Found out what chunks we still need
-            if ( self.chunksNeeded == nil )
+            if ( _chunksNeeded == nil )
             {
-                self.chunksNeeded = [[NSMutableSet alloc] initWithCapacity:self.fileInfo.chunksAvailable.count];
+                _chunksNeeded = [[NSMutableSet alloc] initWithCapacity:self.fileInfo.chunksAvailable.count];
             }
             
-            [self.chunksNeeded removeAllObjects];
-            [self.chunksNeeded unionSet:self.fileInfo.chunksAvailable];
-            [self.chunksNeeded minusSet:self.fileInfo.chunksOnDisk];        // We don't need chunks that we already have
-            [self.chunksNeeded minusSet:_chunksCurrentlyBeingRequested];    // These already have a filechunkrequest going
+            [_chunksNeeded removeAllObjects];
+            [_chunksNeeded unionSet:self.fileInfo.chunksAvailable];
+            [_chunksNeeded minusSet:self.fileInfo.chunksOnDisk];        // We don't need chunks that we already have
+            [_chunksNeeded minusSet:_chunksCurrentlyBeingRequested];    // These already have a filechunkrequest going
             
-
-#warning We need to work on this to much enumeration.
             for ( P2PPeerFileAvailbilityResponse *response in _receivedAvailabiltyResponses.allValues )
             {
                 [response.availableChunks enumerateObjectsUsingBlock:^(NSNumber *chunkId, BOOL *stop)
                 {
-                    if ( [self.chunksNeeded containsObject:chunkId] )
+                    if ( [_chunksNeeded containsObject:chunkId] )
                     {
                         P2PFileChunkRequest *chunkRequest = [[P2PFileChunkRequest alloc] initWithFileId:self.fileInfo.fileId chunkId:[chunkId unsignedIntegerValue] chunkSize:response.chunkSizeInBytes];
                         *stop = ![self requestFileChunk:chunkRequest fromPeer:response.associatedNode];
@@ -358,7 +355,6 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
 #pragma mark - Methods terminating the transfer
 - (bool)fileIsComplete
 {
-#warning make these properties thread safe
     if ( self.fileInfo.totalChunks == 0 )
     {
         return NO;

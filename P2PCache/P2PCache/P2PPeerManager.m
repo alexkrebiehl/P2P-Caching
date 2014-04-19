@@ -105,7 +105,6 @@ static P2PPeerManager *sharedInstance = nil;
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didRemoveService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
-#warning I've never seen this called.  Find a better way to remove peers
     if ( [aNetService.type isEqualToString:P2P_BONJOUR_SERVICE_TYPE] )
     {
         // Find a good way to do this
