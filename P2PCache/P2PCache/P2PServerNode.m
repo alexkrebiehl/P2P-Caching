@@ -23,6 +23,7 @@
 #import "P2PFileManager.h"
 #import "P2PFileChunk.h"
 #import "P2PFileChunkRequest.h"
+#import "P2PNodeConnection.h"
 
 @interface P2PServerNode ()
 
@@ -38,6 +39,8 @@
     NSNetService        *_service;
     struct sockaddr     *_addr;
     int                 _port;
+    
+    NSMutableSet *_activeConnections;
 }
 
 - (void)beginBroadcasting
@@ -93,29 +96,29 @@
     }
 }
 
-- (void)nodeConnection:(P2PNodeConnection *)connection didRecieveObject:(P2PTransmittableObject *)object
-{
-    [super nodeConnection:connection didRecieveObject:object];
-    
-    if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
-    {
-        // Check file availbility
-        P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)object];
-        
-        [self transmitObject:response toNodeConnection:connection];
-    }
-    else if ( [object isMemberOfClass:[P2PFileChunkRequest class]] )
-    {
-        // A peer is requesting a file chunk
-        P2PFileChunk *aChunk = [[P2PFileManager sharedManager] fileChunkForRequest:(P2PFileChunkRequest *)object];
-        [self transmitObject:aChunk toNodeConnection:connection];
-    }
-    else
-    {
-        NSAssert( NO, @"Recieved unexpected file" );
-    }
-    
-}
+//- (void)nodeConnection:(P2PNodeConnection *)connection didRecieveObject:(P2PTransmittableObject *)object
+//{
+//    [super nodeConnection:connection didRecieveObject:object];
+//    
+//    if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
+//    {
+//        // Check file availbility
+//        P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)object];
+//        
+//        [self transmitObject:response toNodeConnection:connection];
+//    }
+//    else if ( [object isMemberOfClass:[P2PFileChunkRequest class]] )
+//    {
+//        // A peer is requesting a file chunk
+//        P2PFileChunk *aChunk = [[P2PFileManager sharedManager] fileChunkForRequest:(P2PFileChunkRequest *)object];
+//        [self transmitObject:aChunk toNodeConnection:connection];
+//    }
+//    else
+//    {
+//        NSAssert( NO, @"Recieved unexpected file" );
+//    }
+//    
+//}
 
 
 #pragma mark - NSNetServiceDelegate
@@ -165,7 +168,17 @@
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
     P2PLogDebug( @"*** A peer has connected to our server" );
-    [self takeOverInputStream:inputStream outputStream:outputStream];
+    
+    if ( _activeConnections == nil )
+    {
+        _activeConnections = [[NSMutableSet alloc] init];
+    }
+    
+    P2PNodeConnection *newConnection = [[P2PNodeConnection alloc] initWithInputStream:inputStream outputStream:outputStream];
+    newConnection.delegate = self;
+    [newConnection openConnection];
+    [_activeConnections addObject:newConnection];
+//    [self takeOverInputStream:inputStream outputStream:outputStream];
 }
 
 #pragma mark - Logging
@@ -178,6 +191,11 @@
 {
     [super cleanup];
     [_service stop];
+    
+    for ( P2PNodeConnection *connection in _activeConnections )
+    {
+        [connection dropConnection];
+    }
 }
 
 @end

@@ -203,13 +203,13 @@
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSView *view;
-    P2PPeerNode *peer = [_activePeers objectAtIndex:row];
+    P2PNode *node = [_activePeers objectAtIndex:row];
     if ( [tableColumn.identifier isEqualToString:@"P2PPeerTableStatusColumn"] )
     {
         view = [tableView makeViewWithIdentifier:@"P2PPeerTableStatusCell" owner:self];
         NSImageView *statusIcon = [view viewWithTag:0];
         
-        if ( [[[P2PPeerManager sharedManager] activePeers] containsObject:peer] )
+        if ( [[[P2PPeerManager sharedManager] activePeers] containsObject:node] )
         {
             [statusIcon setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         }
@@ -224,7 +224,7 @@
     {
         view = [tableView makeViewWithIdentifier:@"P2PPeerTableNameCell" owner:self];
         NSTextField *text = [view viewWithTag:0];
-        text.stringValue = peer.netService.name;
+        text.stringValue = node.displayableName;
     }
     return view;
 }

@@ -90,8 +90,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    P2PPeerNode *aPeer = [_activeUsers objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", aPeer.netService.name];
+    P2PNode *aPeer = [_activeUsers objectAtIndex:indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", aPeer.displayableName];
     
     return cell;
 }

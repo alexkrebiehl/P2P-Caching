@@ -40,7 +40,7 @@ enum
  
  @param data Data to be sent to the node
  */
-- (void)sendDataToConnection:(NSData *)data;
+- (void)sendData:(NSData *)data;
 
 
 /** Closes the input and output streams.  The connection object should be discarded after calling this

@@ -10,6 +10,10 @@
 #import "P2PPeerFileAvailibilityRequest.h"
 #import "NSMutableArray+QueueExtension.h"
 #import "P2PNodeConnection.h"
+#import "P2PFileManager.h"
+#import "P2PFileChunkRequest.h"
+#import "P2PPeerFileAvailbilityResponse.h"
+#import "P2PFileChunk.h"
 #import <zlib.h>
 
 /** Since the peer and server will share a lot of the same functionality,
@@ -17,59 +21,81 @@
 
 @interface P2PNode ()
 
-@property (nonatomic, readwrite, strong) NSMutableSet *activeConnections;
+//@property (nonatomic, readwrite, strong) NSMutableSet *activeConnections;
+@property (strong, nonatomic, readwrite) P2PNodeConnection *connection;
+@property (copy, nonatomic, readwrite) NSString *displayableName;
 
 @end
 
 @implementation P2PNode
-
+{
+    NSMutableDictionary *_pendingRequests;
+}
 
 #pragma mark - Initialization
+static dispatch_queue_t dispatchQueuePeerNode = nil;
 static NSUInteger nextNodeID = 0;
 NSUInteger getNextNodeID() { return nextNodeID++; }
 
+
 - (id) init
+{
+    return [self initWithInputStream:nil outputStream:nil displayableName:nil];
+}
+
+- (id)initWithInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream displayableName:(NSString *)name
 {
     if ( self = [super init] )
     {
         _nodeID = @( getNextNodeID() );
+        self.displayableName = name;
+        
+        if ( inStream != nil && outStream != nil )
+        {
+            self.connection = [[P2PNodeConnection alloc] initWithInputStream:inStream outputStream:outStream];
+            self.connection.delegate = self;
+            [self.connection openConnection];
+        }
+        
+        if ( dispatchQueuePeerNode == nil )
+        {
+            dispatchQueuePeerNode = dispatch_queue_create("dispatchQueuePeerNode", DISPATCH_QUEUE_SERIAL);
+        }
+        
+//        if ( self.activeConnections == nil )
+//        {
+//            self.activeConnections = [[NSMutableSet alloc] init];
+//        }
+//        [self.activeConnections addObject:connection];
+        
+        
     }
     return self;
 }
 
-
 #pragma mark - Preparing Connection
-- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream
-{
-    assert( inStream != nil );
-    assert( outStream != nil );
-    
-    P2PNodeConnection *connection = [[P2PNodeConnection alloc] initWithInputStream:inStream outputStream:outStream];
-    connection.delegate = self;
-    
-    if ( self.activeConnections == nil )
-    {
-        self.activeConnections = [[NSMutableSet alloc] init];
-    }
-    [self.activeConnections addObject:connection];
-    
-    [connection openConnection];
-}
+//- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream
+//{
+//    assert( inStream != nil );
+//    assert( outStream != nil );
+//    
+//
+//}
 
 
 
 #pragma mark - Object Transmission
 - (void)transmitObject:(P2PTransmittableObject *)transmittableObject
 {
-    [self transmitObject:transmittableObject toNodeConnection:nil];
+    [self transmitObject:transmittableObject toNodeConnection:self.connection];
 }
 
-- (void)transmitObject:(P2PTransmittableObject *)transmittableObject toNodeConnection:(P2PNodeConnection *)connection;
+- (void)transmitObject:(P2PTransmittableObject *)transmittableObject toNodeConnection:(P2PNodeConnection *)connection
 {
-    if ( connection == nil && [self.activeConnections count] == 1 )
-    {
-        connection = [self.activeConnections anyObject];
-    }
+//    if ( connection == nil && [self.activeConnections count] == 1 )
+//    {
+//        connection = [self.activeConnections anyObject];
+//    }
     
     // If connection is still nil, we can't send this object
     if ( connection == nil )
@@ -78,9 +104,25 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
     }
     else
     {
+        
+//    dispatch_async(dispatchQueuePeerNode, ^
+//                   {
+//                       assert( self.isReady );
+                       if ( transmittableObject.shouldWaitForResponse )
+                       {
+                           if ( _pendingRequests == nil )
+                           {
+                               _pendingRequests = [[NSMutableDictionary alloc] init];
+                           }
+                           [_pendingRequests setObject:transmittableObject forKey:transmittableObject.requestId];
+                       }
+                       
+//                       [self transmitObject:transmittableObject];
+//                   });
+        
         // Serialize data... Add header and footer to the transmission
         NSData *preparedData = [self prepareObjectForTransmission:transmittableObject];
-        [connection sendDataToConnection:preparedData];
+        [connection sendData:preparedData];
         [transmittableObject peerDidBeginToSendObject:self];
     }
 }
@@ -114,7 +156,33 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
 #pragma mark - P2PNodeConnectionDelegate Methods
 - (void)nodeConnection:(P2PNodeConnection *)connection didRecieveObject:(P2PTransmittableObject *)object
 {
-    // Default implementation does nothing.  Selector should be overridden by subclasses
+    P2PTransmittableObject *requestingObject = [_pendingRequests objectForKey:object.responseForRequestId];
+    if ( requestingObject )
+    {
+        // We got a response to a request we sent
+        [_pendingRequests removeObjectForKey:requestingObject.requestId];
+        object.associatedNode = self;
+        [requestingObject peer:self didRecieveResponse:object];
+    }
+    else
+    {
+        if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
+        {
+            // Check file availbility
+            P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)object];
+            [self transmitObject:response toNodeConnection:connection];
+        }
+        else if ( [object isMemberOfClass:[P2PFileChunkRequest class]] )
+        {
+            // A peer is requesting a file chunk
+            P2PFileChunk *aChunk = [[P2PFileManager sharedManager] fileChunkForRequest:(P2PFileChunkRequest *)object];
+            [self transmitObject:aChunk toNodeConnection:connection];
+        }
+        else
+        {
+            NSAssert( NO, @"Recieved unexpected object" );
+        }
+    }
 }
 
 - (void)nodeConnection:(P2PNodeConnection *)connection failedToDownloadWithError:(P2PIncomingDataErrorCode)errorCode
@@ -140,20 +208,41 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
 
 - (void)nodeConnectionDidEnd:(P2PNodeConnection *)node
 {
-    [self.activeConnections removeObject:node];
+//    [self.activeConnections removeObject:node];
+    
+    if ( node == self.connection )
+    {
+        self.connection = nil;
+    }
+    
     P2PLog( P2PLogLevelWarning, @"%@ - connection lost: %@", self, node);
+    
+    dispatch_async(dispatchQueuePeerNode, ^
+    {
+        for ( P2PTransmittableObject *obj in [_pendingRequests allValues] )
+        {
+            [obj peer:self failedToRecieveResponseWithError:P2PTransmissionErrorPeerNoLongerReady];
+        }
+        _pendingRequests = nil;
+    });
 }
 
 
 
 #pragma mark - Misc
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %@>", NSStringFromClass([self class]), self.displayableName];
+}
+
 - (void)cleanup
 {
-    for ( P2PNodeConnection *connection in self.activeConnections )
-    {
-        [connection dropConnection];
-    }
-    self.activeConnections = nil;
+    [self.connection dropConnection];
+//    for ( P2PNodeConnection *connection in self.activeConnections )
+//    {
+//        [connection dropConnection];
+//    }
+//    self.activeConnections = nil;
 }
 
 @end

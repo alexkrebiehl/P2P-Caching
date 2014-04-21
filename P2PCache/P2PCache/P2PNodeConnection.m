@@ -136,7 +136,7 @@ NSUInteger getNextConnectionId() { return nextId++; }
     return [NSString stringWithFormat:@"<%@ - ID: %lu>", [self class], (unsigned long)_connectionId];
 }
 
-- (void)sendDataToConnection:(NSData *)data;
+- (void)sendData:(NSData *)data;
 {
     if ( self.outputBufferQueue == nil )
     {
@@ -180,7 +180,6 @@ NSUInteger getNextConnectionId() { return nextId++; }
                 
                 currentItem = [self.outputBufferQueue firstObject];
             }
-            
         }
 
         self.outBufferIsBeingWorked = NO;

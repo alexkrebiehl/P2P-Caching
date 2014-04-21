@@ -135,12 +135,13 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
         {
             NSSet *peers = [[P2PPeerManager sharedManager] activePeers];
             _pendingAvailabilityRequests = [[NSMutableSet alloc] initWithCapacity:[peers count]];
-            for ( P2PPeerNode *aPeer in peers )
+            for ( P2PNode *node in peers )
             {
                 P2PPeerFileAvailibilityRequest *availabilityRequest = [[P2PPeerFileAvailibilityRequest alloc] initWithFileId:self.fileInfo.fileId filename:self.fileInfo.filename];
                 [_pendingAvailabilityRequests addObject:availabilityRequest];
                 availabilityRequest.delegate = self;
-                [aPeer sendObjectToPeer:availabilityRequest];
+                [node transmitObject:availabilityRequest];
+//                [node sendObjectToPeer:availabilityRequest];
             }
         }
     });
@@ -290,13 +291,14 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     
     assert( request != nil );
     assert( node != nil );
-    assert( [node isKindOfClass:[P2PPeerNode class]] );
+//    assert( [node isKindOfClass:[P2PPeerNode class]] );
     
     if ( [_chunksCurrentlyBeingRequested count] < P2PMaximumSimultaneousFileRequests )
     {
         request.delegate = self;
         [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
-        [(P2PPeerNode *)node sendObjectToPeer:request];
+        [node transmitObject:request];
+//        [(P2PPeerNode *)node sendObjectToPeer:request];
         return YES;
     }
     return NO;
