@@ -76,9 +76,6 @@
         return;
     }
 #endif
-    
-    
-
 
     _service = [[NSNetService alloc] initWithDomain:P2P_BONJOUR_SERVICE_DOMAIN
                                                type:P2P_BONJOUR_SERVICE_TYPE
@@ -96,33 +93,7 @@
     }
 }
 
-//- (void)nodeConnection:(P2PNodeConnection *)connection didRecieveObject:(P2PTransmittableObject *)object
-//{
-//    [super nodeConnection:connection didRecieveObject:object];
-//    
-//    if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
-//    {
-//        // Check file availbility
-//        P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)object];
-//        
-//        [self transmitObject:response toNodeConnection:connection];
-//    }
-//    else if ( [object isMemberOfClass:[P2PFileChunkRequest class]] )
-//    {
-//        // A peer is requesting a file chunk
-//        P2PFileChunk *aChunk = [[P2PFileManager sharedManager] fileChunkForRequest:(P2PFileChunkRequest *)object];
-//        [self transmitObject:aChunk toNodeConnection:connection];
-//    }
-//    else
-//    {
-//        NSAssert( NO, @"Recieved unexpected file" );
-//    }
-//    
-//}
-
-
 #pragma mark - NSNetServiceDelegate
-
 - (void)netServiceWillPublish:(NSNetService *)netService
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:P2PServerNodeWillStartNotification object:self];
@@ -140,26 +111,6 @@
     P2PLog( P2PLogLevelError, @"%@ - failed to publish: %@", self, [errorDict objectForKey:NSNetServicesErrorCode] );
 }
 
-- (void)netServiceWillResolve:(NSNetService *)sender
-{
-    LogSelector();
-}
-
-- (void)netServiceDidResolveAddress:(NSNetService *)sender
-{
-    LogSelector();
-}
-
-- (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict
-{
-    LogSelector();
-}
-
-- (void)netService:(NSNetService *)sender didUpdateTXTRecordData:(NSData *)data
-{
-    LogSelector();
-}
-
 - (void)netServiceDidStop:(NSNetService *)netService
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:P2PServerNodeDidStopNotification object:self];
@@ -167,7 +118,7 @@
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
-    P2PLogDebug( @"*** A peer has connected to our server" );
+    P2PLogDebug( @"<%@> A peer has connected to our server: %@", self, sender.name );
     
     if ( _activeConnections == nil )
     {
@@ -178,15 +129,9 @@
     newConnection.delegate = self;
     [newConnection openConnection];
     [_activeConnections addObject:newConnection];
-//    [self takeOverInputStream:inputStream outputStream:outputStream];
 }
 
-#pragma mark - Logging
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@: %@>", NSStringFromClass([self class]), _service.name];//, (unsigned long)self.port, r];
-}
-
+#pragma mark - Misc
 - (void)cleanup
 {
     [super cleanup];

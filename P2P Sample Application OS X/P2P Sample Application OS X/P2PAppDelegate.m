@@ -11,8 +11,8 @@
 #import "P2PPeerManager.h"
 #import "P2PFileManager.h"
 #import "P2PFileRequest.h"
+#import "P2PNode.h"
 #import "P2PFilesInCacheWindowController.h"
-#import "P2PPeerNode.h"
 #import "P2PActiveTransfersWindowController.h"
 //#import "P2PServerNode.h"
 

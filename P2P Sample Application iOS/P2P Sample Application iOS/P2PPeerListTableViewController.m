@@ -8,7 +8,7 @@
 
 #import "P2PPeerListTableViewController.h"
 #import "P2PCache/P2PPeerManager.h"
-#import "P2PCache/P2PPeerNode.h"
+#import "P2PNode.h"
 
 #define kTableViewNumberOfSections 1
 #define kTableViewSectionActivePeers 0

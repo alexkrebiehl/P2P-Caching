@@ -54,9 +54,6 @@
 		FA58685A18FC8F8300465581 /* NSMutableArray+QueueExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = FA58685818FC8F8300465581 /* NSMutableArray+QueueExtension.h */; };
 		FA58685B18FC8F8300465581 /* NSMutableArray+QueueExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = FA58685918FC8F8300465581 /* NSMutableArray+QueueExtension.m */; };
 		FA58685C18FC8F8300465581 /* NSMutableArray+QueueExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = FA58685918FC8F8300465581 /* NSMutableArray+QueueExtension.m */; };
-		FA64EF3D189C7A4B00C35EFF /* P2PPeerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */; };
-		FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */; };
 		FA75B8F618E3AE61008E3C54 /* P2PTransmittableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = FA75B8F418E3AE61008E3C54 /* P2PTransmittableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA75B8F718E3AE61008E3C54 /* P2PTransmittableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B8F518E3AE61008E3C54 /* P2PTransmittableObject.m */; };
 		FA75B8F818E3AE61008E3C54 /* P2PTransmittableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = FA75B8F518E3AE61008E3C54 /* P2PTransmittableObject.m */; };
@@ -64,7 +61,6 @@
 		FA7B8C0118F38E1100150B05 /* P2PNodeConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = FA7B8BFF18F38E1100150B05 /* P2PNodeConnection.h */; };
 		FA7B8C0218F38E1100150B05 /* P2PNodeConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7B8C0018F38E1100150B05 /* P2PNodeConnection.m */; };
 		FA7B8C0318F38E1100150B05 /* P2PNodeConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7B8C0018F38E1100150B05 /* P2PNodeConnection.m */; };
-		FAB2E159189D5F350081ECA3 /* P2PPeerNode.h in Copy Files */ = {isa = PBXBuildFile; fileRef = FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */; };
 		FAB92DDD18B429F000E515E0 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FAB92DDC18B429F000E515E0 /* libz.dylib */; };
 		FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = FABA8DBD18A5825E00115463 /* P2PFileManager.h */; };
 		FABA8DC018A5825E00115463 /* P2PFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FABA8DBE18A5825E00115463 /* P2PFileManager.m */; };
@@ -117,7 +113,6 @@
 				FA75B8F918E3B0F1008E3C54 /* P2PTransmittableObject.h in Copy Files */,
 				FA3E9EE8189B5A18009FEB99 /* P2PCache.h in Copy Files */,
 				FA3924FB189D5B51002B6324 /* P2PPeerManager.h in Copy Files */,
-				FAB2E159189D5F350081ECA3 /* P2PPeerNode.h in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,8 +162,6 @@
 		FA3E9E94189B52FF009FEB99 /* P2PCache_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = P2PCache_iOSTests.m; sourceTree = "<group>"; };
 		FA58685818FC8F8300465581 /* NSMutableArray+QueueExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+QueueExtension.h"; sourceTree = "<group>"; };
 		FA58685918FC8F8300465581 /* NSMutableArray+QueueExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+QueueExtension.m"; sourceTree = "<group>"; };
-		FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerNode.h; sourceTree = "<group>"; };
-		FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PPeerNode.m; sourceTree = "<group>"; };
 		FA75B8F418E3AE61008E3C54 /* P2PTransmittableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PTransmittableObject.h; sourceTree = "<group>"; };
 		FA75B8F518E3AE61008E3C54 /* P2PTransmittableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PTransmittableObject.m; sourceTree = "<group>"; };
 		FA7A97281900C7A100E4D3F3 /* P2PNodeConnectionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2PNodeConnectionDelegate.h; sourceTree = "<group>"; };
@@ -459,8 +452,6 @@
 				FAD685EC189B390700CA7E18 /* P2PPeerManager.m */,
 				FAF5F3CA18AC6B73002B97BF /* P2PNode.h */,
 				FAF5F3CB18AC6B73002B97BF /* P2PNode.m */,
-				FA64EF3B189C7A4B00C35EFF /* P2PPeerNode.h */,
-				FA64EF3C189C7A4B00C35EFF /* P2PPeerNode.m */,
 				FA3924EB189C8395002B6324 /* Locating & Serving */,
 			);
 			name = "Peer Management";
@@ -476,7 +467,6 @@
 				FA3974C918A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h in Headers */,
 				FABA8DC418A5829200115463 /* P2PFileChunk.h in Headers */,
 				FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */,
-				FA64EF3D189C7A4B00C35EFF /* P2PPeerNode.h in Headers */,
 				FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */,
 				FAD685E8189B33D500CA7E18 /* CanonicalRequest.h in Headers */,
 				FAC0304818DBB57C001051F9 /* P2PFileInfo.h in Headers */,
@@ -643,7 +633,6 @@
 				FA39456718ECF91100E7751F /* NSObject+cleanup.m in Sources */,
 				FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */,
 				FA7B8C0218F38E1100150B05 /* P2PNodeConnection.m in Sources */,
-				FA64EF3E189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
 				FAC0304918DBB57C001051F9 /* P2PFileInfo.m in Sources */,
 				FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA0DFF8D18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */,
@@ -678,7 +667,6 @@
 				FA39456818ECF91100E7751F /* NSObject+cleanup.m in Sources */,
 				FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */,
 				FA7B8C0318F38E1100150B05 /* P2PNodeConnection.m in Sources */,
-				FA64EF3F189C7A4B00C35EFF /* P2PPeerNode.m in Sources */,
 				FAC0304A18DBB57C001051F9 /* P2PFileInfo.m in Sources */,
 				FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA0DFF8E18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */,

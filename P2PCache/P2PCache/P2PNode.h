@@ -11,46 +11,26 @@
 
 @class P2PTransmittableObject, P2PNodeConnection;
 
-
-//@protocol P2PNodeDelegate <NSObject>
-//
-///** When a peer is ready to be used, this delegate method will be called
-// 
-// @param peer A peer object that is ready to be used
-// */
-//- (void)peerDidBecomeReady:(P2PPeerNode *)peer;
-//
-///** When a peer is no longer ready to be used, this delegate method will be called.  Attempting to transmit an
-// object to this peer after this is called is an error
-// 
-// @param peer A peer object that is no longer ready
-// */
-//- (void)peerIsNoLongerReady:(P2PPeerNode *)peer;
-//
-//@end
-
-
-
-
 @interface P2PNode : NSObject <P2PNodeConnectionDelegate>
 
 /** Unique identifier for this node */
 @property (strong, readonly, nonatomic) NSNumber *nodeID;
 
-/** Objection representing a connectio n to this node */
+/** Objection representing a connection to this node */
 @property (strong, nonatomic, readonly) P2PNodeConnection *connection;
 
+/** Human readable name of this node */
 @property (copy, nonatomic, readonly) NSString *displayableName;
 
-- (id)initWithInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream displayableName:(NSString *)name;
 
-
-/** Call this method when recieving input/output streams from a server.
+/** Creates a new node object with an input and output stream.
  
- @param inStream An input stream supplied by a NSNetService instance
- @param outStream An output stream supplied by a NSNetService instance
+ @param inStream The input stream connected to this node
+ @param outStream The output stream connected to this node
+ @param name The human readable name to be given to this node
+ @return A new node object representing a peer on the P2P network
  */
-//- (void)takeOverInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream;
+- (id)initWithInputStream:(NSInputStream *)inStream outputStream:(NSOutputStream *)outStream displayableName:(NSString *)name;
 
 
 /** Transmits an object to a peer's cache server.

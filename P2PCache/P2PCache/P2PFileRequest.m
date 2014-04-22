@@ -8,7 +8,7 @@
 
 #import "P2PFileRequest.h"
 #import "P2PPeerManager.h"
-#import "P2PPeerNode.h"
+#import "P2PNode.h"
 #import "P2PFileChunkRequest.h"
 #import "P2PPeerFileAvailbilityResponse.h"
 #import "P2PPeerFileAvailibilityRequest.h"
@@ -153,7 +153,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     {
         P2PLog( P2PLogLevelWarning, @"%@ - failed", request );
         
-        if ( error == P2PTransmissionErrorPeerNoLongerReady )
+        if ( error == P2PTransmissionErrorNoConnectionToNode )
         {
             [self peerBecameUnavailable:request.associatedNode];
         }
@@ -334,7 +334,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
 {
     dispatch_async( _dispatchQueueFileRequest, ^
     {
-        if ( error == P2PTransmissionErrorPeerNoLongerReady )
+        if ( error == P2PTransmissionErrorNoConnectionToNode )
         {
             [self peerBecameUnavailable:request.associatedNode];
         }

@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, P2PTransmissionError)
     P2PTransmissionErrorTimeout,
     
     /** We lost connection to the peer */
-    P2PTransmissionErrorPeerNoLongerReady
+    P2PTransmissionErrorNoConnectionToNode
 };
 
 
