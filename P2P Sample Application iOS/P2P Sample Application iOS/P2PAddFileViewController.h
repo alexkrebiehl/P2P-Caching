@@ -20,5 +20,6 @@
 @property (weak, nonatomic) id<P2PAddFileViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITextField *filenameLabel;
 - (IBAction)getFileButtonPressed:(id)sender;
+- (IBAction)filenameFieldChanged:(id)sender;
 
 @end

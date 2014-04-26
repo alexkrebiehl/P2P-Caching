@@ -9,6 +9,11 @@
 #import "P2PNodeConnection.h"
 #import <zlib.h>
 
+enum
+{
+    /** The default buffer size */
+    P2PNodeConnectionBufferSize = 64 * 1024, // 64kb buffer
+};
 
 typedef NS_ENUM( NSUInteger, P2PIncomingDataStatus )
 {
@@ -73,7 +78,7 @@ typedef NS_ENUM( NSUInteger, P2PIncomingDataStatus )
 }
 
 
-
+#pragma mark - Initialization
 static NSUInteger nextId = 1;
 NSUInteger getNextConnectionId() { return nextId++; }
 
@@ -131,11 +136,8 @@ NSUInteger getNextConnectionId() { return nextId++; }
     [self.delegate nodeConnectionDidEnd:self];
 }
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<%@ - ID: %lu>", [self class], (unsigned long)_connectionId];
-}
 
+#pragma mark - Data Sending
 - (void)sendData:(NSData *)data;
 {
     if ( self.outputBufferQueue == nil )
@@ -210,6 +212,8 @@ NSUInteger getNextConnectionId() { return nextId++; }
     }
 }
 
+
+#pragma mark - Data Recieving
 - (void)prepareToReadHeader
 {
     self.fileSize = P2PIncomingDataFileSizeUnknown;
@@ -283,7 +287,7 @@ NSUInteger getNextConnectionId() { return nextId++; }
 - (void)processFooter
 {
     assert( [self.inBuffer length] == sizeof( crc_type ) );
-    uLong crcReceived = * (const crc_type *) [self.inBuffer bytes];
+    crc_type crcReceived = * (const crc_type *) [self.inBuffer bytes];
     
     if ( crcReceived == self.crc )
     {
@@ -349,6 +353,8 @@ NSUInteger getNextConnectionId() { return nextId++; }
     }
 }
 
+
+#pragma mark - Download finalization
 - (void)dataDownloadFailedWithError:(P2PIncomingDataErrorCode)errorCode
 {
     self.status = P2PIncomingDataStatusNotStarted;
@@ -360,16 +366,23 @@ NSUInteger getNextConnectionId() { return nextId++; }
 - (void)dataDownloadDidFinish
 {
     self.status = P2PIncomingDataStatusNotStarted;
-    id obj = [NSKeyedUnarchiver unarchiveObjectWithData:_assembledData];
+    id recievedObject = [NSKeyedUnarchiver unarchiveObjectWithData:_assembledData];
     [self cleanupInputBuffers];
     
-    [self.delegate nodeConnection:self didRecieveObject:obj];
+    [self.delegate nodeConnection:self didRecieveObject:recievedObject];
 }
 
 - (void)cleanupInputBuffers
 {
     self.inBuffer = nil;
     _assembledData = nil;
+//    [self.inBuffer setLength:0];
+//    [_assembledData setLength:0];
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@ - ID: %lu>", [self class], (unsigned long)_connectionId];
 }
 
 

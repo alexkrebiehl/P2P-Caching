@@ -14,6 +14,8 @@
 #import "P2PFileChunkRequest.h"
 #import "P2PPeerFileAvailbilityResponse.h"
 #import "P2PFileChunk.h"
+#import "P2PFileListRequest.h"
+#import "P2PFileListResponse.h"
 #import <zlib.h>
 
 @interface P2PNode ()
@@ -68,7 +70,7 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
 
 - (void)transmitObject:(P2PTransmittableObject *)transmittableObject toNodeConnection:(P2PNodeConnection *)connection
 {
-    // If connection is still nil, we can't send this object
+    // If connection is nil, we can't send this object
     if ( connection == nil )
     {
         [transmittableObject peer:self failedToSendObjectWithError:P2PTransmissionErrorNoConnectionToNode];
@@ -128,27 +130,31 @@ NSUInteger getNextNodeID() { return nextNodeID++; }
     {
         // We got a response to a request we sent
         [_pendingRequests removeObjectForKey:requestingObject.requestId];
-        object.associatedNode = self;
         [requestingObject peer:self didRecieveResponse:object];
     }
     else
     {
+        P2PTransmittableObject *response;
         if ( [object isMemberOfClass:[P2PPeerFileAvailibilityRequest class]] )
         {
             // Check file availability
-            P2PPeerFileAvailbilityResponse *response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)object];
-            [self transmitObject:response toNodeConnection:connection];
+            response = [[P2PFileManager sharedManager] fileAvailibilityForRequest:(P2PPeerFileAvailibilityRequest *)object];
         }
         else if ( [object isMemberOfClass:[P2PFileChunkRequest class]] )
         {
             // A peer is requesting a file chunk
-            P2PFileChunk *aChunk = [[P2PFileManager sharedManager] fileChunkForRequest:(P2PFileChunkRequest *)object];
-            [self transmitObject:aChunk toNodeConnection:connection];
+            response = [[P2PFileManager sharedManager] fileChunkForRequest:(P2PFileChunkRequest *)object];
+        }
+        else if ( [object isMemberOfClass:[P2PFileListRequest class]] )
+        {
+            // A node wants to know all of the filenames that we have information on
+            response = [[P2PFileManager sharedManager] fileListForRequest:(P2PFileListRequest *)object];
         }
         else
         {
             NSAssert( NO, @"Recieved unexpected object" );
         }
+        [self transmitObject:response toNodeConnection:connection];
     }
 }
 

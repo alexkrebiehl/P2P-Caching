@@ -21,8 +21,10 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
 @interface P2PFileInfoViewController () <P2PFileInfoDelegate, UIAlertViewDelegate>
 {
-    bool _labelsNeedUpdate;
+//    bool _labelsNeedUpdate; 
     NSTimer *_labelUpdateTimer;
+    
+    NSUInteger _totalFileChunksDownloaded;
 }
 
 @end
@@ -33,20 +35,37 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 {
     _fileInfo = fileInfo;
     fileInfo.delegate = self;
-    _labelsNeedUpdate = YES;
+//    _labelsNeedUpdate = YES;
+    
+    // Look to see if there is an active download for this fileInfo
+     for ( P2PFileRequest *request in [P2PFileRequest pendingFileRequests] )
+     {
+         if ( request.fileInfo == fileInfo )
+         {
+             request.delegate = self;
+             break;
+         }
+     }
+    
     [self updateAllFileInfo];
 }
 
+//- (void)forceUpdateLabels
+//{
+//    _labelsNeedUpdate = YES;
+//    [self updateAllFileInfo];
+//}
+
 - (void)updateAllFileInfo
 {
-    if ( _labelsNeedUpdate )
-    {
-        _labelsNeedUpdate = NO;
+//    if ( _labelsNeedUpdate )
+//    {
+//        _labelsNeedUpdate = NO;
         self.navigationItem.title = self.fileInfo.filename;
         [self updateChunksAvailableLabel];
         [self updateChunksOnDiskLabel];
         [self updateTotalChunksLabel];
-    }
+//    }
 }
 
 - (void)updateChunksOnDiskLabel
@@ -72,6 +91,7 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 {
     self.totalChunksLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.fileInfo totalChunks]];
     [self updatePercentCompleteLabel];
+    [self updateTransferRateLabel];
 }
 
 - (void)updatePercentCompleteLabel
@@ -93,37 +113,44 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
     self.sizeOnDiskLabel.text = s;
 }
 
+- (void)updateTransferRateLabel
+{
+    NSUInteger totalSizeOnDisk = [self.fileInfo.chunksOnDisk count] * P2PFileManagerFileChunkSize;
+    NSUInteger deltaSize = totalSizeOnDisk - _totalFileChunksDownloaded;
+    _totalFileChunksDownloaded = totalSizeOnDisk;
+    
+    NSString *s = [NSByteCountFormatter stringFromByteCount:deltaSize countStyle:NSByteCountFormatterCountStyleFile];
+    self.transferRateLabel.text = [NSString stringWithFormat:@"%@/s", s];
+}
+
 
 #pragma mark - P2PFileInfo Delegate Methods
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksAvailableFromPeers:(NSUInteger)chunksAvailable
 {
-//    [self updateChunksAvailableLabel];
-    _labelsNeedUpdate = YES;
+//    _labelsNeedUpdate = YES;
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksOnDisk:(NSUInteger)chunksOnDisk
 {
-//    [self updateChunksOnDiskLabel];
-    _labelsNeedUpdate = YES;
+//    _labelsNeedUpdate = YES;
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateTotalChunks:(NSUInteger)totalChunks
 {
-    [self updateTotalChunksLabel];
-    _labelsNeedUpdate = YES;
+//    [self updateTotalChunksLabel];
+//    _labelsNeedUpdate = YES;
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateFileId:(NSString *)fileId filename:(NSString *)filename
 {
-//    [self updateAllFileInfo];
-    _labelsNeedUpdate = YES;
+//    _labelsNeedUpdate = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    _labelsNeedUpdate = YES;
+//    _labelsNeedUpdate = YES;
     [self updateAllFileInfo];
     
     _labelUpdateTimer = [NSTimer timerWithTimeInterval:kLabelUpdateInterval target:self selector:@selector(updateAllFileInfo) userInfo:nil repeats:YES];
@@ -156,6 +183,22 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:self.fileInfo.filename message:@"Are you sure you want to delete this file?" delegate:self cancelButtonTitle:@"no" otherButtonTitles:@"delete", nil];
     [alert show];
+}
+
+#pragma mark - File Request Delegate Methods
+- (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filenamee
+{
+    
+}
+
+- (void)fileRequestDidComplete:(P2PFileRequest *)fileRequest
+{
+    
+}
+
+- (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode
+{
+    
 }
 
 

@@ -9,14 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "P2PNodeConnectionDelegate.h"
 
-enum
-{
-    /** The default buffer size */
-    P2PNodeConnectionBufferSize = 32 * 1024, // 32kb buffer
-};
-
-
-
 /** Represents a connection between two nodes.  Contains the connection ID, both I/O streams, and buffers */
 @interface P2PNodeConnection : NSObject
 

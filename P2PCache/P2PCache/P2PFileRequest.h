@@ -152,7 +152,7 @@ typedef NS_ENUM(NSUInteger, P2PFileRequestError)
 - (void)getFile;
 
 
-/** Stops retreiving the file from peers.  Any files already downloaded will remain cached
+/** Stops retreiving the file from peers.  Any chunks already downloaded will remain cached
  */
 - (void)abortRequest;
 

@@ -23,8 +23,6 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
 
 - (id)initWithFileId:(NSString *)fileId filename:(NSString *)filename
 {
-//    NSAssert( fileId != nil || filename != nil, @"Must supply a file Id or filename" );
-    
     if ( self = [super init] )
     {
         _fileId = fileId;
@@ -38,6 +36,7 @@ static NSString *P2PAvailabilityRequestFileIdKey =      @"FiledId";
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [super encodeWithCoder:aCoder];
+    
     [aCoder encodeObject:self.fileName forKey:P2PAvailabilityRequestFilenameKey];
     [aCoder encodeObject:self.fileId forKey:P2PAvailabilityRequestFileIdKey];
 }

@@ -40,29 +40,29 @@
 
 
 #pragma mark - Internal class methods
-static NSMutableArray *_pendingFileRequests = nil;
+static NSMutableArray *sPendingFileRequests = nil;
 + (NSArray *)pendingFileRequests
 {
-    if ( _pendingFileRequests == nil )
+    if ( sPendingFileRequests == nil )
     {
-        _pendingFileRequests = [[NSMutableArray alloc] init];
+        sPendingFileRequests = [[NSMutableArray alloc] init];
     }
-    return _pendingFileRequests;
+    return sPendingFileRequests;
 }
 
 + (void)addRequestToPendingList:(P2PFileRequest *)request
 {
-    if ( _pendingFileRequests == nil )
+    if ( sPendingFileRequests == nil )
     {
-        _pendingFileRequests = [[NSMutableArray alloc] init];
+        sPendingFileRequests = [[NSMutableArray alloc] init];
     }
-    [_pendingFileRequests addObject:request];
+    [sPendingFileRequests addObject:request];
     [[NSNotificationCenter defaultCenter] postNotificationName:P2PActiveFileRequestsDidChange object:nil];
 }
 
 + (void)removeRequestFromPendingList:(P2PFileRequest *)request
 {
-    [_pendingFileRequests removeObject:request];
+    [sPendingFileRequests removeObject:request];
     [[NSNotificationCenter defaultCenter] postNotificationName:P2PActiveFileRequestsDidChange object:nil];
 }
 
@@ -141,7 +141,6 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
                 [_pendingAvailabilityRequests addObject:availabilityRequest];
                 availabilityRequest.delegate = self;
                 [node transmitObject:availabilityRequest];
-//                [node sendObjectToPeer:availabilityRequest];
             }
         }
     });
@@ -291,14 +290,12 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     
     assert( request != nil );
     assert( node != nil );
-//    assert( [node isKindOfClass:[P2PPeerNode class]] );
     
     if ( [_chunksCurrentlyBeingRequested count] < P2PMaximumSimultaneousFileRequests )
     {
         request.delegate = self;
         [_chunksCurrentlyBeingRequested addObject:@( request.chunkId )];
         [node transmitObject:request];
-//        [(P2PPeerNode *)node sendObjectToPeer:request];
         return YES;
     }
     return NO;
@@ -313,7 +310,7 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     dispatch_async(_dispatchQueueFileRequest, ^
     {
         [_chunksCurrentlyBeingRequested removeObject:@( request.chunkId )];
-        [_pendingFileRequests removeObject:request];
+//        [_pendingFileRequests removeObject:request];
         [[P2PFileManager sharedManager] fileRequest:self didRecieveFileChunk:chunk];
         
         // Update our available chunks set

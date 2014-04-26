@@ -73,6 +73,7 @@ NSNumber* nextRequestId() { return [NSNumber numberWithUnsignedInteger:nextId++]
     _timeoutTimer = nil;
     
     _associatedNode = peer;
+    recievedObject.associatedNode = peer;
 }
 
 - (void)requestTimedOut

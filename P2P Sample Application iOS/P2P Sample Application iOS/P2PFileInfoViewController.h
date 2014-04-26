@@ -10,17 +10,23 @@
 
 extern NSString *P2PFileInfoStoryboardViewIdentifier;
 
+@protocol P2PFileRequestDelegate;
 @class P2PFileInfo;
 
-@interface P2PFileInfoViewController : UIViewController
+@interface P2PFileInfoViewController : UIViewController <P2PFileRequestDelegate>
+
 @property (weak, nonatomic) IBOutlet UILabel *chunksOnDiskLabel;
 @property (weak, nonatomic) IBOutlet UILabel *chunksAvailableLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalChunksLabel;
 @property (weak, nonatomic) IBOutlet UILabel *percentCompleteLabel;
 @property (strong, nonatomic) P2PFileInfo *fileInfo;
 @property (weak, nonatomic) IBOutlet UILabel *sizeOnDiskLabel;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (weak, nonatomic) IBOutlet UILabel *transferRateLabel;
+
 - (IBAction)retreiveRestOfFileButtonPressed:(id)sender;
 
 - (IBAction)deleteFileButtonPressed:(id)sender;
+
+//- (void)forceUpdateLabels;
+
 @end

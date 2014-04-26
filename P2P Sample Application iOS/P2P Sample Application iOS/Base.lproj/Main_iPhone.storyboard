@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -15,7 +15,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="fUp-XF-Z2n" kind="relationship" relationship="viewControllers" id="r6e-ke-hyH"/>
+                        <segue destination="eau-DF-Ced" kind="relationship" relationship="viewControllers" id="SXe-HQ-xAv"/>
                         <segue destination="2Jr-LE-g2r" kind="relationship" relationship="viewControllers" id="zHp-6r-TrM"/>
                         <segue destination="AVj-8l-F0X" kind="relationship" relationship="viewControllers" id="qwc-ai-OMy"/>
                     </connections>
@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="203" y="331"/>
         </scene>
-        <!--Status View Controller - Status-->
+        <!--Status View Controller - Server Status-->
         <scene sceneID="8tw-O7-6oG">
             <objects>
                 <viewController id="fUp-XF-Z2n" customClass="P2PStatusViewController" sceneMemberID="viewController">
@@ -87,6 +87,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Status" id="X3W-5F-ctf"/>
+                    <navigationItem key="navigationItem" title="Server Status" id="Kan-j4-Jg2"/>
                     <connections>
                         <outlet property="activeRequestsNumber" destination="IuL-LO-b9b" id="JkZ-zX-kuc"/>
                         <outlet property="circleView" destination="H4m-gB-Y5W" id="QaJ-M9-3cR"/>
@@ -96,7 +97,23 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frB-K2-0Fu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="795" y="-351"/>
+            <point key="canvasLocation" x="1305" y="-339"/>
+        </scene>
+        <!--Navigation Controller - Status-->
+        <scene sceneID="5VJ-PO-bOy">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="eau-DF-Ced" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Status" id="RMP-lj-ZOc"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zLt-Y4-ycW">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="fUp-XF-Z2n" kind="relationship" relationship="rootViewController" id="fbr-6t-4cL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hlr-LS-cNh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="795" y="-339"/>
         </scene>
         <!--Peer List Table View Controller - Peers-->
         <scene sceneID="6oC-8m-OOS">
@@ -155,7 +172,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EeA-YE-rnu">
-                                <rect key="frame" x="78" y="460" width="149" height="30"/>
+                                <rect key="frame" x="78" y="465" width="149" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Delete file from cache">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -226,7 +243,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJM-eg-b5z">
-                                <rect key="frame" x="71" y="402" width="163" height="30"/>
+                                <rect key="frame" x="71" y="425" width="163" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Retreive more of the file">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -235,6 +252,19 @@
                                     <action selector="retreiveRestOfFileButtonPressed:" destination="LZV-6q-7M0" eventType="touchUpInside" id="mDE-dH-MbW"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transfer rate" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5W2-5C-Ddz">
+                                <rect key="frame" x="81" y="335" width="99" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 b/s" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="96H-Np-9LB">
+                                <rect key="frame" x="208" y="335" width="112" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -242,6 +272,8 @@
                             <constraint firstItem="CR6-rA-bJD" firstAttribute="trailing" secondItem="9xS-0v-A9q" secondAttribute="trailing" id="0y1-Zg-D2d"/>
                             <constraint firstItem="ZXs-zX-bEp" firstAttribute="top" secondItem="kfw-gM-1JV" secondAttribute="bottom" constant="8" id="2KA-oF-vm8"/>
                             <constraint firstItem="9xS-0v-A9q" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="28" id="31w-cZ-fRG"/>
+                            <constraint firstItem="5W2-5C-Ddz" firstAttribute="top" secondItem="9xS-0v-A9q" secondAttribute="bottom" constant="8" id="60k-uE-yqZ"/>
+                            <constraint firstItem="96H-Np-9LB" firstAttribute="baseline" secondItem="5W2-5C-Ddz" secondAttribute="baseline" id="68Q-0N-fEJ"/>
                             <constraint firstItem="epM-ZR-lZ3" firstAttribute="baseline" secondItem="A9m-jl-t5V" secondAttribute="baseline" id="6lC-Rt-aLV"/>
                             <constraint firstItem="ZXs-zX-bEp" firstAttribute="baseline" secondItem="CR6-rA-bJD" secondAttribute="baseline" id="8Fz-3r-Q9b"/>
                             <constraint firstItem="CSW-eB-hvD" firstAttribute="trailing" secondItem="A9m-jl-t5V" secondAttribute="trailing" id="Df6-gw-JgC"/>
@@ -249,9 +281,11 @@
                             <constraint firstItem="epM-ZR-lZ3" firstAttribute="leading" secondItem="9xS-0v-A9q" secondAttribute="leading" id="HbR-Or-zU8"/>
                             <constraint firstItem="epM-ZR-lZ3" firstAttribute="top" secondItem="wfx-kv-GVh" secondAttribute="bottom" constant="11" id="Iaf-3b-r0A"/>
                             <constraint firstItem="ZXs-zX-bEp" firstAttribute="trailing" secondItem="kfw-gM-1JV" secondAttribute="trailing" id="KQw-lH-eJW"/>
-                            <constraint firstItem="EeA-YE-rnu" firstAttribute="top" secondItem="bJM-eg-b5z" secondAttribute="bottom" constant="28" id="LkN-1Y-BNZ"/>
+                            <constraint firstItem="EeA-YE-rnu" firstAttribute="top" secondItem="bJM-eg-b5z" secondAttribute="bottom" constant="10" id="LkN-1Y-BNZ"/>
                             <constraint firstItem="kfw-gM-1JV" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="60" id="OMq-PM-KVL"/>
-                            <constraint firstItem="tSH-4v-qMd" firstAttribute="top" secondItem="EeA-YE-rnu" secondAttribute="bottom" constant="29" id="WxT-NG-yoj"/>
+                            <constraint firstItem="96H-Np-9LB" firstAttribute="leading" secondItem="5W2-5C-Ddz" secondAttribute="trailing" constant="28" id="TNA-hF-drl"/>
+                            <constraint firstItem="5W2-5C-Ddz" firstAttribute="trailing" secondItem="ZXs-zX-bEp" secondAttribute="trailing" id="WQ5-XN-4Qz"/>
+                            <constraint firstItem="tSH-4v-qMd" firstAttribute="top" secondItem="EeA-YE-rnu" secondAttribute="bottom" constant="24" id="WxT-NG-yoj"/>
                             <constraint firstItem="bJM-eg-b5z" firstAttribute="centerX" secondItem="EeA-YE-rnu" secondAttribute="centerX" id="XPR-9e-9tq"/>
                             <constraint firstItem="kfw-gM-1JV" firstAttribute="top" secondItem="jJg-Dh-bq3" secondAttribute="bottom" constant="8" symbolic="YES" id="XTQ-ZR-d7w"/>
                             <constraint firstItem="jJg-Dh-bq3" firstAttribute="top" secondItem="epM-ZR-lZ3" secondAttribute="bottom" constant="8" symbolic="YES" id="ZRj-HF-Z6p"/>
@@ -267,6 +301,7 @@
                             <constraint firstItem="kfw-gM-1JV" firstAttribute="trailing" secondItem="epM-ZR-lZ3" secondAttribute="trailing" id="oPw-6h-3YC"/>
                             <constraint firstAttribute="centerY" secondItem="9xS-0v-A9q" secondAttribute="centerY" id="qb7-6b-7Gq"/>
                             <constraint firstItem="kfw-gM-1JV" firstAttribute="trailing" secondItem="jJg-Dh-bq3" secondAttribute="trailing" id="v7o-Dr-hZa"/>
+                            <constraint firstAttribute="trailing" secondItem="96H-Np-9LB" secondAttribute="trailing" id="wGl-Nb-Pn3"/>
                             <constraint firstItem="ZXs-zX-bEp" firstAttribute="leading" secondItem="0tI-kL-pdR" secondAttribute="leading" constant="64" id="zfR-wp-sHQ"/>
                         </constraints>
                     </view>
@@ -277,6 +312,7 @@
                         <outlet property="percentCompleteLabel" destination="9xS-0v-A9q" id="LJV-A0-gFg"/>
                         <outlet property="sizeOnDiskLabel" destination="CR6-rA-bJD" id="gHx-ZI-BAW"/>
                         <outlet property="totalChunksLabel" destination="EJP-Xv-MoD" id="8xD-mK-xSK"/>
+                        <outlet property="transferRateLabel" destination="96H-Np-9LB" id="VJC-vI-9JN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xcF-Xt-eah" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -291,9 +327,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" prompt="Query peers for file" placeholder="filename" id="282-QJ-3Ph">
+                            <rect key="frame" x="0.0" y="64" width="320" height="75"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="Vsh-vO-h9S" id="kpD-ba-SLb"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PFilesInCacheCell" textLabel="NZo-0V-ilA" detailTextLabel="6gL-nb-sZR" style="IBUITableViewCellStyleValue1" id="sx8-pg-gdW" customClass="P2PFileInCacheTableViewCell">
-                                <rect key="frame" x="0.0" y="119" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="194" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sx8-pg-gdW" id="lhC-XW-efg">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -316,11 +360,11 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="LZV-6q-7M0" kind="push" id="1fR-6G-lpO"/>
+                                    <segue destination="LZV-6q-7M0" kind="push" identifier="pushFileInfo" id="1fR-6G-lpO"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="P2PActiveTransfersCell" textLabel="wtR-sh-hvN" detailTextLabel="B8V-20-ONk" style="IBUITableViewCellStyleSubtitle" id="Xp9-8i-l8U">
-                                <rect key="frame" x="0.0" y="163" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="238" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xp9-8i-l8U" id="jfl-Vz-yGZ">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -352,12 +396,24 @@
                     <navigationItem key="navigationItem" title="Files" id="6hA-GE-fV9">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="nET-TL-Gt7">
                             <connections>
-                                <segue destination="vqE-fc-cjX" kind="push" identifier="P2PAddFileToCacheSegue" id="eOn-Kd-nOi"/>
+                                <segue destination="vqE-fc-cjX" kind="push" identifier="pushAddFile" id="Wl9-9K-IdD"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="iPC-al-Jpf" id="hhE-Vq-N38"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sdJ-K9-oQ2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="iPC-al-Jpf">
+                    <connections>
+                        <outlet property="delegate" destination="Vsh-vO-h9S" id="9F1-R1-KAt"/>
+                        <outlet property="searchBar" destination="282-QJ-3Ph" id="t4O-Ee-67P"/>
+                        <outlet property="searchContentsController" destination="Vsh-vO-h9S" id="pWK-rM-1Jm"/>
+                        <outlet property="searchResultsDataSource" destination="Vsh-vO-h9S" id="8fm-Uw-fUh"/>
+                        <outlet property="searchResultsDelegate" destination="Vsh-vO-h9S" id="G4w-hs-JAs"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1305" y="1096"/>
         </scene>
@@ -385,6 +441,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="filenameFieldChanged:" destination="vqE-fc-cjX" eventType="editingChanged" id="Aas-X6-Ug9"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File name:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XsI-2T-Iba">
                                 <rect key="frame" x="32" y="144" width="79" height="21"/>
@@ -417,13 +476,14 @@
                             <constraint firstItem="XsI-2T-Iba" firstAttribute="top" secondItem="q4c-ZJ-sxg" secondAttribute="bottom" constant="34" id="vew-KB-izO"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="B5K-JV-n8o"/>
                     <connections>
                         <outlet property="filenameLabel" destination="pSN-Gm-ONF" id="9JW-6g-1az"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5xr-tZ-8YS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1820" y="1862"/>
+            <point key="canvasLocation" x="2200" y="1876"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AqM-Mi-E7U">

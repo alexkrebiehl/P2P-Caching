@@ -20,7 +20,6 @@
 		FA39456618ECF91100E7751F /* NSObject+cleanup.h in Headers */ = {isa = PBXBuildFile; fileRef = FA39456418ECF91100E7751F /* NSObject+cleanup.h */; };
 		FA39456718ECF91100E7751F /* NSObject+cleanup.m in Sources */ = {isa = PBXBuildFile; fileRef = FA39456518ECF91100E7751F /* NSObject+cleanup.m */; };
 		FA39456818ECF91100E7751F /* NSObject+cleanup.m in Sources */ = {isa = PBXBuildFile; fileRef = FA39456518ECF91100E7751F /* NSObject+cleanup.m */; };
-		FA3974BC18A9BF0F007FCD93 /* this_file_is_a_test.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FA3974BB18A9BF0F007FCD93 /* this_file_is_a_test.jpg */; };
 		FA3974BF18A9C1AF007FCD93 /* P2PFileRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3974BD18A9C1AF007FCD93 /* P2PFileRequest.h */; };
 		FA3974C018A9C1AF007FCD93 /* P2PFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3974BE18A9C1AF007FCD93 /* P2PFileRequest.m */; };
 		FA3974C118A9C1AF007FCD93 /* P2PFileRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FA3974BE18A9C1AF007FCD93 /* P2PFileRequest.m */; };
@@ -81,6 +80,12 @@
 		FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685EC189B390700CA7E18 /* P2PPeerManager.m */; };
 		FAD685F4189B41CF00CA7E18 /* P2PServerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = FAD685F2189B41CF00CA7E18 /* P2PServerNode.h */; };
 		FAD685F5189B41CF00CA7E18 /* P2PServerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD685F3189B41CF00CA7E18 /* P2PServerNode.m */; };
+		FADB928D190B103200D3814A /* P2PFileListRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = FADB928B190B103200D3814A /* P2PFileListRequest.h */; };
+		FADB928E190B103200D3814A /* P2PFileListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FADB928C190B103200D3814A /* P2PFileListRequest.m */; };
+		FADB928F190B103200D3814A /* P2PFileListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = FADB928C190B103200D3814A /* P2PFileListRequest.m */; };
+		FADB9292190B103E00D3814A /* P2PFileListResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = FADB9290190B103E00D3814A /* P2PFileListResponse.h */; };
+		FADB9293190B103E00D3814A /* P2PFileListResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = FADB9291190B103E00D3814A /* P2PFileListResponse.m */; };
+		FADB9294190B103E00D3814A /* P2PFileListResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = FADB9291190B103E00D3814A /* P2PFileListResponse.m */; };
 		FAF5F3CC18AC6B73002B97BF /* P2PNode.h in Headers */ = {isa = PBXBuildFile; fileRef = FAF5F3CA18AC6B73002B97BF /* P2PNode.h */; };
 		FAF5F3CD18AC6B73002B97BF /* P2PNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF5F3CB18AC6B73002B97BF /* P2PNode.m */; };
 		FAF5F3CE18AC6B73002B97BF /* P2PNode.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF5F3CB18AC6B73002B97BF /* P2PNode.m */; };
@@ -130,7 +135,6 @@
 		FA3924F4189CC94F002B6324 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
 		FA39456418ECF91100E7751F /* NSObject+cleanup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+cleanup.h"; sourceTree = "<group>"; };
 		FA39456518ECF91100E7751F /* NSObject+cleanup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+cleanup.m"; sourceTree = "<group>"; };
-		FA3974BB18A9BF0F007FCD93 /* this_file_is_a_test.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = this_file_is_a_test.jpg; sourceTree = "<group>"; };
 		FA3974BD18A9C1AF007FCD93 /* P2PFileRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileRequest.h; sourceTree = "<group>"; };
 		FA3974BE18A9C1AF007FCD93 /* P2PFileRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileRequest.m; sourceTree = "<group>"; };
 		FA3974C718A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PPeerFileAvailbilityResponse.h; sourceTree = "<group>"; };
@@ -185,6 +189,10 @@
 		FAD685F2189B41CF00CA7E18 /* P2PServerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PServerNode.h; sourceTree = "<group>"; };
 		FAD685F3189B41CF00CA7E18 /* P2PServerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PServerNode.m; sourceTree = "<group>"; };
 		FAD685F6189B454400CA7E18 /* P2P.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = P2P.h; sourceTree = "<group>"; };
+		FADB928B190B103200D3814A /* P2PFileListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileListRequest.h; sourceTree = "<group>"; };
+		FADB928C190B103200D3814A /* P2PFileListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileListRequest.m; sourceTree = "<group>"; };
+		FADB9290190B103E00D3814A /* P2PFileListResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PFileListResponse.h; sourceTree = "<group>"; };
+		FADB9291190B103E00D3814A /* P2PFileListResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PFileListResponse.m; sourceTree = "<group>"; };
 		FAF5F3CA18AC6B73002B97BF /* P2PNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P2PNode.h; sourceTree = "<group>"; };
 		FAF5F3CB18AC6B73002B97BF /* P2PNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P2PNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -265,7 +273,6 @@
 		FA3CA975189B1ACD00208607 = {
 			isa = PBXGroup;
 			children = (
-				FA3974BB18A9BF0F007FCD93 /* this_file_is_a_test.jpg */,
 				FA3CA988189B1ACD00208607 /* P2PCache */,
 				FA3CA99D189B1ACD00208607 /* P2PCacheTests */,
 				FA3E9E8E189B52FF009FEB99 /* P2PCache-iOSTests */,
@@ -392,14 +399,9 @@
 		FAC013D218E271B10034D557 /* Transmittable Subclasses */ = {
 			isa = PBXGroup;
 			children = (
-				FA0DFF8A18AD16DD00B2C1CB /* P2PFileChunkRequest.h */,
-				FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */,
-				FABA8DC218A5829200115463 /* P2PFileChunk.h */,
-				FABA8DC318A5829200115463 /* P2PFileChunk.m */,
-				FA3974C718A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h */,
-				FA3974C818A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.m */,
-				FA3974CD18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.h */,
-				FA3974CE18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m */,
+				FADB928A190B101A00D3814A /* File List Request */,
+				FADB9288190B0FBB00D3814A /* Chunk Request */,
+				FADB9289190B0FC700D3814A /* Availbility Request */,
 			);
 			name = "Transmittable Subclasses";
 			sourceTree = "<group>";
@@ -457,6 +459,39 @@
 			name = "Peer Management";
 			sourceTree = "<group>";
 		};
+		FADB9288190B0FBB00D3814A /* Chunk Request */ = {
+			isa = PBXGroup;
+			children = (
+				FA0DFF8A18AD16DD00B2C1CB /* P2PFileChunkRequest.h */,
+				FA0DFF8B18AD16DD00B2C1CB /* P2PFileChunkRequest.m */,
+				FABA8DC218A5829200115463 /* P2PFileChunk.h */,
+				FABA8DC318A5829200115463 /* P2PFileChunk.m */,
+			);
+			name = "Chunk Request";
+			sourceTree = "<group>";
+		};
+		FADB9289190B0FC700D3814A /* Availbility Request */ = {
+			isa = PBXGroup;
+			children = (
+				FA3974C718A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h */,
+				FA3974C818A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.m */,
+				FA3974CD18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.h */,
+				FA3974CE18A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m */,
+			);
+			name = "Availbility Request";
+			sourceTree = "<group>";
+		};
+		FADB928A190B101A00D3814A /* File List Request */ = {
+			isa = PBXGroup;
+			children = (
+				FADB928B190B103200D3814A /* P2PFileListRequest.h */,
+				FADB928C190B103200D3814A /* P2PFileListRequest.m */,
+				FADB9290190B103E00D3814A /* P2PFileListResponse.h */,
+				FADB9291190B103E00D3814A /* P2PFileListResponse.m */,
+			);
+			name = "File List Request";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -465,6 +500,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3974C918A9C512007FCD93 /* P2PPeerFileAvailbilityResponse.h in Headers */,
+				FADB928D190B103200D3814A /* P2PFileListRequest.h in Headers */,
 				FABA8DC418A5829200115463 /* P2PFileChunk.h in Headers */,
 				FAD685ED189B390700CA7E18 /* P2PPeerManager.h in Headers */,
 				FABA8DBF18A5825E00115463 /* P2PFileManager.h in Headers */,
@@ -481,6 +517,7 @@
 				FAD685CA189B1DE800CA7E18 /* P2PCache.h in Headers */,
 				FA7B8C0118F38E1100150B05 /* P2PNodeConnection.h in Headers */,
 				FA58685A18FC8F8300465581 /* NSMutableArray+QueueExtension.h in Headers */,
+				FADB9292190B103E00D3814A /* P2PFileListResponse.h in Headers */,
 				FA0DFF8C18AD16DD00B2C1CB /* P2PFileChunkRequest.h in Headers */,
 				FA39456618ECF91100E7751F /* NSObject+cleanup.h in Headers */,
 			);
@@ -603,7 +640,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA3CA98D189B1ACD00208607 /* InfoPlist.strings in Resources */,
-				FA3974BC18A9BF0F007FCD93 /* this_file_is_a_test.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,12 +666,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FADB9293190B103E00D3814A /* P2PFileListResponse.m in Sources */,
 				FA39456718ECF91100E7751F /* NSObject+cleanup.m in Sources */,
 				FA3CA991189B1ACD00208607 /* P2PCache.m in Sources */,
 				FA7B8C0218F38E1100150B05 /* P2PNodeConnection.m in Sources */,
 				FAC0304918DBB57C001051F9 /* P2PFileInfo.m in Sources */,
 				FA3924F6189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA0DFF8D18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */,
+				FADB928E190B103200D3814A /* P2PFileListRequest.m in Sources */,
 				FA0DFF9218AEDBF300B2C1CB /* NSData+mD5Hash.m in Sources */,
 				FAD685EE189B390700CA7E18 /* P2PPeerManager.m in Sources */,
 				FA3974D018A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,
@@ -664,12 +702,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FADB9294190B103E00D3814A /* P2PFileListResponse.m in Sources */,
 				FA39456818ECF91100E7751F /* NSObject+cleanup.m in Sources */,
 				FA3E9EE2189B5A06009FEB99 /* P2PCache.m in Sources */,
 				FA7B8C0318F38E1100150B05 /* P2PNodeConnection.m in Sources */,
 				FAC0304A18DBB57C001051F9 /* P2PFileInfo.m in Sources */,
 				FA3924F7189CC94F002B6324 /* SimplePing.m in Sources */,
 				FA0DFF8E18AD16DD00B2C1CB /* P2PFileChunkRequest.m in Sources */,
+				FADB928F190B103200D3814A /* P2PFileListRequest.m in Sources */,
 				FA0DFF9318AEDBF300B2C1CB /* NSData+mD5Hash.m in Sources */,
 				FA3E9EE4189B5A06009FEB99 /* P2PLogging.m in Sources */,
 				FA3974D118A9CB2D007FCD93 /* P2PPeerFileAvailibilityRequest.m in Sources */,

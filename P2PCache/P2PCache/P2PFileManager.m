@@ -13,6 +13,8 @@
 #import "P2PFileChunkRequest.h"
 #import "P2PFileInfo.h"
 #import "P2PFileRequest.h"
+#import "P2PFileListRequest.h"
+#import "P2PFileListResponse.h"
 
 #import "NSData+mD5Hash.h"
 
@@ -20,9 +22,6 @@
 
 static NSString *P2PFileManagerFilesInCachePlist =  @"files.plist";     // A list of all of the files and their IDs in the cache
 static NSString *P2PFileManagerInfoPlistFile =      @"fileInfo.plist";  // Information for individual files in the cache
-
-
-typedef NSMutableSet file_id_list_t;
 
 
 @implementation P2PFileManager
@@ -36,6 +35,7 @@ typedef NSMutableSet file_id_list_t;
     NSMutableDictionary *_cachedFileInfo;
 }
 @synthesize cacheDirectory = _cacheDirectory;
+@synthesize filenamesToFileIds = _filenameToFileIds;
 
 static P2PFileManager *sharedInstance = nil;
 + (P2PFileManager *)sharedManager
@@ -88,7 +88,7 @@ static P2PFileManager *sharedInstance = nil;
             for ( NSString *filename in [plist allKeys] )
             {
                 NSArray *ids = [plist objectForKey:filename];
-                [_filenameToFileIds setObject:[[file_id_list_t alloc] initWithArray:ids] forKey:filename];
+                [_filenameToFileIds setObject:[[NSMutableSet alloc] initWithArray:ids] forKey:filename];
             }
         }
     }
@@ -100,7 +100,7 @@ static P2PFileManager *sharedInstance = nil;
     NSMutableDictionary *dictionaryToSerialize = [[NSMutableDictionary alloc] init];
     for ( NSString *filename in [_filenameToFileIds allKeys] )
     {
-        file_id_list_t *ids = [_filenameToFileIds objectForKey:filename];
+        NSMutableSet *ids = [_filenameToFileIds objectForKey:filename];
         [dictionaryToSerialize setObject:[ids allObjects] forKey:filename];
     }
     
@@ -129,7 +129,7 @@ static P2PFileManager *sharedInstance = nil;
 - (NSOrderedSet *)allFileIds
 {
     NSMutableOrderedSet *all = [[NSMutableOrderedSet alloc] init];
-    for ( file_id_list_t *ids in [_filenameToFileIds allValues] )
+    for ( NSMutableSet *ids in [_filenameToFileIds allValues] )
     {
         [all unionSet:ids];
     }
@@ -372,22 +372,22 @@ static P2PFileManager *sharedInstance = nil;
     return aChunk;
 }
 
-- (file_id_list_t *)matchingIdsForFilename:(NSString *)filename
+- (NSMutableSet *)matchingIdsForFilename:(NSString *)filename
 {
-    file_id_list_t *ids = [_filenameToFileIds objectForKey:filename];
+    NSMutableSet *ids = [_filenameToFileIds objectForKey:filename];
     if ( ids == nil )
     {
-        ids = [[file_id_list_t alloc] init];
+        ids = [[NSMutableSet alloc] init];
     }
     return ids;
 }
 
 - (void)addFileId:(NSString *)fileId toFilename:(NSString *)filename
 {
-    file_id_list_t *ids = [_filenameToFileIds objectForKey:filename];
+    NSMutableSet *ids = [_filenameToFileIds objectForKey:filename];
     if ( ids == nil )
     {
-        ids = [[file_id_list_t alloc] init];
+        ids = [[NSMutableSet alloc] init];
         [_filenameToFileIds setObject:ids forKey:filename];
     }
     
@@ -478,7 +478,7 @@ static P2PFileManager *sharedInstance = nil;
             [plistData writeToURL:plistURL atomically:YES];
             
             // Cache the file info
-            file_id_list_t *idsForFilename = [self matchingIdsForFilename:fileInfo.filename];
+            NSMutableSet *idsForFilename = [self matchingIdsForFilename:fileInfo.filename];
             if ( ![idsForFilename containsObject:fileInfo.filename] )
             {
                 [self addFileId:fileInfo.fileId toFilename:fileInfo.filename];
@@ -490,6 +490,12 @@ static P2PFileManager *sharedInstance = nil;
             P2PLog( P2PLogLevelWarning, @"%@ - Can't save file info with no fileId: %@", self, fileInfo );
         }
     }
+}
+
+- (P2PFileListResponse *)fileListForRequest:(P2PFileListRequest *)request
+{
+    NSArray *allFileNames = [_filenameToFileIds allKeys];
+    return [[P2PFileListResponse alloc] initWithFilenames:allFileNames];
 }
 
 @end

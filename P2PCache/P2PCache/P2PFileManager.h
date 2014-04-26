@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class P2PPeerFileAvailibilityRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk, P2PFileChunkRequest, P2PFileRequest, P2PFileInfo;
+@class P2PPeerFileAvailibilityRequest, P2PPeerFileAvailbilityResponse, P2PFileChunk,
+P2PFileChunkRequest, P2PFileRequest, P2PFileInfo, P2PFileListResponse, P2PFileListRequest;
 
 /** The defualt size (in bytes) file a file chunk */
 static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File chunk size
@@ -20,6 +21,11 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
 
 /** Directory of cache on disk */
 @property (strong, nonatomic, readonly) NSURL *cacheDirectory;
+
+
+/** A dictionary containing a dictionary with all fileNames in the cache as keys, with an array
+ of fileIds that are mapped to that filename as values */
+@property (strong, nonatomic, readonly) NSDictionary *filenamesToFileIds;
 
 
 /** Returns the shared instance of the file manager
@@ -68,6 +74,14 @@ static const NSUInteger P2PFileManagerFileChunkSize = 1024 * 64;  // 64k File ch
  @return Returns information if a match is found, otherwise nil 
  */
 - (P2PFileInfo *)fileInfoForFileId:(NSString *)fileId filename:(NSString *)filename;
+
+
+/** Responds to a file list request, returning an object wrapping a list of filenames available from ourselves
+ 
+ @param request A file list request
+ @return An object detailing what files we have on hand
+ */
+- (P2PFileListResponse *)fileListForRequest:(P2PFileListRequest *)request;
 
 
 /** If critial pieces of information on a file changes (filename, fileId, or total size), the FileInfo object should pass itself to this method in order to be saved.

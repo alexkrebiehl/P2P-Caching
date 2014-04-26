@@ -118,7 +118,7 @@
 
 - (void)netService:(NSNetService *)sender didAcceptConnectionWithInputStream:(NSInputStream *)inputStream outputStream:(NSOutputStream *)outputStream
 {
-    P2PLogDebug( @"<%@> A peer has connected to our server: %@", self, sender.name );
+    P2PLogDebug( @"%@ - A peer has connected to our server: %@", self, sender.name );
     
     if ( _activeConnections == nil )
     {
