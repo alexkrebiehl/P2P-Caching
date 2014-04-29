@@ -19,11 +19,9 @@ static NSString *kChunksAvailableKeyPath =  @"chunksAvailable";
 static NSString *kTotalChunksKeyPath =      @"totalChunks";
 static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 
-@interface P2PFileInfoViewController () <P2PFileInfoDelegate, UIAlertViewDelegate>
+@interface P2PFileInfoViewController () <P2PFileInfoDelegate, P2PFileRequestDelegate, UIAlertViewDelegate>
 {
-//    bool _labelsNeedUpdate; 
     NSTimer *_labelUpdateTimer;
-    
     NSUInteger _totalFileChunksDownloaded;
 }
 
@@ -35,37 +33,26 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 {
     _fileInfo = fileInfo;
     fileInfo.delegate = self;
-//    _labelsNeedUpdate = YES;
-    
+
     // Look to see if there is an active download for this fileInfo
-     for ( P2PFileRequest *request in [P2PFileRequest pendingFileRequests] )
-     {
-         if ( request.fileInfo == fileInfo )
-         {
-             request.delegate = self;
-             break;
-         }
-     }
+    for ( P2PFileRequest *request in [P2PFileRequest pendingFileRequests] )
+    {
+        if ( request.fileInfo == fileInfo )
+        {
+            request.delegate = self;
+            break;
+        }
+    }
     
     [self updateAllFileInfo];
 }
 
-//- (void)forceUpdateLabels
-//{
-//    _labelsNeedUpdate = YES;
-//    [self updateAllFileInfo];
-//}
-
 - (void)updateAllFileInfo
 {
-//    if ( _labelsNeedUpdate )
-//    {
-//        _labelsNeedUpdate = NO;
-        self.navigationItem.title = self.fileInfo.filename;
-        [self updateChunksAvailableLabel];
-        [self updateChunksOnDiskLabel];
-        [self updateTotalChunksLabel];
-//    }
+    self.navigationItem.title = self.fileInfo.filename;
+    [self updateChunksAvailableLabel];
+    [self updateChunksOnDiskLabel];
+    [self updateTotalChunksLabel];
 }
 
 - (void)updateChunksOnDiskLabel
@@ -127,35 +114,32 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 #pragma mark - P2PFileInfo Delegate Methods
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksAvailableFromPeers:(NSUInteger)chunksAvailable
 {
-//    _labelsNeedUpdate = YES;
+    // No-op
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateChunksOnDisk:(NSUInteger)chunksOnDisk
 {
-//    _labelsNeedUpdate = YES;
+    // No-op
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateTotalChunks:(NSUInteger)totalChunks
 {
-//    [self updateTotalChunksLabel];
-//    _labelsNeedUpdate = YES;
+    // No-op
 }
 
 - (void)fileInfo:(P2PFileInfo *)fileInfo didUpdateFileId:(NSString *)fileId filename:(NSString *)filename
 {
-//    _labelsNeedUpdate = YES;
+    // No-op
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-//    _labelsNeedUpdate = YES;
     [self updateAllFileInfo];
     
     _labelUpdateTimer = [NSTimer timerWithTimeInterval:kLabelUpdateInterval target:self selector:@selector(updateAllFileInfo) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:_labelUpdateTimer forMode:NSDefaultRunLoopMode];
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -164,12 +148,6 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
     self.fileInfo = nil;
     [_labelUpdateTimer invalidate];
     _labelUpdateTimer = nil;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (IBAction)retreiveRestOfFileButtonPressed:(id)sender
@@ -188,17 +166,17 @@ static NSString *kTotalFileSizeKeyPath =    @"totalFileSize";
 #pragma mark - File Request Delegate Methods
 - (void)fileRequest:(P2PFileRequest *)fileRequest didFindMultipleIds:(NSArray *)fileIds forFileName:(NSString *)filenamee
 {
-    
+    // No-op
 }
 
 - (void)fileRequestDidComplete:(P2PFileRequest *)fileRequest
 {
-    
+    // No-op
 }
 
 - (void)fileRequestDidFail:(P2PFileRequest *)fileRequest withError:(P2PFileRequestError)errorCode
 {
-    
+    // No-op
 }
 
 

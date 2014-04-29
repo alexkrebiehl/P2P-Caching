@@ -10,10 +10,9 @@
 
 extern NSString *P2PFileInfoStoryboardViewIdentifier;
 
-@protocol P2PFileRequestDelegate;
 @class P2PFileInfo;
 
-@interface P2PFileInfoViewController : UIViewController <P2PFileRequestDelegate>
+@interface P2PFileInfoViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UILabel *chunksOnDiskLabel;
 @property (weak, nonatomic) IBOutlet UILabel *chunksAvailableLabel;

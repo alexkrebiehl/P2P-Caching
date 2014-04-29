@@ -310,7 +310,6 @@ NSUInteger getNextFileRequestId() { return nextFileRequestId++; }
     dispatch_async(_dispatchQueueFileRequest, ^
     {
         [_chunksCurrentlyBeingRequested removeObject:@( request.chunkId )];
-//        [_pendingFileRequests removeObject:request];
         [[P2PFileManager sharedManager] fileRequest:self didRecieveFileChunk:chunk];
         
         // Update our available chunks set
